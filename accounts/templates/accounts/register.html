@@ -1,0 +1,105 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+
+
+{% block content %}
+    <div class="container-fluid  login-section">
+      <div class="p-2">
+        <div class="row">
+          <div class="col-md-6 col-lg-5">
+            <section class="left p-4">
+              <img class="img-fluid mt-3" src="{% static 'accounts/assets/images/logo.png' %}" alt="">
+              <div class="login">
+                <h2>Register</h2>
+                <form>
+
+                  <div class="form-group row">
+                    <label for="formGroupExampleInput" class="col-xl-1 col-lg-2 col-md-3 col-sm-2 col-3"><img src="{% static 'accounts/assets/images/reg-icon.png' %}" /> </label>
+                    <div class="col-xl-11 col-lg-10 col-md-9 col-sm-10 col-9">
+                      <input type="text" class="form-control login-form" id="formGroupExampleInput" placeholder="Email Id">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <input type="date" class="form-control login-form" id="formGroupExampleInput2" placeholder="Password">
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <select name="gender" class="login-form form-control reg-dropdown">
+                          <option value="" disabled selected>Gender</option>
+                          <option value="woman">Woman</option>
+                          <option value="men">Men</option>
+                          <option value="others">Others</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <select name="motherTongue" class="login-form form-control reg-dropdown">
+                          <option value="" disabled selected>Mother Tongue</option>
+                          <option value="woman">Malayalam</option>
+                          <option value="men">Tamil</option>
+                          <option value="others">Kannada</option>
+                          <option value="others">Hindi</option>
+                        </select>
+                      </div>  
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <input type="text" class="form-control login-form" name="mobno" placeholder="Mobile no">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                        <input type="email" class="form-control login-form" name="email" placeholder="Email id">
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <input type="text" class="form-control login-form"  placeholder="Password">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group text-right">
+                    
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="termsandcondition" id="termsandconditions" value="terms">
+                      <label for="termsandconditions" class="termsandconditions">I agree the terms & conditions.<span> View</span></label>
+                    </div>
+                  </div>
+                  <div class="submit-button">
+                    <button type="submit" class="btn">Register</button>
+                  </div>
+                </form>
+              </div>
+              <div class="fb-login text-center p-4">
+                  <p>Or login with</p>
+                  <p style="color: #3b5998;">FACEBOOK</p>
+              </div>
+              <hr class="someClass" />
+              <div class="CreateAccount text-center">Don’t have account? <a href="#">Register</a></div> 
+              
+            </section>
+          </div>
+          <div class="col-md-6 col-lg-7 d-none d-sm-block">
+            <section class="right register-section">
+                <div class="row justify-content-md-center">
+                  <div class="col-lg-10 bottom-text text-center">
+                    <p class="p-4">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+                    <p>2019 © All rights reserved.</p>
+                  </div>
+                </div>
+            </section>
+          </div>   
+        </div>
+      </div>
+    </div>
+{% endblock %}

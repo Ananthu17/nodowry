@@ -1,0 +1,381 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- style.css -->
+    <link href="{% static 'frontend/css/style.css' %}" rel="stylesheet"/>
+    <title>No Dowry</title>
+  </head>
+  <body>
+
+    <!-- INtro section -->
+    <section class="intro">
+      <div class="container-fluid">
+
+        <!-- Navbar starts here -->
+          {% include 'frontend/main-nav.html' %}
+
+        <!-- header section -->
+        <div class="inro-container p-5">
+          <div class="intro-header text-center">
+                <h1>Find your soulmate</h1>
+                <h3>India's most trusted matrimony</h3>
+            </div>
+            <div class="quick-search-box p-4 m-3">
+                <form action="">
+                    <div class="row">
+                        <div class=" col-lg-2 col-md-4 col-sm-4 col-12">
+                            <div class="dropdown show form-group">
+                                <p class="searchItem">
+                                    I'm looking a
+                                </p>
+                                <select name="gender" class="quicksearchDropdown form-control">
+                                    <option value="volvo">Woman</option>
+                                    <option value="saab">Men</option>
+                                    <option value="fiat">Others</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-1 col-md-2 col-sm-4 col-5">
+                            <div class="dropdown show form-group">
+                                <p  class="searchItem">
+                                    aged
+                                </p>
+                                <select name="cars" class="quicksearchDropdown form-control">
+                                    <option value="24">24</option>
+                                    <option value="25">25</option>
+                                    <option value="26">26</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-1 col-md-2 col-sm-2 col-2 to-text">
+                            <div class="dropdown show form-group">
+                                <p  class="searchItem to-text">
+                                    To
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-1 col-md-2 col-sm-2 col-5">
+                            <div class="dropdown show form-group">
+                                <p  class="searchItem">
+                                    &nbsp;
+                                </p>
+                                <select name="cars" class="quicksearchDropdown form-control">
+                                    <option value="volvo">24</option>
+                                    <option value="saab">25</option>
+                                    <option value="fiat">26</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                            <div class="dropdown show form-group">
+                                <p  class="searchItem">
+                                    of religion
+                                </p>
+                                <select name="cars" class="quicksearchDropdown form-control">
+                                    <option value="volvo">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                            <div class="dropdown show form-group">
+                                <p  class="searchItem">
+                                    and mother tongue
+                                </p>
+                                <select name="cars" class="quicksearchDropdown form-control">
+                                    <option value="volvo">Select</option>
+                                    <option value="saab">Saab</option>
+                                    <option value="fiat">Fiat</option>
+                                    <option value="audi">Audi</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12 text-center p-2">
+                            <button class="quickSearchButton">LET'S BEGIN</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- images grid section -->
+    <section class="images-grid">
+      <div class="container-fluid">
+        <p class="text-center h1 p-5">Make your own wall of matches</p>
+      </div>
+    </section>
+
+    <!-- section-3 testimonials -->
+    <section class="testimonials pb-5">
+      <div class="container-fluid p-5">
+        <div class="row">
+          <div class="col-sm-12 col-12 col-lg-5 p-5">
+            <h1 class="card-title">Our 'happly ever after' couples</h1>
+            <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature</p>
+          </div>
+        </div>
+        <div class="row pb-5">
+            <div class="col-12 col-sm-12 col-lg-5">
+                <div class="card">
+                    <div class="card-body ">
+                        <h5 class="card-title card-quote"><img class="m-1" src="assets/images/icons/quots.png" /></h5>
+                        <p class="card-text">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock,</p>
+                        <div class="row">
+                            <div class="col-4 col-sm-3 col-md-2">
+                                <div class="profile-pic">
+                                  <img src="">
+                                </div>
+                            </div>
+                            <div class="col-8 col-sm-5 profile-name-div">
+                                <span class="profile-name">Jack daniels</span>
+                            </div>
+                            <div class="col-6 col-sm-2 arrow">
+                                <img src="assets/images/icons/prev.png" />
+                            </div>
+                            <div class="col-6 col-sm-2 arrow">
+                                <img src="assets/images/icons/next.png" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </section>
+    <div class="container-fluid p-0 m-0">
+        <div class="soulmate pb-3">
+          <div class="row m-0">
+            <div class="col-lg-4 col-md-12 text-center">
+              <img src="assets/images/Layer_18.png">
+            </div>
+            <div class="col-lg-6 col-md-12 text-center text-soulmate">
+                <h1>Find your soulmate </h1>
+                <h5>And create a wonderfull story together</h5>
+            </div>
+            <div class="col-lg-2 col-md-12 text-center get-started-button">
+                <button class="p-4"><h4>GET STARTED</h4></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- awards and honours -->
+    <div class="awards">
+      <div class="container-fluid">
+        <div class="row p-5">
+          <div class="col-md-12 text-center">
+            <h1 class="awards-heder">Awards and Honors</h1>
+          </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-1">
+<!--                <i class="fa fa-arrow-left" aria-hidden="true"></i>-->
+            </div>
+            <div class="col-10  align-self-center">
+                <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner row w-100 mx-auto">
+                        <div class="carousel-item col-md-4 col-sm-12 active p-5">
+                            <div class="card" style="width: 18rem;">
+                                <div class="awards-card">
+                                    <div class="card" style="width: 18rem;">
+                                        <div class="card-body award-card-body">
+                                            <h5 class="card-title card-awards-title">Times Award</h5>
+                                            <div class="text-center">
+                                                <img class="trophy-img" src="assets/images/winner.png" alt="">
+                                            </div>
+                                            <p class="award-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item col-lg-4 col-md-6 col-sm-12 p-5">
+                            <div class="awards-card">
+                                <div class="card" style="width: 18rem;">
+                                    <div class="card-body award-card-body">
+                                        <h5 class="card-title card-awards-title">Times Award</h5>
+                                        <div class="text-center">
+                                            <img class="trophy-img" src="assets/images/winner.png" alt="">
+                                        </div>
+                                        <p class="award-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item col-lg-4 col-md-6 col-sm-12 p-5">
+                            <div class="awards-card">
+                                <div class="card" style="width: 18rem;">
+                                    <div class="card-body award-card-body">
+                                        <h5 class="card-title card-awards-title">Times Award</h5>
+                                        <div class="text-center">
+                                            <img class="trophy-img" src="assets/images/winner.png" alt="">
+                                        </div>
+                                        <p class="award-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item col-lg-4 col-md-6 col-sm-12 p-5">
+                            <div class="awards-card">
+                                <div class="card" style="width: 18rem;">
+                                    <div class="card-body award-card-body">
+                                        <h5 class="card-title card-awards-title">Times Award</h5>
+                                        <div class="text-center">
+                                            <img class="trophy-img" src="assets/images/winner.png" alt="">
+                                        </div>
+                                        <p class="award-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item col-lg-4 col-md-6 col-sm-12 p-5">
+                            <div class="awards-card">
+                                <div class="card" style="width: 18rem;">
+                                    <div class="card-body award-card-body">
+                                        <h5 class="card-title card-awards-title">Times Award</h5>
+                                        <div class="text-center">
+                                            <img class="trophy-img" src="assets/images/winner.png" alt="">
+                                        </div>
+                                        <p class="award-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item col-lg-4 col-md-6 col-sm-12 p-5">
+                            <div class="awards-card">
+                                <div class="card" style="width: 18rem;">
+                                    <div class="card-body award-card-body">
+                                        <h5 class="card-title card-awards-title">Times Award</h5>
+                                        <div class="text-center">
+                                            <img class="trophy-img" src="assets/images/winner.png" alt="">
+                                        </div>
+                                        <p class="award-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item col-lg-4 col-md-6 col-sm-12 p-5">
+                            <div class="awards-card">
+                                <div class="card" style="width: 18rem;">
+                                    <div class="card-body award-card-body">
+                                        <h5 class="card-title card-awards-title">Times Award</h5>
+                                        <div class="text-center">
+                                            <img class="trophy-img" src="assets/images/winner.png" alt="">
+                                        </div>
+                                        <p class="award-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+            <div class="col-1">
+<!--                <i class="fa fa-arrow-right" aria-hidden="true"></i>-->
+            </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- section subscribe -->
+    <section class="subscribe p-5">
+      <div class="container-fluid">
+        <div class="row justify-content-center">
+           <div class="col-lg-1 col-md-2 col-12 d-inline text-center">
+               <img class="d-inline" src="assets/images/icons/subscribe.png" alt="">
+           </div>
+            <div class="col-lg-2 col-md-4 col-12 subscribe-head text-center">
+                <h1>Subscribe</h1>
+            </div>
+        </div>
+        <h1 class="text-center p-5">Enter your email address and get latest offers and updates</h1>
+
+        <form class="pb-5">
+            <div class="row justify-content-center">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-7">
+                    <input type="text" class="form-control" placeholder="Email Address">
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-6">
+                    <button type="submit" class="btn btn-primary subscribe-btn"><h5>SUBSCRIBE</h5></button>
+                </div>
+            </div>
+        </form>
+
+      </div>
+    </section>
+
+    <!-- NDM Folklore -->
+    <section class="ndm p-5">
+      <div class="container">
+        <h1 class="ndm-header text-center">NDM Folklore</h1>
+      </div>
+    </section>
+
+    <!-- download application -->
+    <div class="download-app p-5">
+            <h2 class="text-center p-5">Download our app</h2>
+            <div class="row justify-content-center">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center">
+                    <img src="assets/images/Layer_30.png">
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center">
+                    <img src="assets/images/Layer_29.png">
+                </div>
+            </div>
+        </div>
+    <!-- section footer -->
+    {% include 'frontend/main-footer.html' %}
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="assets/js/style.js"></script>
+    <script>
+      $(document).ready(function() {
+        $("#myCarousel").on("slide.bs.carousel", function(e) {
+            var $e = $(e.relatedTarget);
+            var idx = $e.index();
+            var itemsPerSlide = 3;
+            var totalItems = $(".carousel-item").length;
+
+            if (idx >= totalItems - (itemsPerSlide - 1)) {
+                var it = itemsPerSlide - (totalItems - idx);
+                for (var i = 0; i < it; i++) {
+                    // append slides to end
+                    if (e.direction == "left") {
+                        $(".carousel-item")
+                            .eq(i)
+                            .appendTo(".carousel-inner");
+                    } else {
+                        $(".carousel-item")
+                            .eq(0)
+                            .appendTo($(this).find(".carousel-inner"));
+                    }
+                }
+            }
+        });
+    });
+    </script>
+
+  </body>
+</html>
