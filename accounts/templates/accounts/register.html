@@ -11,12 +11,12 @@
               <img class="img-fluid mt-3" src="{% static 'accounts/assets/images/logo.png' %}" alt="">
               <div class="login">
                 <h2>Register</h2>
-                <form>
-
+                <form method="post" action="">
+                    {% csrf_token %}
                   <div class="form-group row">
                     <label for="formGroupExampleInput" class="col-xl-1 col-lg-2 col-md-3 col-sm-2 col-3"><img src="{% static 'accounts/assets/images/reg-icon.png' %}" /> </label>
                     <div class="col-xl-11 col-lg-10 col-md-9 col-sm-10 col-9">
-                      <input type="text" class="form-control login-form" id="formGroupExampleInput" placeholder="Email Id">
+                      <input type="text" class="form-control login-form" id="formGroupExampleInput" placeholder="Name">
                     </div>
                   </div>
                   <div class="row">

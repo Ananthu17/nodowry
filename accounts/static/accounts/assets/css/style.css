@@ -1,0 +1,91 @@
+{% load static %}
+@font-face {
+  font-family: 'Proxima Nova - Semibold';
+  src: url("/static/accounts/assets/fonts/FontsFree-Net-FontsFree-Net-Proxima-Nova-Sbold.ttf") format('truetype');
+}
+body{
+	font-family: 'Proxima Nova - Semibold';
+
+}
+.login h2{
+	color: #e91e63;
+}
+.right{
+	background-image: url("/static/accounts/assets/images/login-bg.png");
+  	background-repeat: no-repeat;
+  	background-size: 100% 100%;
+  	color: white;
+  	height: 100%;
+}
+.right p{
+	padding-top: 10px;
+}
+.login{
+	padding-top: 5rem!important
+}
+.login-form{
+	padding: 1rem 1.75rem !important;
+    border-radius: 3.25rem !important;
+}
+.login-form::placeholder {
+  color: #393f81;
+  font-size: 1rem;
+}
+.forgotPassword{
+	font-size: x-large;
+	color: #ff8c00;
+}
+.forgotPassword span{
+	color: #393f81;
+}
+.login button {
+    width: -webkit-fill-available;
+    padding: 1rem;
+    background-color: #ff8c00;
+    font-size: xx-large;
+    border-radius: 50px;
+    border: none;
+    color: white;
+}
+.fb-login{
+	color: #b3b3b3;
+	font-size: x-large;
+}
+hr.someClass {
+  border: 2px solid #d7daf1;
+}
+.CreateAccount{
+	color: #b3b3b3;
+    font-size: larger;
+}
+.CreateAccount a{
+	color: #ff8c00;
+}
+.bottom-text{
+	position: absolute;
+    bottom: 0;
+}
+.register-section{
+	background-image: url("/static/accounts/assets/images/register-bg.png");
+}
+.reg-dropdown{
+	height: calc(3.25rem + 6px) !important;
+}
+.termsandconditions span{
+	color: #ff8c00;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

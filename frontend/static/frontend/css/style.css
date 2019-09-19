@@ -1,0 +1,268 @@
+@font-face {
+  font-family: 'Proxima Nova - Semibold';
+  src: url('/static/accounts/assets/fonts/FontsFree-Net-FontsFree-Net-Proxima-Nova-Sbold.ttf') format('truetype');
+}
+body{
+	font-family: 'Proxima Nova - Semibold';
+}
+.intro{
+  background-color: #d34cb6;
+  background-image: url("/static/frontend/images/background/intro-image.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+}
+.intro .container-fluid{
+	padding: 0 !important;
+}
+.navbar.navbar-expand-lg.navbar-light {
+	background: rgba(255, 255, 255, 0.6);
+
+}
+
+.social-icons{
+  position: absolute;
+  top: 6px;
+  right: 40px;
+
+
+}
+.intro .inro-container{
+	margin-top: 25%;
+}
+.intro-header h1{
+	color: #e91e63;
+}
+.intro-header h3{
+	color: #ffffff;
+}
+.quick-search-box{
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 25px;
+}
+.quicksearchDropdown{
+  background-color: white;
+  width: 100%;
+  padding: 10px;
+  border-radius: 27px;
+}
+.to-text{
+  margin-top: auto;
+  text-align: center;
+}
+.searchItem{
+  color: #663096;
+  font-size: larger;
+}
+.quickSearchButton{
+  background-color: #ff8c00;
+  border-radius: 30px;
+  padding: 20px;
+  color: white;
+  font-size: larger;
+  font-weight: 600;
+  border: none;
+}
+section.images-grid{
+	background-image: -webkit-gradient(linear,left top,right top,from(#ff186b),to(#9211da));
+	height: 100vh;
+	color: #ffffff;
+}
+section.testimonials{
+	background-image: url("/static/frontend/images/background/testimonials.png");
+	height: 100%;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+.testimonials .card{
+  border-radius: 2.25rem !important;
+}
+.profile-pic{
+  width: 6rem;
+  height: 6rem;
+  background-color: gainsboro;
+  border-radius: 50%;
+}
+.profile-name-div{
+  margin-top: auto;
+  margin-bottom: auto;
+  float: left;
+  font-size: x-large;
+  color: slateblue;
+}
+.arrow{
+  margin-top: auto;
+  margin-bottom: auto;
+  font-size: x-large;
+}
+.soulmate{
+	height: 100%;
+	background-color: #663096;
+	color: #ffffff;
+}
+.soulmate .text-soulmate{
+	margin-bottom: auto;
+    margin-top: auto;
+}
+.soulmate .get-started-button{
+	margin-bottom: auto;
+    margin-top: auto;
+}
+.get-started-button button{
+	border-radius: 49px;
+    background-color: #ff8c00;
+    border: none;
+    color: #ffffff;
+}
+.awards .awards-heder{
+	color: #dd115a;
+	font-size: -webkit-xxx-large;	
+}
+.card-awards-title{
+  text-align: center;
+}
+.trophy-img{
+  max-width: 31%;
+  height: auto;
+  margin: auto;
+}
+.award-text{
+  font-size: 12px;
+  font-weight: 600;
+  color: #5f5555;
+}
+.award-card-body{
+  padding: 1rem;
+}
+.awards-card .card{
+  margin-left:auto;
+  margin-right:auto;
+}
+.carousel-control-prev {
+    left:none !important;
+    text-align: center;
+}
+.carousel-control-next {
+    right:none !important;
+}
+section.subscribe{
+
+}
+.subscribe .subscribe-head{
+	color: #dd115a;
+	margin-top: auto;
+    margin-bottom: auto;
+}
+.subscribe input{
+  padding: 1.25rem 1.75rem !important;
+  border-radius: 50px !important;
+}
+.subscribe button{
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 50px !important;
+  background-color: #ff8c00;
+  border: none !important;
+}
+.download-app h2{
+	color: #dd115a;
+}
+.footer{
+  height: 100%;
+  width: 100%;
+  background-color: #3e3932;
+}
+.footer-social-icons{
+  padding: 0.5rem;
+  width: 100%;
+  height: 100%;
+}
+.footer-social{
+	margin-top: auto;
+	margin-bottom: auto;
+}
+hr {
+
+  border: 0;
+  border-top: 1px solid white;
+}
+.footer-heading{
+  color: white;
+  padding: 1rem;
+}
+.footer-items h4{
+  padding-left: 1rem;
+  color: #969289;
+}
+.card{
+  border-radius: 2.25rem;
+}
+section.ndm{
+	background-color: #f7edff;
+}
+.ndm-header{
+	color: #dd115a;
+}
+
+@media (min-width: 1000px) {
+  /* show 3 items */
+  .carousel-inner .active,
+  .carousel-inner .active + .carousel-item,
+  .carousel-inner .active + .carousel-item + .carousel-item {
+    display: block;
+  }
+
+  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left),
+  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left) + .carousel-item,
+  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left) + .carousel-item + .carousel-item {
+    transition: none;
+  }
+
+  .carousel-inner .carousel-item-next,
+  .carousel-inner .carousel-item-prev {
+    position: relative;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .carousel-inner .active.carousel-item + .carousel-item + .carousel-item + .carousel-item {
+    position: absolute;
+    top: 0;
+    right: -33.3333%;
+    z-index: 1;
+    display: block;
+    visibility: visible;
+  }
+
+  /* left or forward direction */
+  .active.carousel-item-left + .carousel-item-next.carousel-item-left,
+  .carousel-item-next.carousel-item-left + .carousel-item,
+  .carousel-item-next.carousel-item-left + .carousel-item + .carousel-item,
+  .carousel-item-next.carousel-item-left + .carousel-item + .carousel-item + .carousel-item {
+    position: relative;
+    transform: translate3d(-100%, 0, 0);
+    visibility: visible;
+  }
+
+  /* farthest right hidden item must be abso position for animations */
+  .carousel-inner .carousel-item-prev.carousel-item-right {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    display: block;
+    visibility: visible;
+  }
+
+  /* right or prev direction */
+  .active.carousel-item-right + .carousel-item-prev.carousel-item-right,
+  .carousel-item-prev.carousel-item-right + .carousel-item,
+  .carousel-item-prev.carousel-item-right + .carousel-item + .carousel-item,
+  .carousel-item-prev.carousel-item-right + .carousel-item + .carousel-item + .carousel-item {
+    position: relative;
+    transform: translate3d(100%, 0, 0);
+    visibility: visible;
+    display: block;
+    visibility: visible;
+  }
+}

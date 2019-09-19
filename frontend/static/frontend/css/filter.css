@@ -1,0 +1,170 @@
+@font-face {
+  font-family: 'Proxima Nova - Semibold';
+  src: url('/static/accounts/assets/fonts/FontsFree-Net-FontsFree-Net-Proxima-Nova-Sbold.ttf') format('truetype');
+}
+body{
+	font-family: 'Proxima Nova - Semibold';
+
+}
+.navbar{
+	background-color: #e91e63;
+	color: #ffffff;
+}
+.navbar .social-icons{
+  position: absolute;
+  top: 6px;
+  right: 40px;
+}
+.navbar .nav-item{
+	color: #ffffff !important;
+}
+.filter-screen{
+	padding-top: 5rem !important;
+}
+.filter-options{
+	padding: 2rem;
+	height: 100%;
+	border-radius: 20px;
+	border: 2px solid #eaeef4;
+	background-color: #eaeef4;
+}
+.filter-options h2{
+	color: #663096;
+}
+hr.someClass {
+	border: 0.5px solid #663096;;
+}
+.filter-form{
+	border-radius: 15px;
+    border: 1px solid #b4c2d7;
+    background-color: #ffffff;
+}
+
+.form-group .location {
+    background: url('statc/frontend/images/icons/location.png') no-repeat scroll 7px 7px;
+    background-position: right 10px center;
+    background-color: white;
+}
+.search-results .matching-profile{
+	color: #e91e63;
+}
+.result-item{
+	border-radius: 20px 20px 20px 20px;
+	border: 1px solid #dfe7f3;
+	background-color: #ffffff;
+}
+.profile-details .pname{
+	color: #663096 ;
+}
+.profile-details span{
+	color: #333333;
+}
+.profile-details .pi-location span{
+	color: #686868;
+}
+span.value{
+	color: #686868;
+}
+.viewprofile{
+	color: #ff8c00;
+}
+
+.profile-image img{
+	border-top-left-radius: 20px;
+  	border-bottom-left-radius:20px;
+  	height: fit-content;
+    width: -webkit-fill-available;
+}
+.btn{
+	border-radius: 25px;
+	background-color: #ff8c00;
+	color: #ffffff;
+
+}
+.range-mobile{
+	width:  -webkit-fill-available;
+}
+
+
+
+
+form.filter-results .btn{
+	width: -webkit-fill-available;
+}
+.filter-mob-screen{
+	padding-top: 30px;
+    padding: 17px;
+    background-color: #eaeef4;
+    border-radius: 20px;
+    display: none;
+}
+.filter-mob-screen .btn{
+	width: 100% !important;
+}
+
+
+@media (max-width: 766px){
+
+	.result-item {
+    	border-radius: 30px;
+        margin-top: 5px;
+    }
+    .profile-image{
+    	border-top-left-radius: 30px;
+    	border-top-right-radius: 30px;
+    	background-color: #5c6363;
+    }
+
+	.profile-image img {
+	    border-top-left-radius: 30px;
+	    border-bottom-left-radius: 0px;
+	    border-top-right-radius: 30px;
+	    max-width: 480px;
+	    background-color: #b3a9a8;
+	}
+	.profile-details .pname {
+	    text-align: center;
+	}
+	.matching-profile{
+	    font-size: larger;
+	}
+	.filter-screen{
+		padding: 2rem !important;
+	}	
+}
+
+
+
+.noUi-handle {
+    border: 1px solid #D9D9D9;
+    border-radius: 50px;
+    background: #c40043;
+    cursor: default;
+    box-shadow: none;
+}
+.noUi-handle:after, .noUi-handle:before {
+    content: none;
+}
+.noUi-horizontal {
+    height: 5px;
+}
+.noUi-horizontal .noUi-handle {
+    width: 14px;
+    height: 14px;
+}
+.noUi-connect {
+    background-color: #e91e63;
+}
+html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
+    right: -10px;
+    left: auto;
+}
+.noUi-target {
+    background: #b4c2d7;
+     border-radius: none; 
+     border: none; 
+     box-shadow: none; 
+}
+.noUi-horizontal .noUi-handle {
+    top: -5px;
+}
