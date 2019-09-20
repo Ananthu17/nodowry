@@ -1,0 +1,11 @@
+.date-filter-submit{
+    background-color: #d6d1ca;
+    border: none;
+    padding: 6px;
+    border-radius: 25px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+.dropdown-date-filter:hover{
+    background-color: whitesmoke !important;
+}

@@ -8,7 +8,7 @@
   <link rel="icon" type="image/png" href="{% static 'dashboard/assets/img/favicon.png' %}">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Paper Dashboard 2 by Creative Tim
+    NoDowry Dashboard
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -17,6 +17,7 @@
   <!-- CSS Files -->
   <link href="{% static 'dashboard/assets/css/bootstrap.min.css' %}" rel="stylesheet" />
   <link href="{% static 'dashboard/assets/css/paper-dashboard.css' %}" rel="stylesheet" />
+  <link href="{% static 'dashboard/assets/css/style.css' %}" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="{% static 'dashboard/assets/demo/demo.css' %}" rel="stylesheet" />
 </head>
@@ -43,51 +44,15 @@
       <div class="sidebar-wrapper">
         <ul class="nav">
           <li class="active ">
-            <a href="#">
+            <a href="{% url 'dashboard' %}">
               <i class="nc-icon nc-bank"></i>
               <p>Dashboard</p>
             </a>
           </li>
           <li>
-            <a href="#">
-              <i class="nc-icon nc-diamond"></i>
-              <p>Icons</p>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="nc-icon nc-pin-3"></i>
-              <p>Maps</p>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="nc-icon nc-bell-55"></i>
-              <p>Notifications</p>
-            </a>
-          </li>
-          <li>
-            <a href="#">
+            <a href="{% url 'dashboard-users' %}">
               <i class="nc-icon nc-single-02"></i>
               <p>User Profile</p>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="nc-icon nc-tile-56"></i>
-              <p>Table List</p>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="nc-icon nc-caps-small"></i>
-              <p>Typography</p>
-            </a>
-          </li>
-          <li class="active-pro">
-            <a href="#">
-              <i class="nc-icon nc-spaceship"></i>
-              <p>Upgrade to PRO</p>
             </a>
           </li>
         </ul>
@@ -95,68 +60,7 @@
     </div>
     <div class="main-panel">
       <!-- Navbar -->
-      <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
-        <div class="container-fluid">
-          <div class="navbar-wrapper">
-            <div class="navbar-toggle">
-              <button type="button" class="navbar-toggler">
-                <span class="navbar-toggler-bar bar1"></span>
-                <span class="navbar-toggler-bar bar2"></span>
-                <span class="navbar-toggler-bar bar3"></span>
-              </button>
-            </div>
-            <a class="navbar-brand" href="#pablo">Paper Dashboard 2</a>
-          </div>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-bar navbar-kebab"></span>
-            <span class="navbar-toggler-bar navbar-kebab"></span>
-            <span class="navbar-toggler-bar navbar-kebab"></span>
-          </button>
-          <div class="collapse navbar-collapse justify-content-end" id="navigation">
-            <form>
-              <div class="input-group no-border">
-                <input type="text" value="" class="form-control" placeholder="Search...">
-                <div class="input-group-append">
-                  <div class="input-group-text">
-                    <i class="nc-icon nc-zoom-split"></i>
-                  </div>
-                </div>
-              </div>
-            </form>
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link btn-magnify" href="#pablo">
-                  <i class="nc-icon nc-layout-11"></i>
-                  <p>
-                    <span class="d-lg-none d-md-block">Stats</span>
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item btn-rotate dropdown">
-                <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="nc-icon nc-bell-55"></i>
-                  <p>
-                    <span class="d-lg-none d-md-block">Some Actions</span>
-                  </p>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link btn-rotate" href="#pablo">
-                  <i class="nc-icon nc-settings-gear-65"></i>
-                  <p>
-                    <span class="d-lg-none d-md-block">Account</span>
-                  </p>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+    {% include 'dashboard/navbar.html' %}
       <!-- End Navbar -->
       <!-- <div class="panel-header panel-header-lg">
 
@@ -172,13 +76,13 @@
                 <div class="row">
                   <div class="col-5 col-md-4">
                     <div class="icon-big text-center icon-warning">
-                      <i class="nc-icon nc-globe text-warning"></i>
+                      <i class="nc-icon nc-single-02 text-success"></i>
                     </div>
                   </div>
                   <div class="col-7 col-md-8">
                     <div class="numbers">
-                      <p class="card-category">Capacity</p>
-                      <p class="card-title">150GB
+                      <p class="card-category">Total Users</p>
+                      <p class="card-title">{{ user_count }}
                         <p>
                     </div>
                   </div>
@@ -187,7 +91,7 @@
               <div class="card-footer ">
                 <hr>
                 <div class="stats">
-                  <i class="fa fa-refresh"></i> Update Now
+                  <i class="fa fa-refresh"></i> Refresh
                 </div>
               </div>
             </div>
@@ -198,13 +102,13 @@
                 <div class="row">
                   <div class="col-5 col-md-4">
                     <div class="icon-big text-center icon-warning">
-                      <i class="nc-icon nc-money-coins text-success"></i>
+                      <i class="nc-icon nc-simple-remove text-warning"></i>
                     </div>
                   </div>
                   <div class="col-7 col-md-8">
                     <div class="numbers">
-                      <p class="card-category">Revenue</p>
-                      <p class="card-title">$ 1,345
+                      <p class="card-category">Deactivated Users</p>
+                      <p class="card-title">{{ deactivated_user_count }}
                         <p>
                     </div>
                   </div>
@@ -213,7 +117,7 @@
               <div class="card-footer ">
                 <hr>
                 <div class="stats">
-                  <i class="fa fa-calendar-o"></i> Last day
+                  <i class="fa fa-refresh"></i> Refresh
                 </div>
               </div>
             </div>
@@ -224,13 +128,13 @@
                 <div class="row">
                   <div class="col-5 col-md-4">
                     <div class="icon-big text-center icon-warning">
-                      <i class="nc-icon nc-vector text-danger"></i>
+                      <i class="nc-icon nc-single-02 text-danger"></i>
                     </div>
                   </div>
                   <div class="col-7 col-md-8">
                     <div class="numbers">
-                      <p class="card-category">Errors</p>
-                      <p class="card-title">23
+                      <p class="card-category">New User signup</p>
+                      <p class="card-title">{{ new_users }}
                         <p>
                     </div>
                   </div>
@@ -238,9 +142,24 @@
               </div>
               <div class="card-footer ">
                 <hr>
-                <div class="stats">
-                  <i class="fa fa-clock-o"></i> In the last hour
-                </div>
+                  <div class="dropdown d-inline">
+                    <a class="dropdown-toggle d-inline" href="http://example.com" id="DropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-calendar-o"></i>
+                    </a> <span class="d-inline">In the last Month</span>
+                    <div class="dropdown-menu" aria-labelledby="DropdownMenuLink">
+                      <div class="dropdown-item text-center dropdown-date-filter">
+                          <form method="get" action="">
+                              <div class="form-group">
+                                <input type="date" name="start_date" max="3000-12-31" min="1000-01-01" class="form-control" width="100px" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="date" name="end_date" min="1000-01-01" max="3000-12-31" class="form-control" required>
+                                 </div>
+                                <button class="text-center date-filter-submit">submit</button>
+                          </form>
+                      </div>
+                    </div>
+                  </div>
               </div>
             </div>
           </div>
@@ -255,8 +174,8 @@
                   </div>
                   <div class="col-7 col-md-8">
                     <div class="numbers">
-                      <p class="card-category">Followers</p>
-                      <p class="card-title">+45K
+                      <p class="card-category">New connection Request</p>
+                      <p class="card-title">10
                         <p>
                     </div>
                   </div>
@@ -264,8 +183,23 @@
               </div>
               <div class="card-footer ">
                 <hr>
-                <div class="stats">
-                  <i class="fa fa-refresh"></i> Update now
+                <div class="dropdown d-inline">
+                    <a class="dropdown-toggle d-inline" href="http://example.com" id="DropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-calendar-o"></i>
+                    </a> <span class="d-inline">In the last Month</span>
+                    <div class="dropdown-menu" aria-labelledby="DropdownMenuLink">
+                      <div class="dropdown-item text-center dropdown-date-filter">
+                          <div class="form-group">
+                             <input type="date" name="bday" max="3000-12-31"
+                                    min="1000-01-01" class="form-control">
+                           </div>
+                            <div class="form-group">
+                             <input type="date" name="bday" min="1000-01-01"
+                                    max="3000-12-31" class="form-control">
+                          </div>
+                          <button class="text-center date-filter-submit">submit</button>
+                      </div>
+                    </div>
                 </div>
               </div>
             </div>
@@ -337,20 +271,7 @@
           </div>
         </div>
       </div>
-      <footer class="footer footer-black  footer-white ">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="credits ml-auto">
-              <span class="copyright">
-                ©
-                <script>
-                  document.write(new Date().getFullYear())
-                </script>
-              </span>
-            </div>
-          </div>
-        </div>
-      </footer>
+        {% include 'dashboard/footer.html' %}
     </div>
   </div>
   <!--   Core JS Files   -->

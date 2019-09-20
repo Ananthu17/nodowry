@@ -16,18 +16,18 @@
                   <div class="form-group row">
                     <label for="formGroupExampleInput" class="col-xl-1 col-lg-2 col-md-3 col-sm-2 col-3"><img src="{% static 'accounts/assets/images/reg-icon.png' %}" /> </label>
                     <div class="col-xl-11 col-lg-10 col-md-9 col-sm-10 col-9">
-                      <input type="text" class="form-control login-form" id="formGroupExampleInput" placeholder="Name">
+                      <input type="text" class="form-control login-form" id="formGroupExampleInput" placeholder="Name" name="name" required>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-sm-6">
                       <div class="form-group">
-                        <input type="date" class="form-control login-form" id="formGroupExampleInput2" placeholder="Password">
+                        <input type="date" class="form-control login-form" id="formGroupExampleInput2" placeholder="Password" name="dob" required>
                       </div>
                     </div>
                     <div class="col-sm-6">
                       <div class="form-group">
-                        <select name="gender" class="login-form form-control reg-dropdown">
+                        <select name="gender" class="login-form form-control reg-dropdown" required>
                           <option value="" disabled selected>Gender</option>
                           <option value="woman">Woman</option>
                           <option value="men">Men</option>
@@ -40,18 +40,18 @@
                   <div class="row">
                     <div class="col-sm-6">
                       <div class="form-group">
-                        <select name="motherTongue" class="login-form form-control reg-dropdown">
+                        <select name="language" class="login-form form-control reg-dropdown" required>
                           <option value="" disabled selected>Mother Tongue</option>
-                          <option value="woman">Malayalam</option>
-                          <option value="men">Tamil</option>
-                          <option value="others">Kannada</option>
-                          <option value="others">Hindi</option>
+                          <option value="malayalam">Malayalam</option>
+                          <option value="tamil">Tamil</option>
+                          <option value="kannada">Kannada</option>
+                          <option value="hindi">Hindi</option>
                         </select>
                       </div>  
                     </div>
                     <div class="col-sm-6">
                       <div class="form-group">
-                        <input type="text" class="form-control login-form" name="mobno" placeholder="Mobile no">
+                        <input type="text" class="form-control login-form" name="mobno" placeholder="Mobile no" required>
                       </div>
                     </div>
                   </div>
@@ -59,19 +59,19 @@
                   <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                        <input type="email" class="form-control login-form" name="email" placeholder="Email id">
+                        <input type="email" class="form-control login-form" name="email" placeholder="Email id" required>
                       </div>
                     </div>
                     <div class="col-sm-6">
                       <div class="form-group">
-                        <input type="text" class="form-control login-form"  placeholder="Password">
+                        <input type="password" class="form-control login-form"  placeholder="Password" name="password" required>
                       </div>
                     </div>
                   </div>
                   <div class="form-group text-right">
                     
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="termsandcondition" id="termsandconditions" value="terms">
+                      <input class="form-check-input" type="radio" name="termsandcondition" id="termsandconditions" value="terms" required>
                       <label for="termsandconditions" class="termsandconditions">I agree the terms & conditions.<span> View</span></label>
                     </div>
                   </div>
