@@ -9,3 +9,25 @@
 .dropdown-date-filter:hover{
     background-color: whitesmoke !important;
 }
+body.dashboard-login{
+    background-image: url('/static/dashboard/assets/img/admin-bg.jpg');
+    font-family: 'Fira Sans', sans-serif;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    height: 100vh;
+    width: 100%;
+}
+.dashboard-login-container{
+    padding-top: 10rem!important;
+}
+.dashboard-login-container .form-control{
+    padding: 1rem .75rem !important;
+}
+.btn-dashboard-login{
+    padding: 1rem;
+    background-image: linear-gradient(to left, #74ebd5, #9face6);
+    width: -webkit-fill-available;
+    color: #ffffff;
+    font-size: x-large;
+}
