@@ -1,0 +1,86 @@
+{% load static %}
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" yahoo="fix" style="font-family: Georgia, Times, serif">
+
+    <!-- Wrapper -->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+        <!-- Image Banner -->
+        <table width="600" class=" border-lr deviceWidth" border="0" cellpadding="0" cellspacing="0" align="center"
+               bgcolor="#eeeeed" style="border-left: 1px solid #dadada;
+          border-right: 1px solid #dadada;">
+        </table>
+    <!-- End Image Banner -->
+
+        <!-- Banner Text -->
+        <table width="600" height="108" border="0" cellpadding="0" cellspacing="0" align="center" class=" border-lr deviceWidth" bgcolor="#ffffff"  style="border-left: 1px solid #dadada; border-right: 1px solid #dadada; color: #1b1e21">
+            <tr style="background-image: url('/static/accounts/assets/images/email-bg.jpg');">
+                <td align="left">
+                    <img src="{% static 'frontend/images/logo.png' %}" >
+                </td>
+            </tr>
+        </table>
+        <!-- End of Banner Text -->
+
+
+    <!-- Our Products -->
+    <table width="600" border="0" cellpadding="0" cellspacing="0" align="center" class=" border-lr deviceWidth"
+           bgcolor="whitesmoke" style="border-left: 1px solid #dadada; font-family:'Helvetica Neue','Helvetica','Arial','sans-serif';
+	  border-right: 1px solid #dadada;">
+        <tr>
+            <td class="center">
+
+                <table width="100%" border="0" cellpadding="0" cellspacing="0" align="left" class=" deviceWidth" style="background-color: white;">
+                    <tr>
+                        <td style="padding-top: 50px;color: #8b909a;">
+                            <h4>Krishna prasad </h4>
+                        </td>
+                    </tr>
+
+                    <tr align="center" style="padding: 10px; width:100%">
+                        <td>
+                            <p style="font-size:16px;color:#555;">
+                                To activate your NoDowry Account, please verify your email address.<br>
+                                Your account will not be created until your email address is confirmed.
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="padding-top: 50px;">
+                            <a href="{{ email_confirmation_url }}" class="blue-btn"
+                               style="display: inline-block;
+                                      margin-bottom: 34px;
+                                      border: 3px solid #2f41cc;;
+                                      padding: 11px 38px;
+                                      font-size: 12px;
+                                      font-family: arial;
+                                      font-weight: bold;
+                                      color: white;
+                                      text-decoration: none;
+                                      text-align: center;
+                                      background: #2f41cc;
+                                      margin-left: 10px;
+                            ">Confirm Your Mail</a>
+                        </td>
+                    </tr>
+                </table>
+
+
+            </td>
+        </tr>
+    </table>
+    <!-- End of Our Products -->
+
+
+    <!-- Footer -->
+    <table width="600" border="0" cellpadding="0" cellspacing="0" align="center" class=" border-complete deviceWidth" bgcolor="#eeeeed">
+        <tr>
+            <td style="text-align: center;">
+                <p id="footer-txt"><b></b>
+                    <br/>
+                </p>
+            </td>
+        </tr>
+    </table>
+    <!-- End of Footer-->
+</table>
+<!-- End Wrapper -->
+</body>

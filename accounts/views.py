@@ -6,15 +6,32 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from dashboard.models import UserProfile
 from django.contrib import messages
+from django.template import loader
 import copy
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives
 from twilio.rest import Client
 from random import randint
+from django.template.loader import render_to_string
 
 
+# twillo services tocken
 account_sid = 'AC96e8076569e146b9592cfc8ac8502f6b'
 auth_token = '63afcb2adddfa49991e700964be7bd5e'
 client = Client(account_sid, auth_token)
+
+
+def send_confirmation_email(email):
+    template = loader.get_template("accounts/email_confirmation.html")
+    context = {"email_confirmation_url": 'https://www.google.com'}
+    email_content = template.render(context)
+    send_mail(
+        'NoDowry Email verification',
+        email_content,
+        'help@nodowry.com',
+        [email],
+        html_message=email_content,
+        fail_silently=False
+    )
 
 
 class RegisterView(TemplateView):
@@ -47,6 +64,7 @@ class RegisterView(TemplateView):
                 to='+91' + phone_number
             )
 
+            send_confirmation_email(email)
             print(message.sid)
 
             if email is not None:
@@ -129,4 +147,13 @@ class LogOut(LoginRequiredMixin, View):
             logout(request)
             messages.error(request, "You have been logged out. Hope you will be back soon.")
         return redirect(reverse('login'))
+
+
+class EmailConfirmation(TemplateView):
+    template_name = 'accounts/email_confirmation.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
 
