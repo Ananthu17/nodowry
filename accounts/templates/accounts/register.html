@@ -22,7 +22,11 @@
                   <div class="row">
                     <div class="col-sm-6">
                       <div class="form-group">
-                        <input type="date" class="form-control login-form" id="formGroupExampleInput2" placeholder="Password" name="dob" required>
+{#                        <input type="date" class="form-control login-form" id="formGroupExampleInput2" name="dob" required>#}
+                        <div id="datepicker" class="input-group date" data-date-format="mm-dd-yyyy">
+                            <input class="form-control login-form" type="text" />
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>
                       </div>
                     </div>
                     <div class="col-sm-6">
@@ -75,6 +79,12 @@
                       <label for="termsandconditions" class="termsandconditions">I agree the terms & conditions.<span> View</span></label>
                     </div>
                   </div>
+                    {% for message in messages %}
+                        <div class="alert alert-warning">
+                            <a class="close" href="#" data-dismiss="alert">×</a>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
                   <div class="submit-button">
                     <button type="submit" class="btn">Register</button>
                   </div>

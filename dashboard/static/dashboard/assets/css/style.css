@@ -10,13 +10,14 @@
     background-color: whitesmoke !important;
 }
 body.dashboard-login{
-    background-image: url('/static/dashboard/assets/img/admin-bg.jpg');
+    background: linear-gradient(to left, #02d6af9e, #6475c5bd, transparent), url(/static/dashboard/assets/img/dash-bg-2.jpg) no-repeat center;
     font-family: 'Fira Sans', sans-serif;
-    background-repeat: no-repeat;
     background-size: cover;
-    background-position: center center;
-    height: 100vh;
+    height: 100%;
     width: 100%;
+}
+body.dashboard-login h1{
+    color: #2d458e;
 }
 .dashboard-login-container{
     padding-top: 10rem!important;

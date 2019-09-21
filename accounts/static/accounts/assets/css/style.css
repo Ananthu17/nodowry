@@ -74,7 +74,10 @@ hr.someClass {
 .termsandconditions span{
 	color: #ff8c00;
 }
-
+button.btn-outline-secondary{
+	display: none;
+	visibility: hidden;
+}
 
 
 

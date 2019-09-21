@@ -126,3 +126,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+EMAIL_USE_TLS = True
+EMAIL_PORT = 2525  # Set port 2525, google compute engine doesn't support 587
+EMAIL_HOST = "smtp.sendgrid.net"
+EMAIL_HOST_USER = "krishnagoodbits"
+EMAIL_HOST_PASSWORD = "10mangotrees"
