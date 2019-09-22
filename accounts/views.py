@@ -39,6 +39,20 @@ def send_confirmation_email(context):
     )
 
 
+def send_resetpassword_email(context):
+    email = context['email']
+    template = loader.get_template("accounts/reset_password.html")
+    email_content = template.render(context)
+    send_mail(
+        'NoDowry password reset',
+        email_content,
+        'help@nodowry.com',
+        [email],
+        html_message=email_content,
+        fail_silently=False
+    )
+
+
 class RegisterView(TemplateView):
     template_name = 'accounts/register.html'
 
@@ -187,6 +201,14 @@ class EmailConfirmation(TemplateView):
         return context
 
 
+class ResetPasswordTemplate(TemplateView):
+    template_name = 'accounts/reset_password.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
 class UserEmailVerification(View):
     def get(self, request, *args, **kwargs):
 
@@ -208,7 +230,79 @@ class UserEmailVerification(View):
                 else:
                     return redirect(reverse('register'))
             else:
-                messages.success(request, "your email is verified.Login")
+                messages.success(request, "your email is verified Login")
                 return redirect(reverse('login'))
         except User.DoesNotExist:
             return redirect(reverse('register'))
+
+
+class ResetPassword(TemplateView):
+    template_name = 'accounts/forgot-password.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        email = request.POST.get('email', "")
+        if email:
+            try:
+                user = User.objects.get(username=email)
+                name = user.first_name
+                user_profile = UserProfile.objects.get(user=user)
+                user_profile.set_reset_key()
+                user_profile.save()
+                messages.success(request, "An email with instructio for resetting you password will send you shortly, link is valid for 1 hr only")
+
+                # reset_password_emai(email, reset_password_url_construct(request, user_profile.reset_key)))
+                context = {}
+                context['email'] = email
+                context['name'] = name
+                context['url'] = request.scheme + "://" + request.META["HTTP_HOST"] + reverse('user-password-reset', kwargs={'email': email, 'reset_key': user_profile.reset_key})
+                send_resetpassword_email(context)
+                return redirect(reverse('login'))
+
+            except User.DoesNotExist:
+                messages.error(request, "please register")
+                return redirect(reverse('login'))
+        else:
+            messages.error(request, "enter a valid email")
+            return redirect(reverse('login'))
+
+
+class UserPsswordReset(TemplateView):
+    template_name = "accounts/change_password.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        password = request.POST.get("password", "")
+        confirm_password = request.POST.get("confirm_password", "")
+
+        if password and confirm_password not in [""]:
+            if password == confirm_password:
+                user_profile = UserProfile.objects.get(reset_key=kwargs["reset_key"])
+                user_profile.user.set_password(password)
+                user_profile.user.save(update_fields=["password"])
+
+                user_profile.reset_key = None
+                user_profile.reset_key_expiration = None
+                user_profile.save()
+                messages.success(request, "Your password has been changed. Please try logging in.")
+                return redirect(reverse('login'))
+
+            else:
+                messages.error(request, "Sorry, password don't match. Please try again")
+        else:
+            messages.error(request, "Please provide valid password")
+        return redirect(reverse('login'))
+
+
+# class ForgotPassword(TemplateView):
+#     template_name = 'accounts/forgot-password.html'
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         return context

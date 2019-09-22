@@ -1,6 +1,13 @@
+import random
+import string
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from datetime import datetime, timedelta
+
+
+def random_number_generator(size=25, chars=string.ascii_letters + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
 
 
 # Create your models here.
@@ -33,6 +40,16 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    def set_reset_key(self):
+        self.reset_key = random_number_generator()
+        self.reset_key_expiration = timezone.now() + timedelta(hours=1)
+
+    def verify_reset_key_expiry(self):
+        if timezone.now() <= self.reset_key_expiration:
+            return True
+        else:
+            return False
 
 
 class MotherTongue(models.Model):
