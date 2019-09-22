@@ -93,3 +93,28 @@ class DashboardUsers(LoginRequiredMixin, TemplateView):
         context['user_list'] = user_list
         return context
 
+
+class EditUsert(LoginRequiredMixin, TemplateView):
+    template_name = 'dashboard/user_edit.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_profile_id = kwargs['user_profile_id']
+        user_details = UserProfile.objects.get(id=user_profile_id)
+        context['user_list'] = user_details
+        return context
+
+    def post(self, request, *args, **kwargs):
+        name = request.POST.get('name', '')
+        email = request.POST.get('email', '')
+        phone_number = request.POST.get('phonenumber', '')
+        user = User.objects.get(username=email)
+        user_profile = UserProfile.objects.get(user=user)
+        user.first_name = name
+        user.email = email
+        user.save()
+        user_profile.phone_number= phone_number
+        user_profile.save()
+        return redirect(reverse('dashboard-users'))
+
+

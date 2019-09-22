@@ -27,6 +27,9 @@ class UserProfile(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
     is_fb = models.BooleanField(default=False)
+    activation_key = models.CharField(max_length=100, blank=True)
+    key_expires = models.DateTimeField(default=timezone.now, blank=True)
+    email_verified = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username

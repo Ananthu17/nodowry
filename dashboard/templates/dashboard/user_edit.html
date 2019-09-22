@@ -63,68 +63,32 @@
 
       <div class="content">
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-lg-6 col-md-8 col-12">
             <div class="card">
               <div class="card-header">
                 <h4 class="card-title"> User details</h4>
               </div>
               <div class="card-body">
-                {% if user_list %}
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead class=" text-primary">
-                              <th>
-                                Name
-                              </th>
-                              <th>
-                                Email
-                              </th>
-                              <th>
-                                Gender
-                              </th>
-                              <th class="text-center">
-                                <span>Active</span>
-                              </th>
-                              <th class="text-center">
-                                <span>Edit</span>
-                              </th>
-                            </thead>
-                            <tbody>
-                            {% for users in user_list %}
-                                <tr>
-                                    <td>
-                                      {{ users.user.first_name }}
-                                    </td>
-                                    <td>
-                                      {{ users.user.email }}
-                                    </td>
-                                    <td>
-                                        {{ users.gender }}
-                                    </td>
-                                    <td class="text-center">
-                                        {% if users.is_active %}
-                                            <div class="icon-big text-center icon-warning">
-                                                <i class="nc-icon nc-check-2 text-success" style="font-size: xx-large;"></i>
-                                            </div>
-                                        {% else %}
-                                            <div class="icon-big text-center icon-warning">
-                                                <i class="nc-icon nc-simple-remove text-danger" style="font-size: xx-large;"></i>
-                                            </div>
-                                        {% endif %}
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="{% url 'edit-user' user_profile_id=users.id %}">
-                                            <i class="nc-icon nc-scissors text-warning" style="font-size: xx-large;"></i>
-                                        </a>
-                                    </td>
-                                  </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                {% else %}
-                    <h5>No user exist</h5>
-                {% endif %}
+                <form method="post" action="">
+                    {% csrf_token %}
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">name</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" name="name" aria-describedby="emailHelp" value="{{ user_list.user.first_name }}">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Email</label>
+                    <input type="email" class="form-control" id="exampleInputPassword1" name="email" value="{{ user_list.user.email }}">
+                  </div>
+                   <div class="form-group">
+                    <label for="exampleInputPassword1">Phone Number</label>
+                    <input type="text" class="form-control" id="exampleInputPassword1" name="phonenumber" value="{{ user_list.phone_number }}">
+                  </div>
+{#                  <div class="form-group">#}
+{#                    <label for="exampleInputPassword1">Gender</label>#}
+{#                    <input type="text" class="form-control" id="exampleInputPassword1" name="gender" value="{{ user_list.gender }}">#}
+{#                  </div>#}
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
               </div>
             </div>
           </div>
@@ -139,16 +103,12 @@
   <script src="{% static 'dashboard/assets/js/core/popper.min.js' %}"></script>
   <script src="{% static 'dashboard/assets/js/core/bootstrap.min.js' %}"></script>
   <script src="{% static 'dashboard/assets/js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
-  <!--  Google Maps Plugin    -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
   <!-- Chart JS -->
  <script src="{% static 'dashboard/assets/js/plugins/chartjs.min.js' %}"></script>
   <!--  Notifications Plugin    -->
   <script src="{% static 'dashboard/assets/js/plugins/bootstrap-notify.js' %}"></script>
   <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="{% static 'dashboard/assets/js/paper-dashboard.min.js' %}" type="text/javascript"></script>
-  <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
-  <script src="{% static 'dashboard/assets/demo/demo.js' %}"></script>
 </body>
 
 </html>
