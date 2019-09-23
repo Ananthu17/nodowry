@@ -18,14 +18,14 @@ class UserProfile(models.Model):
     Model for saving extra credentials like phone number, gender etc.
     This model can be inherited to get make appropriate user profile models
     """
-    CHOICE = (
-        ('-', '-'),
-        ('male', 'Male'),
-        ('female', 'Female'),
-        ('others', 'Other'),
-    )
+    # CHOICE = (
+    #     ('-', '-'),
+    #     ('male', 'Male'),
+    #     ('female', 'Female'),
+    #     ('others', 'Other'),
+    # )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    gender = models.CharField(max_length=10, choices=CHOICE, default='-')
+    gender = models.CharField(max_length=10,  default='-')
     phone_number = models.CharField(max_length=12)
     reset_key = models.CharField(max_length=30, blank=True, null=True, default='')
     reset_key_expiration = models.DateTimeField(default=None, blank=True, null=True)
@@ -150,14 +150,17 @@ class UserInfo(models.Model):
     Model for saving all the details of a user.
     This model can be inherited to get make appropriate user profile models
     """
-    user = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
+    user_profile = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
     matrimony_id = models.CharField(max_length=10, blank=True, null=True)
-    dob = models.DateTimeField(blank=True)
+    dob = models.DateField(blank=True)
     mother_tongue = models.ForeignKey(MotherTongue, blank=True, on_delete=models.CASCADE)
-    education = models.ForeignKey(Education, blank=True, on_delete=models.CASCADE)
-    hobies = models.CharField(max_length=50, blank=True)
-    bodytype = models.CharField(max_length=50, blank=True)
-    physical_status = models.CharField(max_length=50, blank=True)
+    education = models.ForeignKey(Education, blank=True, on_delete=models.CASCADE, null=True)
+    religion = models.ForeignKey(Religion, blank=True, on_delete=models.CASCADE, default="")
+    cast = models.ForeignKey(Cast, blank=True, on_delete=models.CASCADE, default="", null=True)
+    subcast = models.ForeignKey(SubCast, blank=True, on_delete=models.CASCADE, default="", null=True)
+    hobies = models.CharField(max_length=50, blank=True, null=True)
+    bodytype = models.CharField(max_length=50, blank=True, null=True)
+    physical_status = models.CharField(max_length=50, blank=True, null=True)
     city = models.CharField(max_length=50, null=True, blank=True)
     state = models.CharField(max_length=50, null=True, blank=True)
     country = models.CharField(max_length=50, null=True, blank=True)
@@ -172,9 +175,21 @@ class UserInfo(models.Model):
     salary = models.FloatField(max_length=50, null=True, blank=True)
     profession = models.CharField(max_length=50, null=True, blank=True)
     paid_status = models.BooleanField(default=False)
-    about = models.TextField(max_length=500,null=True, blank=True)
+    about = models.TextField(max_length=500, null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.user.username
+        return self.user_profile.user.email
+
+
+class UserImages(models.Model):
+    """
+   Model for saving all the images uploaded by the user.
+
+   """
+    user_info = models.ForeignKey(UserInfo, on_delete=models.CASCADE)
+    file = models.ImageField(upload_to='user_images/')
+    is_profile_pic = models.BooleanField(default=False)
+    created = models.DateTimeField(default=timezone.now)
+    last_modified = models.DateTimeField(auto_now=True)

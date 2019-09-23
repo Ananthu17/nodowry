@@ -4,5 +4,6 @@ from .views import *
 
 urlpatterns = [
     path('', HomePage.as_view(), name='home'),
-    path('filter', QuickFilter.as_view(), name='filter')
+    path('filter', QuickFilter.as_view(), name='filter'),
+    path('confirm-email', ConfirmYourEmail.as_view(), name='confirm-email')
 ]

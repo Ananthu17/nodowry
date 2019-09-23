@@ -11,10 +11,15 @@
               <img class="img-fluid mt-3" src="{% static 'accounts/assets/images/logo.png' %}" alt="">
               <div class="login">
                 <h2>Register</h2>
-                <form method="post" action="">
+                <form method="post" action="" enctype="multipart/form-data">
                     {% csrf_token %}
                   <div class="form-group row">
-                    <label for="formGroupExampleInput" class="col-xl-1 col-lg-2 col-md-3 col-sm-2 col-3"><img src="{% static 'accounts/assets/images/reg-icon.png' %}" /> </label>
+                    <label for="formGroupExampleInput" class="col-xl-1 col-lg-2 col-md-3 col-sm-2 col-3">
+                        <input type="file" id="imgInp" name="uploadFromPC" style="display:none"/>
+                        <a id="OpenImgUpload">
+                            <img id="blah" src="{% static 'accounts/assets/images/reg-icon.png' %}" style="width: 55px;height: 55px; border-radius: 50px;"/>
+                        </a>
+                    </label>
                     <div class="col-xl-11 col-lg-10 col-md-9 col-sm-10 col-9">
                       <input type="text" class="form-control login-form" id="formGroupExampleInput" placeholder="Name" name="name" required>
                     </div>
@@ -24,8 +29,7 @@
                       <div class="form-group">
 {#                        <input type="date" class="form-control login-form" id="formGroupExampleInput2" name="dob" required>#}
                         <div id="datepicker" class="input-group date" data-date-format="mm-dd-yyyy">
-                            <input class="form-control login-form" type="text" />
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                            <input class="form-control login-form" name="dob" type="text" /><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                         </div>
                       </div>
                     </div>
@@ -41,15 +45,17 @@
                     </div>
                   </div>
 
+
                   <div class="row">
                     <div class="col-sm-6">
                       <div class="form-group">
                         <select name="language" class="login-form form-control reg-dropdown" required>
                           <option value="" disabled selected>Mother Tongue</option>
-                          <option value="malayalam">Malayalam</option>
-                          <option value="tamil">Tamil</option>
-                          <option value="kannada">Kannada</option>
-                          <option value="hindi">Hindi</option>
+                            {% if mother_tongue %}
+                                {% for language in mother_tongue %}
+                                <option value="{{ language.id }}">{{ language.language|title  }}</option>
+                                {% endfor %}
+                            {% endif %}
                         </select>
                       </div>  
                     </div>
@@ -69,6 +75,20 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <input type="password" class="form-control login-form"  placeholder="Password" name="password" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <select name="religion" class="login-form form-control reg-dropdown" required>
+                          <option value="" disabled selected>Religion</option>
+                          {% if religions %}
+                                {% for religion in religions %}
+                                <option value="{{ religion.id }}">{{ religion.name|title  }}</option>
+                                {% endfor %}
+                            {% endif %}
+                        </select>
                       </div>
                     </div>
                   </div>
@@ -112,4 +132,29 @@
         </div>
       </div>
     </div>
+{% endblock %}
+
+{% block extrascript %}
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#blah').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $('#OpenImgUpload').click(function(){
+            console.log("hello")
+            $('#imgInp').trigger('click');
+        });
+
+         $("#imgInp").change(function(){
+             readURL(this);
+         });
+
+    </script>
 {% endblock %}

@@ -4,7 +4,7 @@ from django.contrib.auth.models import User,auth
 from django.contrib.auth import login, logout
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from dashboard.models import UserProfile
+from dashboard.models import UserProfile, MotherTongue, Religion, UserInfo, UserImages
 from django.contrib import messages
 from django.template import loader
 import copy
@@ -58,6 +58,8 @@ class RegisterView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['mother_tongue'] = MotherTongue.objects.all()
+        context['religions'] = Religion.objects.all()
         return context
 
     def post(self, request, *args, **kwargs):
@@ -114,10 +116,20 @@ class RegisterView(TemplateView):
                         sending verification mail to the user
                         '''
                         send_confirmation_email(context)
-
+                        message = "A verification mail has been send to registered mail id, Please confirm your mail Id"
                         gender = request.POST.get('gender', "")
                         phone_number = request.POST.get('mobno', "")
                         dob = request.POST.get('dob', "")
+                        print("date of birth")
+                        date_of_birth = datetime.datetime.strptime(dob, "%m-%d-%Y").strftime("%Y-%m-%d")
+                        print(dob)
+                        print(date_of_birth)
+                        language_id = int(request.POST.get('language', ""))
+                        religion_id = int(request.POST.get('religion', ""))
+                        language = MotherTongue.objects.get(id=language_id)
+                        religion = Religion.objects.get(id=religion_id)
+                        profilepic = request.FILES.get('uploadFromPC')
+                        print(profilepic)
                         userprofile_obj = UserProfile(
                                                 user=user,
                                                 gender=gender,
@@ -128,10 +140,19 @@ class RegisterView(TemplateView):
                                                 key_expires=activation_key_expiry
                                                 )
                         userprofile_obj.save()
-                        return redirect('home')
-
+                        user_info_obj = UserInfo(
+                                        user_profile=userprofile_obj,
+                                        dob=date_of_birth,
+                                        mother_tongue=language,
+                                        religion=religion
+                        )
+                        user_info_obj.save()
+                        user_image_obj = UserImages(user_info=user_info_obj, file=profilepic, is_profile_pic=True)
+                        user_image_obj.save()
+                        messages.success(request, message)
+                        return redirect('login')
                     except User.DoesNotExist:
-                        messages.error(request, "cannot able to create new user")
+                        messages.error(request, "Something went wrong")
                         return redirect('register')
                 else:
                     messages.error(request, "user is already exists")
@@ -161,15 +182,19 @@ class LoginView(TemplateView):
                 user = User.objects.get(username=username)
                 user_profile = UserProfile.objects.get(user=user)
                 if not user.is_superuser:
-                    if user_profile.is_active:
-                        if user.check_password(password):
-                            login(request, user)
-                            return redirect(reverse('home'))
+                    if user_profile.email_verified:
+                        if user_profile.is_active:
+                            if user.check_password(password):
+                                login(request, user)
+                                return redirect(reverse('home'))
+                            else:
+                                messages.error(request, "Invalid Credentials")
+                                return redirect(reverse('login'))
                         else:
-                            messages.error(request, "Invalid Credentials")
+                            messages.error(request, "profile is blocked, Please contact admin")
                             return redirect(reverse('login'))
                     else:
-                        messages.error(request, "profile is blocked, Please contact admin")
+                        messages.error(request, "Email is not verified please.verification mail has been send to registered mail id")
                         return redirect(reverse('login'))
                 else:
                     messages.error("Invalid Credentials")
@@ -217,11 +242,11 @@ class UserEmailVerification(View):
         try:
             user = User.objects.get(username=email)
             user_profile = UserProfile.objects.get(user=user)
-            if user_profile.email_verified == True:
+            if not user_profile.email_verified:
                 if user_profile.activation_key == key:
                     cuttent_date_time = timezone.now()
                     if cuttent_date_time <= user_profile.key_expires:
-                        user_profile.is_active = True;
+                        user_profile.is_active = True
                         user_profile.email_verified = True
                         user_profile.save()
                         return redirect(reverse('login'))
@@ -230,7 +255,7 @@ class UserEmailVerification(View):
                 else:
                     return redirect(reverse('register'))
             else:
-                messages.success(request, "your email is verified Login")
+                messages.success(request, "your email is already verified please login")
                 return redirect(reverse('login'))
         except User.DoesNotExist:
             return redirect(reverse('register'))
