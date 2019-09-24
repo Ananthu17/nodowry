@@ -12,7 +12,18 @@
 
     <title>No-Dowry</title>
     <link href="{% static 'frontend/css/filter.css' %}" rel="stylesheet"/>
-
+    <script>
+        function getAge(DOB) {
+            var today = new Date();
+            var birthDate = new Date(DOB);
+            var age = today.getFullYear() - birthDate.getFullYear();
+            var m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age = age - 1;
+            }
+            return age;
+        }
+    </script>
   </head>
   <body>
     
@@ -32,7 +43,7 @@
               <div class="search-results">
                 <div class="row">
                   <div class="col-md-1 col-2 text-center"><img src="{% static 'frontend/images/icons/Saerch-icon.png' %}" /></div>
-                  <div class="col-md-10 col-10"><h2 class="matching-profile success">250 matching profile found!</h2></div>
+                  <div class="col-md-10 col-10"><h2 class="matching-profile success">8 matching profile found!</h2></div>
                 </div>
                 <div class="row">
                   <div class="d-md-block d-lg-none col-12 text-center pb-3" id="showmenu">
@@ -96,6 +107,80 @@
                 <div class="p-3"></div>
                 <div class="search-items">
                   <div class="row">
+                      {% if user_profile %}
+                          {% for users in user_profile %}
+                              <div class="col-xl-6 col-lg-12 col-md-12 p-2">
+                                  <div class="result-item">
+                                    <div class="row">
+                                      <div class="col-xl-4 col-lg-3 col-md-3 col-12">
+                                        <div class="profile-image text-center">
+                                          <img src="media/{{ users.userinfo__userimages__file }}" style="max-width: 223px;max-height: 189px;">
+                                        </div>
+                                      </div>
+                                      <div class="col-xl-8 col-lg-9 col-md-9 col-12">
+                                        <div class="profile-details p-1">
+                                          <div class="pname pt-2">
+                                            <h5>{{ users.user__first_name }}</h5>
+                                          </div>
+                                          <div class="pi-location">
+                                            <div class="row">
+                                              <div class="col-2"><img src="{% static 'frontend/images/search-results/Location-icon.png' %}"></div>
+                                              <div class="col-10"><span> Bangalore, Karnataka, India</span></div>
+                                            </div>
+                                          </div>
+                                          <div class="pi-age pt-3">
+                                            <div class="row">
+                                              <div class="col-md-5 col-6">
+                                                <span>Age, Height   </span> <span class="float-right">:</span>
+                                              </div>
+                                              <div class="col-md-7 col-6">
+                                                <span class="value">
+                                                    <script type="text/javascript">
+                                                                    var dob ={{ users.userinfo__dob|date:'Y' }};
+                                                                    {#var age = Date().getYear() - dob;#}
+                                                                    var dt = new Date();
+                                                                    var age = dt.getFullYear() - dob
+                                                                    document.write(age)
+                                                                    </script>
+                                                    ,5.6ft
+                                                </span>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="pi-education">
+                                            <div class="row">
+                                              <div class="col-md-5 col-6">
+                                                <span class="value">Education</span><span class="float-right">:</span>
+                                              </div>
+                                              <div class="col-md-7 col-6">
+                                                <span class="value">B-Tech</span>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="pi-cast">
+                                            <div class="row">
+                                              <div class="col-md-5 col-6">
+                                                <span>Cast</span><span class="float-right">:</span>
+                                              </div>
+                                              <div class="col-md-7 col-6">
+                                                <span class="value">Varma</span>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="viewprofile text-center pt-2">
+                                            <div class="row">
+                                              <div class="col-10 text-right">
+                                               VIEW PROFILE
+                                             </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                          {% endfor %}
+                      {% endif %}
                     <div class="col-xl-6 col-lg-12 col-md-12 p-2">
                       <div class="result-item">
                         <div class="row">
@@ -107,7 +192,7 @@
                           <div class="col-xl-8 col-lg-9 col-md-9 col-12">
                             <div class="profile-details p-1">
                               <div class="pname pt-2">
-                                <h5>Aadhya Varma</h5>
+                                <h5>Disha Varma</h5>
                               </div>
                               <div class="pi-location">
                                 <div class="row">
@@ -154,9 +239,9 @@
                               </div>
                             </div>
                           </div>
-                        </div>  
+                        </div>
                       </div>
-                    </div> 
+                    </div>
                     <div class="col-xl-6 col-lg-12 col-md-12 p-2">
                       <div class="result-item">
                         <div class="row">
@@ -215,7 +300,7 @@
                               </div>
                             </div>
                           </div>
-                        </div>  
+                        </div>
                       </div>
                     </div>
                     <div class="col-xl-6 col-lg-12 col-md-12 p-2">
@@ -276,7 +361,7 @@
                               </div>
                             </div>
                           </div>
-                        </div>  
+                        </div>
                       </div>
                     </div>
                     <div class="col-xl-6 col-lg-12 col-md-12 p-2">
@@ -337,7 +422,7 @@
                               </div>
                             </div>
                           </div>
-                        </div>  
+                        </div>
                       </div>
                     </div>
                     <div class="col-xl-6 col-lg-12 col-md-12 p-2">
@@ -398,7 +483,7 @@
                               </div>
                             </div>
                           </div>
-                        </div>  
+                        </div>
                       </div>
                     </div>
                     <div class="col-xl-6 col-lg-12 col-md-12 p-2">
@@ -459,9 +544,9 @@
                               </div>
                             </div>
                           </div>
-                        </div>  
+                        </div>
                       </div>
-                    </div>   
+                    </div>
                   </div>  
                 </div>
               </div>
@@ -478,8 +563,15 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.0.2/nouislider.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/wnumb@1.1.0/wNumb.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
+    <script type="text/javascript" src="{% static 'frontend/js/style.js' %}"></script>
     <script type="text/javascript">
+
+        function calculateAge(birthday) { // birthday is a date
+            var ageDifMs = Date.now() - birthday.getTime();
+            var ageDate = new Date(ageDifMs); // miliseconds from epoch
+            return Math.abs(ageDate.getUTCFullYear() - 1970);
+        }
+
 
       $(document).ready(function() {
           $('#showmenu').click(function() {
@@ -549,6 +641,7 @@
 
       console.log(document.getElementById('slider-value-1'))
       console.log(document.getElementById('slider-value-2'))
+
     </script>
   </body>
 </html>

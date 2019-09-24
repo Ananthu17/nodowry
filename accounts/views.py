@@ -249,6 +249,7 @@ class UserEmailVerification(View):
                         user_profile.is_active = True
                         user_profile.email_verified = True
                         user_profile.save()
+                        messages.success(request, "your email is verified please login")
                         return redirect(reverse('login'))
                     else:
                         return redirect(reverse('register'))

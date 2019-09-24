@@ -182,6 +182,9 @@ class UserInfo(models.Model):
     def __str__(self):
         return self.user_profile.user.email
 
+    def age(self):
+        return int((datetime.now().date() - self.dob).days / 365.25)
+
 
 class UserImages(models.Model):
     """

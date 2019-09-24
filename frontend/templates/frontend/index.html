@@ -8,7 +8,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+     <script src="https://use.fontawesome.com/daac62b875.js"></script>
     <!-- style.css -->
     <link href="{% static 'frontend/css/style.css' %}" rel="stylesheet"/>
     <title>No Dowry</title>
@@ -29,7 +29,7 @@
                 <h3>India's most trusted matrimony</h3>
             </div>
             <div class="quick-search-box p-4 m-3">
-                <form action="">
+                <form action="{% url 'filter' %}">
                     <div class="row">
                         <div class=" col-lg-2 col-md-4 col-sm-4 col-12">
                             <div class="dropdown show form-group">
@@ -37,9 +37,9 @@
                                     I'm looking a
                                 </p>
                                 <select name="gender" class="quicksearchDropdown form-control">
-                                    <option value="volvo">Woman</option>
-                                    <option value="saab">Men</option>
-                                    <option value="fiat">Others</option>
+                                    <option value="Woman">Woman</option>
+                                    <option value="Men">Men</option>
+                                    <option value="Others">Others</option>
                                 </select>
                             </div>
                         </div>
@@ -48,10 +48,19 @@
                                 <p  class="searchItem">
                                     aged
                                 </p>
-                                <select name="cars" class="quicksearchDropdown form-control">
+                                <select name="agefrom" class="quicksearchDropdown form-control">
+                                    <option value="19">19</option>
+                                    <option value="20">20</option>
+                                    <option value="21">21</option>
+                                    <option value="22">22</option>
+                                    <option value="23">23</option>
                                     <option value="24">24</option>
                                     <option value="25">25</option>
                                     <option value="26">26</option>
+                                    <option value="27">27</option>
+                                    <option value="28">28</option>
+                                    <option value="29">29</option>
+                                    <option value="30">30</option>
                                 </select>
                             </div>
                         </div>
@@ -67,10 +76,19 @@
                                 <p  class="searchItem">
                                     &nbsp;
                                 </p>
-                                <select name="cars" class="quicksearchDropdown form-control">
-                                    <option value="volvo">24</option>
-                                    <option value="saab">25</option>
-                                    <option value="fiat">26</option>
+                                <select name="ageto" class="quicksearchDropdown form-control">
+                                    <option value="19">19</option>
+                                    <option value="20">20</option>
+                                    <option value="21">21</option>
+                                    <option value="22">22</option>
+                                    <option value="23">23</option>
+                                    <option value="24">24</option>
+                                    <option value="25">25</option>
+                                    <option value="26">26</option>
+                                    <option value="27">27</option>
+                                    <option value="28">28</option>
+                                    <option value="29">29</option>
+                                    <option value="30">30</option>
                                 </select>
                             </div>
                         </div>
@@ -79,8 +97,11 @@
                                 <p  class="searchItem">
                                     of religion
                                 </p>
-                                <select name="cars" class="quicksearchDropdown form-control">
-                                    <option value="volvo">Select</option>
+                                <select name="religion" class="quicksearchDropdown form-control">
+                                    <option value="">Select</option>
+                                    {% for religion in religion_list %}
+                                        <option value="{{ religion.id }}">{{ religion.name }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
@@ -89,11 +110,11 @@
                                 <p  class="searchItem">
                                     and mother tongue
                                 </p>
-                                <select name="cars" class="quicksearchDropdown form-control">
-                                    <option value="volvo">Select</option>
-                                    <option value="saab">Saab</option>
-                                    <option value="fiat">Fiat</option>
-                                    <option value="audi">Audi</option>
+                                <select name="language" class="quicksearchDropdown form-control">
+                                    <option value="">Select</option>
+                                    {% for language in language_list %}
+                                        <option value="{{ language.id }}">{{ language.language }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
@@ -111,6 +132,356 @@
     <section class="images-grid">
       <div class="container-fluid">
         <p class="text-center h1 p-5">Make your own wall of matches</p>
+          <div class="row">
+              <div class="col-12">
+                  <div class="row_first">
+                      <div class="glry-img-grid text-center">
+                           <img src="{% static 'frontend/images/gallery/Layer_63.png' %}">
+                          <span class="gallery-progress-bar">
+                              <div class="row">
+                                  <div class="col-2 col-md-2">
+                                      <i class="fa fa-heart" aria-hidden="true"></i>
+                                  </div>
+                                  <div class="col-6 col-md-6 gallery-progress">
+                                      <div class="progress">
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                      </div>
+                                  </div>
+                                  <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
+                                      32%
+                                  </div>
+                              </div>
+                          </span>
+                      </div>
+                      <div class="glry-img-grid">
+                           <img src="{% static 'frontend/images/gallery/Layer_70.png' %}">
+                            <span class="gallery-progress-bar">
+                              <div class="row">
+                                  <div class="col-2 col-md-2">
+                                      <i class="fa fa-heart" aria-hidden="true"></i>
+                                  </div>
+                                  <div class="col-6 col-md-6 gallery-progress">
+                                      <div class="progress">
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                      </div>
+                                  </div>
+                                  <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
+                                      32%
+                                  </div>
+                              </div>
+                          </span>
+                      </div>
+                      <div class="glry-img-grid">
+                           <img src="{% static 'frontend/images/gallery/Layer_61.png' %}">
+                          <span class="gallery-progress-bar">
+                              <div class="row">
+                                  <div class="col-2 col-md-2">
+                                      <i class="fa fa-heart" aria-hidden="true"></i>
+                                  </div>
+                                  <div class="col-6 col-md-6 gallery-progress">
+                                      <div class="progress">
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                      </div>
+                                  </div>
+                                  <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
+                                      32%
+                                  </div>
+                              </div>
+                          </span>
+                      </div>
+                      <div class="glry-img-grid">
+                           <img src="{% static 'frontend/images/gallery/Layer_62.png' %}">
+                            <span class="gallery-progress-bar">
+                              <div class="row">
+                                  <div class="col-2 col-md-2">
+                                      <i class="fa fa-heart" aria-hidden="true"></i>
+                                  </div>
+                                  <div class="col-6 col-md-6 gallery-progress">
+                                      <div class="progress">
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                      </div>
+                                  </div>
+                                  <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
+                                      32%
+                                  </div>
+                              </div>
+                          </span>
+                      </div>
+                      <div class="glry-img-grid">
+                           <img src="{% static 'frontend/images/gallery/Layer_57.png' %}">
+                            <span class="gallery-progress-bar">
+                              <div class="row">
+                                  <div class="col-2 col-md-2">
+                                      <i class="fa fa-heart" aria-hidden="true"></i>
+                                  </div>
+                                  <div class="col-6 col-md-6 gallery-progress">
+                                      <div class="progress">
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                      </div>
+                                  </div>
+                                  <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
+                                      32%
+                                  </div>
+                              </div>
+                          </span>
+                      </div>
+                      <div class="glry-img-grid">
+                           <img src="{% static 'frontend/images/gallery/Layer_63.png' %}">
+                          <span class="gallery-progress-bar">
+                              <div class="row">
+                                  <div class="col-2 col-md-2">
+                                      <i class="fa fa-heart" aria-hidden="true"></i>
+                                  </div>
+                                  <div class="col-6 col-md-6 gallery-progress">
+                                      <div class="progress">
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                      </div>
+                                  </div>
+                                  <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
+                                      32%
+                                  </div>
+                              </div>
+                          </span>
+                      </div>
+                      <div class="glry-img-grid">
+                           <img src="{% static 'frontend/images/gallery/Layer_67.png' %}">
+                          <span class="gallery-progress-bar">
+                              <div class="row">
+                                  <div class="col-2 col-md-2">
+                                      <i class="fa fa-heart" aria-hidden="true"></i>
+                                  </div>
+                                  <div class="col-6 col-md-6 gallery-progress">
+                                      <div class="progress">
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                      </div>
+                                  </div>
+                                  <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
+                                      32%
+                                  </div>
+                              </div>
+                          </span>
+                      </div>
+                      <div class="glry-img-grid">
+                           <img src="{% static 'frontend/images/gallery/Layer_72.png' %}">
+                          <span class="gallery-progress-bar">
+                              <div class="row">
+                                  <div class="col-2 col-md-2">
+                                      <i class="fa fa-heart" aria-hidden="true"></i>
+                                  </div>
+                                  <div class="col-6 col-md-6 gallery-progress">
+                                      <div class="progress">
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                      </div>
+                                  </div>
+                                  <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
+                                      32%
+                                  </div>
+                              </div>
+                          </span>
+                      </div>
+                      <div class="glry-img-grid">
+                           <img src="{% static 'frontend/images/gallery/Layer_55.png' %}">
+                          <span class="gallery-progress-bar">
+                              <div class="row">
+                                  <div class="col-2 col-md-2">
+                                      <i class="fa fa-heart" aria-hidden="true"></i>
+                                  </div>
+                                  <div class="col-6 col-md-6 gallery-progress">
+                                      <div class="progress">
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                      </div>
+                                  </div>
+                                  <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
+                                      32%
+                                  </div>
+                              </div>
+                          </span>
+                      </div>
+                      <div class="glry-img-grid">
+                           <img src="{% static 'frontend/images/gallery/Layer_56.png' %}">
+                          <span class="gallery-progress-bar">
+                              <div class="row">
+                                  <div class="col-2 col-md-2">
+                                      <i class="fa fa-heart" aria-hidden="true"></i>
+                                  </div>
+                                  <div class="col-6 col-md-6 gallery-progress">
+                                      <div class="progress">
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                      </div>
+                                  </div>
+                                  <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
+                                      32%
+                                  </div>
+                              </div>
+                          </span>
+                      </div>
+                      <div class="glry-img-grid">
+                           <img src="{% static 'frontend/images/gallery/Layer_64.png' %}">
+                          <span class="gallery-progress-bar">
+                              <div class="row">
+                                  <div class="col-2 col-md-2">
+                                      <i class="fa fa-heart" aria-hidden="true"></i>
+                                  </div>
+                                  <div class="col-6 col-md-6 gallery-progress">
+                                      <div class="progress">
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                      </div>
+                                  </div>
+                                  <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
+                                      32%
+                                  </div>
+                              </div>
+                          </span>
+                      </div>
+                      <div class="glry-img-grid">
+                           <img src="{% static 'frontend/images/gallery/Layer_68.png' %}">
+                          <span class="gallery-progress-bar">
+                              <div class="row">
+                                  <div class="col-2 col-md-2">
+                                      <i class="fa fa-heart" aria-hidden="true"></i>
+                                  </div>
+                                  <div class="col-6 col-md-6 gallery-progress">
+                                      <div class="progress">
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                      </div>
+                                  </div>
+                                  <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
+                                      32%
+                                  </div>
+                              </div>
+                          </span>
+                      </div>
+                      <div class="glry-img-grid">
+                           <img src="{% static 'frontend/images/gallery/Layer_71.png' %}">
+                          <span class="gallery-progress-bar">
+                              <div class="row">
+                                  <div class="col-2 col-md-2">
+                                      <i class="fa fa-heart" aria-hidden="true"></i>
+                                  </div>
+                                  <div class="col-6 col-md-6 gallery-progress">
+                                      <div class="progress">
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                      </div>
+                                  </div>
+                                  <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
+                                      32%
+                                  </div>
+                              </div>
+                          </span>
+                      </div>
+                      <div class="glry-img-grid">
+                           <img src="{% static 'frontend/images/gallery/Layer_60.png' %}">
+                          <span class="gallery-progress-bar">
+                              <div class="row">
+                                  <div class="col-2 col-md-2">
+                                      <i class="fa fa-heart" aria-hidden="true"></i>
+                                  </div>
+                                  <div class="col-6 col-md-6 gallery-progress">
+                                      <div class="progress">
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                      </div>
+                                  </div>
+                                  <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
+                                      32%
+                                  </div>
+                              </div>
+                          </span>
+                      </div>
+                      <div class="glry-img-grid">
+                           <img src="{% static 'frontend/images/gallery/Layer_59.png' %}">
+                          <span class="gallery-progress-bar">
+                              <div class="row">
+                                  <div class="col-2 col-md-2">
+                                      <i class="fa fa-heart" aria-hidden="true"></i>
+                                  </div>
+                                  <div class="col-6 col-md-6 gallery-progress">
+                                      <div class="progress">
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                      </div>
+                                  </div>
+                                  <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
+                                      32%
+                                  </div>
+                              </div>
+                          </span>
+                      </div>
+                      <div class="glry-img-grid">
+                           <img src="{% static 'frontend/images/gallery/Layer_66.png' %}">
+                          <span class="gallery-progress-bar">
+                              <div class="row">
+                                  <div class="col-2 col-md-2">
+                                      <i class="fa fa-heart" aria-hidden="true"></i>
+                                  </div>
+                                  <div class="col-6 col-md-6 gallery-progress">
+                                      <div class="progress">
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                      </div>
+                                  </div>
+                                  <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
+                                      32%
+                                  </div>
+                              </div>
+                          </span>
+                      </div>
+                      <div class="glry-img-grid">
+                           <img src="{% static 'frontend/images/gallery/Layer_69.png' %}">
+                          <span class="gallery-progress-bar">
+                              <div class="row">
+                                  <div class="col-2 col-md-2">
+                                      <i class="fa fa-heart" aria-hidden="true"></i>
+                                  </div>
+                                  <div class="col-6 col-md-6 gallery-progress">
+                                      <div class="progress">
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                      </div>
+                                  </div>
+                                  <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
+                                      32%
+                                  </div>
+                              </div>
+                          </span>
+                      </div>
+                      <div class="glry-img-grid">
+                           <img src="{% static 'frontend/images/gallery/Layer_65.png' %}">
+                          <span class="gallery-progress-bar">
+                              <div class="row">
+                                  <div class="col-2 col-md-2">
+                                      <i class="fa fa-heart" aria-hidden="true"></i>
+                                  </div>
+                                  <div class="col-6 col-md-6 gallery-progress">
+                                      <div class="progress">
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                      </div>
+                                  </div>
+                                  <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
+                                      32%
+                                  </div>
+                              </div>
+                          </span>
+                      </div>
+{#                            <img src="{% static 'frontend/images/gallery/Layer_63.png' %}" class="gallery-front-images">#}
+{#                            <img src="{% static 'frontend/images/gallery/Layer_70.png' %}" class="gallery-front-images">#}
+{#                            <img src="{% static 'frontend/images/gallery/Layer_61.png' %}" class="gallery-front-images">#}
+{#                            <img src="{% static 'frontend/images/gallery/Layer_62.png' %}" class="gallery-front-images">#}
+{#                            <img src="{% static 'frontend/images/gallery/Layer_57.png' %}" class="gallery-front-images">#}
+{#                            <img src="{% static 'frontend/images/gallery/Layer_67.png' %}" class="gallery-front-images">#}
+{#                            <img src="{% static 'frontend/images/gallery/Layer_72.png' %}" class="gallery-front-images">#}
+{#                            <img src="{% static 'frontend/images/gallery/Layer_55.png' %}" class="gallery-front-images">#}
+{#                            <img src="{% static 'frontend/images/gallery/Layer_56.png' %}" class="gallery-front-images">#}
+{#                            <img src="{% static 'frontend/images/gallery/Layer_68.png' %}" class="gallery-front-images">#}
+{#                            <img src="{% static 'frontend/images/gallery/Layer_55.png' %}" class="gallery-front-images">#}
+                      </div>
+{#                      <img src="{% static 'frontend/images/gallery/Layer_70.png' %}" class="gallery-front-images">#}
+{#                      <img src="{% static 'frontend/images/gallery/Layer_61.png' %}" class="gallery-front-images">#}
+{#                      <img src="{% static 'frontend/images/gallery/Layer_62.png' %}" class="gallery-front-images">#}
+{#                      <img src="{% static 'frontend/images/gallery/Layer_57.png' %}" class="gallery-front-images">#}
+{#                      <img src="{% static 'frontend/images/gallery/Layer_63.png' %}" class="gallery-front-images">#}
+{#                      <img src="{% static 'frontend/images/gallery/Layer_67.png' %}" class="gallery-front-images">#}
+{#                      <img src="{% static 'frontend/images/gallery/Layer_72.png' %}" class="gallery-front-images">#}
+{#                      <img src="{% static 'frontend/images/gallery/Layer_55.png' %}" class="gallery-front-images">#}
+                  </div>
+              </div>
+          </div>
       </div>
     </section>
 
@@ -132,7 +503,7 @@
                         <div class="row">
                             <div class="col-4 col-sm-3 col-md-2">
                                 <div class="profile-pic">
-                                  <img src="">
+                                  <img src="{% static 'frontend/images/Layer_17.png' %}" style="width: -webkit-fill-available;">
                                 </div>
                             </div>
                             <div class="col-8 col-sm-5 profile-name-div">
@@ -324,7 +695,7 @@
     </section>
 
     <!-- NDM Folklore -->
-    <section class="ndm p-5">
+    <section class="ndm p-5" hidden>
       <div class="container">
         <h1 class="ndm-header text-center">NDM Folklore</h1>
       </div>

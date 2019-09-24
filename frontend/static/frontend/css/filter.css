@@ -168,3 +168,6 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
 .noUi-horizontal .noUi-handle {
     top: -5px;
 }
+@media only screen and (max-width: 480px) {
+
+}
