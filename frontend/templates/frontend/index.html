@@ -29,17 +29,17 @@
                 <h3>India's most trusted matrimony</h3>
             </div>
             <div class="quick-search-box p-4 m-3">
-                <form action="{% url 'filter' %}">
+                <form action="{% url 'filter' %}" method="get">
                     <div class="row">
                         <div class=" col-lg-2 col-md-4 col-sm-4 col-12">
                             <div class="dropdown show form-group">
                                 <p class="searchItem">
                                     I'm looking a
                                 </p>
-                                <select name="gender" class="quicksearchDropdown form-control">
-                                    <option value="Woman">Woman</option>
-                                    <option value="Men">Men</option>
-                                    <option value="Others">Others</option>
+                                <select name="gender" class="quicksearchDropdown form-control" required>
+                                    <option value="woman">Woman</option>
+                                    <option value="men">Men</option>
+                                    <option value="others">Others</option>
                                 </select>
                             </div>
                         </div>
@@ -48,7 +48,7 @@
                                 <p  class="searchItem">
                                     aged
                                 </p>
-                                <select name="agefrom" class="quicksearchDropdown form-control">
+                                <select name="agefrom" class="quicksearchDropdown form-control" required>
                                     <option value="19">19</option>
                                     <option value="20">20</option>
                                     <option value="21">21</option>
@@ -76,7 +76,7 @@
                                 <p  class="searchItem">
                                     &nbsp;
                                 </p>
-                                <select name="ageto" class="quicksearchDropdown form-control">
+                                <select name="ageto" class="quicksearchDropdown form-control" required>
                                     <option value="19">19</option>
                                     <option value="20">20</option>
                                     <option value="21">21</option>
@@ -97,7 +97,7 @@
                                 <p  class="searchItem">
                                     of religion
                                 </p>
-                                <select name="religion" class="quicksearchDropdown form-control">
+                                <select name="religion" class="quicksearchDropdown form-control" required>
                                     <option value="">Select</option>
                                     {% for religion in religion_list %}
                                         <option value="{{ religion.id }}">{{ religion.name }}</option>
@@ -110,7 +110,7 @@
                                 <p  class="searchItem">
                                     and mother tongue
                                 </p>
-                                <select name="language" class="quicksearchDropdown form-control">
+                                <select name="language" class="quicksearchDropdown form-control" required>
                                     <option value="">Select</option>
                                     {% for language in language_list %}
                                         <option value="{{ language.id }}">{{ language.language }}</option>
