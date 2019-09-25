@@ -123,6 +123,10 @@ section.testimonials{
     border: none;
     color: #ffffff;
 }
+.get-started-button button h4{
+    margin-top: auto;
+    margin-bottom: auto;
+}
 .awards .awards-heder{
 	color: #dd115a;
 	font-size: -webkit-xxx-large;	
@@ -520,4 +524,11 @@ img.gallery-front-images{
 }
 @media screen and (max-width: 500px) {
 
+}
+.subscribe-btn{
+    color: white;
+}
+.subscribe-btn h5{
+    margin-top: auto;
+    margin-bottom: auto;
 }
