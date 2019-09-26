@@ -148,8 +148,8 @@ EMAIL_HOST_USER = "krishnagoodbits"
 EMAIL_HOST_PASSWORD = "10mangotrees"
 
 LOGIN_REDIRECT_URL = 'social_login'
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1088140071927-konl5l554dnvui0oab6r45fdg8bihj77.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '9eOs7yJRN9GTPiFniiE09t8_'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1088140071927-t0udmc8mkqr1smlv69v4q30f0hrc22lq.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'uKCFMGMoxUDwYkLY5_-fcuqE'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
 'https://www.googleapis.com/auth/userinfo.profile'
 ]

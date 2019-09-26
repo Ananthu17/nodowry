@@ -7,6 +7,17 @@ from django.views.generic import View, TemplateView
 from datetime import datetime
 from .models import *
 import copy
+from django.contrib.auth.decorators import user_passes_test
+
+
+class CheckIsSuperUser:
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and request.user.is_superuser:
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            messages.error(request, "Please login for accessing the dashboard")
+            return redirect(reverse('dashboard-login'))
 
 
 class DashboardLogIn(TemplateView):
@@ -60,7 +71,7 @@ class DashboardLogOut(LoginRequiredMixin, View):
         return redirect(reverse('dashboard-login'))
 
 
-class Dashboard(LoginRequiredMixin, TemplateView):
+class Dashboard(LoginRequiredMixin, CheckIsSuperUser, TemplateView):
     template_name = 'dashboard/dashboard.html'
 
     def get_context_data(self, *args, **kwargs):
