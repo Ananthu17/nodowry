@@ -30,7 +30,7 @@ class DashboardLogIn(TemplateView):
                 if user.is_superuser:
                     if user.is_active:
                         if user.check_password(password):
-                            login(request, user)
+                            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                             return redirect(reverse('dashboard'))
                         else:
                             messages.error(request, "Invalid Credentials")

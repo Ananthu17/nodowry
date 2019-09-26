@@ -73,15 +73,15 @@
                     {% csrf_token %}
                   <div class="form-group">
                     <label for="exampleInputEmail1">name</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" name="name" aria-describedby="emailHelp" value="{{ user_list.user.first_name }}">
+                    <input type="text" class="form-control" id="exampleInputEmail1" name="name" aria-describedby="emailHelp" value="{{ user_list.user.first_name }}" required>
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Email</label>
-                    <input type="email" class="form-control" id="exampleInputPassword1" name="email" value="{{ user_list.user.email }}">
+                    <input type="email" class="form-control" id="exampleInputPassword1" name="email" value="{{ user_list.user.email }}" required>
                   </div>
                    <div class="form-group">
                     <label for="exampleInputPassword1">Phone Number</label>
-                    <input type="text" class="form-control" id="exampleInputPassword1" name="phonenumber" value="{{ user_list.phone_number }}">
+                    <input type="text" class="form-control" id="exampleInputPassword1" name="phonenumber" value="{{ user_list.phone_number }}" required>
                   </div>
 {#                  <div class="form-group">#}
 {#                    <label for="exampleInputPassword1">Gender</label>#}

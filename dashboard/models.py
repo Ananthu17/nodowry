@@ -152,10 +152,10 @@ class UserInfo(models.Model):
     """
     user_profile = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
     matrimony_id = models.CharField(max_length=10, blank=True, null=True)
-    dob = models.DateField(blank=True)
-    mother_tongue = models.ForeignKey(MotherTongue, blank=True, on_delete=models.CASCADE)
+    dob = models.DateField(blank=True, null=True)
+    mother_tongue = models.ForeignKey(MotherTongue, blank=True, on_delete=models.CASCADE, null=True)
     education = models.ForeignKey(Education, blank=True, on_delete=models.CASCADE, null=True)
-    religion = models.ForeignKey(Religion, blank=True, on_delete=models.CASCADE, default="")
+    religion = models.ForeignKey(Religion, blank=True, on_delete=models.CASCADE, default="", null=True)
     cast = models.ForeignKey(Cast, blank=True, on_delete=models.CASCADE, default="", null=True)
     subcast = models.ForeignKey(SubCast, blank=True, on_delete=models.CASCADE, default="", null=True)
     hobies = models.CharField(max_length=50, blank=True, null=True)

@@ -26,7 +26,6 @@ class QuickFilter(TemplateView):
         religion_id = self.request.GET.get('religion')
         language = self.request.GET.get('language')
         currentdate = date.today()
-        print("today")
         startdate = currentdate.replace(currentdate.year - agefrom)
         enddate = currentdate.replace(currentdate.year - ageto)
         userprofile = UserProfile.objects.filter(is_active=True, gender=gender, userinfo__religion=religion_id, userinfo__mother_tongue=language, userinfo__dob__range=(enddate, startdate)).values('user__first_name', 'userinfo__userimages__file', 'userinfo__dob')

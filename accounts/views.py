@@ -15,7 +15,9 @@ from random import randint
 import hashlib
 import datetime
 from django.utils import timezone
-
+import urllib.request
+import requests
+from social_django.models import UserSocialAuth
 from django.template.loader import render_to_string
 
 
@@ -185,7 +187,7 @@ class LoginView(TemplateView):
                     if user_profile.email_verified:
                         if user_profile.is_active:
                             if user.check_password(password):
-                                login(request, user)
+                                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                                 return redirect(reverse('home'))
                             else:
                                 messages.error(request, "Invalid Credentials")
@@ -332,3 +334,31 @@ class UserPsswordReset(TemplateView):
 #     def get_context_data(self, **kwargs):
 #         context = super().get_context_data(**kwargs)
 #         return context
+
+
+class SocialLogin(View):
+    def get(self, request, *args, **kwargs):
+        user = User.objects.get(username=request.user)
+        try:
+            user_profile = UserProfile.objects.get(user=user)
+            return redirect(reverse('home'))
+        except UserProfile.DoesNotExist:
+            access_token = UserSocialAuth.objects.get(user=user)
+            user_token = access_token.access_token
+            url = 'https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=' + user_token
+            r = requests.get(url)
+            userprofile_obj = UserProfile(
+                                    user=user,
+                                    is_user=True,
+                                    is_active=True,
+                                    email_verified=True)
+            userprofile_obj.save()
+            user_info_obj = UserInfo(user_profile=userprofile_obj)
+            user_info_obj.save()
+            if r.json()['picture']:
+                user_image_obj = UserImages(user_info=user_info_obj, file=r.json()['picture'], is_profile_pic=True)
+                user_image_obj.save()
+            return redirect(reverse('home'))
+
+
+
