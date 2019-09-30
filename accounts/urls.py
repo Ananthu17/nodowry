@@ -10,6 +10,7 @@ urlpatterns = [
     path('password/', ResetPasswordTemplate.as_view(), name='password'),
     path('forgot-password/', ResetPassword.as_view(), name='forgot-password'),
     path('social-login', SocialLogin.as_view(), name='social_login'),
+    path('otp-verification', OTPVerification.as_view(), name='otp-verification'),
     re_path(r'email-verification/(?P<activation_key>[\w-]+)/(?P<email>[\w.@+-]+)/', UserEmailVerification.as_view(), name='user-email-verification'),
     re_path(r'user-password-reset-email/(?P<reset_key>[\w-]+)/(?P<email>[\w.@+-]+)/', UserPsswordReset.as_view(), name='user-password-reset'),
 

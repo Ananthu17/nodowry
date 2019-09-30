@@ -63,7 +63,8 @@
                     </div>
                     <div class="col-sm-6">
                       <div class="form-group">
-                        <input type="text" class="form-control login-form" name="mobno" placeholder="Mobile no" required>
+                        <input type="tel" class="form-control login-form" name="mobno" placeholder="Mobile no" pattern="[0-9]{10}" title="Not a valid phone number" required>
+                          <span id="message"></span>
                       </div>
                     </div>
                   </div>
@@ -76,7 +77,7 @@
                     </div>
                     <div class="col-sm-6">
                       <div class="form-group">
-                        <input type="password" class="form-control login-form"  placeholder="Password" name="password" required>
+                        <input type="password" class="form-control login-form"  placeholder="Password" name="password" pattern="(?=.*\d)(?=.*[a-zA-Z]).{8,}" title="Must contain at least one number and one uppercase or lowercase letter, and at least 8 or more characters" required>
                       </div>
                     </div>
                   </div>
@@ -98,7 +99,7 @@
                     
                     <div class="form-check">
                       <input class="form-check-input" type="radio" name="termsandcondition" id="termsandconditions" value="terms" required>
-                      <label for="termsandconditions" class="termsandconditions">I agree the terms & conditions.<span> View</span></label>
+                        <label for="termsandconditions" class="termsandconditions">I agree the terms & conditions.<span><a href="#"> View</a></span></label>
                     </div>
                   </div>
                     {% for message in messages %}
@@ -113,12 +114,10 @@
                 </form>
               </div>
               <div class="fb-login text-center p-4">
-                  <p>Or login with</p>
-                  <a href="#"><p style="color: #3b5998;">FACEBOOK</p></a>
+                  <p>Or Register with</p>
+                  <a href="{% url 'social:begin' 'facebook' %}"><p style="color: #3b5998;">FACEBOOK</p></a>
                   <a href="/oauth/login/google-oauth2/"><p style="color: #3b5998;">GOOGLE</p></a>
               </div>
-              <hr class="someClass" />
-              <div class="CreateAccount text-center">Don’t have account? <a href="#">Register</a></div> 
               
             </section>
           </div>
@@ -158,6 +157,19 @@
          $("#imgInp").change(function(){
              readURL(this);
          });
+
+        function check()
+        {
+            var pass1 = document.getElementById('mobile');
+            var message = document.getElementById('message');
+            var badColor = "#FF9B37";
+            if(mobile.value.length != 10){
+                console.log(mobile.value.length)
+                mobile.style.backgroundColor = '#ffe9ee';
+                message.style.color = badColor;
+                message.innerHTML = "required 10 digits"
+            }
+        }
 
     </script>
 {% endblock %}

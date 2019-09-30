@@ -80,7 +80,8 @@ class RegisterView(TemplateView):
             #     html_message=email_content,
             #     fail_silently=False
             # )
-            # # messagetext = str(code) + " Is the OTP for NoDowry Martimony.NEVER SHARE YOUR OTP WITH ANYONE"
+
+            messagetext = str(code) + " Is the OTP for NoDowry Martimony.NEVER SHARE YOUR OTP WITH ANYONE"
 
             '''
             Sending otp for the users
@@ -118,7 +119,7 @@ class RegisterView(TemplateView):
                         sending verification mail to the user
                         '''
                         send_confirmation_email(context)
-                        message = "A verification mail has been send to registered mail id, Please confirm your mail Id"
+                        message = "A verification mail has been send to registered mail id, Please confirm your mail Id "
                         gender = request.POST.get('gender', "")
                         phone_number = request.POST.get('mobno', "")
                         dob = request.POST.get('dob', "")
@@ -139,7 +140,8 @@ class RegisterView(TemplateView):
                                                 is_user=True,
                                                 is_active=False,
                                                 activation_key=activation_key,
-                                                key_expires=activation_key_expiry
+                                                key_expires=activation_key_expiry,
+                                                # otp_message=code
                                                 )
                         userprofile_obj.save()
                         user_info_obj = UserInfo(
@@ -185,16 +187,20 @@ class LoginView(TemplateView):
                 user_profile = UserProfile.objects.get(user=user)
                 if not user.is_superuser:
                     if user_profile.email_verified:
-                        if user_profile.is_active:
-                            if user.check_password(password):
-                                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-                                return redirect(reverse('home'))
+                        # if user_profile.phone_number_verified:
+                            if user_profile.is_active:
+                                if user.check_password(password):
+                                    login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                                    return redirect(reverse('home'))
+                                else:
+                                    messages.error(request, "Invalid Credentials")
+                                    return redirect(reverse('login'))
                             else:
-                                messages.error(request, "Invalid Credentials")
+                                messages.error(request, "profile is blocked, Please contact admin")
                                 return redirect(reverse('login'))
-                        else:
-                            messages.error(request, "profile is blocked, Please contact admin")
-                            return redirect(reverse('login'))
+                        # else:
+                        #     messages.warning(request, "Please enter your otp")
+                        #     return redirect(reverse('otp-verification'))
                     else:
                         messages.error(request, "Email is not verified please.verification mail has been send to registered mail id")
                         return redirect(reverse('login'))
@@ -339,26 +345,57 @@ class UserPsswordReset(TemplateView):
 class SocialLogin(View):
     def get(self, request, *args, **kwargs):
         user = User.objects.get(username=request.user)
-        try:
-            user_profile = UserProfile.objects.get(user=user)
+        print(request)
+        usersocial = UserSocialAuth.objects.get(user=user)
+        if usersocial.provider == "facebook":
+            print(user.email)
             return redirect(reverse('home'))
-        except UserProfile.DoesNotExist:
-            access_token = UserSocialAuth.objects.get(user=user)
-            user_token = access_token.access_token
-            url = 'https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=' + user_token
-            r = requests.get(url)
-            userprofile_obj = UserProfile(
-                                    user=user,
-                                    is_user=True,
-                                    is_active=True,
-                                    email_verified=True)
-            userprofile_obj.save()
-            user_info_obj = UserInfo(user_profile=userprofile_obj)
-            user_info_obj.save()
-            if r.json()['picture']:
-                user_image_obj = UserImages(user_info=user_info_obj, file=r.json()['picture'], is_profile_pic=True)
-                user_image_obj.save()
-            return redirect(reverse('home'))
+        else:
+            try:
+                user_profile = UserProfile.objects.get(user=user)
+                return redirect(reverse('home'))
+            except UserProfile.DoesNotExist:
+                access_token = UserSocialAuth.objects.get(user=user)
+                user_token = access_token.access_token
+                url = 'https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=' + user_token
+                r = requests.get(url)
+                userprofile_obj = UserProfile(
+                                        user=user,
+                                        is_user=True,
+                                        is_active=True,
+                                        email_verified=True)
+                userprofile_obj.save()
+                user_info_obj = UserInfo(user_profile=userprofile_obj)
+                user_info_obj.save()
+                if r.json()['picture']:
+                    user_image_obj = UserImages(user_info=user_info_obj, file=r.json()['picture'], is_profile_pic=True)
+                    user_image_obj.save()
+                return redirect(reverse('home'))
+
+
+class OTPVerification(TemplateView):
+    template_name = 'accounts/otp-verification.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        otp = request.POST.get('otp', "")
+        if otp is not None:
+            try:
+                userprofile = UserProfile.objects.get(otp_message=otp)
+                userprofile.phone_number_verified = True
+                userprofile.save()
+                return redirect(reverse('home'))
+            except UserProfile.DoesNotExist:
+                messages.error(request, "enter a valid otp")
+                return redirect(reverse('otp-verification'))
+        else:
+            messages.error(request, "enter a valid otp")
+            return redirect(reverse('otp-verification'))
+
+
 
 
 

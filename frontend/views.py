@@ -40,3 +40,14 @@ class ConfirmYourEmail(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+
+class Profile(TemplateView):
+    template_name = 'frontend/profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = UserProfile.objects.get(id=41)
+        context['user_profile'] = user
+        return context
+
