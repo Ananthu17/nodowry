@@ -345,18 +345,13 @@ class UserPsswordReset(TemplateView):
 class SocialLogin(View):
     def get(self, request, *args, **kwargs):
         user = User.objects.get(username=request.user)
-        print(request)
-        usersocial = UserSocialAuth.objects.get(user=user)
-        if usersocial.provider == "facebook":
-            print(user.email)
+        try:
+            user_profile = UserProfile.objects.get(user=user)
             return redirect(reverse('home'))
-        else:
-            try:
-                user_profile = UserProfile.objects.get(user=user)
-                return redirect(reverse('home'))
-            except UserProfile.DoesNotExist:
-                access_token = UserSocialAuth.objects.get(user=user)
-                user_token = access_token.access_token
+        except UserProfile.DoesNotExist:
+            social_user = UserSocialAuth.objects.get(user=user)
+            if social_user.provider == "facebook":
+                user_token = social_user.access_token
                 url = 'https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=' + user_token
                 r = requests.get(url)
                 userprofile_obj = UserProfile(
@@ -371,7 +366,16 @@ class SocialLogin(View):
                     user_image_obj = UserImages(user_info=user_info_obj, file=r.json()['picture'], is_profile_pic=True)
                     user_image_obj.save()
                 return redirect(reverse('home'))
-
+            else:
+                userprofile_obj = UserProfile(
+                            user=user,
+                            is_user=True,
+                            is_active=True,
+                            email_verified=True)
+                userprofile_obj.save()
+                user_info_obj = UserInfo(user_profile=userprofile_obj)
+                user_info_obj.save()
+                return redirect(reverse('home'))
 
 class OTPVerification(TemplateView):
     template_name = 'accounts/otp-verification.html'
