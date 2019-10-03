@@ -16,14 +16,14 @@
                 <form method="post" action="" enctype="multipart/form-data">
                     {% csrf_token %}
                   <div class="form-group row">
-                    <label for="formGroupExampleInput" class="col-xl-1 col-lg-2 col-md-3 col-sm-2 col-3">
+                    <label for="formGroupExampleInput text-center" class="col-xl-2 col-lg-2 col-md-3 col-sm-2 col-3 profile-image-circular">
                         <input type="file" id="imgInp" name="uploadFromPC" style="display:none"/>
                         <a id="OpenImgUpload">
                             <img id="blah" src="{% static 'accounts/assets/images/reg-icon.png' %}" style="width: 55px;height: 55px; border-radius: 50px;"/>
                         </a>
                     </label>
-                    <div class="col-xl-11 col-lg-10 col-md-9 col-sm-10 col-9">
-                      <input type="text" class="form-control login-form" id="formGroupExampleInput" placeholder="Name" name="name" required>
+                    <div class="col-xl-10 col-lg-10 col-md-9 col-sm-10 col-9">
+                      <input type="text" class="form-control login-form" id="formGroupExampleInput" placeholder="Name" name="name" pattern="[A-Za-z ]{1,30}" title="Must contain only alphabets" required>
                     </div>
                   </div>
                   <div class="row">
@@ -37,12 +37,13 @@
                     </div>
                     <div class="col-sm-6">
                       <div class="form-group">
-                        <select name="gender" class="login-form form-control reg-dropdown" required>
+                        <select name="gender" class="login-form form-control reg-dropdown background-icon" required>
                           <option value="" disabled selected>Gender</option>
                           <option value="woman">Female</option>
                           <option value="men">Male</option>
                           <option value="others">Others</option>
                         </select>
+                        <img class="dropdown-image" src="{% static 'accounts/assets/images/drop-icon.png' %}">
                       </div>
                     </div>
                   </div>
@@ -51,7 +52,7 @@
                   <div class="row">
                     <div class="col-sm-6">
                       <div class="form-group">
-                        <select name="language" class="login-form form-control reg-dropdown" required>
+                        <select name="language" class="login-form form-control reg-dropdown background-icon" required>
                           <option value="" disabled selected>Mother Tongue</option>
                             {% if mother_tongue %}
                                 {% for language in mother_tongue %}
@@ -59,6 +60,7 @@
                                 {% endfor %}
                             {% endif %}
                         </select>
+                        <img class="dropdown-image" src="{% static 'accounts/assets/images/drop-icon.png' %}">
                       </div>  
                     </div>
                     <div class="col-sm-6">
@@ -72,7 +74,15 @@
                   <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                        <input type="email" class="form-control login-form" name="email" placeholder="Email id" required>
+                            <select name="religion" class="login-form form-control reg-dropdown background-icon" required>
+                          <option value="" disabled selected>Religion</option>
+                          {% if religions %}
+                                {% for religion in religions %}
+                                <option value="{{ religion.id }}">{{ religion.name|title  }}</option>
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                        <img class="dropdown-image" src="{% static 'accounts/assets/images/drop-icon.png' %}">
                       </div>
                     </div>
                     <div class="col-sm-6">
@@ -84,22 +94,15 @@
                   <div class="row">
                     <div class="col-sm-12">
                       <div class="form-group">
-                        <select name="religion" class="login-form form-control reg-dropdown" required>
-                          <option value="" disabled selected>Religion</option>
-                          {% if religions %}
-                                {% for religion in religions %}
-                                <option value="{{ religion.id }}">{{ religion.name|title  }}</option>
-                                {% endfor %}
-                            {% endif %}
-                        </select>
+                        <input type="email" class="form-control login-form" name="email" placeholder="Email id" required>
                       </div>
                     </div>
                   </div>
                   <div class="form-group text-right">
                     
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="termsandcondition" id="termsandconditions" value="terms" required>
-                        <label for="termsandconditions" class="termsandconditions">I agree the terms & conditions.<span><a href="#"> View</a></span></label>
+                      <input class="form-check-input" type="checkbox" name="termsandcondition" id="termsandconditions" value="terms" required>
+                        <label for="termsandconditions" class="termsandconditions">I agree the terms & conditions. <a href="#"><span>View</span></a></label>
                     </div>
                   </div>
                     {% for message in messages %}
@@ -109,24 +112,25 @@
                         </div>
                     {% endfor %}
                   <div class="submit-button">
-                    <button type="submit" class="btn">Register</button>
+                    <button type="submit" class="btn"><h5 class="btn-text">Register</h5></button>
                   </div>
                 </form>
               </div>
               <div class="fb-login text-center p-4">
                   <p>Or Register with</p>
-                  <a href="{% url 'social:begin' 'facebook' %}"><p style="color: #3b5998;">FACEBOOK</p></a>
-                  <a href="/oauth/login/google-oauth2/"><p style="color: #3b5998;">GOOGLE</p></a>
+                  <a href="{% url 'social:begin' 'facebook' %}"><p style="color: #3b5998; font-size: medium;">FACEBOOK</p></a>
+                  <a href="/oauth/login/google-oauth2/"><p style="color: #3b5998; font-size: medium;">GOOGLE</p></a>
               </div>
-              
+              <hr class="someClass" />
+              <div class="CreateAccount text-center">Already a member?  <a href="{% url 'login' %}">Login</a></div>
             </section>
           </div>
           <div class="col-md-6 col-lg-7 d-none d-sm-block">
-            <section class="right register-section">
+            <section class="register-section">
                 <div class="row justify-content-md-center">
                   <div class="col-lg-10 bottom-text text-center">
                     <p class="p-4">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
-                    <p>2019 © All rights reserved.</p>
+                    <p class="all-rights-received">2019 © All rights reserved.</p>
                   </div>
                 </div>
             </section>
@@ -170,6 +174,19 @@
                 message.innerHTML = "required 10 digits"
             }
         }
+        var newDate = new Date();
+        newDate.setFullYear( newDate.getFullYear() - 18);
+        console.log(newDate);
 
+        newDateDay = new Date();
+        newDateDay.setFullYear(newDateDay.getFullYear() - 17)
+        console.log(newDateDay);
+
+        $(function () {
+          $("#datepicker").datepicker({
+                autoclose: true,
+                endDate : newDateDay,
+          }).datepicker('update', newDate);
+        });
     </script>
 {% endblock %}

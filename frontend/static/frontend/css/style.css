@@ -532,3 +532,11 @@ img.gallery-front-images{
     margin-top: auto;
     margin-bottom: auto;
 }
+
+
+.carousel-control-next, .carousel-control-prev {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}

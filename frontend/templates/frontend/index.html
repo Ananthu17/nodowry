@@ -15,7 +15,7 @@
   </head>
   <body>
 
-    <!-- INtro section -->
+    <!-- Intro section -->
     <section class="intro">
       <div class="container-fluid">
 
@@ -38,7 +38,7 @@
                                 </p>
                                 <select name="gender" class="quicksearchDropdown form-control" required>
                                     <option value="woman">Woman</option>
-                                    <option value="men">Men</option>
+                                    <option value="man">Men</option>
                                     <option value="others">Others</option>
                                 </select>
                             </div>
@@ -48,19 +48,7 @@
                                 <p  class="searchItem">
                                     aged
                                 </p>
-                                <select name="agefrom" class="quicksearchDropdown form-control" required>
-                                    <option value="19">19</option>
-                                    <option value="20">20</option>
-                                    <option value="21">21</option>
-                                    <option value="22">22</option>
-                                    <option value="23">23</option>
-                                    <option value="24">24</option>
-                                    <option value="25">25</option>
-                                    <option value="26">26</option>
-                                    <option value="27">27</option>
-                                    <option value="28">28</option>
-                                    <option value="29">29</option>
-                                    <option value="30">30</option>
+                                <select name="agefrom" class="quicksearchDropdown form-control agefrom" onchange='changeAge(this.value);' required>
                                 </select>
                             </div>
                         </div>
@@ -76,19 +64,8 @@
                                 <p  class="searchItem">
                                     &nbsp;
                                 </p>
-                                <select name="ageto" class="quicksearchDropdown form-control" required>
-                                    <option value="19">19</option>
-                                    <option value="20">20</option>
-                                    <option value="21">21</option>
-                                    <option value="22">22</option>
-                                    <option value="23">23</option>
-                                    <option value="24">24</option>
-                                    <option value="25">25</option>
-                                    <option value="26">26</option>
-                                    <option value="27">27</option>
-                                    <option value="28">28</option>
-                                    <option value="29">29</option>
-                                    <option value="30">30</option>
+                                <select name="ageto" class="quicksearchDropdown form-control ageto" required>
+                                    <option value="none" selected>select from age</option>
                                 </select>
                             </div>
                         </div>
@@ -530,7 +507,7 @@
             </div>
             <div class="col-lg-6 col-md-12 text-center text-soulmate">
                 <h1>Find your soulmate </h1>
-                <h5>And create a wonderfull story together</h5>
+                <h5>And create a wonderful story together</h5>
             </div>
             <div class="col-lg-2 col-md-12 text-center get-started-button">
                 <button class="p-4"><h4>GET STARTED</h4></button>
@@ -549,13 +526,16 @@
         </div>
 
         <div class="row">
-            <div class="col-md-1">
-<!--                <i class="fa fa-arrow-left" aria-hidden="true"></i>-->
+            <div class="d-none d-sm-none d-md-block col-md-1 col-lg-1">
+                <a class="carousel-control-prev pl-5 " href="#myCarousel" role="button" data-slide="prev">
+                    <img src="{% static 'frontend/images/icons/awards-prev.png' %}">
+                </a>
             </div>
-            <div class="col-10  align-self-center">
+            <div class="col-md-10 col-12 align-self-center">
                 <div id="myCarousel" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner row w-100 mx-auto">
-                        <div class="carousel-item col-md-4 col-sm-12 active p-5">
+
+                        <div class="carousel-item col-lg-4 col-md-6 col-sm-12 active p-md-5 p-sm-0 p-0">
                             <div class="card" style="width: 18rem;">
                                 <div class="awards-card">
                                     <div class="card" style="width: 18rem;">
@@ -570,11 +550,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="carousel-item col-lg-4 col-md-6 col-sm-12 p-5">
+
+
+                        <div class="carousel-item col-lg-4 col-md-6 col-sm-12 p-md-5 p-sm-0 p-0">
                             <div class="awards-card">
                                 <div class="card" style="width: 18rem;">
                                     <div class="card-body award-card-body">
-                                        <h5 class="card-title card-awards-title">Times Award</h5>
+                                        <h5 class="card-title card-awards-title">Weds Award</h5>
                                         <div class="text-center">
                                             <img class="trophy-img" src="{% static 'frontend/images/winner.png' %}" alt="">
                                         </div>
@@ -583,11 +565,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="carousel-item col-lg-4 col-md-6 col-sm-12 p-5">
+
+                        <div class="carousel-item col-lg-4 col-md-6 col-sm-12 p-md-5 p-sm-0 p-0">
                             <div class="awards-card">
                                 <div class="card" style="width: 18rem;">
                                     <div class="card-body award-card-body">
-                                        <h5 class="card-title card-awards-title">Times Award</h5>
+                                        <h5 class="card-title card-awards-title">CNN Award</h5>
                                         <div class="text-center">
                                             <img class="trophy-img" src="{% static 'frontend/images/winner.png' %}" alt="">
                                         </div>
@@ -596,11 +579,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="carousel-item col-lg-4 col-md-6 col-sm-12 p-5">
+
+                        <div class="carousel-item col-lg-4 col-md-6 col-sm-12 p-md-5 p-sm-0 p-0">
                             <div class="awards-card">
                                 <div class="card" style="width: 18rem;">
                                     <div class="card-body award-card-body">
-                                        <h5 class="card-title card-awards-title">Times Award</h5>
+                                        <h5 class="card-title card-awards-title">IBM Award</h5>
                                         <div class="text-center">
                                             <img class="trophy-img" src="{% static 'frontend/images/winner.png' %}" alt="">
                                         </div>
@@ -609,58 +593,26 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="carousel-item col-lg-4 col-md-6 col-sm-12 p-5">
-                            <div class="awards-card">
-                                <div class="card" style="width: 18rem;">
-                                    <div class="card-body award-card-body">
-                                        <h5 class="card-title card-awards-title">Times Award</h5>
-                                        <div class="text-center">
-                                            <img class="trophy-img" src="{% static 'frontend/images/winner.png' %}" alt="">
-                                        </div>
-                                        <p class="award-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item col-lg-4 col-md-6 col-sm-12 p-5">
-                            <div class="awards-card">
-                                <div class="card" style="width: 18rem;">
-                                    <div class="card-body award-card-body">
-                                        <h5 class="card-title card-awards-title">Times Award</h5>
-                                        <div class="text-center">
-                                            <img class="trophy-img" src="{% static 'frontend/images/winner.png' %}" alt="">
-                                        </div>
-                                        <p class="award-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item col-lg-4 col-md-6 col-sm-12 p-5">
-                            <div class="awards-card">
-                                <div class="card" style="width: 18rem;">
-                                    <div class="card-body award-card-body">
-                                        <h5 class="card-title card-awards-title">Times Award</h5>
-                                        <div class="text-center">
-                                            <img class="trophy-img" src="{% static 'frontend/images/winner.png' %}" alt="">
-                                        </div>
-                                        <p class="award-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
+
+
+
                     </div>
-                    <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
+
+{#                    <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">#}
+{#                        <span class="carousel-control-prev-icon"></span>#}
+{#                        <span class="sr-only">Previous</span>#}
+{#                    </a>#}
+{#                    <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">#}
+{#                        <span class="carousel-control-next-icon"></span>#}
+{#                        <span class="sr-only">Next</span>#}
+{#                    </a>#}
                 </div>
             </div>
-            <div class="col-1">
-<!--                <i class="fa fa-arrow-right" aria-hidden="true"></i>-->
+            <div class="d-none d-sm-none d-md-block col-md-1">
+                <a class="carousel-control-next pr-5" href="#myCarousel" data-slide="next">
+                    <img src="{% static 'frontend/images/icons/arards-next.png' %}">
+                </a>
             </div>
         </div>
 
@@ -678,7 +630,7 @@
                 <h1>Subscribe</h1>
             </div>
         </div>
-        <h1 class="text-center p-5">Enter your email address and get latest offers and updates</h1>
+        <h2 class="text-center p-5">Enter your email address and get latest offers and updates</h2>
 
         <form class="pb-5">
             <div class="row justify-content-center">
@@ -722,7 +674,27 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script type="text/javascript" src="{% static 'frontend/js/style.js' %}"></script>
     <script>
+
+
+        function changeAge(val){
+            var $selectageto = $(".ageto");
+            $selectageto.empty();
+            for (i=val;i<=50;i++){
+                $selectageto.append($('<option></option>').val(i).html(i))
+            }
+        }
+
       $(document).ready(function() {
+        $(function(){
+            var $selectagefrom = $(".agefrom");
+            for (i=18;i<=50;i++){
+                $selectagefrom.append($('<option></option>').val(i).html(i))
+            }
+        });
+        console.log($("#aioConceptName").val());
+
+
+
         $("#myCarousel").on("slide.bs.carousel", function(e) {
             var $e = $(e.relatedTarget);
             var idx = $e.index();

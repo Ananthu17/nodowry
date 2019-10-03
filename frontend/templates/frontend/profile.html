@@ -1,0 +1,23 @@
+{% extends 'frontend/base-bootstrap.html' %}
+{% load static %}
+
+{% block extrastyle %}
+    <link href="{% static 'frontend/css/filter.css' %}" rel="stylesheet"/>
+    <link href="{% static 'frontend/css/profile.css' %}" rel="stylesheet"/>
+{% endblock %}
+{% block content %}
+<!-- navbar -->
+    {% include "frontend/filter-nav.html" %}
+<!-- navber ends-->
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-4">
+                <h1>{{ user_profile.user.first_name }}</h1>
+            </div>
+            <div class="col-4">
+                <h5>ND{{ user_profile.id }}</h5>
+            </div>
+        </div>
+    </div>
+{% endblock %}

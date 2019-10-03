@@ -159,7 +159,7 @@ class RegisterView(TemplateView):
                         messages.error(request, "Something went wrong")
                         return redirect('register')
                 else:
-                    messages.error(request, "user is already exists")
+                    messages.error(request, "user is already exist")
                     return redirect('register')
             else:
                 messages.error(request, "Username and password is not valid")
@@ -202,7 +202,7 @@ class LoginView(TemplateView):
                         #     messages.warning(request, "Please enter your otp")
                         #     return redirect(reverse('otp-verification'))
                     else:
-                        messages.error(request, "Email is not verified please.verification mail has been send to registered mail id")
+                        messages.error(request, "Email is not verified.")
                         return redirect(reverse('login'))
                 else:
                     messages.error("Invalid Credentials")

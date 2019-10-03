@@ -3,6 +3,10 @@
   font-family: 'Proxima Nova - Semibold';
   src: url("/static/accounts/assets/fonts/FontsFree-Net-FontsFree-Net-Proxima-Nova-Sbold.ttf") format('truetype');
 }
+@font-face {
+  font-family: 'Montserrat', sans-serif;
+  src: url("https://fonts.googleapis.com/css?family=Montserrat&display=swap") format('truetype');
+}
 body{
 	font-family: 'Proxima Nova - Semibold';
 
@@ -32,7 +36,8 @@ body{
   font-size: 1rem;
 }
 .forgotPassword{
-	font-size: x-large;
+	font-family: "Proxima Nova T - Thin";
+	font-size: medium;
 	color: #ff8c00;
 }
 .forgotPassword span{
@@ -67,6 +72,10 @@ hr.someClass {
 }
 .register-section{
 	background-image: url("/static/accounts/assets/images/register-bg.png");
+	background-repeat: no-repeat;
+  	background-size: 100% 100%;
+  	color: white;
+  	height: 100%;
 }
 .reg-dropdown{
 	height: calc(3.25rem + 6px) !important;
@@ -78,8 +87,31 @@ button.btn-outline-secondary{
 	display: none;
 	visibility: hidden;
 }
+select.background-icon{
+	-webkit-appearance: none !important;
+	position: relative;
+}
+img.dropdown-image{
+    position: absolute;
+    right: 35px;
+    top: 26px;
+}
+.profile-image-circular{
+	padding-left: 50px !important;
+}
+@media only screen and (min-device-width: 1000px) and (max-device-width: 1400px){
+      .profile-image-circular{
+		  padding-left: 20px !important;
+	  }
+}
 
-
+.btn-text{
+	margin-top: auto;
+    margin-bottom: auto;
+}
+.all-rights-received{
+	font-family: 'Montserrat', sans-serif;
+}
 
 
 

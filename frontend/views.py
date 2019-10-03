@@ -28,9 +28,11 @@ class QuickFilter(TemplateView):
         currentdate = date.today()
         startdate = currentdate.replace(currentdate.year - agefrom)
         enddate = currentdate.replace(currentdate.year - ageto)
-        userprofile = UserProfile.objects.filter(is_active=True, gender=gender, userinfo__religion=religion_id, userinfo__mother_tongue=language, userinfo__dob__range=(enddate, startdate)).values('user__first_name', 'userinfo__userimages__file', 'userinfo__dob')
+        userprofile = UserProfile.objects.filter(is_active=True, gender=gender, userinfo__religion=religion_id, userinfo__mother_tongue=language, userinfo__dob__range=(enddate, startdate)).values('user__first_name', 'userinfo__userimages__file', 'userinfo__dob', 'gender')
         context['user_profile'] = userprofile
         context['user_count'] = userprofile.count()
+        context['agefrom'] = agefrom
+        context['ageto'] = ageto
         return context
 
 
