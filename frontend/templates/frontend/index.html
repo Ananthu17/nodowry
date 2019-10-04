@@ -38,7 +38,7 @@
                                 </p>
                                 <select name="gender" class="quicksearchDropdown form-control" required>
                                     <option value="woman">Woman</option>
-                                    <option value="man">Men</option>
+                                    <option value="man">Man</option>
                                     <option value="others">Others</option>
                                 </select>
                             </div>
@@ -95,8 +95,8 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12 text-center p-2">
-                            <button class="quickSearchButton">LET'S BEGIN</button>
+                        <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12 text-center my-auto">
+                            <button class="quickSearchButton px-5 py-4"">LET'S BEGIN</button>
                         </div>
                     </div>
                 </form>
@@ -464,21 +464,25 @@
 
     <!-- section-3 testimonials -->
     <section class="testimonials pb-5">
-      <div class="container-fluid p-5">
-        <div class="row">
-          <div class="col-sm-12 col-12 col-lg-5 p-5">
-            <h1 class="card-title">Our 'happly ever after' couples</h1>
-            <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature</p>
+      <div class="container-fluid p-md-5">
+      <div class="couple-text py-5">
+          <div class="row">
+          <div class="col-sm-12 col-12 col-lg-10">
+            <h2 class="card-title text-couples">Our 'happily ever after' couples</h2>
+          </div>
+          <div class="col-sm-12 col-12 col-lg-5">
+            <h5>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature</h5>
           </div>
         </div>
+      </div>
         <div class="row pb-5">
-            <div class="col-12 col-sm-12 col-lg-5">
+            <div class="col-12 col-sm-12 col-lg-6 col-xl-5">
                 <div class="card">
                     <div class="card-body ">
                         <h5 class="card-title card-quote"><img class="m-1" src="{% static 'frontend/images/icons/quots.png' %}" /></h5>
                         <p class="card-text">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock,</p>
                         <div class="row">
-                            <div class="col-4 col-sm-3 col-md-2">
+                            <div class="col-4 col-sm-3 col-md-2 col-lg-3 col-xl-3">
                                 <div class="profile-pic">
                                   <img src="{% static 'frontend/images/Layer_17.png' %}" style="width: -webkit-fill-available;">
                                 </div>
@@ -505,12 +509,12 @@
             <div class="col-lg-4 col-md-12 text-center">
               <img src="{% static 'frontend/images/Layer_18.png' %}">
             </div>
-            <div class="col-lg-6 col-md-12 text-center text-soulmate">
+            <div class="col-lg-5 col-md-12 text-center text-soulmate">
                 <h1>Find your soulmate </h1>
                 <h5>And create a wonderful story together</h5>
             </div>
-            <div class="col-lg-2 col-md-12 text-center get-started-button">
-                <button class="p-4"><h4>GET STARTED</h4></button>
+            <div class="col-lg-3 col-md-12 text-center get-started-button">
+                <button class="p-4"><h5 class="text-soulmate">GET STARTED</h5></button>
             </div>
           </div>
         </div>
@@ -609,8 +613,8 @@
 {#                    </a>#}
                 </div>
             </div>
-            <div class="d-none d-sm-none d-md-block col-md-1">
-                <a class="carousel-control-next pr-5" href="#myCarousel" data-slide="next">
+            <div class="d-none d-sm-none d-md-block col-md-1 col-lg-1">
+                <a class="carousel-control-next" href="#myCarousel" data-slide="next">
                     <img src="{% static 'frontend/images/icons/arards-next.png' %}">
                 </a>
             </div>
@@ -620,25 +624,25 @@
     </div>
 
     <!-- section subscribe -->
-    <section class="subscribe p-5">
+    <section class="subscribe p-md-5 pt-5">
       <div class="container-fluid">
         <div class="row justify-content-center">
-           <div class="col-lg-1 col-md-2 col-12 d-inline text-center">
+           <div class="col-xl-1 col-lg-2 col-md-2 col-12 d-inline text-center">
                <img class="d-inline" src="{% static 'frontend/images/icons/subscribe.png' %}" alt="">
            </div>
-            <div class="col-lg-2 col-md-4 col-12 subscribe-head text-center">
-                <h1>Subscribe</h1>
+            <div class="col-xl-2 col-lg-2 col-md-4 col-12 subscribe-head text-center">
+                <h3>Subscribe</h3>
             </div>
         </div>
-        <h2 class="text-center p-5">Enter your email address and get latest offers and updates</h2>
+        <h4 class="text-center p-md-5 pt-5">Enter your email address and get latest offers and updates</h4>
 
         <form class="pb-5">
             <div class="row justify-content-center">
-                <div class="col-xl-4 col-lg-4 col-md-4 col-7">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-12">
                     <input type="text" class="form-control" placeholder="Email Address">
                 </div>
-                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-6">
-                    <button type="submit" class="btn subscribe-btn"><h5>SUBSCRIBE</h5></button>
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-6 pt-3 pt-md-0">
+                    <button type="submit" class="btn subscribe-btn py-4"><h6>SUBSCRIBE</h6></button>
                 </div>
             </div>
         </form>
