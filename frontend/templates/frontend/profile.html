@@ -11,12 +11,44 @@
 <!-- navber ends-->
 
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-4">
-                <h1>{{ user_profile.user.first_name }}</h1>
+        <div class="profile-main p-5">
+            <div class="card card-pink p-1">
+                <div class="row">
+                    <div class="col-1">
+                        <div>
+                            <img class="profile-pic" src="{% static 'frontend/images/gallery/vijay-govid.jpg' %}" alt="">
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <h4>{{ user_profile.user.first_name }}</h4>
+                        Age : 29 <br />
+                        Religion : Hindu,Nair<br />
+                        Ph No: 5885588558 <br />
+                        Email id: Abcd1234@ert.nju <br />
+                    </div>
+                    <div class="col-4">
+                        <button class="btn primary">
+                            <h7>Edit</h7>
+                        </button>
+                        <h6>NDM{{ user_profile.id }}</h6>
+                    </div>
+                </div>
             </div>
-            <div class="col-4">
-                <h5>ND{{ user_profile.id }}</h5>
+            <div class="p-5"></div>
+            <div class="card card-pink p-1">
+                <div class="row">
+                    <div class="col-1">
+                        <div>
+                            <h4>{{ user_profile.user.first_name }}</h4>
+                            Age : 29 <br />
+                            Religion : Hindu,Nair<br />
+                            Ph No: 5885588558 <br />
+                            Email id: Abcd1234@ert.nju <br />
+                        </div>
+                    </div>
+                    <div class="col-3">
+                    </div>
+                </div>
             </div>
         </div>
     </div>

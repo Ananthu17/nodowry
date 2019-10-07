@@ -26,7 +26,7 @@ class UserProfile(models.Model):
     # )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     gender = models.CharField(max_length=10,  default='-')
-    phone_number = models.CharField(max_length=12)
+    phone_number = models.CharField(max_length=12, unique=True)
     reset_key = models.CharField(max_length=30, blank=True, null=True, default='')
     reset_key_expiration = models.DateTimeField(default=None, blank=True, null=True)
     is_active = models.BooleanField(default=True)
@@ -38,7 +38,7 @@ class UserProfile(models.Model):
     key_expires = models.DateTimeField(default=timezone.now, blank=True)
     email_verified = models.BooleanField(default=False)
     otp_message = models.IntegerField(blank=True, null=True)
-    phone_number_verified = models.BooleanField(default=False)
+    phone_number_verified = models.BooleanField(default=False, null=True)
 
     def __str__(self):
         return self.user.username

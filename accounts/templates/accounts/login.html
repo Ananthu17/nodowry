@@ -3,51 +3,55 @@
 
 {% block content %}
     <div class="container-fluid  login-section">
-      <div class="p-2">
         <div class="row">
-          <div class="col-md-6 col-lg-5">
+          <div class="col-md-6 col-lg-4">
             <section class="left p-4">
-            <a href="{% url 'home' %}">
-              <img class="img-fluid mt-3" src="{% static 'accounts/assets/images/logo.png' %}" alt="">
-            </a>
-              <div class="login">
-                <h2>Login</h2>
-                <form method="post" action="">
-                    {% csrf_token %}
-                  <div class="form-group p-2">
-                    <!-- <label for="formGroupExampleInput">Example label</label> -->
-                    <input type="email" class="form-control login-form" id="formGroupExampleInput" placeholder="Email Id" name="username" required>
+                <div class="login-left-section">
+                    <a href="{% url 'home' %}">
+                      <img class="img-fluid mt-3" src="{% static 'accounts/assets/images/logo.png' %}" alt="">
+                    </a>
+                  <div class="login">
+                    <h2>Login</h2>
+                    <form method="post" action="">
+                        {% csrf_token %}
+                      <div class="form-group p-1">
+                        <!-- <label for="formGroupExampleInput">Example label</label> -->
+                        <input type="email" class="form-control login-form" id="formGroupExampleInput" placeholder="Email Id" name="username" required>
+                      </div>
+                       <div class="form-group p-1">
+                        <!-- <label for="formGroupExampleInput">Example label</label> -->
+                        <input type="tel" class="form-control login-form" id="formGroupExampleInput1" placeholder="Mob No" name="mobno" required>
+                      </div>
+                      <div class="form-group p-1">
+                        <!-- <label for="formGroupExampleInput2">Another label</label> -->
+                        <input type="password" class="form-control login-form" id="formGroupExampleInput2" placeholder="Password" name="password" required>
+                      </div>
+                      <div class="form-group text-right">
+                          <label for="forgotPassword" class="forgotPassword"><span>Forgot </span><a href="{% url 'forgot-password' %}" class="forgotPassword">Password?</a></label>
+                      </div>
+                        {% for message in messages %}
+                            <div class="alert alert-warning">
+                                <a class="close" href="#" data-dismiss="alert">×</a>
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                      <div class="submit-button">
+                          <button type="submit" class="btn"><h5 class="btn-text">Login</h5></button>
+                      </div>
+                    </form>
                   </div>
-                  <div class="form-group p-2">
-                    <!-- <label for="formGroupExampleInput2">Another label</label> -->
-                    <input type="password" class="form-control login-form" id="formGroupExampleInput2" placeholder="Password" name="password" required>
+                  <div class="fb-login text-center pt-2">
+                      <p>Or login with</p>
+    {#                  <a href="{% url 'social:begin' 'facebook' %}"><p style="color: #3b5998; font-size: medium;"">FACEBOOK</p></a>#}
+                      <a href="#"><p style="color: #3b5998; font-size: medium;"">FACEBOOK</p></a>
+                      <a href="/oauth/login/google-oauth2/"><p style="color: #3b5998; font-size: medium;"">GOOGLE</p></a>
                   </div>
-                  <div class="form-group text-right">
-                      <label for="forgotPassword" class="forgotPassword"><span>Forgot </span><a href="{% url 'forgot-password' %}" class="forgotPassword">Password?</a></label>
-                  </div>
-                    {% for message in messages %}
-                        <div class="alert alert-warning">
-                            <a class="close" href="#" data-dismiss="alert">×</a>
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                    <div class="pt-4"></div>
-                  <div class="submit-button">
-                      <button type="submit" class="btn"><h5 class="btn-text">Login</h5></button>
-                  </div>
-                </form>
-              </div>
-              <div class="fb-login text-center p-4">
-                  <p>Or login with</p>
-                  <a href="{% url 'social:begin' 'facebook' %}"><p style="color: #3b5998; font-size: medium;"">FACEBOOK</p></a>
-                  <a href="/oauth/login/google-oauth2/"><p style="color: #3b5998; font-size: medium;"">GOOGLE</p></a>
-              </div>
-              <hr class="someClass" />
-              <div class="CreateAccount text-center">Don’t have account? <a href="{% url 'register' %}">Register</a></div>
-              
+                </div>
+                <hr class="someClass" />
+                  <div class="CreateAccount text-center">Don’t have account? <a href="{% url 'register' %}">Register</a></div>
             </section>
           </div>
-          <div class="col-md-6 col-lg-7 d-none d-sm-block">
+          <div class="col-lg-8 d-none d-sm-none d-md-block col-md-6">
             <section class="right">
                 <div class="row justify-content-md-center">
                   <div class="col-lg-10 bottom-text text-center">
@@ -58,6 +62,5 @@
             </section>
           </div>   
         </div>
-      </div>
     </div>
 {% endblock %}

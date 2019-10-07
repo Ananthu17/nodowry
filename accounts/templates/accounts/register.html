@@ -23,7 +23,7 @@
                         </a>
                     </label>
                     <div class="col-xl-10 col-lg-10 col-md-9 col-sm-10 col-9">
-                      <input type="text" class="form-control login-form" id="formGroupExampleInput" placeholder="Name" name="name" pattern="[A-Za-z ]{1,30}" title="Must contain only alphabets" required>
+                      <input type="text" class="form-control login-form" id="formGroupExampleInput" placeholder="Name" name="name" pattern="[A-Za-z ]{1,30}" title="Only alphabets and less than 32 characters" required>
                     </div>
                   </div>
                   <div class="row">
@@ -65,8 +65,15 @@
                     </div>
                     <div class="col-sm-6">
                       <div class="form-group">
-                        <input type="tel" class="form-control login-form" name="mobno" placeholder="Mobile no" pattern="[0-9]{10}" title="Not a valid phone number" required>
-                          <span id="message"></span>
+                          <select name="religion" class="login-form form-control reg-dropdown background-icon" required>
+                            <option value="" disabled selected>Religion</option>
+                            {% if religions %}
+                                {% for religion in religions %}
+                                <option value="{{ religion.id }}">{{ religion.name|title  }}</option>
+                                {% endfor %}
+                            {% endif %}
+                          </select>
+                        <img class="dropdown-image" src="{% static 'accounts/assets/images/drop-icon.png' %}">
                       </div>
                     </div>
                   </div>
@@ -74,27 +81,20 @@
                   <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <select name="religion" class="login-form form-control reg-dropdown background-icon" required>
-                          <option value="" disabled selected>Religion</option>
-                          {% if religions %}
-                                {% for religion in religions %}
-                                <option value="{{ religion.id }}">{{ religion.name|title  }}</option>
-                                {% endfor %}
-                            {% endif %}
-                        </select>
-                        <img class="dropdown-image" src="{% static 'accounts/assets/images/drop-icon.png' %}">
+                           <input type="email" class="form-control login-form" name="email" placeholder="Email id" required>
                       </div>
                     </div>
                     <div class="col-sm-6">
                       <div class="form-group">
-                        <input type="password" class="form-control login-form"  placeholder="Password" name="password" pattern="(?=.*\d)(?=.*[a-zA-Z]).{8,}" title="Must contain at least one number and one uppercase or lowercase letter, and at least 8 or more characters" required>
+                          <input type="tel" class="form-control login-form" name="mobno" placeholder="Mobile no" pattern="[0-9]{10}" title="Not a valid phone number" required>
+                           <span id="message"></span>
                       </div>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-sm-12">
                       <div class="form-group">
-                        <input type="email" class="form-control login-form" name="email" placeholder="Email id" required>
+                        <input type="password" class="form-control login-form"  placeholder="Password" name="password" pattern="(?=.*\d)(?=.*[a-zA-Z]).{8,}" title="Must contain at least one number and one uppercase or lowercase letter, and at least 8 or more characters" required>
                       </div>
                     </div>
                   </div>
@@ -118,7 +118,8 @@
               </div>
               <div class="fb-login text-center p-4">
                   <p>Or Register with</p>
-                  <a href="{% url 'social:begin' 'facebook' %}"><p style="color: #3b5998; font-size: medium;">FACEBOOK</p></a>
+{#                  <a href="{% url 'social:begin' 'facebook' %}"><p style="color: #3b5998; font-size: medium;">FACEBOOK</p></a>#}
+                  <a href="#"><p style="color: #3b5998; font-size: medium;">FACEBOOK</p></a>
                   <a href="/oauth/login/google-oauth2/"><p style="color: #3b5998; font-size: medium;">GOOGLE</p></a>
               </div>
               <hr class="someClass" />
@@ -184,6 +185,7 @@
 
         $(function () {
           $("#datepicker").datepicker({
+                format: 'dd/mm/yyyy',
                 autoclose: true,
                 endDate : newDateDay,
           }).datepicker('update', newDate);

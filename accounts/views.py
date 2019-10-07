@@ -137,6 +137,7 @@ class RegisterView(TemplateView):
                                                 user=user,
                                                 gender=gender,
                                                 phone_number=phone_number,
+                                                phone_number_verified=False,
                                                 is_user=True,
                                                 is_active=False,
                                                 activation_key=activation_key,
@@ -160,7 +161,7 @@ class RegisterView(TemplateView):
                         return redirect('register')
                 else:
                     messages.error(request, "user is already exist")
-                    return redirect('register')
+                    return redirect('login')
             else:
                 messages.error(request, "Username and password is not valid")
                 return redirect(reverse('register'))
@@ -184,28 +185,33 @@ class LoginView(TemplateView):
         if username != "" and password != "":
             try:
                 user = User.objects.get(username=username)
-                user_profile = UserProfile.objects.get(user=user)
-                if not user.is_superuser:
-                    if user_profile.email_verified:
-                        # if user_profile.phone_number_verified:
-                            if user_profile.is_active:
-                                if user.check_password(password):
-                                    login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-                                    return redirect(reverse('home'))
+                try:
+                    user_profile = UserProfile.objects.get(user=user)
+                    if not user.is_superuser:
+                        if user_profile.email_verified:
+                            # if user_profile.phone_number_verified:
+                                if user_profile.is_active:
+                                    if user.check_password(password):
+                                        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                                        return redirect(reverse('home'))
+                                    else:
+                                        messages.error(request, "Invalid Credentials")
+                                        return redirect(reverse('login'))
                                 else:
-                                    messages.error(request, "Invalid Credentials")
+                                    messages.error(request, "profile is blocked, Please contact admin")
                                     return redirect(reverse('login'))
-                            else:
-                                messages.error(request, "profile is blocked, Please contact admin")
-                                return redirect(reverse('login'))
-                        # else:
-                        #     messages.warning(request, "Please enter your otp")
-                        #     return redirect(reverse('otp-verification'))
+                            # else:
+                            #     messages.warning(request, "Please enter your otp")
+                            #     return redirect(reverse('otp-verification'))
+                        else:
+                            messages.error(request, "Email is not verified.")
+                            return redirect(reverse('login'))
                     else:
-                        messages.error(request, "Email is not verified.")
-                        return redirect(reverse('login'))
-                else:
-                    messages.error("Invalid Credentials")
+                        messages.error("Invalid Credentials")
+                except UserProfile.DoesNotExist:
+                    message = "Something went wrong"
+                    messages.error(request, message)
+                    return redirect(reverse('login'))
             except User.DoesNotExist:
                 messages.error(request, "Invalid credentials, Please try again")
                 return redirect(reverse('login'))
@@ -376,6 +382,7 @@ class SocialLogin(View):
                 user_info_obj = UserInfo(user_profile=userprofile_obj)
                 user_info_obj.save()
                 return redirect(reverse('home'))
+
 
 class OTPVerification(TemplateView):
     template_name = 'accounts/otp-verification.html'
