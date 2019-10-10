@@ -95,70 +95,74 @@ class RegisterView(TemplateView):
 
             if email is not None:
                 if not User.objects.filter(username=email):
-                    try:
-                        user = User.objects.create_user(username=email, first_name=name, email=email, password=password)
-                        user.save()
-                        '''
-                        We generate a random activation key
-                        '''
-                        usernamesalt = email
-                        activation_key = hashlib.sha256((str(random.getrandbits(256)) + usernamesalt).encode('utf-8')).hexdigest()
-                        activation_key_expiry = datetime.datetime.strftime(datetime.datetime.now() + datetime.timedelta(days=2), "%Y-%m-%d %H:%M:%S")
+                    if not UserProfile.objects.filter(phone_number = phone_number):
+                        try:
+                            user = User.objects.create_user(username=email, first_name=name, email=email, password=password)
+                            user.save()
+                            '''
+                            We generate a random activation key
+                            '''
+                            usernamesalt = email
+                            activation_key = hashlib.sha256((str(random.getrandbits(256)) + usernamesalt).encode('utf-8')).hexdigest()
+                            activation_key_expiry = datetime.datetime.strftime(datetime.datetime.now() + datetime.timedelta(days=2), "%Y-%m-%d %H:%M:%S")
 
-                        '''
-                        creating the mail confirmation url
-                        '''
-                        context = {}
-                        context['activation_key'] = activation_key
-                        context['email'] = email
-                        context['name'] = name
-                        context['email_confirmation_url'] = request.scheme + "://" + request.META["HTTP_HOST"] + reverse(
-                            'user-email-verification', kwargs={'email': email, 'activation_key': activation_key})
+                            '''
+                            creating the mail confirmation url
+                            '''
+                            context = {}
+                            context['activation_key'] = activation_key
+                            context['email'] = email
+                            context['name'] = name
+                            context['email_confirmation_url'] = request.scheme + "://" + request.META["HTTP_HOST"] + reverse(
+                                'user-email-verification', kwargs={'email': email, 'activation_key': activation_key})
 
-                        '''
-                        sending verification mail to the user
-                        '''
-                        send_confirmation_email(context)
-                        message = "A verification mail has been send to registered mail id, Please confirm your mail Id "
-                        gender = request.POST.get('gender', "")
-                        phone_number = request.POST.get('mobno', "")
-                        dob = request.POST.get('dob', "")
-                        print("date of birth")
-                        date_of_birth = datetime.datetime.strptime(dob, "%m-%d-%Y").strftime("%Y-%m-%d")
-                        print(dob)
-                        print(date_of_birth)
-                        language_id = int(request.POST.get('language', ""))
-                        religion_id = int(request.POST.get('religion', ""))
-                        language = MotherTongue.objects.get(id=language_id)
-                        religion = Religion.objects.get(id=religion_id)
-                        profilepic = request.FILES.get('uploadFromPC')
-                        print(profilepic)
-                        userprofile_obj = UserProfile(
-                                                user=user,
-                                                gender=gender,
-                                                phone_number=phone_number,
-                                                phone_number_verified=False,
-                                                is_user=True,
-                                                is_active=False,
-                                                activation_key=activation_key,
-                                                key_expires=activation_key_expiry,
-                                                # otp_message=code
-                                                )
-                        userprofile_obj.save()
-                        user_info_obj = UserInfo(
-                                        user_profile=userprofile_obj,
-                                        dob=date_of_birth,
-                                        mother_tongue=language,
-                                        religion=religion
-                        )
-                        user_info_obj.save()
-                        user_image_obj = UserImages(user_info=user_info_obj, file=profilepic, is_profile_pic=True)
-                        user_image_obj.save()
-                        messages.success(request, message)
+                            '''
+                            sending verification mail to the user
+                            '''
+                            send_confirmation_email(context)
+                            message = "A verification mail has been send to registered mail id, Please confirm your mail Id "
+                            gender = request.POST.get('gender', "")
+                            phone_number = request.POST.get('mobno', "")
+                            dob = request.POST.get('dob', "")
+                            print("date of birth")
+                            date_of_birth = datetime.datetime.strptime(dob, "%m-%d-%Y").strftime("%Y-%m-%d")
+                            print(dob)
+                            print(date_of_birth)
+                            language_id = int(request.POST.get('language', ""))
+                            religion_id = int(request.POST.get('religion', ""))
+                            language = MotherTongue.objects.get(id=language_id)
+                            religion = Religion.objects.get(id=religion_id)
+                            profilepic = request.FILES.get('uploadFromPC')
+                            print(profilepic)
+                            userprofile_obj = UserProfile(
+                                                    user=user,
+                                                    gender=gender,
+                                                    phone_number=phone_number,
+                                                    phone_number_verified=False,
+                                                    is_user=True,
+                                                    is_active=False,
+                                                    activation_key=activation_key,
+                                                    key_expires=activation_key_expiry,
+                                                    # otp_message=code
+                                                    )
+                            userprofile_obj.save()
+                            user_info_obj = UserInfo(
+                                            user_profile=userprofile_obj,
+                                            dob=date_of_birth,
+                                            mother_tongue=language,
+                                            religion=religion
+                            )
+                            user_info_obj.save()
+                            user_image_obj = UserImages(user_info=user_info_obj, file=profilepic, is_profile_pic=True)
+                            user_image_obj.save()
+                            messages.success(request, message)
+                            return redirect('login')
+                        except User.DoesNotExist:
+                            messages.error(request, "Something went wrong")
+                            return redirect('register')
+                    else:
+                        messages.error(request, "Phone number is already exist")
                         return redirect('login')
-                    except User.DoesNotExist:
-                        messages.error(request, "Something went wrong")
-                        return redirect('register')
                 else:
                     messages.error(request, "user is already exist")
                     return redirect('login')
@@ -182,13 +186,15 @@ class LoginView(TemplateView):
         """
         username = request.POST.get('username', '')
         password = request.POST.get('password', '')
-        if username != "" and password != "":
+        phone_number = request.POST.get('mobno', '')
+        if username != "" and password != "" and phone_number != "":
             try:
                 user = User.objects.get(username=username)
                 try:
                     user_profile = UserProfile.objects.get(user=user)
                     if not user.is_superuser:
                         if user_profile.email_verified:
+                            if user_profile.phone_number == phone_number:
                             # if user_profile.phone_number_verified:
                                 if user_profile.is_active:
                                     if user.check_password(password):
@@ -202,6 +208,9 @@ class LoginView(TemplateView):
                                 else:
                                     messages.error(request, "profile is blocked, Please contact admin")
                                     return redirect(reverse('login'))
+                            else:
+                                messages.warning(request, "Invalid Phone number")
+                                return redirect(reverse('login'))
                             # else:
                             #     messages.warning(request, "Please enter your otp")
                             #     return redirect(reverse('otp-verification'))
@@ -218,7 +227,7 @@ class LoginView(TemplateView):
                 messages.error(request, "Invalid credentials, Please try again")
                 return redirect(reverse('login'))
         else:
-            messages.error(request, "Username and password is not valid")
+            messages.error(request, "Credentials are not valid")
             return redirect(reverse('login'))
 
 
@@ -294,7 +303,7 @@ class ResetPassword(TemplateView):
                 user_profile = UserProfile.objects.get(user=user)
                 user_profile.set_reset_key()
                 user_profile.save()
-                messages.success(request, "An email with instructio for resetting you password will send you shortly, link is valid for 1 hr only")
+                messages.success(request, "We will email you shortly with instruction on how to reset your password")
 
                 # reset_password_emai(email, reset_password_url_construct(request, user_profile.reset_key)))
                 context = {}

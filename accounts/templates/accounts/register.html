@@ -39,9 +39,9 @@
                       <div class="form-group">
                         <select name="gender" class="login-form form-control reg-dropdown background-icon" required>
                           <option value="" disabled selected>Gender</option>
-                          <option value="woman">Female</option>
-                          <option value="men">Male</option>
-                          <option value="others">Others</option>
+                            <option value="men">Man</option>
+                            <option value="woman">Woman</option>
+                            <option value="others">Others</option>
                         </select>
                         <img class="dropdown-image" src="{% static 'accounts/assets/images/drop-icon.png' %}">
                       </div>
@@ -116,27 +116,30 @@
                   </div>
                 </form>
               </div>
-            <div class="p-4">
-                <div class="row">
-                  <div class="col-md-8">
+            <div class="bigger-screen">
+                <div class="row justify-content-center">
+                  <div class="col-md-10">
                       <div class="fb-login text-center">
-                          <p>Or Register with</p>
+                          <p>Or Register with &nbsp;
+                              <a href="#" > <i class="fa fa-google-plus-square register-icons" aria-hidden="true"></i> </a> &nbsp;&nbsp;
+                              <a href="#" > <i class="fa fa-facebook-square register-icons" aria-hidden="true"></i> </a>
+                          </p>
         {#                  <a href="{% url 'social:begin' 'facebook' %}"><p style="color: #3b5998; font-size: medium;">FACEBOOK</p></a>#}
         {#                  <a href="#"><p style="color: #3b5998; font-size: medium;">FACEBOOK</p></a>#}
         {#                  <a href="/oauth/login/google-oauth2/"><p style="color: #3b5998; font-size: medium;">GOOGLE</p></a>#}
                       </div>
                   </div>
-                  <div class="col-md-2 text-center register-icons">
-                      <a href="#" > <i class="fa fa-google-plus-square register-icons" aria-hidden="true"></i> </a>
-                  </div>
-                  <div class="col-md-2 text-center register-icons">
-                      <a href="#" > <i class="fa fa-facebook-square register-icons" aria-hidden="true"></i> </a>
-                  </div>
+{#                  <div class="col-md-1 text-center register-icons">#}
+{#                      <a href="#" > <i class="fa fa-google-plus-square register-icons" aria-hidden="true"></i> </a>#}
+{#                  </div>#}
+{#                  <div class="col-md-1 text-center register-icons">#}
+{#                      <a href="#" > <i class="fa fa-facebook-square register-icons" aria-hidden="true"></i> </a>#}
+{#                  </div>#}
               </div>
             </div>
             <div class="register-bottom">
                 <hr class="someClass" />
-                <div class="CreateAccount text-center p-3">Already a member?  <a href="{% url 'login' %}">Login</a></div>
+                <div class="CreateAccount text-center">Already a member?  <a href="{% url 'login' %}">Login</a></div>
             </div>
             </section>
           </div>
