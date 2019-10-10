@@ -551,3 +551,9 @@ img.gallery-front-images{
 .text-couples{
     color: #dd115a !important;
 }
+
+#toast-container > .toast-info {
+    background-image: url("/static/frontend/images/icons/user-icon.png") !important;
+    background-color: #dd115a;
+    color: #ffffff;
+}

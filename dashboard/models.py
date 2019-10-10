@@ -26,7 +26,7 @@ class UserProfile(models.Model):
     # )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     gender = models.CharField(max_length=10,  default='-')
-    phone_number = models.CharField(max_length=12, unique=True)
+    phone_number = models.CharField(max_length=12)
     reset_key = models.CharField(max_length=30, blank=True, null=True, default='')
     reset_key_expiration = models.DateTimeField(default=None, blank=True, null=True)
     is_active = models.BooleanField(default=True)

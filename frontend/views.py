@@ -3,7 +3,7 @@ from django.views.generic import View, TemplateView
 from dashboard.models import *
 from django.urls import reverse
 from datetime import date
-
+from django.contrib import messages
 
 class HomePage(TemplateView):
     template_name = 'frontend/index.html'
@@ -53,3 +53,11 @@ class Profile(TemplateView):
         context['user_profile'] = user
         return context
 
+
+class SubscribeMail(View):
+
+    def post(self, request, *args, **kwargs):
+        email = request.POST.get('email', "")
+        message = "Email is subscribed"
+        messages.success(request, message)
+        return redirect(reverse('home'))

@@ -8,7 +8,8 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-     <script src="https://use.fontawesome.com/daac62b875.js"></script>
+    <script src="https://use.fontawesome.com/daac62b875.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet"/>
     <!-- style.css -->
     <link href="{% static 'frontend/css/style.css' %}" rel="stylesheet"/>
     <title>No Dowry</title>
@@ -65,7 +66,6 @@
                                     &nbsp;
                                 </p>
                                 <select name="ageto" class="quicksearchDropdown form-control ageto" required>
-                                    <option value="none" selected>select from age</option>
                                 </select>
                             </div>
                         </div>
@@ -636,10 +636,11 @@
         </div>
         <h4 class="text-center p-md-5 pt-5">Enter your email address and get latest offers and updates</h4>
 
-        <form class="pb-5">
+        <form class="pb-5" action="{% url 'subscribe-mail' %}" method="post">
+            {% csrf_token %}
             <div class="row justify-content-center">
                 <div class="col-xl-4 col-lg-4 col-md-4 col-12">
-                    <input type="email" class="form-control" placeholder="Email Address" required>
+                    <input type="email" name="email" class="form-control" placeholder="Email Address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,7}$" required>
                 </div>
                 <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-6 pt-3 pt-md-0">
                     <button type="submit" class="btn subscribe-btn py-4"><h6>SUBSCRIBE</h6></button>
@@ -673,9 +674,11 @@
     {% include 'frontend/main-footer.html' %}
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+{#    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>#}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script type="text/javascript" src="{% static 'frontend/js/style.js' %}"></script>
     <script>
 
@@ -688,11 +691,41 @@
             }
         }
 
+
       $(document).ready(function() {
+            toastr.options = {
+				'closeButton': true,
+				'positionClass': 'toast-top-right',
+				'showDuration': '55000',
+				'hideDuration': '55000',
+				'timeOut': '55000',
+				'extendedTimeOut': '55000',
+			}
+
+			{% if messages %}
+                {% for message in messages %}
+                    {% if message.tags == 'info' %}
+                          toastr.info('{{ message }}')
+                    {% elif message.tags == 'success' %}
+                          toastr.success('{{ message }}')
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+
+
+
+
+
+
         $(function(){
             var $selectagefrom = $(".agefrom");
             for (i=18;i<=50;i++){
                 $selectagefrom.append($('<option></option>').val(i).html(i))
+            }
+
+            var $ageto = $(".ageto");
+            for (i=18;i<=50;i++){
+                $ageto.append($('<option></option>').val(i).html(i))
             }
         });
         console.log($("#aioConceptName").val());
