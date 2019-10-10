@@ -125,7 +125,7 @@ class RegisterView(TemplateView):
                             phone_number = request.POST.get('mobno', "")
                             dob = request.POST.get('dob', "")
                             print("date of birth")
-                            date_of_birth = datetime.datetime.strptime(dob, "%m-%d-%Y").strftime("%Y-%m-%d")
+                            date_of_birth = datetime.datetime.strptime(dob, "%d/%m/%Y").strftime("%Y-%m-%d")
                             print(dob)
                             print(date_of_birth)
                             language_id = int(request.POST.get('language', ""))
@@ -331,6 +331,8 @@ class UserPsswordReset(TemplateView):
     def post(self, request, *args, **kwargs):
         password = request.POST.get("password", "")
         confirm_password = request.POST.get("confirm_password", "")
+        reset_key = kwargs["reset_key"]
+        email = kwargs['email']
 
         if password and confirm_password not in [""]:
             if password == confirm_password:
@@ -346,6 +348,7 @@ class UserPsswordReset(TemplateView):
 
             else:
                 messages.error(request, "Sorry, password don't match. Please try again")
+                return redirect(reverse('user-password-reset', kwargs={'email': email, 'reset_key': reset_key}))
         else:
             messages.error(request, "Please provide valid password")
         return redirect(reverse('login'))
