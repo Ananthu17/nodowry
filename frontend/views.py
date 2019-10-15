@@ -51,6 +51,7 @@ class Profile(TemplateView):
         context = super().get_context_data(**kwargs)
         user = UserProfile.objects.get(id=41)
         context['user_profile'] = user
+        context['user_images'] = UserImages.objects.filter(user_info__user_profile=user)
         return context
 
 
@@ -58,6 +59,33 @@ class SubscribeMail(View):
 
     def post(self, request, *args, **kwargs):
         email = request.POST.get('email', "")
-        message = "Email is subscribed"
+        message = "Subscription successful"
         messages.success(request, message)
         return redirect(reverse('home'))
+
+
+class UploadImage(View):
+
+    def post(self, request, *args, **kwargs):
+        user_info_id = request.POST.get('id', "")
+        image = request.FILES.get('photos')
+        print(user_info_id)
+        print(image)
+        user_info = UserInfo.objects.get(id=user_info_id)
+        user_image = UserImages()
+        user_image.user_info = user_info
+        user_image.file = image
+        user_image.save()
+        return redirect(reverse('profile'))
+
+
+class DeleteImage(View):
+
+    def post(self, request, *args, **kwargs):
+        imgid = request.POST.get('imgId', "")
+        try:
+            UserImages.objects.filter(id=imgid).delete()
+            messages.success(request, "image is deleted")
+        except UserImages.DoesNotExist:
+            messages.error(request, "images not deleted")
+        return redirect(reverse('profile'))

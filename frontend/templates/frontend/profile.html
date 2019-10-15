@@ -10,46 +10,549 @@
     {% include "frontend/filter-nav.html" %}
 <!-- navber ends-->
 
-    <div class="container-fluid">
-        <div class="profile-main p-5">
-            <div class="card card-pink p-1">
-                <div class="row">
-                    <div class="col-1">
-                        <div>
-                            <img class="profile-pic" src="{% static 'frontend/images/gallery/vijay-govid.jpg' %}" alt="">
-                        </div>
+    <section class="basic-info p-md-5">
+        <div class="container">
+            <div class="">
+                <div class="card profile">
+                    <div class="card-header">
+                        <h4>Basic Details</h4>
                     </div>
-                    <div class="col-3">
-                        <h4>{{ user_profile.user.first_name }}</h4>
-                        Age : 29 <br />
-                        Religion : Hindu,Nair<br />
-                        Ph No: 5885588558 <br />
-                        Email id: Abcd1234@ert.nju <br />
-                    </div>
-                    <div class="col-4">
-                        <button class="btn primary">
-                            <h7>Edit</h7>
-                        </button>
-                        <h6>NDM{{ user_profile.id }}</h6>
-                    </div>
-                </div>
-            </div>
-            <div class="p-5"></div>
-            <div class="card card-pink p-1">
-                <div class="row">
-                    <div class="col-1">
-                        <div>
-                            <h4>{{ user_profile.user.first_name }}</h4>
-                            Age : 29 <br />
-                            Religion : Hindu,Nair<br />
-                            Ph No: 5885588558 <br />
-                            Email id: Abcd1234@ert.nju <br />
-                        </div>
-                    </div>
-                    <div class="col-3">
+                    <div class="card-body">
+                        <form id="profileImage" method="post" action="{% url 'upload-image' %}"  enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <input name="id" type="text" value="{{ user_profile.userinfo.id }}" hidden>
+                                    {% for images in user_images %}
+                                        {% if images.is_profile_pic %}
+                                            <img class="profile-pic pb-2" src="/media/{{ images.file }}" alt="">
+                                        {% endif %}
+                                    {% endfor %}
+                                    <label for='photos' style="display: block;">
+                                        <img class="add-more" src="{% static 'frontend/images/plus-1270001_1280.png' %}" alt="">
+                                    </label>
+                                    <input type="file" id="photos" name="photos" onchange="uploadPhoto()" multiple hidden />
+                                </div>
+                                <div class="col-md-1">
+
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="row">
+                                        <div class="col-md-2 p-2">
+                                            Name:
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                            <input type="text" class="form-control login-form" value="{{ user_profile.user.first_name }}" readonly>
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 p-2">
+                                            DOB:
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                            <input type="text" class="form-control login-form" value="{{ user_profile.userinfo.dob }}" readonly>
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 p-2">
+                                            Email:
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                            <input type="text" class="form-control login-form" value="{{ user_profile.user.email }}" readonly>
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 p-2">
+                                            Phone No:
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                            <input type="text" class="form-control login-form" value="{{ user_profile.phone_number }}" readonly>
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 p-2">
+                                            Gender:
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                            <input type="text" class="form-control login-form" value="{{ user_profile.gender }}" readonly>
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                    {% for images in user_images %}
+                                        {% if not images.is_profile_pic %}
+                                            <div class="col-md-2">
+                                            <img class="user-images pb-2" src="/media/{{ images.file }}" alt="">
+                                            <img class="remove-image" src="{% static 'frontend/images/minus.png' %}" onclick="DeleteImage({{ images.id }})" alt="">
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <section>
+        <div class="container-fluid">
+            <div class="p-md-5">
+                <div class="profile-main p-5">
+                    <div class="card card-pink p-1">
+{#                        <form id="profileImage" method="post" action="{% url 'upload-image' %}"  enctype="multipart/form-data">#}
+                            {% csrf_token %}
+                            <div class="row">
+                                {% for images in user_images %}
+                                    <div class="col-2">
+                                        <div>
+                                            <img class="profile-pic" src="/media/{{ images.file }}" alt="">
+                                        </div>
+                                    </div>
+                                {% endfor %}
+        {#                        <div class="col-2">#}
+        {#                            <div>#}
+        {#                                <img class="profile-pic" src="{% static 'frontend/images/gallery/vijay-govid.jpg' %}" alt="">#}
+        {#                            </div>#}
+        {#                        </div>#}
+        {#                        <div class="col-2">#}
+        {#                            <div>#}
+        {#                                <img class="profile-pic" src="{% static 'frontend/images/gallery/vijay-govid.jpg' %}" alt="">#}
+        {#                            </div>#}
+        {#                        </div>#}
+                                <div class="col-2">
+
+                                    <div>
+        {#                                <label for='photos'>#}
+        {#                                    <img class="profile-pic" src="{% static 'frontend/images/plus-1270001_1280.png' %}" alt="">#}
+        {#                                </label>#}
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="row">
+                                        <div class="col-lg-2 pt-3">
+                                            Name :
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <div class="form-group p-2">
+                                            <!-- <label for="formGroupExampleInput">Example label</label> -->
+                                            <input type="text" class="form-control login-form" value="{{ user_profile.user.first_name }}" readonly>
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="row">
+                                        <div class="col-lg-2 pt-3">
+                                            DOB :
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <div class="form-group p-2">
+                                            <!-- <label for="formGroupExampleInput">Example label</label> -->
+                                            <input type="text" class="form-control login-form" value="{{ user_profile.userinfo.dob }}" readonly>
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="row">
+                                        <div class="col-lg-2 pt-3">
+                                            Gender :
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="form-group p-2">
+                                            <!-- <label for="formGroupExampleInput">Example label</label> -->
+                                            <input type="text" class="form-control login-form" value="male" readonly>
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="row">
+                                        <div class="col-lg-2 pt-3">
+                                            Email :
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <div class="form-group p-2">
+                                            <!-- <label for="formGroupExampleInput">Example label</label> -->
+                                            <input type="text" class="form-control login-form" value="{{ user_profile.user.email }}" readonly>
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="row">
+                                        <div class="col-lg-2 pt-3">
+                                            Phone No :
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="form-group p-2">
+                                            <!-- <label for="formGroupExampleInput">Example label</label> -->
+                                            <input type="text" class="form-control login-form" value="{{ user_profile.phone_number }}" readonly>
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+{#                        </form>#}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container-fluid">
+            <div class="p-md-5">
+               <form action="" class="">
+                    <div class="p-md-5 basic-info">
+                        <div class="card">
+                            <div class="row">
+                                <div class="col-md-1 pt-3">
+                                    Address:
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group pt-3">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1">
+                                    State:
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    Dist:
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    City:
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1">
+                                   Education:
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    Professional-details
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1">
+                                   Religion:
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    Cast
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    Sub-cast
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                           </div>
+                            <div class="row">
+                                <div class="col-md-1">
+                                   Gotra:
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    Star:
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    Dosh:
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                           </div>
+                            <div class="row">
+                                <div class="col-md-1">
+                                   Height:
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    Weight:
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    Drinking:
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    Smoking:
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                           </div>
+                           <div class="row">
+                               <div class="col-md-1">
+                                   Body type:
+                               </div>
+                               <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                               <div class="col-md-1">
+                                   Physical Status:
+                               </div>
+                               <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                               <div class="col-md-1">
+                                   Marital Status:
+                               </div>
+                               <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                           </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container-fluid">
+            <div class="p-md-5">
+                <form method="post" action="">
+                    <div class="p-md-5 basic-info">
+                        <div class="card">
+                            <div class="card-title">
+                                <h5>Partner preferences</h5>
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        Body type
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        Age:
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        Physical Status:
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        Marital Status:
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        Religion
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        Cast:
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        Subcast:
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        Location:
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        Gothram
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        Star:
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        Dosh:
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block extrascript %}
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+    function uploadPhoto() {
+        console.log("images uploaded");
+        document.getElementById("profileImage").submit();
+    }
+
+    function DeleteImage(imgId) {
+       console.log(imgId);
+       {#$.post( '/delete-image', {imgId: imgId} );#}
+       var request = $.ajax({
+          url: "/delete-image",
+          type: "POST",
+          data: {imgId : imgId},
+          success: function(response){
+           location.reload();
+        }
+        });
+    }
+    </script>
 {% endblock %}

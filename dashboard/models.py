@@ -198,3 +198,6 @@ class UserImages(models.Model):
     is_profile_pic = models.BooleanField(default=False)
     created = models.DateTimeField(default=timezone.now)
     last_modified = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.user_info.user_profile.user.email

@@ -1,5 +1,5 @@
 from django.urls import path
-
+from django.views.decorators.csrf import csrf_exempt
 from .views import *
 
 urlpatterns = [
@@ -7,5 +7,7 @@ urlpatterns = [
     path('filter', QuickFilter.as_view(), name='filter'),
     path('confirm-email', ConfirmYourEmail.as_view(), name='confirm-email'),
     path('profile', Profile.as_view(), name='profile'),
-    path('subscribe-mail', SubscribeMail.as_view(), name='subscribe-mail')
+    path('subscribe-mail', SubscribeMail.as_view(), name='subscribe-mail'),
+    path('upload-image', UploadImage.as_view(), name='upload-image'),
+    path('delete-image', csrf_exempt(DeleteImage.as_view()), name='delete-image'),
 ]
