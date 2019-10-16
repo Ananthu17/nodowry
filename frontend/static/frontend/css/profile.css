@@ -18,3 +18,7 @@ img.profile-pic{
 .remove-image{
     width: 30px;
 }
+.profile-screen{
+    background-image: linear-gradient(45deg, #b9a6b6, transparent);
+    height: 100vh;
+}
