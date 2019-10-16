@@ -129,3 +129,17 @@ class EditUsert(LoginRequiredMixin, TemplateView):
         return redirect(reverse('dashboard-users'))
 
 
+class ContentManagement(LoginRequiredMixin, TemplateView):
+    template_name = 'dashboard/dashboard_content.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        religion = Religion.objects.all()
+        cast = Cast.objects.all()
+        subcast = SubCast.objects.all()
+        mother_tongue = MotherTongue.objects.all()
+        context['religion_list'] = religion
+        context['cast_list'] = cast
+        context['subcast_list'] = subcast
+        context['mother_tongue_list'] = mother_tongue
+        return context

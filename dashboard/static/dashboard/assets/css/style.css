@@ -32,3 +32,20 @@ body.dashboard-login h1{
     color: #ffffff;
     font-size: x-large;
 }
+/*.dashboard-content-card{*/
+/*    max-height: 400px;*/
+/*    overflow: scroll;*/
+/*}*/
+
+.tableBodyScroll tbody {
+  display: block;
+  max-height: 250px;
+  overflow-y: scroll;
+}
+
+.tableBodyScroll thead,
+tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
