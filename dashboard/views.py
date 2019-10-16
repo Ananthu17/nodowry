@@ -143,3 +143,33 @@ class ContentManagement(LoginRequiredMixin, TemplateView):
         context['subcast_list'] = subcast
         context['mother_tongue_list'] = mother_tongue
         return context
+
+
+class AddReligion(LoginRequiredMixin, View):
+
+    def post(self, request, *args, **kwars):
+        rel = request.POST.get('lang', '')
+        if rel is not None:
+            if not Religion.objects.filter(name=rel):
+                username = request.user
+                religion = Religion()
+                religion.name = rel
+                religion.created_by = username
+                religion.updated_by = username
+                religion.save()
+                messages.error(request, "language is already exist")
+            else:
+                messages.error(request, "language is already exist")
+        return redirect(reverse('dashboard-content'))
+
+
+class DeleteReligion(LoginRequiredMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        langid = kwargs['rel_id']
+        try:
+            Religion.objects.get(id=langid).delete()
+            messages.success(request, "Religion Deleted")
+        except Religion.DoesNotExist:
+            messages.error(request, "Something went wrong")
+        return redirect(reverse('dashboard-content'))

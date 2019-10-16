@@ -89,6 +89,9 @@
                       <th class="text-center">
                         <span>Edit</span>
                       </th>
+                      <th class="text-center">
+                        <span>Delete</span>
+                      </th>
                     </thead>
                     <tbody class="dashboard-content-card">
                     {% for religion in religion_list %}
@@ -102,6 +105,11 @@
                             <td class="text-center">
                                 <a href="">
                                     <i class="nc-icon nc-button-play text-warning" style="font-size: xx-large;"></i>
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <a href="{% url 'delete-religion' religion.id %}">
+                                    <i class="nc-icon nc-simple-remove text-danger " style="font-size: xx-large;"></i>
                                 </a>
                             </td>
                           </tr>
@@ -256,17 +264,20 @@
                     <h4>Add Religion</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="row justify-content-center">
-                        <div class="col-md-6">
-                            <label class="text-center" for="exampleInputEmail1">Email address</label>
-                            <input type="Text" class="form-control text-center" placeholder="Religion name">
+                    <form action="{% url 'add-religion' %}" method="post">
+                        {% csrf_token %}
+                        <div class="row justify-content-center">
+                            <div class="col-md-12">
+                                <label class="text-center" for="exampleInputEmail1">Religion Name</label>
+                                <input type="Text" class="form-control text-center" name="lang" required pattern=".[a-zA-Z]{5,20}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row justify-content-center">
-                        <div class="col-md-2">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <div class="row justify-content-center">
+                            <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
 {#                <div class="row">#}
 {#                    <div class="col-md-12">#}

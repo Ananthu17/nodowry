@@ -49,3 +49,9 @@ tbody tr {
   width: 100%;
   table-layout: fixed;
 }
+
+@media only screen and (min-width: 960px) {
+    .modal-content{
+        max-width: 600px;
+    }
+}
