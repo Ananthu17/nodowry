@@ -59,6 +59,21 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-2 p-2">
+                                            Gender:
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                {% if user_profile.gender == 'men' %}
+                                                    <input type="text" class="form-control login-form" value="Male" readonly>
+                                                {% else %}
+                                                    <input type="text" class="form-control login-form" value="Female" readonly>
+                                                {% endif %}
+
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 p-2">
                                             Email:
                                         </div>
                                         <div class="col-md-10">
@@ -74,16 +89,6 @@
                                         <div class="col-md-10">
                                             <div class="form-group">
                                             <input type="text" class="form-control login-form" value="{{ user_profile.phone_number }}" readonly>
-                                          </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-2 p-2">
-                                            Gender:
-                                        </div>
-                                        <div class="col-md-10">
-                                            <div class="form-group">
-                                            <input type="text" class="form-control login-form" value="{{ user_profile.gender }}" readonly>
                                           </div>
                                         </div>
                                     </div>
@@ -136,7 +141,9 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+{#                                    <input type="text" id="state-dropdown" >#}
+                                    <select name="state" id="state-dropdown" class="form-control" onchange="selectDist()">
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-2 pt-2">
@@ -144,7 +151,8 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+                                    <select name="dist" id="dist-dropdown" class="form-control" onchange="selectCity()">
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-2 pt-2">
@@ -152,7 +160,8 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+                                    <select name="city" id="city-dropdown" class="form-control">
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-2 pt-2">
@@ -160,7 +169,11 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+                                     <select name="religion" id="religion-dropdown" class="form-control" onchange="selectCast()">
+                                         {% for religion in religion_list %}
+                                             <option value="{{ religion }}">{{ religion }}</option>
+                                         {% endfor %}
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-2 pt-2">
@@ -168,7 +181,8 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+                                    <select name="cast" id="cast-dropdown" class="form-control" onchange="selectSubcast()" >
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-2 pt-2">
@@ -176,7 +190,8 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+                                    <select name="sub-cast" id="subcast-dropdown" class="form-control">
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -186,7 +201,21 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+                                    <select name="gotra" class="form-control">
+                                        <option value="Nandhi">Nandhi</option>
+                                        <option value="Nandhi">Bhargava</option>
+                                        <option value="Nandhi">Dubey</option>
+                                        <option value="Nandhi">Gaur</option>
+                                        <option value="Nandhi">Upamanyu</option>
+                                        <option value="Nandhi">Uttam</option>
+                                        <option value="Nandhi">Vishnu</option>
+                                        <option value="Nandhi">Vishvamitra</option>
+                                        <option value="Nandhi">Vishrava</option>
+                                        <option value="Nandhi">Shringi</option>
+                                        <option value="Nandhi">Khilaivar</option>
+                                        <option value="Nandhi">Pachori</option>
+                                        <option value="Nandhi">Nandhi</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-2 pt-2">
@@ -194,7 +223,21 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+                                    <select name="gotra" class="form-control">
+                                        <option value="Ashvini">Ashvini</option>
+                                        <option value="Bharani">Bharani</option>
+                                        <option value="Karhika">Karhika</option>
+                                        <option value="Rohini">Rohini</option>
+                                        <option value="Mrigashīrsha">Mrigashīrsha</option>
+                                        <option value="Ardra">Ardra</option>
+                                        <option value="Pushya">Pushya</option>
+                                        <option value="Āshleshā">Āshleshā</option>
+                                        <option value="Maghā">Maghā</option>
+                                        <option value="Hasta">Hasta</option>
+                                        <option value="Nandhi">Khilaivar</option>
+                                        <option value="Nandhi">Pachori</option>
+                                        <option value="Nandhi">Nandhi</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-2 pt-2">
@@ -202,7 +245,12 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+                                     <select name="gotra" class="form-control">
+                                        <option value="Manglik">Manglik</option>
+                                        <option value="Nadi">Nadi</option>
+                                        <option value="Pitra">Pitra</option>
+                                        <option value="Kartik">Kartik</option>
+                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-2 pt-2">
@@ -210,7 +258,11 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+                                   <select name="body-type" class="form-control">
+                                        <option value="Fat">Fat</option>
+                                        <option value="Slim">Slim</option>
+                                        <option value="Normal">Normal</option>
+                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-2 pt-2">
@@ -218,7 +270,13 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+                                    <div class="form-group">
+                                   <select name="drinking" class="form-control">
+                                        <option value="Never-Drink">Never-Drink</option>
+                                        <option value="Drink-Occasionally">Drink-Occasionally</option>
+                                        <option value="Frequently">Frequently</option>
+                                     </select>
+                                </div>
                                 </div>
                             </div>
                             <div class="col-md-2 pt-2">
@@ -226,7 +284,10 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+                                    <select name="smoking" class="form-control">
+                                        <option value="Never-Smoked">Never-Smoked</option>
+                                        <option value="Smoking">Smoking</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-2 pt-2">
@@ -234,7 +295,8 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+                                    <select name="education" id="education" class="form-control">
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-2 pt-2">
@@ -250,7 +312,11 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+                                    <select name="maritial" class="form-control">
+                                        <option value="Single">Single</option>
+                                        <option value="Married">Married</option>
+                                        <option value="Divorced">Divorced</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-2 pt-2">
@@ -258,7 +324,10 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+                                    <select name="physical" class="form-control">
+                                        <option value="Healthy,">Healthy,</option>
+                                        <option value="Athletic">Athletic,</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-1 pt-2">
@@ -266,7 +335,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+                                    <input type="number" name="height" class="form-control" placeholder="Height in Centimeters">
                                 </div>
                             </div>
                             <div class="col-md-1 pt-2">
@@ -274,7 +343,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+                                    <input type="number" name="weight" class="form-control" placeholder="Weight in Centimeters">
                                 </div>
                             </div>
                         </div>
@@ -305,7 +374,11 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+                                    <select name="body-type-partner" class="form-control">
+                                        <option value="Fat">Fat</option>
+                                        <option value="Slim">Slim</option>
+                                        <option value="Normal">Normal</option>
+                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-1 pt-2">
@@ -313,7 +386,8 @@
                             </div>
                             <div class="col-md-1">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+                                    <select name="body-type-partner" class="form-control agefrom" onchange='changeAge(this.value);'>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-1 pt-2 text-center">
@@ -321,7 +395,8 @@
                             </div>
                             <div class="col-md-1">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+                                    <select name="body-type-partner" class="form-control ageto">
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -331,7 +406,10 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+                                    <select name="physical-partner" class="form-control">
+                                        <option value="Healthy,">Healthy,</option>
+                                        <option value="Athletic">Athletic,</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-2 pt-2">
@@ -339,7 +417,11 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+                                    <select name="maritial-partner" class="form-control">
+                                        <option value="Single">Single</option>
+                                        <option value="Married">Married</option>
+                                        <option value="Divorced">Divorced</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-2 pt-2">
@@ -371,7 +453,21 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+                                    <select name="gotra-partner" class="form-control">
+                                        <option value="Nandhi">Nandhi</option>
+                                        <option value="Nandhi">Bhargava</option>
+                                        <option value="Nandhi">Dubey</option>
+                                        <option value="Nandhi">Gaur</option>
+                                        <option value="Nandhi">Upamanyu</option>
+                                        <option value="Nandhi">Uttam</option>
+                                        <option value="Nandhi">Vishnu</option>
+                                        <option value="Nandhi">Vishvamitra</option>
+                                        <option value="Nandhi">Vishrava</option>
+                                        <option value="Nandhi">Shringi</option>
+                                        <option value="Nandhi">Khilaivar</option>
+                                        <option value="Nandhi">Pachori</option>
+                                        <option value="Nandhi">Nandhi</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-2 pt-2">
@@ -379,7 +475,21 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+                                    <select name="gotra-patner" class="form-control">
+                                        <option value="Ashvini">Ashvini</option>
+                                        <option value="Bharani">Bharani</option>
+                                        <option value="Karhika">Karhika</option>
+                                        <option value="Rohini">Rohini</option>
+                                        <option value="Mrigashīrsha">Mrigashīrsha</option>
+                                        <option value="Ardra">Ardra</option>
+                                        <option value="Pushya">Pushya</option>
+                                        <option value="Āshleshā">Āshleshā</option>
+                                        <option value="Maghā">Maghā</option>
+                                        <option value="Hasta">Hasta</option>
+                                        <option value="Nandhi">Khilaivar</option>
+                                        <option value="Nandhi">Pachori</option>
+                                        <option value="Nandhi">Nandhi</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-2 pt-2">
@@ -387,7 +497,12 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+                                    <select name="gotra" class="form-control">
+                                        <option value="Manglik">Manglik</option>
+                                        <option value="Nadi">Nadi</option>
+                                        <option value="Pitra">Pitra</option>
+                                        <option value="Kartik">Kartik</option>
+                                     </select>
                                 </div>
                             </div>
                         </div>
@@ -441,5 +556,155 @@
         $('#section2').fadeIn( "slow" );
         $('#section3').hide();
     }
+
+    {#let dropdown = $('#state-dropdown');#}
+    {#dropdown.empty();#}
+    {#dropdown.append('<option selected="true" disabled>Choose State/Province</option>');#}
+    {#const url = 'https://api.myjson.com/bins/7xq2x';#}
+    {##}
+    {#$.getJSON(url, function (data) {#}
+    {#  $.each(data, function (key, entry) {#}
+    {#    dropdown.append($('<option></option>').attr('value', entry.abbreviation).text(entry.name));#}
+    {#  })#}
+    $( document ).ready(function() {
+        $("#religion-dropdown").trigger('change');
+        $("#cast-dropdown").trigger('change');
+        let dropdown = $('#state-dropdown');
+        dropdown.empty();
+        dropdown.append('<option selected="true" disabled>Choose State/Province</option>');
+        {#$.getJSON('https://api.myjson.com/bins/7xq2x', function(json) {#}
+        {#    $('#state-dropdown').empty();#}
+        {#    $('#state-dropdown').append($('<option>').text("Select"));#}
+        {#    $.each(json, function (i, obj) {#}
+        {#        $('#select').append($('<option>').text(obj.name).attr('value', obj.name));#}
+        {#    });#}
+      //  });
+        const url = 'static/frontend/docs/state-dist-dist.json';
+        $.getJSON(url, function (data) {
+          $.each(data, function (entry) {
+            dropdown.append($('<option></option>').attr('value', entry).text(entry));
+          })
+        });
+
+        var request = $.ajax({
+              url: "/select-education",
+              type: 'GET',
+              success: function(resultData) {
+                  $('#education').empty();
+                  $.each(resultData.data, function (entry, value) {
+                        console.log(value.field);
+                        $('#education').append($('<option></option>').attr('value', value.field).text(value.field));
+                  });
+              }
+        });
+
+        var $selectagefrom = $(".agefrom");
+            for (i=18;i<=50;i++){
+                $selectagefrom.append($('<option></option>').val(i).html(i))
+            }
+
+            var $ageto = $(".ageto");
+            for (i=18;i<=50;i++){
+                $ageto.append($('<option></option>').val(i).html(i))
+            }
+
+
+    });
+
+    function selectDist() {
+        value = $('#state-dropdown').val();
+        const url = 'static/frontend/docs/state-dist-dist.json';
+        $.getJSON(url, function (data) {
+          $.each(data, function (entry) {
+              if(entry == value){
+                   $('#dist-dropdown').empty();
+                  let i;
+                  for( i in  data[value]){
+                     $('#dist-dropdown').append($('<option></option>').attr('value', i).text(i));
+                  }
+              }
+          })
+        });
+    }
+
+    function selectCity() {
+        valueState = $('#state-dropdown').val();
+        valueDist = $('#dist-dropdown').val();
+        const url = 'static/frontend/docs/state-dist-dist.json';
+        $.getJSON(url, function (data) {
+          $.each(data, function (entry) {
+              if(entry == valueState){
+                  let i;
+                  for( i in  data[valueState]){
+                     if (i == valueDist){
+                         let x;
+                         for(x in data[valueState][i]){
+                             $('#city-dropdown').append($('<option></option>').attr('value', data[valueState][i][x]).text(data[valueState][i][x]));
+                         }
+                     }
+                  }
+              }
+          })
+        })
+    }
+
+    function selectCast() {
+        valueReligion = $('#religion-dropdown').val();
+
+        var request = $.ajax({
+              url: "/select-cast",
+              type: 'POST',
+              data: {religion : valueReligion},
+              success: function(resultData) {
+                  $('#cast-dropdown').empty();
+                  $.each(resultData.data, function (entry, value) {
+                        $('#cast-dropdown').append($('<option></option>').attr('value', value.name).text(value.name));
+                  });
+              }
+        });
+
+        {#console.log(valueReligion);#}
+    }
+
+
+    function selectSubcast() {
+        valueCast = $('#cast-dropdown').val();
+        var request = $.ajax({
+            url: "/select-sub-cast",
+            type: 'POST',
+            data: {cast : valueCast},
+            success: function(resultData) {
+             $('#subcast-dropdown').empty();
+                  $.each(resultData.data, function (entry, value) {
+                      $('#subcast-dropdown').append($('<option></option>').attr('value', value.name).text(value.name));
+                  });
+            }
+        });
+    }
+
+
+    function changeAge(val){
+            var $selectageto = $(".ageto");
+            $selectageto.empty();
+            for (i=val;i<=50;i++){
+                $selectageto.append($('<option></option>').val(i).html(i))
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </script>
 {% endblock %}

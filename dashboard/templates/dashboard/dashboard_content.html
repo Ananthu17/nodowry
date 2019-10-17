@@ -103,13 +103,13 @@
                               {{ religion.created_by }}
                             </td>
                             <td class="text-center">
-                                <a href="">
+                                <a onclick="ediitReligion({{ religion.id }},'{{ religion.name }}')"  data-toggle="modal" data-target=".edit-religion">
                                     <i class="nc-icon nc-button-play text-warning" style="font-size: xx-large;"></i>
                                 </a>
                             </td>
                             <td class="text-center">
                                 <a href="{% url 'delete-religion' religion.id %}">
-                                    <i class="nc-icon nc-simple-remove text-danger " style="font-size: xx-large;"></i>
+                                    <i class="nc-icon nc-simple-remove text-danger" style="font-size: xx-large;"></i>
                                 </a>
                             </td>
                           </tr>
@@ -279,14 +279,33 @@
                         </div>
                     </form>
                 </div>
-{#                <div class="row">#}
-{#                    <div class="col-md-12">#}
-{#                        <div class="header">#}
-{#                            #}
-{#                        </div>#}
-{#                        #}
-{#                    </div>#}
-{#                </div>#}
+            </div>
+        </div>
+    </div>
+
+  <div class="modal fade edit-religion" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4>Edit Religion</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'edit-religion' %}" method="post">
+                        {% csrf_token %}
+                        <div class="row justify-content-center">
+                            <div class="col-md-12">
+                                <label class="text-center" for="exampleInputEmail1">Religion Name</label>
+                                <input type="Text" class="form-control text-center" id="relName" name="relName" required pattern=".[a-zA-Z]{5,20}">
+                                <input type="number" name="relid" id="relid" hidden>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -304,6 +323,12 @@
   <script src="{% static 'dashboard/assets/js/plugins/bootstrap-notify.js' %}"></script>
   <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="{% static 'dashboard/assets/js/paper-dashboard.min.js' %}" type="text/javascript"></script>
+  <script>
+      function ediitReligion(id, name) {
+          $('#relid').val(id);
+          $('#relName').val(name);
+      }
+  </script>
 </body>
 
 </html>

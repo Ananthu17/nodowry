@@ -173,3 +173,21 @@ class DeleteReligion(LoginRequiredMixin, View):
         except Religion.DoesNotExist:
             messages.error(request, "Something went wrong")
         return redirect(reverse('dashboard-content'))
+
+
+class EditReligion(LoginRequiredMixin, View):
+
+    def post(self, request, *args, **kwargs):
+        relid = request.POST.get('relid', '')
+        relname = request.POST.get('relName', '')
+        username = request.user
+        try:
+            religion = Religion.objects.get(id=relid)
+            religion.name = relname
+            religion.updated_by = username
+            religion.save()
+            print("save successful")
+            messages.error(request, "Religion updated successfully")
+        except Religion.DoesNotExist:
+            messages.error(request, "Something went wrong")
+        return redirect(reverse('dashboard-content'))

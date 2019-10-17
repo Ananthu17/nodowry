@@ -11,4 +11,5 @@ urlpatterns = [
     path('dashboard-content', ContentManagement.as_view(), name='dashboard-content'),
     path('add-religion', AddReligion.as_view(), name='add-religion'),
     path('delete-religion/<int:rel_id>/', DeleteReligion.as_view(), name='delete-religion'),
+    path('edit-religion', EditReligion.as_view(), name='edit-religion'),
 ]
