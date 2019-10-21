@@ -156,7 +156,7 @@ class SaveProfileDetails(View):
             user_info = UserInfo.objects.get(id=user_id)
             user_info.state = state
             user_info.dist = dist
-
+            user_info.address = address
             user_info.city = city
             user_info.religion = Religion.objects.get(name=religion)
             user_info.cast = Cast.objects.get(name=cast)
@@ -224,5 +224,6 @@ class UserProfileDetails(TemplateView):
             context = super().get_context_data(**kwargs)
             user = UserProfile.objects.get(id=41)
             context['user_profile'] = user
+            context['user_info'] = UserInfo.objects.get(user_profile=user)
             context['user_images'] = UserImages.objects.filter(user_info__user_profile=user)
             return context

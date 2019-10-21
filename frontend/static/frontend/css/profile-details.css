@@ -1,0 +1,16 @@
+body{
+    background: linear-gradient(45deg, #da94ab, transparent), url("/static/frontend/images/background/profile-screen.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.image-section{
+    max-width: 100%;
+}
+
+.user-details li{
+    list-style-type: none;
+    padding: 4px;
+}

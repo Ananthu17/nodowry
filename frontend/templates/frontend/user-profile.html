@@ -3,12 +3,111 @@
 
 {% block extrastyle %}
     <link href="{% static 'frontend/css/filter.css' %}" rel="stylesheet" xmlns="http://www.w3.org/1999/html"/>
-    <link href="{% static 'frontend/css/profile.css' %}" rel="stylesheet"/>
+    <link href="{% static 'frontend/css/profile-details.css' %}" rel="stylesheet"/>
 {% endblock %}
 {% block content %}
 <!-- navbar -->
     {% include "frontend/filter-nav.html" %}
 <!-- navber ends-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 py-3">
+                <div class="card">
+                    <div class="image-section">
+                        <div class="display-image p-2">
+                            {% for images in user_images %}
+                                {% if images.is_profile_pic %}
+                                    <img class="img-fluid" src="/media/{{ images.file }}" alt="">
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="basic-info text-center">
+                            <h3>{{ user_profile.user.first_name }}</h3>
+                            <h4>NDM10{{ user_profile.id }}</h4>
+                        </div>
+                    </div>
+                </div>
+{#                <div class="images" style="height: 100vh; background-color: #0c5460">#}
+{#                    #}
+{#                </div>#}
+            </div>
+             <div class="col-md-6 py-3">
+                <civ class="card">
+                    <div class="main-content">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="user-info p-md-3">
+                                    <h4>{{ user_profile.user.first_name }} (NDM10{{ user_profile.id }})</h4>
+                                    <ul class="user-details">
+                                        <li>
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                            Profile created for myself
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                            {{ user_profile.userinfo.dob }}
+{#                                            {{ user_profile.userinfo.height}}cm#}
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-location-arrow" aria-hidden="true"></i>
+                                            {{ user_profile.userinfo.address }}
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                            {{ user_profile.userinfo.state }},{{ user_profile.userinfo.dist }},,{{ user_profile.userinfo.city }}
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-book" aria-hidden="true"></i>
+                                            {{ user_profile.userinfo.education.field }},{{ user_profile.userinfo.profession }}
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-phone" aria-hidden="true"></i>
+                                            {{ user_profile.phone_number }}
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-phone" aria-hidden="true"></i>
+                                            {{ user_profile.phone_number }}
+                                            {% if user_profile.phone_number_verified %}
+                                                <span class="text-success">(number verified)</span>
+
+                                            {% else %}
+                                                <span class="text-danger">(number not verified)</span>
+
+                                            {% endif %}
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                                            {{ user_profile.user.email }}
+                                            {% if user_profile.email_verified %}
+                                                <span class="text-success">(email verified)</span>
+                                            {% else %}
+                                                <span class="text-danger">(email not verified)</span>
+                                            {% endif %}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+
+                            </div>
+                        </div>
+                    </div>
+                </civ>
+            </div>
+            <div class="col-md-3 py-3">
+                <div class="plan-details" style="height: 100vh; background-color: #6c757d">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
 
 {% endblock %}
 {% block extrascript %}
