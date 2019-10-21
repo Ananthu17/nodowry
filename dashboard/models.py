@@ -119,7 +119,7 @@ class SubCast(models.Model):
 
     """
     name = models.CharField(max_length=50)
-    religion = models.ForeignKey(Cast, on_delete=models.CASCADE)
+    cast = models.ForeignKey(Cast, on_delete=models.CASCADE)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User, blank=True, on_delete=models.CASCADE,  related_name='subcast_created_user')
@@ -178,6 +178,8 @@ class UserInfo(models.Model):
     profession = models.CharField(max_length=50, null=True, blank=True)
     paid_status = models.BooleanField(default=False)
     about = models.TextField(max_length=500, null=True, blank=True)
+    gotra = models.CharField(max_length=50, null=True, blank=True)
+    star = models.CharField(max_length=50, null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -198,6 +200,28 @@ class UserImages(models.Model):
     is_profile_pic = models.BooleanField(default=False)
     created = models.DateTimeField(default=timezone.now)
     last_modified = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.user_info.user_profile.user.email
+
+
+class PartnerPreference(models.Model):
+    """
+   Model for saving all the images uploaded by the user.
+
+   """
+    user_info = models.ForeignKey(UserInfo, on_delete=models.CASCADE)
+    bodytype = models.CharField(max_length=50, blank=True, null=True)
+    age_from = models.IntegerField( blank=True, null=True)
+    age_to = models.IntegerField( blank=True, null=True)
+    physical_status = models.CharField(max_length=50, blank=True, null=True)
+    marital_status = models.CharField(max_length=50, null=True, blank=True)
+    religion = models.ForeignKey(Religion, blank=True, on_delete=models.CASCADE, default="", null=True)
+    cast = models.ForeignKey(Cast, blank=True, on_delete=models.CASCADE, default="", null=True)
+    subcast = models.ForeignKey(SubCast, blank=True, on_delete=models.CASCADE, default="", null=True)
+    gotra = models.CharField(max_length=50, null=True, blank=True)
+    star = models.CharField(max_length=50, null=True, blank=True)
+    dosh = models.CharField(max_length=50, null=True, blank=True)
 
     def __str__(self):
         return self.user_info.user_profile.user.email

@@ -110,11 +110,10 @@ class SelectSubCast(View):
 
     def post(self, request, *args, **kwargs):
         cast = request.POST.get('cast', "")
-        print("Cast ")
-        print(cast)
         try:
-            cast_obj = Cast.objects.get(id=1)
-            result = SubCast.objects.filter(religion=cast_obj).values('id','name')
+            cast_obj = Cast.objects.get(name=cast)
+            result = SubCast.objects.filter(cast=cast_obj).values('id', 'name')
+            print(result)
             return JsonResponse({'data': list(result)})
         except Cast.DoesNotExist:
             return redirect(reverse('profile'))
@@ -125,7 +124,55 @@ class SelectEducation(View):
     def get(self, request, *args, **kwargs):
         try:
             education = Education.objects.all().values()
-            print(education)
             return JsonResponse({'data': list(education)})
         except Education.DoesNotExist:
             return redirect(reverse('profile'))
+
+
+class SaveProfileDetails(View):
+
+    def post(self, request, *args, **kwargs):
+        user_id = request.POST.get('id', "")
+        address = request.POST.get('address', "")
+        state = request.POST.get('state', "")
+        dist = request.POST.get('dist', "")
+        city = request.POST.get('city', "")
+        religion = request.POST.get('religion', "")
+        cast = request.POST.get('cast', "")
+        subcast = request.POST.get('subcast', "")
+        gotra = request.POST.get('gotra', "")
+        star = request.POST.get('star', "")
+        bodyType = request.POST.get('body-type', "")
+        drinking = request.POST.get('gotra', "")
+        smoking = request.POST.get('smoking', "")
+        education = request.POST.get('education', "")
+        profession = request.POST.get('profession', "")
+        marital = request.POST.get('marital', "")
+        physical = request.POST.get('physical', "")
+        height = request.POST.get('height', "")
+        weight = request.POST.get('weight', "")
+        try:
+            user_info = UserInfo.objects.get(id=user_id)
+            user_info.state = state
+            user_info.dist = dist
+            user_info.city = city
+            user_info.religion = Religion.objects.get(name=religion)
+            user_info.cast = Cast.objects.get(name=cast)
+            user_info.subcast = SubCast.objects.get(name=subcast)
+            user_info.education = Education.objects.get(field=education)
+            user_info.drinking = drinking
+            user_info.smoking = smoking
+            user_info.profession = profession
+            user_info.marital_status = marital
+            user_info.physical_status = physical
+            user_info.bodytype = bodyType
+            user_info.height = height
+            user_info.weight = weight
+            user_info.gotra = gotra
+            user_info.star = star
+            user_info.save()
+            message = "Item Successfully Added"
+            return JsonResponse({'data': message})
+        except UserInfo.DoesNotExist:
+            pass
+        return redirect(reverse('home'))

@@ -22,7 +22,7 @@
                             {% csrf_token %}
                             <div class="row">
                                 <div class="col-md-2">
-                                    <input name="id" type="text" value="{{ user_profile.userinfo.id }}" hidden>
+                                    <input name="id" id="userId" type="text" value="{{ user_profile.userinfo.id }}" hidden>
                                     {% for images in user_images %}
                                         {% if images.is_profile_pic %}
                                             <img class="profile-pic pb-2" src="/media/{{ images.file }}" alt="">
@@ -116,7 +116,6 @@
         </div>
     </section>
 
-
     <section id="section2" class="personal-info p-md-5" style="display: none">
         <div class="container">
             <div class="">
@@ -131,7 +130,7 @@
                             </div>
                             <div class="col-md-10">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" id="address">
                                 </div>
                             </div>
                         </div>
@@ -201,7 +200,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <select name="gotra" class="form-control">
+                                    <select name="gotra" class="form-control" id="gotra-dropdown">
                                         <option value="Nandhi">Nandhi</option>
                                         <option value="Nandhi">Bhargava</option>
                                         <option value="Nandhi">Dubey</option>
@@ -223,7 +222,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <select name="gotra" class="form-control">
+                                    <select name="star" class="form-control" id="star-dropdown">
                                         <option value="Ashvini">Ashvini</option>
                                         <option value="Bharani">Bharani</option>
                                         <option value="Karhika">Karhika</option>
@@ -245,7 +244,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                     <select name="gotra" class="form-control">
+                                     <select name="gotra" class="form-control" id="dosh-dropdown">
                                         <option value="Manglik">Manglik</option>
                                         <option value="Nadi">Nadi</option>
                                         <option value="Pitra">Pitra</option>
@@ -258,7 +257,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                   <select name="body-type" class="form-control">
+                                   <select name="body-type" class="form-control" id="body-type">
                                         <option value="Fat">Fat</option>
                                         <option value="Slim">Slim</option>
                                         <option value="Normal">Normal</option>
@@ -271,7 +270,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <div class="form-group">
-                                   <select name="drinking" class="form-control">
+                                   <select name="drinking" class="form-control" id="drinking">
                                         <option value="Never-Drink">Never-Drink</option>
                                         <option value="Drink-Occasionally">Drink-Occasionally</option>
                                         <option value="Frequently">Frequently</option>
@@ -284,7 +283,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <select name="smoking" class="form-control">
+                                    <select name="smoking" class="form-control" id="smoaking">
                                         <option value="Never-Smoked">Never-Smoked</option>
                                         <option value="Smoking">Smoking</option>
                                     </select>
@@ -304,7 +303,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" id="professional-details">
                                 </div>
                             </div>
                             <div class="col-md-2 pt-2">
@@ -312,7 +311,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <select name="maritial" class="form-control">
+                                    <select name="marital" class="form-control" id="marital-status">
                                         <option value="Single">Single</option>
                                         <option value="Married">Married</option>
                                         <option value="Divorced">Divorced</option>
@@ -324,9 +323,9 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <select name="physical" class="form-control">
-                                        <option value="Healthy,">Healthy,</option>
-                                        <option value="Athletic">Athletic,</option>
+                                    <select name="physical" class="form-control" id="physical-status">
+                                        <option value="Healthy,">Healthy</option>
+                                        <option value="Athletic">Athletic</option>
                                     </select>
                                 </div>
                             </div>
@@ -335,7 +334,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <input type="number" name="height" class="form-control" placeholder="Height in Centimeters">
+                                    <input type="number" id="height" name="height" class="form-control" placeholder="Height in Centimeters">
                                 </div>
                             </div>
                             <div class="col-md-1 pt-2">
@@ -343,7 +342,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <input type="number" name="weight" class="form-control" placeholder="Weight in Centimeters">
+                                    <input type="number" id="weight" name="weight" class="form-control" placeholder="Weight in Centimeters">
                                 </div>
                             </div>
                         </div>
@@ -407,8 +406,8 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <select name="physical-partner" class="form-control">
-                                        <option value="Healthy,">Healthy,</option>
-                                        <option value="Athletic">Athletic,</option>
+                                        <option value="Healthy,">Healthy</option>
+                                        <option value="Athletic">Athletic</option>
                                     </select>
                                 </div>
                             </div>
@@ -429,7 +428,11 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+                                    <select name="religion-partner" id="religion-dropdown-partner" class="form-control" onchange="selectCastPartner()">
+                                         {% for religion in religion_list %}
+                                             <option value="{{ religion }}">{{ religion }}</option>
+                                         {% endfor %}
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-2 pt-2">
@@ -437,7 +440,8 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+                                    <select name="cast" id="cast-dropdown-partner" class="form-control" onchange="selectSubcastPartner()" >
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-2 pt-2">
@@ -445,7 +449,8 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input type="text" class="form-control">
+                                    <select name="subcast" id="subcast-dropdown-partner" class="form-control">
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-2 pt-2">
@@ -509,7 +514,7 @@
                         <div class="row justify-content-end">
                             <div class="col-md-3">
                                 <button class="btn" onclick="showSection2()">Back</button>
-                                <button class="btn">Continue</button>
+                                <button class="btn">Save</button>
                             </div>
                         </div>
                     </div>
@@ -541,16 +546,51 @@
     }
 
     function hideSection1() {
-        $('#section1').hide();
-        $('#section2').fadeIn( "slow" );
+           $('#section1').hide();
+           $('#section2').fadeIn( "slow" );
     }
+
     function showSection1() {
         $('#section1').fadeIn( "slow" );
         $('#section2').hide();
     }
     function hideSection2() {
-        $('#section2').hide();
-        $('#section3').fadeIn( "slow" );
+        let address = $('#address').val();
+        let stateValue =  $('#state-dropdown').val();
+           console.log(address);
+           console.log(stateValue);
+            $.ajax({
+            type: 'POST',
+            url: '/profile-details',
+            data: {
+                'id' : $('#userId').val(),
+                'address': $('#address').val(),
+                'state': $('#state-dropdown').val(),
+                'dist': $('#dist-dropdown').val(),
+                'city': $('#city-dropdown').val(),
+                'religion': $('#religion-dropdown').val(),
+                'cast': $('#cast-dropdown').val(),
+                'subcast': $('#subcast-dropdown').val(),
+                'gotra': $('#gotra-dropdown').val(),
+                'star': $('#star-dropdown').val(),
+                'dosh': $('#dosh-dropdown').val(),
+                'body-type': $('#body-type').val(),
+                'drinking': $('#drinking').val(),
+                'smoking': $('#smoaking').val(),
+                'education': $('#education').val(),
+                'profession': $('#professional-details').val(),
+                'marital': $('#marital-status').val(),
+                'physical': $('#physical-status').val(),
+                'height': $('#height').val(),
+                'weight': $('#weight').val(),
+
+            },
+            success: function(){
+                $('#section2').hide();
+                $('#section3').fadeIn( "slow" );
+            }
+        });
+
     }
     function showSection2() {
         $('#section2').fadeIn( "slow" );
@@ -568,17 +608,12 @@
     {#  })#}
     $( document ).ready(function() {
         $("#religion-dropdown").trigger('change');
-        $("#cast-dropdown").trigger('change');
+        $("#religion-dropdown-partner").trigger('change');
+
         let dropdown = $('#state-dropdown');
         dropdown.empty();
         dropdown.append('<option selected="true" disabled>Choose State/Province</option>');
-        {#$.getJSON('https://api.myjson.com/bins/7xq2x', function(json) {#}
-        {#    $('#state-dropdown').empty();#}
-        {#    $('#state-dropdown').append($('<option>').text("Select"));#}
-        {#    $.each(json, function (i, obj) {#}
-        {#        $('#select').append($('<option>').text(obj.name).attr('value', obj.name));#}
-        {#    });#}
-      //  });
+
         const url = 'static/frontend/docs/state-dist-dist.json';
         $.getJSON(url, function (data) {
           $.each(data, function (entry) {
@@ -622,6 +657,7 @@
                   for( i in  data[value]){
                      $('#dist-dropdown').append($('<option></option>').attr('value', i).text(i));
                   }
+                  $("#dist-dropdown").trigger('change');
               }
           })
         });
@@ -637,6 +673,7 @@
                   let i;
                   for( i in  data[valueState]){
                      if (i == valueDist){
+                         $('#city-dropdown').empty();
                          let x;
                          for(x in data[valueState][i]){
                              $('#city-dropdown').append($('<option></option>').attr('value', data[valueState][i][x]).text(data[valueState][i][x]));
@@ -660,23 +697,58 @@
                   $.each(resultData.data, function (entry, value) {
                         $('#cast-dropdown').append($('<option></option>').attr('value', value.name).text(value.name));
                   });
+                  $('#cast-dropdown').trigger('change');
               }
         });
 
         {#console.log(valueReligion);#}
     }
 
+    function selectCastPartner() {
+        valueReligion = $('#religion-dropdown-partner').val();
+        var request = $.ajax({
+              url: "/select-cast",
+              type: 'POST',
+              data: {religion : valueReligion},
+              success: function(resultData) {
+                  $('#cast-dropdown-partner').empty();
+                  $.each(resultData.data, function (entry, value) {
+                        $('#cast-dropdown-partner').append($('<option></option>').attr('value', value.name).text(value.name));
+                  });
+                  $('#cast-dropdown-partner').trigger('change');
+              }
+        });
+
+    }
+
 
     function selectSubcast() {
-        valueCast = $('#cast-dropdown').val();
+        let valueCast = $('#cast-dropdown').val();
         var request = $.ajax({
             url: "/select-sub-cast",
             type: 'POST',
             data: {cast : valueCast},
             success: function(resultData) {
+                console.log("helo");
              $('#subcast-dropdown').empty();
                   $.each(resultData.data, function (entry, value) {
                       $('#subcast-dropdown').append($('<option></option>').attr('value', value.name).text(value.name));
+                  });
+                  $('#subcast-dropdown').trigger('change');
+            }
+        });
+    }
+
+    function selectSubcastPartner() {
+        let valueCast = $('#cast-dropdown-partner').val();
+        var request = $.ajax({
+            url: "/select-sub-cast",
+            type: 'POST',
+            data: {cast : valueCast},
+            success: function(resultData) {
+             $('#subcast-dropdown-partner').empty();
+                  $.each(resultData.data, function (entry, value) {
+                      $('#subcast-dropdown-partner').append($('<option></option>').attr('value', value.name).text(value.name));
                   });
             }
         });
@@ -690,21 +762,5 @@
                 $selectageto.append($('<option></option>').val(i).html(i))
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     </script>
 {% endblock %}
