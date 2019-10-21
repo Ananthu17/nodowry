@@ -132,7 +132,8 @@ class SelectEducation(View):
 class SaveProfileDetails(View):
 
     def post(self, request, *args, **kwargs):
-        user_id = request.POST.get('id', "")
+
+        user_id = int(request.POST.get('id', ""))
         address = request.POST.get('address', "")
         state = request.POST.get('state', "")
         dist = request.POST.get('dist', "")
@@ -149,12 +150,13 @@ class SaveProfileDetails(View):
         profession = request.POST.get('profession', "")
         marital = request.POST.get('marital', "")
         physical = request.POST.get('physical', "")
-        height = request.POST.get('height', "")
-        weight = request.POST.get('weight', "")
+        height = float(request.POST.get('height', ""))
+        weight = float(request.POST.get('weight', ""))
         try:
             user_info = UserInfo.objects.get(id=user_id)
             user_info.state = state
             user_info.dist = dist
+
             user_info.city = city
             user_info.religion = Religion.objects.get(name=religion)
             user_info.cast = Cast.objects.get(name=cast)
@@ -174,5 +176,42 @@ class SaveProfileDetails(View):
             message = "Item Successfully Added"
             return JsonResponse({'data': message})
         except UserInfo.DoesNotExist:
-            pass
-        return redirect(reverse('home'))
+            message = "Item is not added"
+        return JsonResponse({'data': message})
+
+
+class SavePartnerDetails(View):
+
+    def post(self, request, *args, **kwargs):
+        user_id = request.POST.get('id', "")
+        bodyType = request.POST.get('bodyType', "")
+        ageFrom = request.POST.get('ageFrom', "")
+        ageTo = request.POST.get('ageTo', "")
+        physicalstatus = request.POST.get('physicalstatus', "")
+        maritalstatus = request.POST.get('maritalstatus', "")
+        religion = request.POST.get('religion', "")
+        cast = request.POST.get('cast', "")
+        subcast = request.POST.get('subcast', "")
+        gotram = request.POST.get('gotram', "")
+        star = request.POST.get('star', "")
+        dosh = request.POST.get('dosh', "")
+        try:
+            user_info = UserInfo.objects.get(id=user_id)
+            partner_pref = PartnerPreference()
+            partner_pref.user_info = user_info
+            partner_pref.bodytype = bodyType
+            partner_pref.age_from = ageFrom
+            partner_pref.age_to = ageTo
+            partner_pref.physical_status = physicalstatus
+            partner_pref.marital_status = maritalstatus
+            partner_pref.religion = Religion.objects.get(name=religion)
+            partner_pref.cast = Cast.objects.get(name=cast)
+            partner_pref.subcast = SubCast.objects.get(name=subcast)
+            partner_pref.gotra = gotram
+            partner_pref.star = star
+            partner_pref.dosh = dosh
+            partner_pref.save()
+            message = "Item Successfully Added"
+        except UserInfo.DoesNotExist:
+            message = "Item is not added"
+        return JsonResponse({'data': message})

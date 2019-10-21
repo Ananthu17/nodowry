@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extrastyle %}
-    <link href="{% static 'frontend/css/filter.css' %}" rel="stylesheet"/>
+    <link href="{% static 'frontend/css/filter.css' %}" rel="stylesheet" xmlns="http://www.w3.org/1999/html"/>
     <link href="{% static 'frontend/css/profile.css' %}" rel="stylesheet"/>
 {% endblock %}
 {% block content %}
@@ -324,7 +324,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <select name="physical" class="form-control" id="physical-status">
-                                        <option value="Healthy,">Healthy</option>
+                                        <option value="Healthy">Healthy</option>
                                         <option value="Athletic">Athletic</option>
                                     </select>
                                 </div>
@@ -373,7 +373,7 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <select name="body-type-partner" class="form-control">
+                                    <select name="body-type-partner" class="form-control" id="bodyTypePartner">
                                         <option value="Fat">Fat</option>
                                         <option value="Slim">Slim</option>
                                         <option value="Normal">Normal</option>
@@ -385,7 +385,7 @@
                             </div>
                             <div class="col-md-1">
                                 <div class="form-group">
-                                    <select name="body-type-partner" class="form-control agefrom" onchange='changeAge(this.value);'>
+                                    <select class="form-control agefrom" onchange='changeAge(this.value);' id="ageFrom">
                                     </select>
                                 </div>
                             </div>
@@ -394,7 +394,7 @@
                             </div>
                             <div class="col-md-1">
                                 <div class="form-group">
-                                    <select name="body-type-partner" class="form-control ageto">
+                                    <select name="body-type-partner" class="form-control ageto" id="ageTo">
                                     </select>
                                 </div>
                             </div>
@@ -405,8 +405,8 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <select name="physical-partner" class="form-control">
-                                        <option value="Healthy,">Healthy</option>
+                                    <select name="physical-partner" class="form-control" id="physicalParter">
+                                        <option value="Healthy">Healthy</option>
                                         <option value="Athletic">Athletic</option>
                                     </select>
                                 </div>
@@ -416,7 +416,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <select name="maritial-partner" class="form-control">
+                                    <select name="maritial-partner" class="form-control" id="maritialParter">
                                         <option value="Single">Single</option>
                                         <option value="Married">Married</option>
                                         <option value="Divorced">Divorced</option>
@@ -458,7 +458,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <select name="gotra-partner" class="form-control">
+                                    <select name="gotra-partner" class="form-control" id="gotra-partner">
                                         <option value="Nandhi">Nandhi</option>
                                         <option value="Nandhi">Bhargava</option>
                                         <option value="Nandhi">Dubey</option>
@@ -480,7 +480,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <select name="gotra-patner" class="form-control">
+                                    <select name="star-patner" class="form-control" id="star-patner">
                                         <option value="Ashvini">Ashvini</option>
                                         <option value="Bharani">Bharani</option>
                                         <option value="Karhika">Karhika</option>
@@ -502,7 +502,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <select name="gotra" class="form-control">
+                                    <select name="dosh-partner" class="form-control" id="dosh-partner">
                                         <option value="Manglik">Manglik</option>
                                         <option value="Nadi">Nadi</option>
                                         <option value="Pitra">Pitra</option>
@@ -514,7 +514,7 @@
                         <div class="row justify-content-end">
                             <div class="col-md-3">
                                 <button class="btn" onclick="showSection2()">Back</button>
-                                <button class="btn">Save</button>
+                                <button class="btn" onclick="saveForm()">Save</button>
                             </div>
                         </div>
                     </div>
@@ -523,6 +523,50 @@
         </div>
     </section>
 </div>
+
+<button type="button" class="btn btn-primary" data-toggle="modal" id="redirectButton" data-target="#modalRedirect">
+  Launch demo modal
+</button>
+
+
+<div class="modal fade" id="modalRedirect" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" style="border-radius: 15px;">
+      <div class="modal-body">
+          <p class="text-center">
+              We have found some matches based on your preferences
+          </p>
+      </div>
+        <div class="text-center">
+            <p>
+                <button class="btn">
+                    <a href="{% url 'filter' %}">Find Matches</a>
+                </button>
+            </p>
+
+                            OR
+            <p>
+                <button class="btn">
+                <a href="{% url 'home' %}">Go To Home</a>
+                </button>
+            </p>
+        </div>
+
+{#      <div class="modal-footer">#}
+{#        #}
+{#      </div>#}
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
 {% endblock %}
 {% block extrascript %}
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -554,11 +598,8 @@
         $('#section1').fadeIn( "slow" );
         $('#section2').hide();
     }
+
     function hideSection2() {
-        let address = $('#address').val();
-        let stateValue =  $('#state-dropdown').val();
-           console.log(address);
-           console.log(stateValue);
             $.ajax({
             type: 'POST',
             url: '/profile-details',
@@ -592,9 +633,36 @@
         });
 
     }
+
     function showSection2() {
         $('#section2').fadeIn( "slow" );
         $('#section3').hide();
+    }
+
+    function saveForm() {
+        console.log("save method is called")
+        $.ajax({
+            type: 'POST',
+            url: '/partner-details',
+            data: {
+                'id' : $('#userId').val(),
+                'bodyType' : $('#bodyTypePartner').val(),
+                'ageFrom' : $('#ageFrom').val(),
+                'ageTo' : $('#ageTo').val(),
+                'physicalstatus' : $('#physicalParter').val(),
+                'maritalstatus' : $('#maritialParter').val(),
+                'religion' : $('#religion-dropdown-partner').val(),
+                'cast' : $('#cast-dropdown-partner').val(),
+                'subcast' : $('#subcast-dropdown-partner').val(),
+                'gotram' : $('#gotra-partner').val(),
+                'star' : $('#star-dropdown').val(),
+                'dosh' : $('#dosh-partner').val(),
+            },
+            success: function(){
+                {#window.location.replace({% url 'home' %});#}
+                $("#redirectButton").click();
+            }
+        });
     }
 
     {#let dropdown = $('#state-dropdown');#}

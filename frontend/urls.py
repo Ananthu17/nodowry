@@ -14,4 +14,5 @@ urlpatterns = [
     path('select-sub-cast', csrf_exempt(SelectSubCast.as_view()), name='select-sub-cast'),
     path('select-education', csrf_exempt(SelectEducation.as_view()), name='select-education'),
     path('profile-details', csrf_exempt(SaveProfileDetails.as_view()), name='profile-details'),
+    path('partner-details', csrf_exempt(SavePartnerDetails.as_view()), name='partner-details'),
 ]

@@ -11,5 +11,6 @@ admin.site.register(SubCast)
 admin.site.register(Plans)
 admin.site.register(UserInfo)
 admin.site.register(UserImages)
+admin.site.register(PartnerPreference)
 
 
