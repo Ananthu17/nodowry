@@ -1,0 +1,16 @@
+{% extends 'frontend/base-bootstrap.html' %}
+{% load static %}
+
+{% block extrastyle %}
+    <link href="{% static 'frontend/css/filter.css' %}" rel="stylesheet" xmlns="http://www.w3.org/1999/html"/>
+    <link href="{% static 'frontend/css/profile.css' %}" rel="stylesheet"/>
+{% endblock %}
+{% block content %}
+<!-- navbar -->
+    {% include "frontend/filter-nav.html" %}
+<!-- navber ends-->
+
+{% endblock %}
+{% block extrascript %}
+
+{% endblock %}

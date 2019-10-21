@@ -215,3 +215,14 @@ class SavePartnerDetails(View):
         except UserInfo.DoesNotExist:
             message = "Item is not added"
         return JsonResponse({'data': message})
+
+
+class UserProfileDetails(TemplateView):
+        template_name = 'frontend/user-profile.html'
+
+        def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            user = UserProfile.objects.get(id=41)
+            context['user_profile'] = user
+            context['user_images'] = UserImages.objects.filter(user_info__user_profile=user)
+            return context
