@@ -14,3 +14,42 @@ body{
     list-style-type: none;
     padding: 4px;
 }
+tr td {
+    border: hidden;
+}
+table{
+    border: hidden;
+}
+.card-shadow{
+    box-shadow: 4px 5px 27px 0 rgb(154, 107, 137);
+    border-radius: 25px;
+}
+.edit-profile{
+    background-color: #ffffff;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 7px;
+    margin-top: auto;
+}
+.profile-menu{
+    list-style-type: none;
+    margin-bottom: 0;
+    padding: 10px;
+}
+.menu-item{
+        background-color: #ac768c;
+        border: 3px solid #ffffff;
+        border-radius: 9px;
+
+}
+.menu-item.active{
+        background-color:  #e2b0b0;
+        transform : translateY(-3px);
+        box-shadow:0px 20px 20px rgba(0,0,0,0.2);
+}
+.menu-item:hover{
+   box-shadow:0px 20px 20px rgba(0,0,0,0.2);
+   transform : translateY(-4px);
+}

@@ -22,17 +22,39 @@
                             {% endfor %}
                         </div>
                         <div class="basic-info text-center">
-                            <h3>{{ user_profile.user.first_name }}</h3>
-                            <h4>NDM10{{ user_profile.id }}</h4>
+                            <h3 class="pl-3">{{ user_profile.user.first_name }}</h3>
+                            <h3>NDM10{{ user_profile.id }}</h3>
                         </div>
                     </div>
+                </div>
+                <div class="p-3"></div>
+                <div class="card">
+                    <ul class="profile-menu">
+                        <li class="py-2 px-2 menu-item active">
+                            <i class="fa fa-user pr-1" aria-hidden="true"></i>
+                            Profile
+                        </li>
+                        <li class="py-2 px-2 menu-item">
+                            <i class="fa fa-eye pr-1" aria-hidden="true"></i>
+                            Preferences
+                        </li>
+                        <li class="py-2 px-2 menu-item">
+                            <i class="fa fa-picture-o pr-1" aria-hidden="true"></i>
+                            gallery
+                        </li>
+                        <li class="py-2 px-2 menu-item">
+                            <i class="fa fa-heart pr-1" aria-hidden="true"></i>
+                            Interest
+                        </li>
+
+                    </ul>
                 </div>
 {#                <div class="images" style="height: 100vh; background-color: #0c5460">#}
 {#                    #}
 {#                </div>#}
             </div>
              <div class="col-md-6 py-3">
-                <civ class="card">
+                <civ class="card card-shadow">
                     <div class="main-content">
                         <div class="row">
                             <div class="col-md-8">
@@ -40,32 +62,28 @@
                                     <h4>{{ user_profile.user.first_name }} (NDM10{{ user_profile.id }})</h4>
                                     <ul class="user-details">
                                         <li>
-                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                            <i class="fa fa-pencil pr-3" aria-hidden="true"></i>
                                             Profile created for myself
                                         </li>
                                         <li>
-                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                            <i class="fa fa-calendar pr-3" aria-hidden="true"></i>
                                             {{ user_profile.userinfo.dob }}
 {#                                            {{ user_profile.userinfo.height}}cm#}
                                         </li>
                                         <li>
-                                            <i class="fa fa-location-arrow" aria-hidden="true"></i>
+                                            <i class="fa fa-location-arrow pr-3" aria-hidden="true"></i>
                                             {{ user_profile.userinfo.address }}
                                         </li>
                                         <li>
-                                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                            <i class="fa fa-map-marker pr-3" aria-hidden="true"></i>
                                             {{ user_profile.userinfo.state }},{{ user_profile.userinfo.dist }},,{{ user_profile.userinfo.city }}
                                         </li>
                                         <li>
-                                            <i class="fa fa-book" aria-hidden="true"></i>
+                                            <i class="fa fa-book pr-3" aria-hidden="true"></i>
                                             {{ user_profile.userinfo.education.field }},{{ user_profile.userinfo.profession }}
                                         </li>
                                         <li>
-                                            <i class="fa fa-phone" aria-hidden="true"></i>
-                                            {{ user_profile.phone_number }}
-                                        </li>
-                                        <li>
-                                            <i class="fa fa-phone" aria-hidden="true"></i>
+                                            <i class="fa fa-phone pr-3" aria-hidden="true"></i>
                                             {{ user_profile.phone_number }}
                                             {% if user_profile.phone_number_verified %}
                                                 <span class="text-success">(number verified)</span>
@@ -76,7 +94,7 @@
                                             {% endif %}
                                         </li>
                                         <li>
-                                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                                            <i class="fa fa-envelope pr-3" aria-hidden="true"></i>
                                             {{ user_profile.user.email }}
                                             {% if user_profile.email_verified %}
                                                 <span class="text-success">(email verified)</span>
@@ -93,10 +111,96 @@
                         </div>
                     </div>
                 </civ>
+                <div class="p-3"></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-shadow">
+                            <div class="card-header">
+                                 <div class="row justify-content-between  pr-md-3">
+                                     <h5>Profile Details</h5>
+                                    <div class="edit-profile">
+                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                    </div>
+                                 </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive-sm">
+                                    <table class="table table-sm">
+                                        <tbody>
+                                            <tr class="py-2">
+                                                <td class="w-50">Name</td>
+                                                <td>:</td>
+                                                <td class="w-50">
+                                                    {{ user_profile.user.first_name }}
+                                                </td>
+                                            </tr>
+                                            <tr class="py-2">
+                                                <td class="w-50">Gender</td>
+                                                <td>:</td>
+                                                    {% if user_profile.gender == 'men' %}
+                                                        <td class="w-50">Male</td>
+                                                    {% elif user_profile.gender == 'women' %}
+                                                        <td class="w-50">Female</td>
+                                                    {% endif %}
+                                            </tr>
+                                            <tr class="py-2">
+                                                  <td class="w-50">Mother Tongue</td>
+                                                  <td>:</td>
+                                                  <td class="w-50">{{ user_profile.userinfo.mother_tongue }}</td>
+                                            </tr>
+                                            <tr class="py-2">
+                                                  <td class="w-50">Body Type</td>
+                                                  <td>:</td>
+                                                  <td class="w-50">{{ user_profile.userinfo.bodytype }}</td>
+                                            </tr>
+                                            <tr class="py-2">
+                                                <td class="w-50">Physical Status</td>
+                                                <td>:</td>
+                                                <td class="w-50">{{ user_profile.userinfo.physical_status }}</td>
+                                            </tr>
+                                            <tr class="py-2">
+                                                  <td class="w-50">Height</td>
+                                                  <td>:</td>
+                                                  <td class="w-50">{{ user_profile.userinfo.height }} in CM</td>
+                                            </tr>
+                                            <tr class="py-2">
+                                                  <td class="w-50">Weight</td>
+                                                  <td>:</td>
+                                                  <td class="w-50">{{ user_profile.userinfo.weight }} in CM</td>
+                                            </tr>
+                                            <tr class="py-2">
+                                                  <td class="w-50">Marital Status</td>
+                                                  <td>:</td>
+                                                  <td class="w-50">{{ user_profile.userinfo.marital_status }}</td>
+                                            </tr>
+                                            <tr class="py-2">
+                                                  <td class="w-50">Eating Habbits</td>
+                                                  <td>:</td>
+                                                  <td class="w-50">{{ user_profile.userinfo.eating }}</td>
+                                            </tr>
+                                            <tr class="py-2">
+                                                  <td class="w-50">Drinking Habbits</td>
+                                                  <td>:</td>
+                                                  <td class="w-50">{{ user_profile.userinfo.drinking }}</td>
+                                            </tr>
+                                            <tr class="py-2">
+                                                  <td class="w-50">Smoking Habbits</td>
+                                                  <td>:</td>
+                                                  <td class="w-50">{{ user_profile.userinfo.smoking }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-md-3 py-3">
-                <div class="plan-details" style="height: 100vh; background-color: #6c757d">
-
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="text-center">My Plan Information</h5>
+                    </div>
                 </div>
             </div>
         </div>

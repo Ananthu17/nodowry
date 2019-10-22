@@ -144,7 +144,7 @@ class SaveProfileDetails(View):
         gotra = request.POST.get('gotra', "")
         star = request.POST.get('star', "")
         bodyType = request.POST.get('body-type', "")
-        drinking = request.POST.get('gotra', "")
+        drinking = request.POST.get('drinking', "")
         smoking = request.POST.get('smoking', "")
         education = request.POST.get('education', "")
         profession = request.POST.get('profession', "")
@@ -152,6 +152,7 @@ class SaveProfileDetails(View):
         physical = request.POST.get('physical', "")
         height = float(request.POST.get('height', ""))
         weight = float(request.POST.get('weight', ""))
+        eating = request.POST.get('eating', "")
         try:
             user_info = UserInfo.objects.get(id=user_id)
             user_info.state = state
@@ -172,6 +173,7 @@ class SaveProfileDetails(View):
             user_info.weight = weight
             user_info.gotra = gotra
             user_info.star = star
+            user_info.eating = eating
             user_info.save()
             message = "Item Successfully Added"
             return JsonResponse({'data': message})
