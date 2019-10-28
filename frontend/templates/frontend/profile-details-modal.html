@@ -1,0 +1,106 @@
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+ {% load static %}
+      <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                  <div class="container">
+                      <div class="row">
+                          <div class="col-12">
+                              <h3 class="text-center">Profile Details</h3>
+                              <form id="profileImage" method="post" action="{% url 'upload-image' %}"  enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                  <div class="row">
+                                      <div class="col-md-2">
+                                          <input name="id" id="userId" type="text" value="{{ user_profile.userinfo.id }}" hidden>
+                                            {% for images in user_images %}
+                                                {% if images.is_profile_pic %}
+                                                    <img class="profile-pic pb-2" src="/media/{{ images.file }}" alt="">
+                                                {% endif %}
+                                            {% endfor %}
+                                          <label for='photos' style="display: block;">
+                                              <img class="add-more" src="{% static 'frontend/images/plus-1270001_1280.png' %}" alt="">
+                                          </label>
+                                          <input type="file" id="photos" name="photos" onchange="uploadPhoto()" multiple hidden />
+                                      </div>
+                                      <div class="col-md-1">
+
+                                      </div>
+                                      <div class="col-md-8">
+                                          <div class="row">
+                                              <div class="col-md-2 p-2">
+                                                    Name:
+                                              </div>
+                                              <div class="col-md-10">
+                                                    <div class="form-group">
+                                                    <input type="text" class="form-control login-form" value="{{ user_profile.user.first_name }}" readonly>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="row">
+                                              <div class="col-md-2 p-2">
+                                                    DOB:
+                                              </div>
+                                              <div class="col-md-10">
+                                                  <div class="form-group">
+                                                    <input type="text" class="form-control login-form" value="{{ user_profile.userinfo.dob }}" readonly>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="row">
+                                              <div class="col-md-2 p-2">
+                                                    Gender:
+                                              </div>
+                                              <div class="col-md-10">
+                                                  <div class="form-group">
+                                                        {% if user_profile.gender == 'men' %}
+                                                            <input type="text" class="form-control login-form" value="Male" readonly>
+                                                        {% else %}
+                                                            <input type="text" class="form-control login-form" value="Female" readonly>
+                                                        {% endif %}
+
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="row">
+                                              <div class="col-md-2 p-2">
+                                                    Email:
+                                              </div>
+                                              <div class="col-md-10">
+                                                  <div class="form-group">
+                                                    <input type="text" class="form-control login-form" value="{{ user_profile.user.email }}" readonly>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="row">
+                                              <div class="col-md-2 p-2">
+                                                    Phone No:
+                                              </div>
+                                              <div class="col-md-10">
+                                                  <div class="form-group">
+                                                    <input type="text" class="form-control login-form" value="{{ user_profile.phone_number }}" readonly>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                            {% for images in user_images %}
+                                                {% if not images.is_profile_pic %}
+                                                    <div class="col-md-2">
+                                                    <img class="user-images pb-2" src="/media/{{ images.file }}" alt="">
+                                                    <img class="remove-image" src="{% static 'frontend/images/minus.png' %}" onclick="DeleteImage({{ images.id }})" alt="">
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                  </div>
+                              </form>
+                              <div class="row justify-content-end">
+                                    <div class="col-md-2">
+                                        <button class="btn" onclick="hideSection1()">Continue</button>
+                                    </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+            </div>
+      </div>
+    </div>

@@ -102,6 +102,16 @@ form.filter-results .btn{
 	width: 100% !important;
 }
 
+.user-profile{
+	background-color: white;
+	color:  #e91e63;
+	border-radius: 5px;
+}
+
+.user-profile a{
+	color:  #e91e63;
+	font-size: x-large;
+}
 
 @media (max-width: 766px){
 

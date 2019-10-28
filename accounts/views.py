@@ -199,9 +199,14 @@ class LoginView(TemplateView):
                                 if user_profile.is_active:
                                     if user.check_password(password):
                                         login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-                                        message = "Welcome " + user.first_name;
-                                        messages.info(request, message)
-                                        return redirect(reverse('home'))
+                                        message = "Welcome " + user.first_name
+                                        if user_profile.first_time_login:
+                                            user_profile.first_time_login = False
+                                            user_profile.save()
+                                            return redirect(reverse('profile'))
+                                        else:
+                                            messages.info(request, message)
+                                            return redirect(reverse('home'))
                                     else:
                                         messages.error(request, "Invalid Credentials")
                                         return redirect(reverse('login'))

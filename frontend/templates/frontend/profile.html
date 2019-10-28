@@ -130,7 +130,8 @@
                             </div>
                             <div class="col-md-10">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="address">
+                                    <input type="text" class="form-control" id="address" onchange="removeAddError()">
+                                    <div class="error-helper py-1" id="address-error"></div>
                                 </div>
                             </div>
                         </div>
@@ -143,6 +144,7 @@
 {#                                    <input type="text" id="state-dropdown" >#}
                                     <select name="state" id="state-dropdown" class="form-control" onchange="selectDist()">
                                     </select>
+                                    <div class="error-helper py-1" id="state-error"></div>
                                 </div>
                             </div>
                             <div class="col-md-2 pt-2">
@@ -180,7 +182,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <select name="cast" id="cast-dropdown" class="form-control" onchange="selectSubcast()" >
+                                    <select name="cast" id="cast-dropdown" class="form-control" onchange="selectSubcast()">
                                     </select>
                                 </div>
                             </div>
@@ -202,15 +204,15 @@
                                 <div class="form-group">
                                     <select name="gotra" class="form-control" id="gotra-dropdown">
                                         <option value="Nandhi">Nandhi</option>
-                                        <option value="Nandhi">Bhargava</option>
-                                        <option value="Nandhi">Dubey</option>
-                                        <option value="Nandhi">Gaur</option>
-                                        <option value="Nandhi">Upamanyu</option>
-                                        <option value="Nandhi">Uttam</option>
-                                        <option value="Nandhi">Vishnu</option>
-                                        <option value="Nandhi">Vishvamitra</option>
-                                        <option value="Nandhi">Vishrava</option>
-                                        <option value="Nandhi">Shringi</option>
+                                        <option value="Bhargava">Bhargava</option>
+                                        <option value="Dubey">Dubey</option>
+                                        <option value="Gaur">Gaur</option>
+                                        <option value="Upamanyu">Upamanyu</option>
+                                        <option value="Uttam">Uttam</option>
+                                        <option value="Vishnu">Vishnu</option>
+                                        <option value="Vishvamitra">Vishvamitra</option>
+                                        <option value="Vishrava">Vishrava</option>
+                                        <option value="Shringi">Shringi</option>
                                         <option value="Nandhi">Khilaivar</option>
                                         <option value="Nandhi">Pachori</option>
                                         <option value="Nandhi">Nandhi</option>
@@ -245,7 +247,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                      <select name="gotra" class="form-control" id="dosh-dropdown">
-                                        <option value="Doesn't Matter"> Doesn't Matter</option>
+                                        <option value="No-Dosh">No-Dosh</option>
                                         <option value="Manglik">Manglik</option>
                                         <option value="Nadi">Nadi</option>
                                         <option value="Pitra">Pitra</option>
@@ -418,6 +420,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <select name="physical-partner" class="form-control" id="physicalParter">
+                                        <option value="Doesn't Matter">Doesn't Matter</option>
                                         <option value="Healthy">Healthy</option>
                                         <option value="Athletic">Athletic</option>
                                     </select>
@@ -462,6 +465,18 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <select name="subcast" id="subcast-dropdown-partner" class="form-control">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 pt-2">
+                                Mother Tongue:
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <select name="mother-tongue" id="mother-tongue-partner" class="form-control">
+                                         {% for language in mother_tongue %}
+                                             <option value="{{ language.id }}">{{ language }}</option>
+                                         {% endfor %}
                                     </select>
                                 </div>
                             </div>
@@ -537,7 +552,7 @@
     </section>
 </div>
 
-<button type="button" class="btn btn-primary" data-toggle="modal" id="redirectButton" data-target="#modalRedirect">
+<button type="button" class="btn btn-primary" data-toggle="modal" id="redirectButton" data-target="#modalRedirect" hidden>
   Launch demo modal
 </button>
 
@@ -552,8 +567,8 @@
       </div>
         <div class="text-center">
             <p>
-                <button class="btn">
-                    <a href="{% url 'filter' %}">Find Matches</a>
+                <button class="btn" onclick="filterResults()">
+                    Find Matches
                 </button>
             </p>
 
@@ -613,38 +628,51 @@
     }
 
     function hideSection2() {
-            $.ajax({
-            type: 'POST',
-            url: '/profile-details',
-            data: {
-                'id' : $('#userId').val(),
-                'address': $('#address').val(),
-                'state': $('#state-dropdown').val(),
-                'dist': $('#dist-dropdown').val(),
-                'city': $('#city-dropdown').val(),
-                'religion': $('#religion-dropdown').val(),
-                'cast': $('#cast-dropdown').val(),
-                'subcast': $('#subcast-dropdown').val(),
-                'gotra': $('#gotra-dropdown').val(),
-                'star': $('#star-dropdown').val(),
-                'dosh': $('#dosh-dropdown').val(),
-                'body-type': $('#body-type').val(),
-                'drinking': $('#drinking').val(),
-                'smoking': $('#smoaking').val(),
-                'eating': $('#eating').val(),
-                'education': $('#education').val(),
-                'profession': $('#professional-details').val(),
-                'marital': $('#marital-status').val(),
-                'physical': $('#physical-status').val(),
-                'height': $('#height').val(),
-                'weight': $('#weight').val(),
 
-            },
-            success: function(){
-                $('#section2').hide();
-                $('#section3').fadeIn( "slow" );
-            }
-        });
+        if ($('#address').val() == ''){
+            {#$('#address-error').innerHTML += 'Please fill in this field';#}
+            $('#address-error').text('Please fill in this field');
+        }
+        else if ($('#state-dropdown').val() == null){
+            $('#state-error').text('Please select a value from the list');
+        }
+
+
+
+
+
+        {#    $.ajax({#}
+        {#    type: 'POST',#}
+        {#    url: '/profile-details',#}
+        {#    data: {#}
+        {#        'id' : $('#userId').val(),#}
+        {#        'address': $('#address').val(),#}
+        {#        'state': $('#state-dropdown').val(),#}
+        {#        'dist': $('#dist-dropdown').val(),#}
+        {#        'city': $('#city-dropdown').val(),#}
+        {#        'religion': $('#religion-dropdown').val(),#}
+        {#        'cast': $('#cast-dropdown').val(),#}
+        {#        'subcast': $('#subcast-dropdown').val(),#}
+        {#        'gotra': $('#gotra-dropdown').val(),#}
+        {#        'star': $('#star-dropdown').val(),#}
+        {#        'dosh': $('#dosh-dropdown').val(),#}
+        {#        'body-type': $('#body-type').val(),#}
+        {#        'drinking': $('#drinking').val(),#}
+        {#        'smoking': $('#smoaking').val(),#}
+        {#        'eating': $('#eating').val(),#}
+        {#        'education': $('#education').val(),#}
+        {#        'profession': $('#professional-details').val(),#}
+        {#        'marital': $('#marital-status').val(),#}
+        {#        'physical': $('#physical-status').val(),#}
+        {#        'height': $('#height').val(),#}
+        {#        'weight': $('#weight').val(),#}
+        {##}
+        {#    },#}
+        {#    success: function(){#}
+        {#        $('#section2').hide();#}
+        {#        $('#section3').fadeIn( "slow" );#}
+        {#    }#}
+        {#});#}
 
     }
 
@@ -671,6 +699,7 @@
                 'gotram' : $('#gotra-partner').val(),
                 'star' : $('#star-dropdown').val(),
                 'dosh' : $('#dosh-partner').val(),
+                'mother_tongue': $('#mother-tongue-partner').val(),
             },
             success: function(){
                 {#window.location.replace({% url 'home' %});#}
@@ -694,7 +723,7 @@
 
         let dropdown = $('#state-dropdown');
         dropdown.empty();
-        dropdown.append('<option selected="true" disabled>Choose State/Province</option>');
+        dropdown.append('<option selected="true" value="select" disabled>Choose State/Province</option>');
 
         const url = 'static/frontend/docs/state-dist-dist.json';
         $.getJSON(url, function (data) {
@@ -844,5 +873,18 @@
                 $selectageto.append($('<option></option>').val(i).html(i))
             }
         }
+
+     function filterResults() {
+        let lang = $('#mother-tongue-partner').val(),
+         {% if user_profile.gender == "men" %}
+                 gender = "woman";
+          {% else %}
+                 gender = "men";
+         {% endif %}
+        var ageFrom =  $('#ageFrom').val();
+        var ageTo = $('#ageTo').val();
+
+         window.location = '/filter?gender='+gender+'&agefrom='+ageFrom+'&ageto='+ageTo+'&religion=1&language='+lang;
+     }
     </script>
 {% endblock %}

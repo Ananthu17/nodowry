@@ -39,6 +39,8 @@ class UserProfile(models.Model):
     email_verified = models.BooleanField(default=False)
     otp_message = models.IntegerField(blank=True, null=True)
     phone_number_verified = models.BooleanField(default=False, null=True)
+    first_time_login = models.BooleanField(default=True, null=True)
+
 
     def __str__(self):
         return self.user.username

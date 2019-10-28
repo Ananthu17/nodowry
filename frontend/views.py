@@ -6,6 +6,7 @@ from django.urls import reverse
 from datetime import date
 from django.contrib import messages
 
+
 class HomePage(TemplateView):
     template_name = 'frontend/index.html'
 
@@ -13,6 +14,12 @@ class HomePage(TemplateView):
         context = super().get_context_data(**kwargs)
         context['religion_list'] = Religion.objects.all()
         context['language_list'] = MotherTongue.objects.all()
+        user_obj = self.request.user
+        user = UserProfile.objects.get(user=user_obj)
+        context['user_profile'] = user
+        context['user_images'] = UserImages.objects.filter(user_info__user_profile=user)
+        context['religion_list'] = Religion.objects.all()
+        context['mother_tongue'] = MotherTongue.objects.all()
         return context
 
 
@@ -50,10 +57,12 @@ class Profile(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user = UserProfile.objects.get(id=41)
+        user_obj = self.request.user
+        user = UserProfile.objects.get(user=user_obj)
         context['user_profile'] = user
         context['user_images'] = UserImages.objects.filter(user_info__user_profile=user)
         context['religion_list'] = Religion.objects.all()
+        context['mother_tongue'] = MotherTongue.objects.all()
         return context
 
 
@@ -224,7 +233,8 @@ class UserProfileDetails(TemplateView):
 
         def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
-            user = UserProfile.objects.get(id=41)
+            user_obj = self.request.user
+            user = UserProfile.objects.get(user=user_obj)
             context['user_profile'] = user
             user_info_obj = UserInfo.objects.get(user_profile=user)
             context['partner_pref'] = PartnerPreference.objects.get(user_info=user_info_obj)
