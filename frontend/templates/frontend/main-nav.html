@@ -21,7 +21,25 @@
             <a class="nav-item nav-link active" href="#">Toll free no :+91-485-569852</a>
             <a class="nav-item nav-link" href="#">Services</a>
             {% if user.is_authenticated %}
-                <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+                <div class="dropdown show">
+{#                  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+{#                    Dropdown link#}
+{#                  </a>#}
+                  <div class="profile-action dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      {% for images in user_images %}
+                            {% if images.is_profile_pic %}
+                                <img class="profile-action-image" src="/media/{{ images.file }}" alt="">
+                            {% endif %}
+                      {% endfor %}
+                  </div>
+
+                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" href="{% url 'user-profile' %}">Profile</a>
+                    <a class="dropdown-item" href="{% url 'logout' %}">LogOut</a>
+{#                    <a class="dropdown-item" href="#">Something else here</a>#}
+                  </div>
+                </div>
+{#                <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>#}
             {% else %}
                 <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
             {% endif %}

@@ -44,3 +44,15 @@ button a{
 	color: #ffffff;
 
 }
+.profile-action-image{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.dropdown-menu {
+     min-width: 1px;
+}
+.dropdown-toggle::after {
+    content: none !important;
+}
