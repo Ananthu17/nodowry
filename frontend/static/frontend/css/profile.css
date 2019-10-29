@@ -1,7 +1,7 @@
 .card-pink{
 
 }
-img.profile-pic{
+img.profile-details-pic{
     max-width: 100% !important;
 }
 .add-more{
@@ -33,4 +33,14 @@ button a{
 }
 .error-helper{
     color: #8b96a5;
+}
+
+.modal-backdrop.show {
+    opacity: 0.9;
+}
+.btn-orange{
+	border-radius: 25px;
+	background-color: #ff8c00;
+	color: #ffffff;
+
 }

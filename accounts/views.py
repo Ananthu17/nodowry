@@ -201,9 +201,7 @@ class LoginView(TemplateView):
                                         login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                                         message = "Welcome " + user.first_name
                                         if user_profile.first_time_login:
-                                            user_profile.first_time_login = False
-                                            user_profile.save()
-                                            return redirect(reverse('profile'))
+                                            return redirect(reverse('home'))
                                         else:
                                             messages.info(request, message)
                                             return redirect(reverse('home'))

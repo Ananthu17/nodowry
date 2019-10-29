@@ -676,7 +676,7 @@
     {% include 'frontend/main-footer.html' %}
     <!-- footer ends here -->
     <!-- Large modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large modal</button>
+{#    <button type="button" class="btn btn-primary" data-toggle="modal" data-backdrop="static" data-target=".bd-example-modal-lg" data-keyboard="false">Large modal</button>#}
     {% include 'frontend/profile-details-modal.html' %}
 
 
@@ -690,8 +690,14 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script type="text/javascript" src="{% static 'frontend/js/style.js' %}"></script>
+    <script type="text/javascript" src="{% static 'frontend/js/profile-details.js' %}"></script>
     <script>
 
+         $(window).on('load',function(){
+             {% if user_profile.first_time_login %}
+                $('.bd-example-modal-lg').modal('show');
+             {% endif %}
+        });
 
         function changeAge(val){
             var $selectageto = $(".ageto");

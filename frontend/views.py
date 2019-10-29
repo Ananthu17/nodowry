@@ -87,7 +87,7 @@ class UploadImage(View):
         user_image.user_info = user_info
         user_image.file = image
         user_image.save()
-        return redirect(reverse('profile'))
+        return redirect(reverse('home'))
 
 
 class DeleteImage(View):
@@ -99,7 +99,7 @@ class DeleteImage(View):
             messages.success(request, "image is deleted")
         except UserImages.DoesNotExist:
             messages.error(request, "images not deleted")
-        return redirect(reverse('profile'))
+        return redirect(reverse('home'))
 
 
 class SelectCast(View):
@@ -185,6 +185,7 @@ class SaveProfileDetails(View):
             user_info.eating = eating
             user_info.save()
             message = "Item Successfully Added"
+
             return JsonResponse({'data': message})
         except UserInfo.DoesNotExist:
             message = "Item is not added"
@@ -194,6 +195,7 @@ class SaveProfileDetails(View):
 class SavePartnerDetails(View):
 
     def post(self, request, *args, **kwargs):
+        user = self.request.user
         user_id = request.POST.get('id', "")
         bodyType = request.POST.get('bodyType', "")
         ageFrom = request.POST.get('ageFrom', "")
@@ -223,6 +225,9 @@ class SavePartnerDetails(View):
             partner_pref.dosh = dosh
             partner_pref.save()
             message = "Item Successfully Added"
+            user_profile = UserProfile.objects.get(user=user)
+            user_profile.first_time_login = False
+            user_profile.save()
         except UserInfo.DoesNotExist:
             message = "Item is not added"
         return JsonResponse({'data': message})
@@ -240,3 +245,12 @@ class UserProfileDetails(TemplateView):
             context['partner_pref'] = PartnerPreference.objects.get(user_info=user_info_obj)
             context['user_images'] = UserImages.objects.filter(user_info__user_profile=user)
             return context
+
+
+class DisplayImages(View):
+
+    def post(self, request, *args, **kwargs):
+        user = self.request.user
+        userimages = UserImages.objects.filter(user_info__user_profile__user=user)
+        # userimages = UserImages.objects.filter(user_info__user_profile__user__email="timsavage@yopmail.com")
+        JsonResponse({'data': userimages})
