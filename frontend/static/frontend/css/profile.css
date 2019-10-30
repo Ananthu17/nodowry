@@ -56,3 +56,6 @@ button a{
 .dropdown-toggle::after {
     content: none !important;
 }
+.dropdown-menu-right{
+    background-color: #e4e7e8;
+}

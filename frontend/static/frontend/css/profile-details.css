@@ -1,10 +1,10 @@
-body{
-    background: linear-gradient(45deg, #da94ab, transparent), url("/static/frontend/images/background/profile-screen.jpg") no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-}
+/*body{*/
+/*    background: linear-gradient(45deg, #da94ab, transparent), url("/static/frontend/images/background/profile-screen.jpg") no-repeat center center fixed;*/
+/*    -webkit-background-size: cover;*/
+/*    -moz-background-size: cover;*/
+/*    -o-background-size: cover;*/
+/*    background-size: cover;*/
+/*}*/
 
 .image-section{
     max-width: 100%;
@@ -39,13 +39,13 @@ table{
     padding: 10px;
 }
 .menu-item{
-        background-color: #ac768c;
+        background-color: #d2648a;
         border: 3px solid #ffffff;
         border-radius: 9px;
 
 }
 .menu-active{
-        background-color:  #e2b0b0;
+        background-color: #e91e63;
         transform : translateY(-3px);
         box-shadow:0px 20px 20px rgba(0,0,0,0.2);
 }

@@ -5,8 +5,6 @@ function uploadPhoto() {
 
 }
 
-
-
 function DeleteImage(imgId) {
    console.log(imgId);
    $.post( '/delete-image', {imgId: imgId} );

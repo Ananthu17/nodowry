@@ -181,3 +181,25 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
 @media only screen and (max-width: 480px) {
 
 }
+.profile-action-image{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.dropdown-menu {
+     min-width: 1px;
+}
+.dropdown-toggle::after {
+    content: none !important;
+}
+.dropdown-menu-right{
+    background-color: #e91e63;
+}
+
+.dropdown-menu-right .dropdown-item {
+    color: #f7fbff;
+}
+.dropdown-menu-right .dropdown-item:hover {
+    color: black;
+}
