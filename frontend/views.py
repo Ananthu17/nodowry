@@ -14,10 +14,11 @@ class HomePage(TemplateView):
         context = super().get_context_data(**kwargs)
         context['religion_list'] = Religion.objects.all()
         context['language_list'] = MotherTongue.objects.all()
-        user_obj = self.request.user
-        user = UserProfile.objects.get(user=user_obj)
-        context['user_profile'] = user
-        context['user_images'] = UserImages.objects.filter(user_info__user_profile=user)
+        if self.request.user.is_authenticated:
+            user_obj = self.request.user
+            user = UserProfile.objects.get(user=user_obj)
+            context['user_profile'] = user
+            context['user_images'] = UserImages.objects.filter(user_info__user_profile=user)
         context['religion_list'] = Religion.objects.all()
         context['mother_tongue'] = MotherTongue.objects.all()
         return context
@@ -41,6 +42,8 @@ class QuickFilter(TemplateView):
         context['user_count'] = userprofile.count()
         context['agefrom'] = agefrom
         context['ageto'] = ageto
+        if self.request.user.is_authenticated:
+            context['user_images'] = UserImages.objects.filter(user_info__user_profile__user=self.request.user)
         return context
 
 
@@ -254,3 +257,23 @@ class DisplayImages(View):
         userimages = UserImages.objects.filter(user_info__user_profile__user=user)
         # userimages = UserImages.objects.filter(user_info__user_profile__user__email="timsavage@yopmail.com")
         JsonResponse({'data': userimages})
+
+
+class PartnerDetails(TemplateView):
+    template_name = 'frontend/partner-details.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_obj = self.request.user
+        user = UserProfile.objects.get(user=user_obj)
+        context['user_profile'] = user
+        user_info_obj = UserInfo.objects.get(user_profile=user)
+        context['partner_pref'] = PartnerPreference.objects.get(user_info=user_info_obj)
+        context['user_images'] = UserImages.objects.filter(user_info__user_profile=user)
+        partner_profile = UserProfile.objects.get(user__id=76)
+        partner_info = UserInfo.objects.get(user_profile=partner_profile)
+        partner_images = UserImages.objects.filter(user_info=partner_info)
+        context['parter_profile'] = partner_profile
+        context['parter_info'] = partner_info
+        context['partner_images'] = partner_images
+        return context

@@ -1,0 +1,267 @@
+{% extends 'frontend/base-bootstrap.html' %}
+{% load static %}
+
+{% block extrastyle %}
+    <link href="{% static 'frontend/css/filter.css' %}" rel="stylesheet" xmlns="http://www.w3.org/1999/html"/>
+    <link href="{% static 'frontend/css/profile-details.css' %}" rel="stylesheet"/>
+{% endblock %}
+{% block content %}
+    <!-- navbar -->
+    {% include "frontend/filter-nav.html" %}
+    <!-- navbar ends-->
+    <section class="section1 pt-2">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="card px-5">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    {% for images in partner_images %}
+                                        {% if images.is_profile_pic %}
+                                            <img src="media/{{ images.file }}" class="img-fluid">
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <div class="col-md-7">
+                                    <h5>{{ parter_profile.user.first_name }}</h5>
+                                    <p>Profile Created For Myself</p>
+                                    <p>{{ parter_info.age }} Yrs, {{ parter_info.height }} CM</p>
+                                    <p>{{ parter_info.religion }}, {{ parter_info.cast }}, {{ parter_info.subcast }}</p>
+                                    <p>{{ parter_info.city }}, {{ parter_info.dist }}, {{ parter_info.state }}</p>
+                                    <p>{{ parter_info.profession }} <span
+                                            style="font-size: 12px">{{ parter_info.education }}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <h5 class="card-header">Basic Details</h5>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <div class="row">
+                                        <div class="col-xl-8 col-md-6">
+                                            <p>Profile created for</p>
+                                            <p>Age</p>
+                                            <p>Height</p>
+                                            <p>Weight</p>
+                                            <p>Body Type</p>
+
+                                        </div>
+                                        <div class="col-xl-4 col-md-6">
+                                            <p>Myself</p>
+                                            <p>{{ parter_info.age }}</p>
+                                            <p>{{ parter_info.height }}</p>
+                                            <p>{{ parter_info.weight }}</p>
+                                            <p>{{ parter_info.bodytype }}</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p>Gender</p>
+                                            <p>Mother Tongue</p>
+                                            <p>Marital Status</p>
+                                            <p>Complexion</p>
+                                            <p>Physical type</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p>{% if parter_profile.gender == women %}
+                                                    Female
+                                                {% else %}
+                                                    Male
+                                                {% endif %}
+                                            </p>
+                                            <p>{{ parter_info.mother_tongue }}</p>
+                                            <p>{{ parter_info.marital_status }}</p>
+                                            <p> ... </p>
+                                            <p>{{ parter_info.physical_status }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <h5 class="card-header">Religious Information</h5>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <p>Religion</p>
+                                            <p>Subcaste</p>
+                                            <p>Star</p>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p>{{ parter_info.religion }}</p>
+                                            <p>{{ parter_info.subcast }}</p>
+                                            <p>{{ parter_info.star }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <p>Cast</p>
+                                            <p>Gotra</p>
+                                            <p>Dosh</p>
+
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p>{{ parter_info.cast }}</p>
+                                            <p>{{ parter_info.gotra }}</p>
+                                            <p>NO Dosh</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- col ends here-->
+
+
+
+                <!-- col starts here-->
+                <div class="col-md-6">
+                    <div class="card">
+                        <h5 class="card-header">Location Information</h5>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <p>Address</p>
+                                            <p>Dist</p>
+
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p>{{ parter_info.address }}</p>
+                                            <p>{{ parter_info.dist }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <p>City</p>
+                                            <p>State</p>
+
+                                        </div>
+                                        <div class="col-md-8">
+                                             <p>{{ parter_info.city }}</p>
+                                            <p>{{ parter_info.state }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- col ends here-->
+
+                 <!-- col starts here-->
+                <div class="col-md-6">
+                    <div class="card">
+                        <h5 class="card-header">LifeStyle</h5>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <p>Eating Habits</p>
+                                            <p>Drinking Habits</p>
+
+                                        </div>
+                                        <div class="col-md-8">
+                                             <p>{{ parter_info.eating }}</p>
+                                            <p>{{ parter_info.drinking }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <p>Smoking Habits</p>
+
+
+                                        </div>
+                                        <div class="col-md-8">
+                                             <p>{{ parter_info.smoking }}</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- col ends here-->
+
+
+                <!-- col starts here-->
+                <div class="col-md-6">
+                    <div class="card">
+                        <h5 class="card-header">Professional Details</h5>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <p>Profession</p>
+
+
+                                        </div>
+                                        <div class="col-md-8">
+                                             <p>{{ parter_info.profession }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <p>Education</p>
+
+
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p>{{ parter_info.education }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- col ends here-->
+
+
+            </div>
+            <!-- row ends here-->
+
+
+        </div>
+    </section>
+{% endblock %}
+{% block extrascript %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+    <script>
+
+    </script>
+{% endblock %}
