@@ -37,7 +37,19 @@ class QuickFilter(TemplateView):
         currentdate = date.today()
         startdate = currentdate.replace(currentdate.year - agefrom)
         enddate = currentdate.replace(currentdate.year - ageto)
-        userprofile = UserProfile.objects.filter(is_active=True, gender=gender, userinfo__religion=religion_id, userinfo__mother_tongue=language, userinfo__dob__range=(enddate, startdate)).values('user__first_name', 'userinfo__userimages__file', 'userinfo__dob', 'gender')
+        userprofile = UserProfile.objects.filter(is_active=True, gender=gender, userinfo__religion=religion_id,
+                                                 userinfo__mother_tongue=language,
+                                                 userinfo__dob__range=(enddate, startdate)).values('user__first_name',
+                                                                                                   'userinfo__dob',
+                                                                                                   'gender',
+                                                                                                   'profile_pic',
+                                                                                                   'userinfo__city',
+                                                                                                   'userinfo__state',
+                                                                                                   'userinfo__dist',
+                                                                                                   'userinfo__mother_tongue',
+                                                                                                   'userinfo__cast__name',
+                                                                                                   'userinfo__education__field',
+                                                                                                   'id')
         context['user_profile'] = userprofile
         context['user_count'] = userprofile.count()
         context['agefrom'] = agefrom
@@ -237,17 +249,17 @@ class SavePartnerDetails(View):
 
 
 class UserProfileDetails(TemplateView):
-        template_name = 'frontend/user-profile.html'
+    template_name = 'frontend/user-profile.html'
 
-        def get_context_data(self, **kwargs):
-            context = super().get_context_data(**kwargs)
-            user_obj = self.request.user
-            user = UserProfile.objects.get(user=user_obj)
-            context['user_profile'] = user
-            user_info_obj = UserInfo.objects.get(user_profile=user)
-            context['partner_pref'] = PartnerPreference.objects.get(user_info=user_info_obj)
-            context['user_images'] = UserImages.objects.filter(user_info__user_profile=user)
-            return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_obj = self.request.user
+        user = UserProfile.objects.get(user=user_obj)
+        context['user_profile'] = user
+        user_info_obj = UserInfo.objects.get(user_profile=user)
+        context['partner_pref'] = PartnerPreference.objects.get(user_info=user_info_obj)
+        context['user_images'] = UserImages.objects.filter(user_info__user_profile=user)
+        return context
 
 
 class DisplayImages(View):
@@ -263,6 +275,7 @@ class PartnerDetails(TemplateView):
     template_name = 'frontend/partner-details.html'
 
     def get_context_data(self, **kwargs):
+        profile_id = kwargs['profile_id']
         context = super().get_context_data(**kwargs)
         user_obj = self.request.user
         user = UserProfile.objects.get(user=user_obj)
@@ -270,7 +283,7 @@ class PartnerDetails(TemplateView):
         user_info_obj = UserInfo.objects.get(user_profile=user)
         context['partner_pref'] = PartnerPreference.objects.get(user_info=user_info_obj)
         context['user_images'] = UserImages.objects.filter(user_info__user_profile=user)
-        partner_profile = UserProfile.objects.get(user__id=76)
+        partner_profile = UserProfile.objects.get(id=profile_id)
         partner_info = UserInfo.objects.get(user_profile=partner_profile)
         partner_images = UserImages.objects.filter(user_info=partner_info)
         context['parter_profile'] = partner_profile

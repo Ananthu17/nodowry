@@ -102,8 +102,8 @@
                                     <div class="row">
                                       <div class="col-xl-4 col-lg-3 col-md-3 col-12">
                                         <div class="profile-image text-center">
-                                            {% if users.userinfo__userimages__file %}
-                                                <img src="media/{{ users.userinfo__userimages__file }}" style="max-width: 223px;max-height: 189px;">
+                                            {% if users.profile_pic %}
+                                                <img src="media/{{ users.profile_pic }}" style="max-width: 223px;max-height: 189px;">
                                             {% else %}
                                                 {% if users.gender == "men" %}
                                                     <img  src="{% static 'frontend/images/man.png' %}" style="max-width: 223px;max-height: 189px;" />
@@ -123,7 +123,7 @@
                                           <div class="pi-location">
                                             <div class="row">
                                               <div class="col-1 text-center"><img src="{% static 'frontend/images/search-results/Location-icon.png' %}"></div>
-                                              <div class="col-10"><span> Bangalore, Karnataka, India</span></div>
+                                              <div class="col-10"><span> {{ users.userinfo__city }}, {{ users.userinfo__dist }}, {{ users.userinfo__state }}</span></div>
                                             </div>
                                           </div>
                                           <div class="pi-age pt-3">
@@ -151,7 +151,7 @@
                                                 <span class="value">Education</span><span class="float-right">:</span>
                                               </div>
                                               <div class="col-md-7 col-6">
-                                                <span class="value">B-Tech</span>
+                                                <span class="value">{{ users.userinfo__education__field }}</span>
                                               </div>
                                             </div>
                                           </div>
@@ -161,14 +161,16 @@
                                                 <span>Cast</span><span class="float-right">:</span>
                                               </div>
                                               <div class="col-md-7 col-6">
-                                                <span class="value">Varma</span>
+                                                <span class="value">{{ users.userinfo__cast__name }}</span>
                                               </div>
                                             </div>
                                           </div>
                                           <div class="viewprofile text-center pt-2">
                                             <div class="row">
                                               <div class="col-10 text-right">
-                                               VIEW PROFILE
+                                                  <a class="text-right" href="{% url 'partner-details-template' users.id %}">
+                                                    VIEW PROFILE
+                                                  </a>
                                              </div>
                                             </div>
                                           </div>

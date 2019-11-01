@@ -24,11 +24,11 @@
                                     <img class="top-curved"
                                          src="{% static 'frontend/images/background/cover-photo.jpg' %}"
                                          alt="">
-                                    {% for images in partner_images %}
-                                        {% if images.is_profile_pic %}
-                                            <img class="profile-dp img-thumbnail" src="media/{{ images.file }}">
+{#                                    {% for images in partner_images %}#}
+                                        {% if parter_profile.profile_pic %}
+                                            <img class="profile-dp img-thumbnail" src="/media/{{ parter_profile.profile_pic }}">
                                         {% endif %}
-                                    {% endfor %}
+{#                                    {% endfor %}#}
                                     <div class="row justify-content-end">
                                         <div class="col-10 pl-5">
                                             <h5 class="font-lato">{{ parter_profile.user.first_name }}</h5>
@@ -244,8 +244,8 @@
                                                 <div class="grid effect-2" id="grid">
                                                     {% for images in partner_images %}
                                                         <div class="item">
-                                                            <a href="media/{{ images.file }}" data-toggle="lightbox" data-gallery="example-gallery">
-                                                                <img src="media/{{ images.file }}" alt=""/>
+                                                            <a href="/media/{{ images.file }}" data-toggle="lightbox" data-gallery="example-gallery">
+                                                                <img src="/media/{{ images.file }}" alt=""/>
                                                             </a>
                                                         </div>
                                                     {% endfor %}

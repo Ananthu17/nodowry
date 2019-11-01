@@ -143,6 +143,7 @@ class RegisterView(TemplateView):
                                                     is_active=False,
                                                     activation_key=activation_key,
                                                     key_expires=activation_key_expiry,
+                                                    profile_pic=profilepic,
                                                     # otp_message=code
                                                     )
                             userprofile_obj.save()

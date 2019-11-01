@@ -40,6 +40,7 @@ class UserProfile(models.Model):
     otp_message = models.IntegerField(blank=True, null=True)
     phone_number_verified = models.BooleanField(default=False, null=True)
     first_time_login = models.BooleanField(default=True, null=True)
+    profile_pic = models.ImageField(upload_to='user_images/', null=True)
 
 
     def __str__(self):
@@ -186,6 +187,8 @@ class UserInfo(models.Model):
     star = models.CharField(max_length=50, null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
+    profile_created_for = models.CharField(max_length=50, null=True, blank=True)
+
 
     def __str__(self):
         return self.user_profile.user.email
@@ -204,6 +207,7 @@ class UserImages(models.Model):
     is_profile_pic = models.BooleanField(default=False)
     created = models.DateTimeField(default=timezone.now)
     last_modified = models.DateTimeField(auto_now=True)
+    cover = models.ImageField(upload_to='user_images/', null=True)
 
     def __str__(self):
         return self.user_info.user_profile.user.email
