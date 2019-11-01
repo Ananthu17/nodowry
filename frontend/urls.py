@@ -16,5 +16,6 @@ urlpatterns = [
     path('select-education', csrf_exempt(SelectEducation.as_view()), name='select-education'),
     path('profile-details', csrf_exempt(SaveProfileDetails.as_view()), name='profile-details'),
     path('partner-details', csrf_exempt(SavePartnerDetails.as_view()), name='partner-details'),
+    path('change-user-image', csrf_exempt(ChangeUserImage.as_view()), name='change-user-image'),
     path('partner-details-template/<int:profile_id>/', csrf_exempt(PartnerDetails.as_view()), name='partner-details-template'),
 ]

@@ -14,12 +14,15 @@
             <div class="col-md-3 py-3">
                 <div class="card">
                     <div class="image-section">
-                        <div class="display-image p-2">
-                            {% for images in user_images %}
-                                {% if images.is_profile_pic %}
-                                    <img class="img-fluid" src="/media/{{ images.file }}" alt="">
+                        <div class="display-image p-2 position-relative">
+                                {% if user_profile.profile_pic %}
+                                    <img class="img-fluid position-relative" src="/media/{{ user_profile.profile_pic }}" alt="">
+                                    <form action="{% url 'change-user-image' %}" method="POST" id="change-image" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <input type="file" id="imgupload" name="imgupload" style="display:none"/>
+                                        <i class="fa fa-pencil-square-o position-absolute edit-image" id="OpenImgUpload" aria-hidden="true"></i>
+                                    </form>
                                 {% endif %}
-                            {% endfor %}
                         </div>
                         <div class="basic-info text-center">
                             <h3 class="pl-3">{{ user_profile.user.first_name }}</h3>
@@ -434,6 +437,11 @@
     </script>
 
     <script type="text/javascript">
+
+        $('#OpenImgUpload').click(function(){ $('#imgupload').trigger('click'); });
+        $('#imgupload').change(function(){
+            $('#change-image').submit();
+        });
         function showPartnerPreference() {
             $('.main-content').hide();
             $('#partner-preference').fadeIn('slow');

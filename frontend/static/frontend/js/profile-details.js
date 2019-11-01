@@ -46,6 +46,8 @@ function hideSection2() {
         $('#height-error').text('Please fill in this field');
     else if($("#weight").val() == '')
         $('#weight-error').text('Please fill in this field');
+    else if($("#about").val() == '')
+        $('#about-error').text('Please fill in this field');
     else
         $.ajax({
         type: 'POST',
@@ -72,6 +74,7 @@ function hideSection2() {
             'physical': $('#physical-status').val(),
             'height': $('#height').val(),
             'weight': $('#weight').val(),
+            'about':$('#about').val(),
 
         },
         success: function(){

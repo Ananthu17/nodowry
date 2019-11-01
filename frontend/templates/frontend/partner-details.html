@@ -27,6 +27,7 @@
 {#                                    {% for images in partner_images %}#}
                                         {% if parter_profile.profile_pic %}
                                             <img class="profile-dp img-thumbnail" src="/media/{{ parter_profile.profile_pic }}">
+
                                         {% endif %}
 {#                                    {% endfor %}#}
                                     <div class="row justify-content-end">
@@ -54,19 +55,7 @@
                                         <div class="col-12 p-md-5">
                                             <h6 class="ont-lato"> About {{ parter_profile.user.first_name }}</h6>
                                             <p class="font-lato">
-                                                Contrary to popular belief, Lorem Ipsum is not simply random text. It
-                                                has
-                                                roots in a piece of classical Latin literature from 45 BC, making it
-                                                over
-                                                2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney
-                                                College in Virginia, looked up one of the more obscure Latin words,
-                                                consectetur, from a Lorem Ipsum passage, and going through the cites of
-                                                the
-                                                word in classical literature, discovered the undoubtable source. Lorem
-                                                Ipsum
-                                                comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et
-                                                Malorum"
-                                                (The Extremes of Good and Evil) by Cicero, written in 45 BC.
+                                                {{ parter_info.about }}
                                             </p>
                                         </div>
                                     </div>
@@ -473,7 +462,7 @@
                         {#                        </div>#}
                         <!-- Location info end here -->
 
-                        <div class="row">
+                        <div class="row pb-5">
                             <div class="col-md-12">
                                 <h4 class="font-lato partner-head pb-2">Basic Info</h4>
                                 <div class="card">

@@ -177,6 +177,7 @@ class SaveProfileDetails(View):
         height = float(request.POST.get('height', ""))
         weight = float(request.POST.get('weight', ""))
         eating = request.POST.get('eating', "")
+        about = request.POST.get('about', "")
         try:
             user_info = UserInfo.objects.get(id=user_id)
             user_info.state = state
@@ -198,6 +199,7 @@ class SaveProfileDetails(View):
             user_info.gotra = gotra
             user_info.star = star
             user_info.eating = eating
+            user_info.about = about
             user_info.save()
             message = "Item Successfully Added"
 
@@ -290,3 +292,14 @@ class PartnerDetails(TemplateView):
         context['parter_info'] = partner_info
         context['partner_images'] = partner_images
         return context
+
+
+class ChangeUserImage(View):
+    def post(self, request, *args, **kwargs):
+        image = request.FILES.get('imgupload', "")
+        print(image)
+        user_obj = self.request.user
+        userprofile = UserProfile.objects.get(user=user_obj)
+        userprofile.profile_pic = image
+        userprofile.save()
+        return redirect(reverse('user-profile'))

@@ -190,3 +190,9 @@ table{
 .partner-head{
     color: #484848;
 }
+
+.edit-image{
+    position: absolute !important;
+    top: 20px;
+    right: 20px;
+}

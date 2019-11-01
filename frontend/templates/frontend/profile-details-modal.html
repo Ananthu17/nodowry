@@ -22,18 +22,18 @@
                                     <div class="col-md-4">
                                         <input name="id" id="userId" type="text" value="{{ user_profile.userinfo.id }}"
                                                hidden>
-                                        {% for images in user_images %}
-                                            {% if images.is_profile_pic %}
-                                                <img class="profile-details-pic pb-2" src="/media/{{ images.file }}"
-                                                     alt="">
-                                            {% endif %}
-                                        {% endfor %}
-                                        <label for='photos' style="display: block;">
-                                            <img class="add-more"
-                                                 src="{% static 'frontend/images/plus-1270001_1280.png' %}" alt="">
-                                        </label>
-                                        <input type="file" id="photos" name="photos" onchange="uploadPhoto()" multiple
-                                               hidden/>
+                                        {% if user_profile.profile_pic %}
+                                            <img class="profile-details-pic pb-2" src="/media/{{ user_profile.profile_pic }}"
+                                                 alt="">
+                                        {% endif %}
+                                        <div class="p-5">
+                                            <label for='photos' style="display: block;">
+                                                <img class="add-more"
+                                                     src="{% static 'frontend/images/plus-1270001_1280.png' %}" alt="">
+                                            </label>
+                                            <input type="file" id="photos" name="photos" onchange="uploadPhoto()" multiple
+                                                   hidden/>
+                                        </div>
                                     </div>
                                     <!-- col ends here -->
 
@@ -448,6 +448,15 @@
                                                     <input type="number" id="weight" name="weight" class="form-control"
                                                            placeholder="Weight in Centimeters">
                                                     <div class="error-helper py-1" id="weight-error"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                About :
+                                            </div>
+                                            <div class="col-md-10">
+                                                <div class="form-group">
+                                                    <textarea name="about" id="about" class="form-control" rows="3" minlength="150" maxlength="500" placeholder="Minimum 150 characters"></textarea>
+                                                    <div class="about-helper py-1" id="about-error"></div>
                                                 </div>
                                             </div>
                                         </div>
