@@ -2,6 +2,8 @@
 {% load static %}
 
 {% block extrastyle %}
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" rel="stylesheet"/>
     <link href="{% static 'frontend/css/filter.css' %}" rel="stylesheet" xmlns="http://www.w3.org/1999/html"/>
     <link href="{% static 'frontend/css/profile-details.css' %}" rel="stylesheet"/>
 {% endblock %}
@@ -9,15 +11,77 @@
     <!-- nav bar starts here -->
     {% include "frontend/filter-nav.html" %}
     <!-- nav bar ends-->
-    <section class="section1 pt-2">
+    <section class="section1 pt-2 profile-background">
         <div class="container-fluid">
             <div class="row">
                 <!-- col stars here-->
                 <div class="col-lg-9">
-                    <div class="px-md-5 py-5">
+                    <!-- row section for basic info -->
+                    <div class="px-md-5">
+                        <div class="row">
+                            <div class="col-md-12 py-5">
+                                <div class="card bg-white white-card pt-3 px-3">
+                                    <img class="top-curved"
+                                         src="{% static 'frontend/images/background/cover-photo.jpg' %}"
+                                         alt="">
+                                    {% for images in partner_images %}
+                                        {% if images.is_profile_pic %}
+                                            <img class="profile-dp img-thumbnail" src="media/{{ images.file }}">
+                                        {% endif %}
+                                    {% endfor %}
+                                    <div class="row justify-content-end">
+                                        <div class="col-10 pl-5">
+                                            <h5 class="font-lato">{{ parter_profile.user.first_name }}</h5>
+                                            <ul class="user-details font-lato pl-2">
+                                                <li class="small-font">
+                                                    <i class="fa fa-calendar pr-3" aria-hidden="true"></i>
+                                                    {{ parter_info.age }}
+                                                    Yrs, {{ parter_info.dist }}, {{ parter_info.state }}
+                                                </li>
+                                                <li class="small-font">
+                                                    <i class="fa fa-location-arrow pr-3" aria-hidden="true"></i>
+                                                    {{ parter_info.religion }}, {{ parter_info.cast }}, {{ parter_info.subcast }}
+                                                </li>
+                                                <li class="small-font">
+                                                    <i class="fa fa-book pr-3" aria-hidden="true"></i>
+                                                    {{ parter_info.profession }} <span
+                                                        style="font-size: 12px">{{ parter_info.education }}</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 p-md-5">
+                                            <h6 class="ont-lato"> About {{ parter_profile.user.first_name }}</h6>
+                                            <p class="font-lato">
+                                                Contrary to popular belief, Lorem Ipsum is not simply random text. It
+                                                has
+                                                roots in a piece of classical Latin literature from 45 BC, making it
+                                                over
+                                                2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney
+                                                College in Virginia, looked up one of the more obscure Latin words,
+                                                consectetur, from a Lorem Ipsum passage, and going through the cites of
+                                                the
+                                                word in classical literature, discovered the undoubtable source. Lorem
+                                                Ipsum
+                                                comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et
+                                                Malorum"
+                                                (The Extremes of Good and Evil) by Cicero, written in 45 BC.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
 
-                        <!-- basic info starts here -->
-                        <div class="card">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- row ends here -->
+
+
+                    <div class="px-md-5">
+
+                        <!-- basic info starts here
+                        <div class="card square-shadow">
                             <div class="card-body basic-info">
                                 <div class="row">
                                     <div class="col-md-4">
@@ -26,118 +90,165 @@
                                                 <img src="media/{{ images.file }}" class="img-fluid">
                                             {% endif %}
                                         {% endfor %}
-                                        <div class="">
-                                            <div class="row">
-                                                <div class="pl-3">
-                                                    <div id="carouselExample" class="carousel slide" data-ride="carousel"
-                                                     data-interval="9000">
-                                                        <div class="carousel-inner row w-100" role="listbox">
-                                                            <div class="carousel-item col-md-4 active">
-                                                                <img class="img-fluid mx-auto d-block"
-                                                                     src="//placehold.it/600x400?text=2" alt="slide 1">
-                                                            </div>
-                                                            <div class="carousel-item col-md-4">
-                                                                <img class="img-fluid mx-auto d-block"
-                                                                     src="//placehold.it/600x400?text=2" alt="slide 2">
-                                                            </div>
-                                                            <div class="carousel-item col-md-4">
-                                                                <img class="img-fluid mx-auto d-block"
-                                                                     src="//placehold.it/600x400?text=3" alt="slide 3">
-                                                            </div>
-                                                            <div class="carousel-item col-md-4">
-                                                                <img class="img-fluid mx-auto d-block"
-                                                                     src="//placehold.it/600x400?text=4" alt="slide 4">
-                                                            </div>
-                                                        </div>
-                                                        <a class="carousel-control-prev" href="#carouselExample"
-                                                           role="button" data-slide="prev">
-                                                            <i class="fa fa-chevron-left fa-lg text-muted"></i>
-                                                            <span class="sr-only">Previous</span>
-                                                        </a>
-                                                        <a class="carousel-control-next text-faded" href="#carouselExample"
-                                                           role="button" data-slide="next">
-                                                            <i class="fa fa-chevron-right fa-lg text-muted"></i>
-                                                            <span class="sr-only">Next</span>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        {#                                        <div class="">#}
+                                        {#                                            <div class="row">#}
+                                        {#                                                <div class="col-md-12">#}
+                                        {#                                                     <div id="carouselExample" class="carousel slide" data-ride="carousel"#}
+                                        {#                                                     data-interval="9000">#}
+                                        {#                                                        <div class="carousel-inner row">#}
+                                        {#                                                            {% for images in partner_images %}#}
+                                        {#                                                                {% if images.is_profile_pic %}#}
+                                        {#                                                                    <div class="carousel-item col-md-12 active">#}
+                                        {#                                                                        <img class="d-block img-fluid img-caur" src="media/{{ images.file }}">#}
+                                        {#                                                                    </div>#}
+                                        {#                                                                {% endif %}#}
+                                        {#                                                            {% endfor %}#}
+                                        {##}
+                                        {#                                                            {% for images in partner_images %}#}
+                                        {#                                                                {% if not images.is_profile_pic %}#}
+                                        {#                                                                    <div class="carousel-item col-md-12">#}
+                                        {#                                                                        <img class="d-block img-fluid img-caur"#}
+                                        {#                                                                             src="media/{{ images.file }}" alt="slide 2">#}
+                                        {#                                                                    </div>#}
+                                        {#                                                                {% endif %}#}
+                                        {#                                                            {% endfor %}#}
+                                        {#                                                        </div>#}
+                                        {#                                                        <a class="carousel-control-prev" href="#carouselExample"#}
+                                        {#                                                           role="button" data-slide="prev">#}
+                                        {#                                                            <i class="fa fa-chevron-left fa-lg text-muted"></i>#}
+                                        {#                                                            <span class="sr-only">Previous</span>#}
+                                        {#                                                        </a>#}
+                                        {#                                                        <a class="carousel-control-next text-faded" href="#carouselExample"#}
+                                        {#                                                           role="button" data-slide="next">#}
+                                        {#                                                            <i class="fa fa-chevron-right fa-lg text-muted"></i>#}
+                                        {#                                                            <span class="sr-only">Next</span>#}
+                                        {#                                                        </a>#}
+                                        {#                                                     </div>#}
+                                        {#                                                </div>#}
+                                        {#                                            </div>#}
+                                        {#                                        </div>#}
                                     </div>
-                                    <div class="col-md-8">
-                                        <h5><span><i class="fa fa-user"
-                                                     aria-hidden="true"></i></span> {{ parter_profile.user.first_name }}
-                                        </h5>
-                                        <p>Profile Created For Myself</p>
-                                        <p><span><i class="fa fa-calendar-o"
-                                                    aria-hidden="true"></i></span> {{ parter_info.age }}
-                                            Yrs, {{ parter_info.height }} CM</p>
-                                        <p><span><i class="fa fa-book"
-                                                    aria-hidden="true"></i></span> {{ parter_info.religion }}, {{ parter_info.cast }}, {{ parter_info.subcast }}
-                                        </p>
-                                        <p><span><i class="fa fa-map-marker"
-                                                    aria-hidden="true"></i> </span> {{ parter_info.city }}, {{ parter_info.dist }}, {{ parter_info.state }}
-                                        </p>
-                                        <p><span><i class="fa fa-graduation-cap"
-                                                    aria-hidden="true"></i></span> {{ parter_info.profession }} <span
-                                                style="font-size: 12px">{{ parter_info.education }}</span></p>
+                                    <div class="col-md-4">
+                                        <h5>{{ parter_profile.user.first_name }}</h5>
+                                        <ul class="user-details">
+                                            <li class="py-2">
+                                                <i class="fa fa-pencil pr-3" aria-hidden="true"></i>
+                                                Profile created for myself
+                                            </li>
+                                            <li class="py-2">
+                                                <i class="fa fa-calendar pr-3" aria-hidden="true"></i>
+                                                {{ parter_info.age }} Yrs, {{ parter_info.height }} CM
+                                                {#                                            {{ user_profile.userinfo.height}}cm#}
+                                            </li>
+                                            <li class="py-2">
+                                                <i class="fa fa-location-arrow pr-3" aria-hidden="true"></i>
+                                                {{ parter_info.religion }}, {{ parter_info.cast }}, {{ parter_info.subcast }}
+                                            </li>
+                                            <li class="py-2">
+                                                <i class="fa fa-map-marker pr-3" aria-hidden="true"></i>
+                                                {{ parter_info.city }}, {{ parter_info.dist }}, {{ parter_info.state }}
+                                            </li>
+                                            <li class="py-2">
+                                                <i class="fa fa-book pr-3" aria-hidden="true"></i>
+                                                {{ parter_info.profession }} <span
+                                                    style="font-size: 12px">{{ parter_info.education }}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-col-4">
+
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- basic info ends here -->
-
+                         basic info ends here -->
                         <!-- basic details starts here -->
-                        <div class="py-4">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="card">
-                                        <h5 class="card-header">Basic Details</h5>
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-xl-6">
-                                                    <div class="row">
-                                                        <div class="col-xl-8 col-6">
-                                                            <p>Profile created for <span class="float-right">:</span>
-                                                            </p>
-                                                            <p>Age <span class="float-right">:</span></p>
-                                                            <p>Height <span class="float-right">:</span></p>
-                                                            <p>Weight <span class="float-right">:</span></p>
-                                                            <p>Body Type <span class="float-right">:</span></p>
 
-                                                        </div>
-                                                        <div class="col-xl-4 col-6">
-                                                            <p>Myself</p>
-                                                            <p>{{ parter_info.age }}</p>
-                                                            <p>{{ parter_info.height }}</p>
-                                                            <p>{{ parter_info.weight }}</p>
-                                                            <p>{{ parter_info.bodytype }}</p>
-
-                                                        </div>
-                                                    </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4 class="font-lato partner-head pb-2">Religious Information</h4>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="card-item py-2">
+                                                    <p class="small-font font-lato mb-0">Profile created for</p>
+                                                    <h5 class="font-lato">Myself</h5>
                                                 </div>
-                                                <div class="col-xl-6">
-                                                    <div class="row">
-                                                        <div class="col-6">
-                                                            <p>Gender <span class="float-right">:</span></p>
-                                                            <p>Mother Tongue <span class="float-right">:</span></p>
-                                                            <p>Marital Status <span class="float-right">:</span></p>
-                                                            <p>Complexion <span class="float-right">:</span></p>
-                                                            <p>Physical type <span class="float-right">:</span></p>
+
+                                                <div class="card-item py-2">
+                                                    <p class="small-font font-lato mb-0">Height</p>
+                                                    <h5 class="font-lato">{{ parter_info.height }}</h5>
+                                                </div>
+
+                                                <div class="card-item py-2">
+                                                    <p class="small-font font-lato mb-0">Gender</p>
+                                                    <h5 class="font-lato">{% if parter_profile.gender == women %}
+                                                        Female
+                                                    {% else %}
+                                                        Male
+                                                    {% endif %}
+                                                    </h5>
+                                                </div>
+
+                                                <div class="card-item py-2">
+                                                    <p class="small-font font-lato mb-0">Mother Tongue</p>
+                                                    <h5 class="font-lato">{{ parter_info.mother_tongue }}</h5>
+                                                </div>
+
+                                                <div class="card-item py-2">
+                                                    <p class="small-font font-lato mb-0">Marital Status</p>
+                                                    <h5 class="font-lato">{{ parter_info.marital_status }}</h5>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="card-item py-2">
+                                                    <p class="small-font font-lato mb-0">Age</p>
+                                                    <h5 class="font-lato">{{ parter_info.age }}</h5>
+                                                </div>
+
+                                                <div class="card-item py-2">
+                                                    <p class="small-font font-lato mb-0">Weight</p>
+                                                    <h5 class="font-lato">{{ parter_info.weight }}</h5>
+                                                </div>
+
+                                                <div class="card-item py-2">
+                                                    <p class="small-font font-lato mb-0">Body Type</p>
+                                                    <h5 class="font-lato">{{ parter_info.bodytype }}</h5>
+                                                </div>
+
+                                                <div class="card-item py-2">
+                                                    <p class="small-font font-lato mb-0">Mother Tongue</p>
+                                                    <h5 class="font-lato">{{ parter_info.mother_tongue }}</h5>
+                                                </div>
+
+                                                <div class="card-item py-2">
+                                                    <p class="small-font font-lato mb-0">Physical type</p>
+                                                    <h5 class="font-lato">{{ parter_info.physical_status }}</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <h4 class="font-lato partner-head pb-2">Gallery</h4>
+                                <div class="card">
+
+                                    <div class="p-4">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="grid effect-2" id="grid">
+                                                    {% for images in partner_images %}
+                                                        <div class="item">
+                                                            <a href="media/{{ images.file }}" data-toggle="lightbox" data-gallery="example-gallery">
+                                                                <img src="media/{{ images.file }}" alt=""/>
+                                                            </a>
                                                         </div>
-                                                        <div class="col-6">
-                                                            <p>{% if parter_profile.gender == women %}
-                                                                Female
-                                                            {% else %}
-                                                                Male
-                                                            {% endif %}
-                                                            </p>
-                                                            <p>{{ parter_info.mother_tongue }}</p>
-                                                            <p>{{ parter_info.marital_status }}</p>
-                                                            <p> ... </p>
-                                                            <p>{{ parter_info.physical_status }}</p>
-                                                        </div>
-                                                    </div>
+                                                    {% endfor %}
                                                 </div>
                                             </div>
                                         </div>
@@ -145,41 +256,176 @@
                                 </div>
                             </div>
                         </div>
+
+
+                        {#                        <div class="py-4">#}
+                        {#                            <div class="row">#}
+                        {#                                <div class="col-12">#}
+                        {#                                    <div class="card">#}
+                        {#                                        <div class="card-body">#}
+                        {#                                            <div class="row">#}
+                        {#                                                <div class="col-xl-6">#}
+                        {#                                                    <div class="row">#}
+                        {#                                                        <div class="col-xl-8 col-6">#}
+                        {#                                                            <p>Profile created for <span class="float-right">:</span>#}
+                        {#                                                            </p>#}
+                        {#                                                            <p>Age <span class="float-right">:</span></p>#}
+                        {#                                                            <p>Height <span class="float-right">:</span></p>#}
+                        {#                                                            <p>Weight <span class="float-right">:</span></p>#}
+                        {#                                                            <p>Body Type <span class="float-right">:</span></p>#}
+                        {#                                                            <p>Gender <span class="float-right">:</span></p>#}
+                        {#                                                            <p>Mother Tongue <span class="float-right">:</span></p>#}
+                        {#                                                            <p>Marital Status <span class="float-right">:</span></p>#}
+                        {#                                                            <p>Complexion <span class="float-right">:</span></p>#}
+                        {#                                                            <p>Physical type <span class="float-right">:</span></p>#}
+                        {#                                                        </div>#}
+                        {#                                                        <div class="col-xl-4 col-6">#}
+                        {#                                                            <p>Myself</p>#}
+                        {#                                                            <p>{{ parter_info.age }}</p>#}
+                        {#                                                            <p>{{ parter_info.height }}</p>#}
+                        {#                                                            <p>{{ parter_info.weight }}</p>#}
+                        {#                                                            <p>{{ parter_info.bodytype }}</p>#}
+                        {#                                                            <p>{% if parter_profile.gender == women %}#}
+                        {#                                                                Female#}
+                        {#                                                            {% else %}#}
+                        {#                                                                Male#}
+                        {#                                                            {% endif %}#}
+                        {#                                                            </p>#}
+                        {#                                                            <p>{{ parter_info.mother_tongue }}</p>#}
+                        {#                                                            <p>{{ parter_info.marital_status }}</p>#}
+                        {#                                                            <p> ... </p>#}
+                        {#                                                            <p>{{ parter_info.physical_status }}</p>#}
+                        {#                                                        </div>#}
+                        {#                                                    </div>#}
+                        {#                                                </div>#}
+                        {#                                                <div class="col-xl-6">#}
+                        {#                                                    <div class="row">#}
+                        {#                                                        <div class="col-12">#}
+                        {#                                                            <div class="card">#}
+                        {#                                                                <div class="card-header">Gallery</div>#}
+                        {##}
+                        {#                                                            </div>#}
+                        {#                                                        </div>#}
+                        {#                                                    </div>#}
+                        {#                                                </div>#}
+                        {#                                            </div>#}
+                        {#                                        </div>#}
+                        {#                                    </div>#}
+                        {#                                </div>#}
+                        {#                            </div>#}
+                        {#                        </div>#}
                         <!-- basic details end here -->
 
 
-                        <!-- Religious info starts here -->
                         <div class="py-4">
-                            <div class="card">
-                                <h5 class="card-header">Religious Information</h5>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <!-- Religious info starts here -->
+                                    <h4 class="font-lato partner-head pb-2">Religious Information</h4>
+                                    <div class="card">
+                                        <div class="card-body">
                                             <div class="row">
-                                                <div class="col-4">
-                                                    <p>Religion <span class="float-right">:</span></p>
-                                                    <p>Subcaste <span class="float-right">:</span></p>
-                                                    <p>Star</p>
-                                                </div>
-                                                <div class="col-8">
-                                                    <p>{{ parter_info.religion }}</p>
-                                                    <p>{{ parter_info.subcast }}</p>
-                                                    <p>{{ parter_info.star }}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="row">
-                                                <div class="col-4">
-                                                    <p>Cast <span class="float-right">:</span></p>
-                                                    <p>Gotra <span class="float-right">:</span></p>
-                                                    <p>Dosh <span class="float-right">:</span></p>
+                                                <div class="col-6">
+                                                    <div class="card-item py-2">
+                                                        <p class="small-font font-lato mb-0">Religion</p>
+                                                        <h5 class="font-lato">{{ parter_info.religion }}</h5>
+                                                    </div>
+
+                                                    <div class="card-item py-2">
+                                                        <p class="small-font font-lato mb-0">Subcaste</p>
+                                                        <h5 class="font-lato">{{ parter_info.subcast }}</h5>
+                                                    </div>
+
+                                                    <div class="card-item py-2">
+                                                        <p class="small-font font-lato mb-0">Gotra</p>
+                                                        <h5 class="font-lato">{{ parter_info.gotra }}</h5>
+                                                    </div>
 
                                                 </div>
-                                                <div class="col-8">
-                                                    <p>{{ parter_info.cast }}</p>
-                                                    <p>{{ parter_info.gotra }}</p>
-                                                    <p>NO Dosh</p>
+                                                <div class="col-6">
+                                                    <div class="card-item py-2">
+                                                        <p class="small-font font-lato mb-0">Cast</p>
+                                                        <h5 class="font-lato">{{ parter_info.cast }}</h5>
+                                                    </div>
+
+                                                    <div class="card-item py-2">
+                                                        <p class="small-font font-lato mb-0">Star</p>
+                                                        <h5 class="font-lato">{{ parter_info.star }}</h5>
+                                                    </div>
+
+                                                    <div class="card-item py-2">
+                                                        <p class="small-font font-lato mb-0">Dosh</p>
+                                                        <h5 class="font-lato">No dosh</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {#                                            <div class="row">#}
+                                            {#                                                <div class="col-4">#}
+                                            {#                                                    <p>Religion <span class="float-right">:</span></p>#}
+                                            {#                                                    <p>Subcaste <span class="float-right">:</span></p>#}
+                                            {#                                                    <p>Star</p>#}
+                                            {#                                                </div>#}
+                                            {#                                                <div class="col-8">#}
+                                            {#                                                    <p>{{ parter_info.religion }}</p>#}
+                                            {#                                                    <p>{{ parter_info.subcast }}</p>#}
+                                            {#                                                    <p>{{ parter_info.star }}</p>#}
+                                            {#                                                </div>#}
+                                            {#                                            </div>#}
+                                        </div>
+                                        {#                                        <div class="col-md-6">#}
+                                        {#                                            <div class="row">#}
+                                        {#                                                <div class="col-4">#}
+                                        {#                                                    <p>Cast <span class="float-right">:</span></p>#}
+                                        {#                                                    <p>Gotra <span class="float-right">:</span></p>#}
+                                        {#                                                    <p>Dosh <span class="float-right">:</span></p>#}
+                                        {##}
+                                        {#                                                </div>#}
+                                        {#                                                <div class="col-8">#}
+                                        {#                                                    <p>{{ parter_info.cast }}</p>#}
+                                        {#                                                    <p>{{ parter_info.gotra }}</p>#}
+                                        {#                                                    <p>NO dosh</p>#}
+                                        {#                                                </div>#}
+                                        {#                                            </div>#}
+                                        {#                                        </div>#}
+                                    </div>
+                                    <!-- card religious ends here -->
+                                </div>
+                                <div class="col-md-6">
+                                    <h4 class="font-lato partner-head pb-2">Location Information</h4>
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="card-item py-2">
+                                                <p class="small-font font-lato mb-0">Address</p>
+                                                <h5 class="font-lato">{{ parter_info.address|title }}</h5>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">
+
+                                                    <div class="card-item py-2">
+                                                        <p class="small-font font-lato mb-0">City</p>
+                                                        <h5 class="font-lato">{{ parter_info.city|title }}</h5>
+                                                    </div>
+
+                                                    <div class="card-item py-2">
+                                                        <p class="small-font font-lato mb-0">State</p>
+                                                        <h5 class="font-lato">{{ parter_info.state|title }}</h5>
+                                                    </div>
+
+
+                                                </div>
+                                                <div class="col-6">
+
+                                                    <div class="card-item py-2">
+                                                        <p class="small-font font-lato mb-0">Dist</p>
+                                                        <h5 class="font-lato">{{ parter_info.dist|title }}</h5>
+                                                    </div>
+
+                                                    {#                                                    <div class="card-item py-2">#}
+                                                    {#                                                        <p class="small-font font-lato mb-0">Subcaste</p>#}
+                                                    {#                                                        <h5 class="font-lato">{{ parter_info.subcast }}</h5>#}
+                                                    {#                                                    </div>#}
+
+
                                                 </div>
                                             </div>
                                         </div>
@@ -187,123 +433,167 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Religious info end here -->
 
 
                         <!-- Location info end here -->
-                        <div class="py-4">
-                            <div class="card">
-                                <h5 class="card-header">Location Information</h5>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="row">
-                                                <div class="col-4">
-                                                    <p>Address <span class="float-right">:</span></p>
-                                                    <p>Dist <span class="float-right">:</span></p>
+                        {#                        <div class="py-4">#}
+                        {#                            <div class="card square-shadow">#}
+                        {#                                <h5 class="card-header">Location Information</h5>#}
+                        {#                                <div class="card-body">#}
+                        {#                                    <div class="row">#}
+                        {#                                        <div class="col-md-6">#}
+                        {#                                            <div class="row">#}
+                        {#                                                <div class="col-4">#}
+                        {#                                                    <p>Address <span class="float-right">:</span></p>#}
+                        {#                                                    <p>Dist <span class="float-right">:</span></p>#}
+                        {##}
+                        {#                                                </div>#}
+                        {#                                                <div class="col-8">#}
+                        {#                                                    <p>{{ parter_info.address }}</p>#}
+                        {#                                                    <p>{{ parter_info.dist }}</p>#}
+                        {#                                                </div>#}
+                        {#                                            </div>#}
+                        {#                                        </div>#}
+                        {#                                        <div class="col-md-6">#}
+                        {#                                            <div class="row">#}
+                        {#                                                <div class="col-4">#}
+                        {#                                                    <p>City <span class="float-right">:</span></p>#}
+                        {#                                                    <p>State <span class="float-right">:</span></p>#}
+                        {##}
+                        {#                                                </div>#}
+                        {#                                                <div class="col-8">#}
+                        {#                                                    <p>{{ parter_info.city }}</p>#}
+                        {#                                                    <p>{{ parter_info.state }}</p>#}
+                        {#                                                </div>#}
+                        {#                                            </div>#}
+                        {#                                        </div>#}
+                        {#                                    </div>#}
+                        {#                                </div>#}
+                        {#                            </div>#}
+                        {#                        </div>#}
+                        <!-- Location info end here -->
 
-                                                </div>
-                                                <div class="col-8">
-                                                    <p>{{ parter_info.address }}</p>
-                                                    <p>{{ parter_info.dist }}</p>
-                                                </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4 class="font-lato partner-head pb-2">Basic Info</h4>
+                                <div class="card">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="card-item py-2 px-3">
+                                                <p class="small-font font-lato mb-0">Profession</p>
+                                                <h5 class="font-lato">{{ parter_info.profession }}</h5>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="row">
-                                                <div class="col-4">
-                                                    <p>City <span class="float-right">:</span></p>
-                                                    <p>State <span class="float-right">:</span></p>
-
-                                                </div>
-                                                <div class="col-8">
-                                                    <p>{{ parter_info.city }}</p>
-                                                    <p>{{ parter_info.state }}</p>
-                                                </div>
+                                        <div class="col-md-4">
+                                            <div class="card-item py-2 px-3">
+                                                <p class="small-font font-lato mb-0">Education</p>
+                                                <h5 class="font-lato">{{ parter_info.education }}</h5>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card-item py-2 px-3">
+                                                <p class="small-font font-lato mb-0">Eating Habits</p>
+                                                <h5 class="font-lato">{{ parter_info.eating }}</h5>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card-item py-2 px-3">
+                                                <p class="small-font font-lato mb-0">Drinking Habits</p>
+                                                <h5 class="font-lato">{{ parter_info.drinking }}</h5>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card-item py-2 px-3">
+                                                <p class="small-font font-lato mb-0">Smoking Habits</p>
+                                                <h5 class="font-lato">{{ parter_info.smoking }}</h5>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card-item py-2 px-3">
+                                                <p class="small-font font-lato mb-0">Complexion</p>
+                                                <h5 class="font-lato">Light skin</h5>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- Location info end here -->
-
 
                         <!-- LifeStyle start here -->
-                        <div class="py-4">
-                            <div class="card">
-                                <h5 class="card-header">LifeStyle</h5>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="row">
-                                                <div class="col-4">
-                                                    <p>Eating Habits <span class="float-right">:</span></p>
-                                                    <p>Drinking Habits <span class="float-right">:</span></p>
-
-                                                </div>
-                                                <div class="col-8">
-                                                    <p>{{ parter_info.eating }}</p>
-                                                    <p>{{ parter_info.drinking }}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="row">
-                                                <div class="col-4">
-                                                    <p>Smoking Habits <span class="float-right">:</span></p>
-                                                    <p>Hobies <span class="float-right">:</span></p>
-
-
-                                                </div>
-                                                <div class="col-8">
-                                                    <p>{{ parter_info.smoking }}</p>
-                                                    <p>Games</p>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {#                        <div class="py-4">#}
+                        {#                            <div class="card square-shadow">#}
+                        {#                                <h5 class="card-header">LifeStyle</h5>#}
+                        {#                                <div class="card-body">#}
+                        {#                                    <div class="row">#}
+                        {#                                        <div class="col-md-6">#}
+                        {#                                            <div class="row">#}
+                        {#                                                <div class="col-4">#}
+                        {#                                                    <p>Eating Habits <span class="float-right">:</span></p>#}
+                        {#                                                    <p>Drinking Habits <span class="float-right">:</span></p>#}
+                        {##}
+                        {#                                                </div>#}
+                        {#                                                <div class="col-8">#}
+                        {#                                                    <p>{{ parter_info.eating }}</p>#}
+                        {#                                                    <p>{{ parter_info.drinking }}</p>#}
+                        {#                                                </div>#}
+                        {#                                            </div>#}
+                        {#                                        </div>#}
+                        {#                                        <div class="col-md-6">#}
+                        {#                                            <div class="row">#}
+                        {#                                                <div class="col-4">#}
+                        {#                                                    <p>Smoking Habits <span class="float-right">:</span></p>#}
+                        {#                                                    <p>Hobies <span class="float-right">:</span></p>#}
+                        {##}
+                        {##}
+                        {#                                                </div>#}
+                        {#                                                <div class="col-8">#}
+                        {#                                                    <p>{{ parter_info.smoking }}</p>#}
+                        {#                                                    <p>Games</p>#}
+                        {##}
+                        {#                                                </div>#}
+                        {#                                            </div>#}
+                        {#                                        </div>#}
+                        {#                                    </div>#}
+                        {#                                </div>#}
+                        {#                            </div>#}
+                        {#                        </div>#}
                         <!-- LifeStyle end here -->
 
 
                         <!-- Professional starts here -->
-                        <div class="py-4">
-                            <div class="card">
-                                <h5 class="card-header">Professional Details</h5>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="row">
-                                                <div class="col-4">
-                                                    <p>Profession <span class="float-right">:</span></p>
-
-
-                                                </div>
-                                                <div class="col-8">
-                                                    <p>{{ parter_info.profession }}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="row">
-                                                <div class="col-4">
-                                                    <p>Education <span class="float-right">:</span></p>
-
-
-                                                </div>
-                                                <div class="col-8">
-                                                    <p>{{ parter_info.education }}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {#                        <div class="py-4">#}
+                        {#                            <div class="card square-shadow">#}
+                        {#                                <h5 class="card-header">Professional Details</h5>#}
+                        {#                                <div class="card-body">#}
+                        {#                                    <div class="row">#}
+                        {#                                        <div class="col-md-6">#}
+                        {#                                            <div class="row">#}
+                        {#                                                <div class="col-4">#}
+                        {#                                                    <p>Profession <span class="float-right">:</span></p>#}
+                        {##}
+                        {##}
+                        {#                                                </div>#}
+                        {#                                                <div class="col-8">#}
+                        {#                                                    <p>{{ parter_info.profession }}</p>#}
+                        {#                                                </div>#}
+                        {#                                            </div>#}
+                        {#                                        </div>#}
+                        {#                                        <div class="col-md-6">#}
+                        {#                                            <div class="row">#}
+                        {#                                                <div class="col-4">#}
+                        {#                                                    <p>Education <span class="float-right">:</span></p>#}
+                        {##}
+                        {##}
+                        {#                                                </div>#}
+                        {#                                                <div class="col-8">#}
+                        {#                                                    <p>{{ parter_info.education }}</p>#}
+                        {#                                                </div>#}
+                        {#                                            </div>#}
+                        {#                                        </div>#}
+                        {#                                    </div>#}
+                        {#                                </div>#}
+                        {#                            </div>#}
+                        {#                        </div>#}
                         <!-- Professional end here -->
 
                     </div>
@@ -454,28 +744,55 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/js/bootstrap.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/masonry/3.2.2/masonry.pkgd.min.js'></script>
     <script>
-        $('#recipeCarousel').carousel({
-            interval: 10000
+        $(window).load(function () {
+            var $container = $('.grid');
+            // initialize
+            $container.masonry({
+                //columnWidth: 200,
+                itemSelector: '.item'
+            });
         })
+    </script>
 
-        $('.carousel .carousel-item').each(function () {
-            var minPerSlide = 3;
-            var next = $(this).next();
-            if (!next.length) {
-                next = $(this).siblings(':first');
-            }
-            next.children(':first-child').clone().appendTo($(this));
 
-            for (var i = 0; i < minPerSlide; i++) {
-                next = next.next();
-                if (!next.length) {
-                    next = $(this).siblings(':first');
-                }
+    <script>
 
-                next.children(':first-child').clone().appendTo($(this));
-            }
+        $(document).on('click', '[data-toggle="lightbox"]', function (event) {
+            event.preventDefault();
+            $(this).ekkoLightbox({
+                alwaysShowClose: false,
+
+            });
         });
+
+
+        {#$('#recipeCarousel').carousel({#}
+        {#    interval: 10000#}
+        {#})
+        #}
+        {##}
+        {#$('.carousel .carousel-item').each(function () {#}
+        {#    var minPerSlide = 3;#}
+        {#    var next = $(this).next();#}
+        {#    if (!next.length) {#}
+        {#        next = $(this).siblings(':first');#}
+        {#    }#}
+        {#    next.children(':first-child').clone().appendTo($(this));#}
+        {##}
+        {#    for (var i = 0; i < minPerSlide; i++) {#}
+        {#        next = next.next();#}
+        {#        if (!next.length) {#}
+        {#            next = $(this).siblings(':first');#}
+        {#        }#}
+        {##}
+        {#        next.children(':first-child').clone().appendTo($(this));#}
+        {#    }#}
+        {#})
+        ;
+        #}
 
     </script>
 {% endblock %}
