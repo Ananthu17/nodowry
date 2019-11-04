@@ -125,7 +125,7 @@
               <div class="card-header">
                   <div class="d-flex justify-content-between">
                       <h4 class="card-title text-left">Cast</h4>
-                      <div class="pt-2"><i class="nc-icon nc-simple-add text-success" style="font-size: xx-large;"></i></div>
+                      <div class="pt-2" data-toggle="modal" data-target=".add-cast"><i class="nc-icon nc-simple-add text-success" style="font-size: xx-large;"></i></div>
                   </div>
               </div>
               <div class="card-body">
@@ -135,7 +135,13 @@
                         Name
                       </th>
                       <th>
+                          Religion
+                      </th>
+                      <th>
                         Created By
+                      </th>
+                      <th class="text-center">
+                        <span>Delete</span>
                       </th>
                       <th class="text-center">
                         <span>Edit</span>
@@ -148,11 +154,19 @@
                               {{ cast.name }}
                             </td>
                             <td>
+                              {{ cast.religion.name }}
+                            </td>
+                            <td>
                               {{ cast.created_by }}
                             </td>
                             <td class="text-center">
-                                <a href="">
+                                <a onclick="editCast({{ cast.id }},'{{ cast.name }}','{{ cast.religion.id }}')"  data-toggle="modal" data-target=".edit-cast">
                                     <i class="nc-icon nc-button-play text-warning" style="font-size: xx-large;"></i>
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <a href="{% url 'delete-cast' cast.id %}">
+                                    <i class="nc-icon nc-simple-remove text-danger" style="font-size: xx-large;"></i>
                                 </a>
                             </td>
                           </tr>
@@ -283,6 +297,7 @@
         </div>
     </div>
 
+  <!-- edit religion -->
   <div class="modal fade edit-religion" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -295,7 +310,7 @@
                         <div class="row justify-content-center">
                             <div class="col-md-12">
                                 <label class="text-center" for="exampleInputEmail1">Religion Name</label>
-                                <input type="Text" class="form-control text-center" id="relName" name="relName" required pattern=".[a-zA-Z]{5,20}">
+                                <input type="Text" class="form-control text-center" id="relName" name="relName" required pattern=".[a-zA-Z]{3,20}">
                                 <input type="number" name="relid" id="relid" hidden>
                             </div>
                         </div>
@@ -309,6 +324,96 @@
             </div>
         </div>
     </div>
+<!-- EDIT RELIGION END HERE -->
+
+
+  <!-- add cast modal starts here -->
+  <div class="modal fade add-cast" tabindex="-1" role="dialog"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4>Add Religion</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'add-cast' %}" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="text-center" for="cast">Religion Name</label>
+                                    <select class="form-control" name="religion">
+                                        {% for religion in religion_list %}
+                                            <option value="{{ religion.id }}" >{{ religion }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="text-center" for="cast">Cast Name</label>
+                                    <input type="Text" class="form-control text-center" name="cast" required pattern=".[a-zA-Z]{2,20}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--add cast modal ends here -->
+
+
+  <!-- edit cast starts -->
+  <div class="modal fade edit-cast" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4>Edit Cast</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="text-center" for="cast">Religion Name</label>
+                                    <select class="form-control" name="religion" id="MySelect">
+                                        {% for religion in religion_list %}
+                                            <option value="{{ religion.id }}" >{{ religion }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="text-center" for="exampleInputEmail1">Cast Name</label>
+                                <input type="Text" class="form-control text-center" id="castName" name="castName" required pattern=".[a-zA-Z]{3,20}">
+                                <input type="number" name="castid" id="castid" hidden>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- edit cast ends-->
+
 
 
 
@@ -327,6 +432,14 @@
       function ediitReligion(id, name) {
           $('#relid').val(id);
           $('#relName').val(name);
+      }
+
+      function editCast(id, name, religion) {
+          console.log(religion);
+          var temp = religion
+          $('#castid').val(id);
+          $('#castName').val(name);
+          $('#MySelect').val(temp);
       }
   </script>
 </body>

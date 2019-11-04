@@ -157,9 +157,27 @@ class AddReligion(LoginRequiredMixin, View):
                 religion.created_by = username
                 religion.updated_by = username
                 religion.save()
-                messages.error(request, "language is already exist")
             else:
                 messages.error(request, "language is already exist")
+        return redirect(reverse('dashboard-content'))
+
+
+class AddCast(LoginRequiredMixin, View):
+
+    def post(self, request, *args, **kwars):
+        rel_id = int(request.POST.get('religion', ''))
+        cast_name = request.POST.get('cast', '')
+        if cast_name is not None:
+            if not Cast.objects.filter(name=cast_name):
+                username = request.user
+                cast = Cast()
+                cast.name = cast_name
+                cast.religion = Religion.objects.get(id=rel_id)
+                cast.created_by = username
+                cast.updated_by = username
+                cast.save()
+            else:
+                messages.error(request, "cast already exist")
         return redirect(reverse('dashboard-content'))
 
 
@@ -169,6 +187,18 @@ class DeleteReligion(LoginRequiredMixin, View):
         langid = kwargs['rel_id']
         try:
             Religion.objects.get(id=langid).delete()
+            messages.success(request, "Religion Deleted")
+        except Religion.DoesNotExist:
+            messages.error(request, "Something went wrong")
+        return redirect(reverse('dashboard-content'))
+
+
+class DeleteCast(LoginRequiredMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        cast_id = kwargs['cast_id']
+        try:
+            Religion.objects.get(id=cast_id).delete()
             messages.success(request, "Religion Deleted")
         except Religion.DoesNotExist:
             messages.error(request, "Something went wrong")
@@ -186,6 +216,26 @@ class EditReligion(LoginRequiredMixin, View):
             religion.name = relname
             religion.updated_by = username
             religion.save()
+            print("save successful")
+            messages.error(request, "Religion updated successfully")
+        except Religion.DoesNotExist:
+            messages.error(request, "Something went wrong")
+        return redirect(reverse('dashboard-content'))
+
+
+class EditCast (LoginRequiredMixin, View):
+
+    def post(self, request, *args, **kwargs):
+        relid = request.POST.get('relid', '')
+        castid = request.POST.get('castid', '')
+        castname = request.POST.get('castName', '')
+        username = request.user
+        try:
+            cast = Cast.objects.get(id=castid)
+            cast.name = castname
+            cast.religion = Religion.objects.get(id = relid)
+            cast.updated_by = username
+            cast.save()
             print("save successful")
             messages.error(request, "Religion updated successfully")
         except Religion.DoesNotExist:
