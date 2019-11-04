@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block extrastyle %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" rel="stylesheet"/>
     <link href="{% static 'frontend/css/filter.css' %}" rel="stylesheet" xmlns="http://www.w3.org/1999/html"/>
     <link href="{% static 'frontend/css/profile-details.css' %}" rel="stylesheet"/>
 {% endblock %}
@@ -9,7 +10,7 @@
 <!-- navbar -->
     {% include "frontend/filter-nav.html" %}
 <!-- navber ends-->
-    <div class="container-fluid">
+    <div class="container-fluid profile-background">
         <div class="row">
             <div class="col-md-3 py-3">
                 <div class="card">
@@ -121,7 +122,7 @@
                             <div class="card-header">
                                  <div class="row justify-content-between  pr-md-3">
                                      <h5 class="pl-2">Profile Details</h5>
-                                    <div class="edit-profile" data-toggle="modal" data-target="#exampleModalCenter">
+                                    <div class="edit-profile" data-toggle="modal" data-target="#updateProfileDetails">
                                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                     </div>
                                  </div>
@@ -282,7 +283,7 @@
                             <div class="card-header">
                                  <div class="row justify-content-between  pr-md-3">
                                      <h5 class="pl-2">Partner preference</h5>
-                                    <div class="edit-profile">
+                                    <div class="edit-profile"  data-toggle="modal" data-target="#updatePartnerPreference">
                                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                     </div>
                                  </div>
@@ -361,18 +362,34 @@
                             <div class="card-header">
                                  <div class="row justify-content-between  pr-md-3">
                                      <h5 class="pl-2">Image Gallery</h5>
-                                    <div class="edit-profile">
-                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                    </div>
+                                     <div class="buttons">
+                                        <form id="profileImage" method="post" action="{% url 'upload-user-image' %}"  enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <input name="id" id="userId" type="text" value="{{ user_profile.userinfo.id }}" hidden>
+                                            <label for='photos' style="display: block;">
+                                             <div class="edit-profile">
+                                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                            </div>
+                                            </label>
+                                            <input type="file" id="photos" name="photos" onchange="uploadPhoto()" multiple hidden />
+                                        </form>
+                                     </div>
                                  </div>
                             </div>
-                            <div class="card-body">
-                                <div class="image-grid" id="image-grid">
-                                    {% for images in user_images %}
-                                        <div class="image-item">
-                                                <img class="image-inner" src="/media/{{ images.file }}" alt="" />
+                            <div class="card">
+                                <div class="p-4">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="grid effect-2" id="grid">
+                                                {% for images in user_images %}
+                                                    <div class="item">
+                                                            <img src="/media/{{ images.file }}" id="img{{ images.id }}" alt=""/>
+                                                            <i class="fa fa-trash delete-button" id="icon{{ images.id }}" aria-hidden="true" onclick="deleImage({{ images.id }})"></i>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
                                         </div>
-                                    {% endfor %}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -413,34 +430,27 @@
         </div>
     </div>
 
-
-    <button >
-      Launch demo modal
-    </button>
-
-
     {% include 'frontend/user-profile-modal.html' %}
-
-
-
-
-
-
 
 {% endblock %}
 {% block extrascript %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
-{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.0.0/imagesloaded.pkgd.min.js"></script>#}
+
+    <script type="text/javascript" src="{% static 'frontend/js/profile-edit.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/js/bootstrap.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/masonry/3.2.2/masonry.pkgd.min.js'></script>
     <script>
-    jQuery(window).on('load', function() {
-        $(".image-grid").masonry({
-            columnWidth: 200,
-            itemSelector: '.image-item',
-            {#columnWidth:10,#}
-          })
-    });
+       $('#item3').click(function () {
+            var $container = $('.grid');
+            // initialize
+            $container.masonry({
+                //columnWidth: 200,
+                itemSelector: '.item'
+            });
+        })
     </script>
 
     <script type="text/javascript">
@@ -469,5 +479,26 @@
             $('#profile-menu>ul>li').removeClass('menu-active');
             $('#item3').addClass('menu-active');
         }
+        function deleImage(img_id) {
+            var request = $.ajax({
+                url: "/delete-image",
+                type: 'POST',
+                data: {imgId : img_id},
+                success: function(data)
+                   {
+                       $( '#img'+img_id ).hide();
+                       $( '#icon'+img_id ).hide();
+                   }
+            });
+        }
+
+        function uploadPhoto() {
+            console.log("images uploaded");
+            document.getElementById("profileImage").submit();
+        }
+
+
+
+
     </script>
 {% endblock %}

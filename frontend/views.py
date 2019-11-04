@@ -261,6 +261,8 @@ class UserProfileDetails(TemplateView):
         user_info_obj = UserInfo.objects.get(user_profile=user)
         context['partner_pref'] = PartnerPreference.objects.get(user_info=user_info_obj)
         context['user_images'] = UserImages.objects.filter(user_info__user_profile=user)
+        context['mother_tongue'] = MotherTongue.objects.all()
+        context['religion_list'] = Religion.objects.all()
         return context
 
 
@@ -302,4 +304,80 @@ class ChangeUserImage(View):
         userprofile = UserProfile.objects.get(user=user_obj)
         userprofile.profile_pic = image
         userprofile.save()
+        return redirect(reverse('user-profile'))
+
+
+class UpdateBasicInfo(View):
+    def post(self, request, *args, **kwargs):
+        profile_id = int(request.POST.get('profile_id', ""))
+        name = request.POST.get('name', "")
+        gender = request.POST.get('gender', "")
+        mother_tongue = request.POST.get('mother_tongue', "")
+        physical_status = request.POST.get('physical_status', "")
+        marital_status = request.POST.get('marital_status', "")
+        height = request.POST.get('Height', "")
+        weight = request.POST.get('Weight', "")
+        eating = request.POST.get('eating', "")
+        drinking = request.POST.get('drinking', "")
+        smoking = request.POST.get('smoking', "")
+        userprofile = UserProfile.objects.get(id=profile_id)
+        userprofile.gender = gender
+        userprofile.save()
+        user = User.objects.get(id = userprofile.user.id)
+        user.first_name = name
+        user.save()
+        user_info = UserInfo.objects.get(user_profile=userprofile)
+        user_info.mother_tongue = MotherTongue.objects.get(language= mother_tongue)
+        user_info.physical_status = physical_status
+        user_info.marital_status = marital_status
+        user_info.height= height
+        user_info.weight = weight
+        user_info.eating = eating
+        user_info.drinking = drinking
+        user_info.smoking = smoking
+        user_info.save()
+        return redirect(reverse('user-profile'))
+
+
+class UpdatePartnerPref(View):
+    def post(self, request, *args, **kwargs):
+        profile_id = int(request.POST.get('profile_id', ""))
+        agefrom = request.POST.get('ageFrom', "")
+        ageto = request.POST.get('ageTo', "")
+        mother_tongue_partner = request.POST.get('mother_tongue_partner', "")
+        religion_partner = request.POST.get('religion-dropdown-partner', "")
+        cast_partner = request.POST.get('cast-dropdown-partner', "")
+        subcast_partner = request.POST.get('subcast-dropdown-partner', "")
+        gotra_partner = request.POST.get('gotra-partner', "")
+        star_patner = request.POST.get('star-patner', "")
+        dosh_partner = request.POST.get('dosh-partner', "")
+        physical_partner = request.POST.get('physical-partner', "")
+        userprofile = UserProfile.objects.get(id=profile_id)
+        user_info = UserInfo.objects.get(user_profile=userprofile)
+        partner_pref = PartnerPreference.objects.get(user_info=user_info)
+        partner_pref.age_from = agefrom
+        partner_pref.age_to = ageto
+        partner_pref.religion = Religion.objects.get(name=religion_partner)
+        partner_pref.cast = Cast.objects.get(name=cast_partner)
+        partner_pref.subcast = SubCast.objects.get(name=subcast_partner)
+        partner_pref.gotra = gotra_partner
+        partner_pref.star = star_patner
+        partner_pref.dosh = dosh_partner
+        partner_pref.physical_status = physical_partner
+        partner_pref.save()
+        return redirect(reverse('user-profile'))
+
+
+class UploadUserImage(View):
+
+    def post(self, request, *args, **kwargs):
+        user_info_id = request.POST.get('id', "")
+        image = request.FILES.get('photos')
+        print(user_info_id)
+        print(image)
+        user_info = UserInfo.objects.get(id=user_info_id)
+        user_image = UserImages()
+        user_image.user_info = user_info
+        user_image.file = image
+        user_image.save()
         return redirect(reverse('user-profile'))

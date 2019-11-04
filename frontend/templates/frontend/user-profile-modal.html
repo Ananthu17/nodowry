@@ -1,23 +1,306 @@
-
-
 <!-- Modal for editing user profile starts here-->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade bd-example-modal-lg" id="updateProfileDetails" tabindex="-1" role="dialog"
+     aria-labelledby="updateProfileDetails" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Update Basic Info</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body font-lato">
+                <div class="container">
+                    <form method="post" action="{% url 'update-basic-info' %}">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Name</label>
+                                    <input type="text" name="profile_id" value="{{ user_profile.id }}" hidden>
+                                    <input type="text" class="form-control input-round" id="name" name="name" aria-describedby="nameHelp"
+                                           placeholder="Enter Name" value="{{ user_profile.user.first_name }}" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Gender</label>
+                                    <select name="gender" class="login-form form-control input-round" required>
+                                        <option value="men">Male</option>
+                                        <option value="woman">Female</option>
+                                        <option value="others">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Mother Tongue</label>
+                                    <select name="mother_tongue" class="login-form form-control input-round" required>
+                                        {% for language in mother_tongue %}
+                                            <option value="{{language}}">{{language}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Physical Status</label>
+                                    <select name="physical_status" class="login-form form-control input-round" required>
+                                        <option value="Healthy">Healthy</option>
+                                        <option value="Athletic">Athletic</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Marital Status</label>
+                                    <select name="marital_status" class="login-form form-control input-round" required>
+                                        <option value="Single">Single</option>
+                                        <option value="Married">Married</option>
+                                        <option value="Divorced">Divorced</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputHeight">Height</label>
+                                    <input type="text" class="form-control input-round" id="Height" name="Height" aria-describedby="Height"
+                                           placeholder="Enter Height" value="{{ user_profile.userinfo.height }}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputWeight">Weight</label>
+                                    <input type="text" class="form-control input-round" id="Weight" name="Weight" aria-describedby="nameWeight"
+                                           placeholder="Enter Weight" value="{{ user_profile.userinfo.weight }}" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Eating Habits</label>
+                                    <select name="eating" class="form-control input-round" id="eating">
+                                        <option value="Vegetarian">Vegetarian</option>
+                                        <option value="Non-Vegetarian">Non-Vegetarian</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Drinking Habits</label>
+                                    <select name="drinking" class="form-control input-round" id="drinking">
+                                        <option value="Never-Drink">Never-Drink</option>
+                                        <option value="Drink-Occasionally">Drink-Occasionally</option>
+                                        <option value="Frequently">Frequently</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-md-center">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Smoking Habits</label>
+                                    <select name="smoking" class="form-control input-round" id="smoaking">
+                                        <option value="Never-Smoked">Never-Smoked</option>
+                                        <option value="Smoking">Smoking</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <button type="submit" class="btn btn-primary border-orange">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal for editing user profile ends here-->
+
+
+<!-- modal for partner preference editing starts-->
+<div class="modal fade bd-example-modal-lg" tabindex="-1" id="updatePartnerPreference" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+        <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Update Basic Info</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body font-lato">
+                <div class="container">
+                    <form method="post" action="{% url 'update-partner-pref' %}">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Body Type</label>
+                                    <input type="text" name="profile_id" value="{{ user_profile.id }}" hidden>
+                                    <select name="body-type-partner" class="form-control input-round" id="bodyTypePartner">
+                                        <option value="Fat">Fat</option>
+                                        <option value="Slim">Slim</option>
+                                        <option value="Normal">Normal</option>
+                                     </select>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                    <label for="exampleInputEmail1">Age Range</label>
+                                    <div class="row justify-content-between">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                            <small id="ageFromHelp" class="form-text text-muted">From</small>
+                                            <select name="ageFrom" onchange='changeAge(this.value);' class="form-control input-round" id="ageFrom">
+                                             </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                            <small id="ageToHelp" class="form-text text-muted">To</small>
+                                            <select name="ageTo" class="form-control input-round" id="ageTo">
+                                             </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Mother Tongue</label>
+                                    <select name="mother_tongue_partner" class="login-form form-control input-round" required>
+                                        {% for language in mother_tongue %}
+                                            <option value="{{language}}">{{language}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="religion">Religion</label>
+                                    <select name="religion-dropdown-partner" id="religion-dropdown-partner" class="login-form form-control input-round" onchange="selectCastPartner()">
+                                        {% for religion in religion_list %}
+                                            <option value="{{ religion }}">{{ religion }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Cast</label>
+                                    <select name="cast-dropdown-partner" id="cast-dropdown-partner" class="form-control input-round" onchange="selectSubcastPartner()">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">SubCast</label>
+                                    <select name="subcast-dropdown-partner" id="subcast-dropdown-partner" class="form-control input-round">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Gotra</label>
+                                    <select name="gotra-partner" class="form-control input-round" id="gotra-partner">
+                                        <option value="Nandhi">Nandhi</option>
+                                        <option value="Bhargava">Bhargava</option>
+                                        <option value="Dubey">Dubey</option>
+                                        <option value="Gaur">Gaur</option>
+                                        <option value="Upamanyu">Upamanyu</option>
+                                        <option value="Uttam">Uttam</option>
+                                        <option value="Vishnu">Vishnu</option>
+                                        <option value="Vishvamitra">Vishvamitra</option>
+                                        <option value="Vishrava">Vishrava</option>
+                                        <option value="Shringi">Shringi</option>
+                                        <option value="Khilaivar">Khilaivar</option>
+                                        <option value="Pachori">Pachori</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="religion">Star</label>
+                                    <select name="star-patner" class="form-control input-round" id="star-patner">
+                                        <option value="Ashvini">Ashvini</option>
+                                        <option value="Bharani">Bharani</option>
+                                        <option value="Karhika">Karhika</option>
+                                        <option value="Rohini">Rohini</option>
+                                        <option value="Mrigashīrsha">Mrigashīrsha</option>
+                                        <option value="Ardra">Ardra</option>
+                                        <option value="Pushya">Pushya</option>
+                                        <option value="Āshleshā">Āshleshā</option>
+                                        <option value="Maghā">Maghā</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="dosh">Dosh</label>
+                                    <select name="dosh-partner" class="form-control input-round" id="dosh-partner">
+                                            <option value="Doesn't Matter">Doesn't Matter</option>
+                                            <option value="Manglik">Manglik</option>
+                                            <option value="Nadi">Nadi</option>
+                                            <option value="Pitra">Pitra</option>
+                                            <option value="Kartik">Kartik</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="dosh">Physical Status</label>
+                                    <select name="physical-partner" class="form-control input-round" id="physicalParter">
+                                        <option value="Doesn't Matter">Doesn't Matter</option>
+                                        <option value="Healthy">Healthy</option>
+                                        <option value="Athletic">Athletic</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row justify-content-center">
+                            <button type="submit" class="btn btn-primary border-orange">Submit</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
   </div>
 </div>
-<!-- Modal for editing user profile ends here-->
+<!-- partner-preference editing modal ends here -->
+
+
+
+{#<script type="text/javascript">#}
+{#    function  selectReligion() {#}
+{#        $('#religion-dropdown-partner').empty();#}
+{#        {% for religion in religion_list %}#}
+{#             $('#religion-dropdown-partner').append($('<option></option>').attr('value',  '{{ religion }}').text('{{ religion }}'));#}
+{#        {% endfor %}#}
+{#}#}
+{#</script>#}

@@ -10,6 +10,7 @@ urlpatterns = [
     path('user-profile', UserProfileDetails.as_view(), name='user-profile'),
     path('subscribe-mail', SubscribeMail.as_view(), name='subscribe-mail'),
     path('upload-image', UploadImage.as_view(), name='upload-image'),
+    path('upload-user-image', UploadUserImage.as_view(), name='upload-user-image'),
     path('delete-image', csrf_exempt(DeleteImage.as_view()), name='delete-image'),
     path('select-cast', csrf_exempt(SelectCast.as_view()), name='select-cast'),
     path('select-sub-cast', csrf_exempt(SelectSubCast.as_view()), name='select-sub-cast'),
@@ -17,5 +18,7 @@ urlpatterns = [
     path('profile-details', csrf_exempt(SaveProfileDetails.as_view()), name='profile-details'),
     path('partner-details', csrf_exempt(SavePartnerDetails.as_view()), name='partner-details'),
     path('change-user-image', csrf_exempt(ChangeUserImage.as_view()), name='change-user-image'),
+    path('update-basic-info', csrf_exempt(UpdateBasicInfo.as_view()), name='update-basic-info'),
+    path('update-partner-pref', csrf_exempt(UpdatePartnerPref.as_view()), name='update-partner-pref'),
     path('partner-details-template/<int:profile_id>/', csrf_exempt(PartnerDetails.as_view()), name='partner-details-template'),
 ]
