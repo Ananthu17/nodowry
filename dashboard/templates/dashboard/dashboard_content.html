@@ -182,7 +182,7 @@
               <div class="card-header">
                   <div class="d-flex justify-content-between">
                       <h4 class="card-title text-left">Sub Cast</h4>
-                      <div class="pt-2"><i class="nc-icon nc-simple-add text-success" style="font-size: xx-large;"></i></div>
+                      <div class="pt-2" data-toggle="modal" data-target=".add-sub-cast"><i class="nc-icon nc-simple-add text-success" style="font-size: xx-large;"></i></div>
                   </div>
               </div>
               <div class="card-body">
@@ -197,6 +197,9 @@
                       <th class="text-center">
                         <span>Edit</span>
                       </th>
+                      <th class="text-center">
+                        <span>Delete</span>
+                      </th>
                     </thead>
                     <tbody class="dashboard-content-card">
                     {% for subcast in subcast_list %}
@@ -208,8 +211,13 @@
                               {{ subcast.created_by }}
                             </td>
                             <td class="text-center">
-                                <a href="">
+                                <a onclick="editSubCast({{ subcast.id }},'{{ subcast.name }}','{{ subcast.cast.id }}')"  data-toggle="modal" data-target=".edit-sub-cast">
                                     <i class="nc-icon nc-button-play text-warning" style="font-size: xx-large;"></i>
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <a href="{% url 'delete-sub-cast' subcast.id %}">
+                                    <i class="nc-icon nc-simple-remove text-danger" style="font-size: xx-large;"></i>
                                 </a>
                             </td>
                           </tr>
@@ -225,7 +233,7 @@
               <div class="card-header">
                   <div class="d-flex justify-content-between">
                       <h4 class="card-title text-left">Mother Tongue</h4>
-                      <div class="pt-2"><i class="nc-icon nc-simple-add text-success" style="font-size: xx-large;"></i></div>
+                      <div class="pt-2" data-toggle="modal" data-target=".add-mother-tongue"><i class="nc-icon nc-simple-add text-success" style="font-size: xx-large;"></i></div>
                   </div>
               </div>
               <div class="card-body">
@@ -240,6 +248,9 @@
                       <th class="text-center">
                         <span>Edit</span>
                       </th>
+                      <th class="text-center">
+                        <span>Delete</span>
+                      </th>
                     </thead>
                     <tbody class="dashboard-content-card">
                     {% for mother_tongue in mother_tongue_list %}
@@ -251,8 +262,13 @@
                               {{ mother_tongue.created_by }}
                             </td>
                             <td class="text-center">
-                                <a href="">
+                                <a onclick="ediitMotherTongue({{ mother_tongue.id }},'{{ mother_tongue.language }}')"  data-toggle="modal" data-target=".edit-mother-tongue">
                                     <i class="nc-icon nc-button-play text-warning" style="font-size: xx-large;"></i>
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <a href="{% url 'delete-mother-tongue' mother_tongue.id %}">
+                                    <i class="nc-icon nc-simple-remove text-danger" style="font-size: xx-large;"></i>
                                 </a>
                             </td>
                           </tr>
@@ -333,7 +349,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header text-center">
-                    <h4>Add Religion</h4>
+                    <h4>Add Cast</h4>
                 </div>
                 <div class="modal-body">
                     <form action="{% url 'add-cast' %}" method="post">
@@ -415,6 +431,152 @@
 <!-- edit cast ends-->
 
 
+<!-- add sub cast modal starts here -->
+  <div class="modal fade add-sub-cast" tabindex="-1" role="dialog"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4>Add Sub Cast</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'add-sub-cast' %}" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="text-center" for="cast">Cast Name</label>
+                                    <select class="form-control" name="cast">
+                                        {% for cast in cast_list %}
+                                            <option value="{{ cast.id }}" >{{ cast }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="text-center" for="sub-cast">Sub-Cast Name</label>
+                                    <input type="Text" class="form-control text-center" name="sub-cast" required pattern=".[a-zA-Z]{2,20}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--add cast modal ends here -->
+
+  <!-- edit sub cast starts -->
+  <div class="modal fade edit-sub-cast" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4>Edit Cast</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'edit-sub-cast' %}" method="post">
+                        {% csrf_token %}
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="text-center" for="cast">Cast Name</label>
+                                    <select class="form-control" name="cast" id="subCastSelect">
+                                        {% for cast in cast_list %}
+                                            <option value="{{ cast.id }}" >{{ cast }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="text-center" for="exampleInputEmail1">Sub Cast Name</label>
+                                <input type="Text" class="form-control text-center" id="subCastName" name="subCastName" required pattern=".[a-zA-Z]{3,20}">
+                                <input type="number" name="subCastId" id="subCastId" hidden>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- edit sub cast ends-->
+
+
+<!-- add mothertongue -->
+  <div class="modal fade add-mother-tongue" tabindex="-1" role="dialog"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4>Add MOtherTongue</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'add-mother-tongue' %}" method="post">
+                        {% csrf_token %}
+                        <div class="row justify-content-center">
+                            <div class="col-md-12">
+                                <label class="text-center" for="exampleInputEmail1">Mother Tongue Name</label>
+                                <input type="Text" class="form-control text-center" name="lang" required pattern=".[a-zA-Z]{3,20}">
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  <!-- edit religion -->
+  <div class="modal fade edit-mother-tongue" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4>Edit Mother Tongue</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'edit-mother-tongue' %}" method="post">
+                        {% csrf_token %}
+                        <div class="row justify-content-center">
+                            <div class="col-md-12">
+                                <label class="text-center" for="exampleInputEmail1">MOther Tongue</label>
+                                <input type="Text" class="form-control text-center" id="langName" name="langName" required pattern=".[a-zA-Z]{3,20}">
+                                <input type="number" name="langid" id="langid" hidden>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- EDIT RELIGION END HERE -->
+
+
+
 
 
   <!--   Core JS Files   -->
@@ -440,6 +602,19 @@
           $('#castid').val(id);
           $('#castName').val(name);
           $('#MySelect').val(temp);
+      }
+
+      function editSubCast(id, name, cast) {
+          console.log(cast);
+          var temp = cast
+          $('#subCastId').val(id);
+          $('#subCastName').val(name);
+          $('#subCastSelect').val(temp);
+      }
+
+       function ediitMotherTongue(id, name) {
+          $('#langid').val(id);
+          $('#langName').val(name);
       }
   </script>
 </body>

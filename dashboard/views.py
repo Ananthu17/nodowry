@@ -241,3 +241,96 @@ class EditCast (LoginRequiredMixin, View):
         except Religion.DoesNotExist:
             messages.error(request, "Something went wrong")
         return redirect(reverse('dashboard-content'))
+
+
+class AddSubCast(LoginRequiredMixin , View):
+
+    def post(self, request, *args, **kwars):
+        cast_id = int(request.POST.get('cast', ''))
+        sub_cast_name = request.POST.get('sub-cast', '')
+        if sub_cast_name is not None:
+            if not SubCast.objects.filter(name=sub_cast_name):
+                username = request.user
+                subcast = SubCast()
+                subcast.name = sub_cast_name
+                subcast.cast = Cast.objects.get(id=cast_id)
+                subcast.created_by = username
+                subcast.updated_by = username
+                subcast.save()
+            else:
+                messages.error(request, "Sub cast is already exist")
+        return redirect(reverse('dashboard-content'))
+
+
+class EditSubCast (LoginRequiredMixin, View):
+
+    def post(self, request, *args, **kwargs):
+        castid = request.POST.get('cast', '')
+        subcastid = request.POST.get('subCastId', '')
+        subcastname = request.POST.get('subCastName', '')
+        username = request.user
+        try:
+            subcast = SubCast.objects.get(id=subcastid)
+            subcast.name = subcastname
+            subcast.cast = Cast.objects.get(id=castid)
+            subcast.updated_by = username
+            subcast.save()
+            messages.error(request, "Sub Cast updated successfully")
+        except Religion.DoesNotExist:
+            messages.error(request, "Something went wrong")
+        return redirect(reverse('dashboard-content'))
+
+
+class DeleteSubCast(LoginRequiredMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        sub_cast_id = kwargs['subCast_id']
+        try:
+            SubCast.objects.get(id=sub_cast_id).delete()
+            messages.success(request, "Item Deleted")
+        except Religion.DoesNotExist:
+            messages.error(request, "Something went wrong")
+        return redirect(reverse('dashboard-content'))
+
+
+class AddMotherTongue(LoginRequiredMixin, View):
+
+    def post(self, request, *args, **kwars):
+        language = request.POST.get('lang', '')
+        if language is not None:
+            if not MotherTongue.objects.filter(language=language):
+                username = request.user
+                lang = MotherTongue()
+                lang.language = language
+                lang.created_by = username
+                lang.save()
+            else:
+                messages.error(request, "language is already exist")
+        return redirect(reverse('dashboard-content'))
+
+
+class EditMotherTongue(LoginRequiredMixin, View):
+
+    def post(self, request, *args, **kwargs):
+        langid = request.POST.get('langid', '')
+        langname = request.POST.get('langName', '')
+        try:
+            lang = MotherTongue.objects.get(id=langid)
+            lang.language = langname
+            lang.save()
+            messages.error(request, "Religion updated successfully")
+        except MotherTongue.DoesNotExist:
+            messages.error(request, "Something went wrong")
+        return redirect(reverse('dashboard-content'))
+
+
+class DeleteMotherTongue(LoginRequiredMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        langid = kwargs['lang_id']
+        try:
+            MotherTongue.objects.get(id=langid).delete()
+            messages.success(request, "Language Deleted")
+        except Religion.DoesNotExist:
+            messages.error(request, "Something went wrong")
+        return redirect(reverse('dashboard-content'))
