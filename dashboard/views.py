@@ -198,7 +198,7 @@ class DeleteCast(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         cast_id = kwargs['cast_id']
         try:
-            Religion.objects.get(id=cast_id).delete()
+            Cast.objects.get(id=cast_id).delete()
             messages.success(request, "Religion Deleted")
         except Religion.DoesNotExist:
             messages.error(request, "Something went wrong")
@@ -226,14 +226,14 @@ class EditReligion(LoginRequiredMixin, View):
 class EditCast (LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
-        relid = request.POST.get('relid', '')
+        relid = request.POST.get('religion', '')
         castid = request.POST.get('castid', '')
         castname = request.POST.get('castName', '')
         username = request.user
         try:
             cast = Cast.objects.get(id=castid)
             cast.name = castname
-            cast.religion = Religion.objects.get(id = relid)
+            cast.religion = Religion.objects.get(id=relid)
             cast.updated_by = username
             cast.save()
             print("save successful")

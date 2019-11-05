@@ -138,13 +138,13 @@
                           Religion
                       </th>
                       <th>
-                        Created By
-                      </th>
-                      <th class="text-center">
-                        <span>Delete</span>
+                          Created By
                       </th>
                       <th class="text-center">
                         <span>Edit</span>
+                      </th>
+                      <th class="text-center">
+                        <span>Delete</span>
                       </th>
                     </thead>
                     <tbody class="dashboard-content-card">
@@ -379,7 +379,7 @@
                     <h4>Edit Cast</h4>
                 </div>
                 <div class="modal-body">
-                    <form action="" method="post">
+                    <form action="{% url 'edit-cast' %}" method="post">
                         {% csrf_token %}
 
                         <div class="row">
