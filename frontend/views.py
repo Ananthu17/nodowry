@@ -54,6 +54,13 @@ class QuickFilter(TemplateView):
         context['user_count'] = userprofile.count()
         context['agefrom'] = agefrom
         context['ageto'] = ageto
+        context['religion_list'] = Religion.objects.all()
+        context['language_list'] = MotherTongue.objects.all()
+        religion_name = Religion.objects.get(id = religion_id)
+        context['relid'] = religion_name.name
+        context['language'] = language
+        context['gender'] = gender
+
         if self.request.user.is_authenticated:
             context['user_images'] = UserImages.objects.filter(user_info__user_profile__user=self.request.user)
         return context

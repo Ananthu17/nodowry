@@ -85,7 +85,9 @@ span.value{
 	width:  -webkit-fill-available;
 }
 
-
+.text-danger{
+	color: #c40043!important;
+}
 
 
 form.filter-results .btn{

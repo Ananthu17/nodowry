@@ -577,6 +577,9 @@
           $('#showmenu').click(function() {
             $('#menu').slideToggle();
           });
+
+          $('#regDropdown').trigger('change');
+          $('#regDropdown').val({{ relid }});
       });
 
       var slider = document.getElementById('test-slider');
@@ -596,20 +599,30 @@
          decimals: 0
        })
       });
+      slider.noUiSlider.on('update', function(values, handle) {
+          $('#ageMin').text(values[0]);
+          $('#ageMax').text(values[1]);
+        });
 
       noUiSlider.create(slider1, {
-       start: [10, 30],
+       start: [120, 180],
        connect: true,
        step: 1,
        orientation: 'horizontal', // 'horizontal' or 'vertical'
        range: {
-         'min': 0,
-         'max': 100
+         'min': 50,
+         'max': 250
        },
        format: wNumb({
          decimals: 0
        })
       });
+
+      slider1.noUiSlider.on('update', function(values, handle) {
+          $('#heightMin').text(values[0]);
+          $('#heightMax').text(values[1]);
+        });
+
 
       noUiSlider.create(slider2, {
        start: [18, 30],
@@ -640,11 +653,28 @@
       });
 
 
-      console.log(slider.noUiSlider.get());
-
       console.log(document.getElementById('slider-value-2'))
       console.log($('.noUi-handle-lower').valueOf())
 
+
+    function selectCast() {
+        valueReligion = $('#regDropdown').val();
+
+        var request = $.ajax({
+              url: "/select-cast",
+              type: 'POST',
+              data: {religion : valueReligion},
+              success: function(resultData) {
+                  $('#cast-dropdown').empty();
+                  $.each(resultData.data, function (entry, value) {
+                        $('#cast-dropdown').append($('<option></option>').attr('value', value.name).text(value.name));
+                  });
+                  $('#cast-dropdown').trigger('change');
+              }
+        });
+
+        {#console.log(valueReligion);#}
+    }
     </script>
   </body>
 </html>

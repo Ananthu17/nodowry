@@ -67,7 +67,7 @@
                                 <p  class="searchItem">
                                     &nbsp;
                                 </p>
-                                <select name="ageto" class="quicksearchDropdown form-control ageto" required>
+                                <select name="ageto" class="quicksearchDropdown form-control ageto" id="ageto" required>
                                 </select>
                             </div>
                         </div>
@@ -743,6 +743,7 @@
             for (i=18;i<=50;i++){
                 $ageto.append($('<option></option>').val(i).html(i))
             }
+            $('#ageto').val(25);
         });
         console.log($("#aioConceptName").val());
 

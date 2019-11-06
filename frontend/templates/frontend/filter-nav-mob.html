@@ -5,41 +5,49 @@
     <form class="filter-results">
       <div class="form-group">
         <label for="gender"><h5>Gender</h5></label>
-        <select name="gender" class="filter-form form-control reg-dropdown">
-          <option value="" disabled selected>Gender</option>
-          <option value="woman">Woman</option>
+        <select name="gender" class="filter-form form-control reg-dropdown" id="genderDropdown">
           <option value="men">Men</option>
+          <option value="woman">Women</option>
           <option value="others">Others</option>
         </select>
       </div>
       <div class="form-group">
-        <label for="exampleInputPassword1"><h5>Age</h5></label>
+{#        <label for="exampleInputPassword1"><h5>Age <span>18 - 25</span> </h5></label>#}
+        <div class="mx-0 row justify-content-between">
+            <h5>Age</h5> <div class="text-danger"><span id="ageMin">18</span> to <span id="ageMax">25</span></div>
+        </div>
         <div id="test-slider"></div>
       </div>
       <div class="form-group">
-        <label for="exampleInputPassword1"><h5>Height</h5></label>
-        <div id="test-slider1"></div>
+{#        <label for="exampleInputPassword1"><h5>Height</h5></label>#}
+          <div class="mx-0 row justify-content-between">
+            <h5>Height</h5> <div class="text-danger"><span id="heightMin">50cm</span> to <span id="heightMax">220cm</span></div>
+            </div>
+            <div id="test-slider1"></div>
       </div>
+
       <div class="form-group">
-        <label for="exampleInputPassword1"><h5>Location</h5></label>
-        <input type="text" class="form-control filter-form location" id="exampleInputPassword1" placeholder="Bangalore">
-      </div>
-      <div class="form-group">
-        <label for="gender"><h5>Religion</h5></label>
-        <select name="gender" class="filter-form form-control reg-dropdown">
-          <option value="" disabled selected>Hindu</option>
-          <option value="woman">Hindu</option>
-          <option value="men">Christian</option>
-          <option value="others"></option>
+        <label for="religion"><h5>Religion</h5></label>
+        <select name="religion" class="filter-form form-control reg-dropdown" id="regDropdown" onchange="selectCast()">
+            {% for religion in religion_list %}
+                <option value="{{religion}}">{{religion}}</option>
+            {% endfor %}
         </select>
       </div>
+
+      <div class="form-group">
+        <label for="exampleInputcast"><h5>Cast</h5></label>
+         <select name="cast" class="filter-form form-control reg-dropdown" id="cast-dropdown">
+          <option value="Hindu">Nair</option>
+        </select>
+      </div>
+
       <div class="form-group">
         <label for="gender"><h5>Mother Tongue</h5></label>
-        <select name="gender" class="filter-form form-control reg-dropdown">
-          <option value="" disabled selected>Kannada</option>
-          <option value="woman">Malayalam</option>
-          <option value="men">Tamil</option>
-          <option value="others">Hindi</option>
+        <select name="language" class="filter-form form-control reg-dropdown">
+          {% for language in language_list %}
+              <option value="{{language}}">{{language}}</option>
+          {% endfor %}
         </select>
       </div>
       <div class="p-4"></div>
