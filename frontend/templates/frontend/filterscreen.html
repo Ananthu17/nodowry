@@ -1,137 +1,158 @@
 <!doctype html>
 <html lang="en">
 {% load static %}
-  <head>
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.0.2/nouislider.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.0.2/nouislider.min.css">
     <script src="https://use.fontawesome.com/daac62b875.js"></script>
     <title>No-Dowry</title>
     <link href="{% static 'frontend/css/filter.css' %}" rel="stylesheet"/>
-  </head>
-  <body>
-    
-    <!-- navbar -->
-    {% include "frontend/filter-nav.html" %}
+</head>
+<body>
 
-    <div class="container-fluid">
-      <div class="filter-screen p-5">
+<!-- navbar -->
+{% include "frontend/filter-nav.html" %}
+
+<div class="container-fluid">
+    <div class="filter-screen p-5">
         <div class="row">
-          <div class="d-none d-sm-none d-md-none d-lg-block col-lg-3">
-            <section class="left-part">
-            {% include "frontend/filter-nav-mob.html" %}
-            </section>
-          </div>
-          <div class="col-lg-9 col-12">
-            <section class="right-part">
-              <div class="search-results">
-                <div class="row">
-                  <div class="col-md-1 col-2 text-center"><img src="{% static 'frontend/images/icons/Saerch-icon.png' %}" /></div>
-                  <div class="col-md-10 col-10"><h2 class="matching-profile success">{{ user_count }} matching profile found!</h2></div>
-                </div>
-                <div class="row">
-                  <div class="d-md-block d-lg-none col-12 text-center pb-3" id="showmenu">
-                    <span> <img src="{% static 'frontend/images/search-results/filter.png' %}">   Filter</span>
-                  </div>
-                </div>
-                <div class="filter-mob-screen d-lg-none d-xl-none" id="menu">
-                  <form class="mob-filter">
-                    <div class="form-group">
-                    <!-- <label for="gender"><h5>Gender</h5></label> -->
-                      <select name="gender" class="filter-form form-control reg-dropdown">
-                        <option value="" disabled selected>Gender</option>
-                        <option value="woman">Woman</option>
-                        <option value="men">Men</option>
-                        <option value="others">Others</option>
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <div class="row">
-                        <div class="col-3">Age</div>
-                        <div class="col-9"><div id="test-slider2"></div></div>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <div class="row">
-                        <div class="col-3">Height</div>
-                        <div class="col-9"><div id="test-slider3"></div></div>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <!-- <label for="exampleInputPassword1"><h5>Location</h5></label> -->
-                      <input type="text" class="form-control filter-form location" id="exampleInputPassword1" placeholder="Bangalore">
-                    </div>
-                    <div class="form-group">
-                      <!-- <label for="gender"><h5>Religion</h5></label> -->
-                      <select name="gender" class="filter-form form-control reg-dropdown">
-                        <option value="" disabled selected>Religion</option>
-                        <option value="woman">Hindu</option>
-                        <option value="men">Christian</option>
-                        <option value="others"></option>
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <!-- <label for="gender"><h5>Mother Tongue</h5></label> -->
-                      <select name="gender" class="filter-form form-control reg-dropdown">
-                        <option value="" disabled selected>Mother Tongue</option>
-                        <option value="woman">Kannada</option>
-                        <option value="woman">Malayalam</option>
-                        <option value="men">Tamil</option>
-                        <option value="others">Hindi</option>
-                      </select>
-                    </div>
-                    <div class="p-1"></div>
-                    <div class="row justify-content-center">
-                      <div class="col-6">
-                        <button type="submit" class="btn">APPLY</button>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-                <div class="p-3"></div>
-                <div class="search-items">
-                  <div class="row">
-                      {% if user_profile %}
-                          {% for users in user_profile %}
-                              <div class="col-xl-6 col-lg-12 col-md-12 p-2">
-                                  <div class="result-item">
+            <div class="d-none d-sm-none d-md-none d-lg-block col-lg-3">
+                <section class="left-part">
+                    {% include "frontend/filter-nav-mob.html" %}
+                </section>
+            </div>
+            <div class="col-lg-9 col-12">
+                <section class="right-part">
+                    <div class="search-results">
+                        <div class="row">
+                            <div class="col-md-1 col-2 text-center"><img
+                                    src="{% static 'frontend/images/icons/Saerch-icon.png' %}"/></div>
+                            <div class="col-md-10 col-10"><h2 class="matching-profile success">{{ user_count }} matching
+                                profile found!</h2></div>
+                        </div>
+                        <div class="row">
+                            <div class="d-md-block d-lg-none col-12 text-center pb-3" id="showmenu">
+                                <span> <img
+                                        src="{% static 'frontend/images/search-results/filter.png' %}">   Filter</span>
+                            </div>
+                        </div>
+                        <div class="filter-mob-screen d-lg-none d-xl-none" id="menu">
+                            <form class="mob-filter">
+                                <div class="form-group">
+                                    <!-- <label for="gender"><h5>Gender</h5></label> -->
+                                    <select name="gender" class="filter-form form-control reg-dropdown">
+                                        <option value="" disabled selected>Gender</option>
+                                        <option value="woman">Woman</option>
+                                        <option value="men">Men</option>
+                                        <option value="others">Others</option>
+                                    </select>
+                                </div>
+                                <div class="form-group test">
                                     <div class="row">
-                                      <div class="col-xl-4 col-lg-3 col-md-3 col-12">
-                                        <div class="profile-image text-center">
-                                            {% if users.profile_pic %}
-                                                <img src="media/{{ users.profile_pic }}" style="max-width: 223px;max-height: 189px;">
-                                            {% else %}
-                                                {% if users.gender == "men" %}
-                                                    <img  src="{% static 'frontend/images/man.png' %}" style="max-width: 223px;max-height: 189px;" />
-                                                {% elif users.gender == "woman"  %}
-                                                    <img src="{% static 'frontend/images/woman.png' %}" style="max-width: 223px;max-height: 189px;" />
-                                                {% else  %}
-                                                    <img src="{% static 'frontend/images/third-gender.png' %}" style="max-width: 223px;max-height: 189px;" />
-                                                {% endif %}
-                                            {% endif %}
+                                        <div class="col-3">Age</div>
+                                        <div class="col-9">
+                                            <div id="test-slider2"></div>
+
                                         </div>
-                                      </div>
-                                      <div class="col-xl-8 col-lg-9 col-md-9 col-12">
-                                        <div class="profile-details p-1">
-                                          <div class="pname pt-2">
-                                            <h5>{{ users.user__first_name }}</h5>
-                                          </div>
-                                          <div class="pi-location">
-                                            <div class="row">
-                                              <div class="col-1 text-center"><img src="{% static 'frontend/images/search-results/Location-icon.png' %}"></div>
-                                              <div class="col-10"><span> {{ users.userinfo__city }}, {{ users.userinfo__dist }}, {{ users.userinfo__state }}</span></div>
-                                            </div>
-                                          </div>
-                                          <div class="pi-age pt-3">
-                                            <div class="row">
-                                              <div class="col-md-5 col-6">
-                                                <span>Age, Height   </span> <span class="float-right">:</span>
-                                              </div>
-                                              <div class="col-md-7 col-6">
+                                    </div>
+{#                                    <p>{{ agefrom }}</p> - <p class="text-gray">{{ ageto }}</p>#}
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-3">Height</div>
+                                        <div class="col-9">
+                                            <div id="test-slider3"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <!-- <label for="exampleInputPassword1"><h5>Location</h5></label> -->
+                                    <input type="text" class="form-control filter-form location"
+                                           id="exampleInputPassword1" placeholder="Bangalore">
+                                </div>
+                                <div class="form-group">
+                                    <!-- <label for="gender"><h5>Religion</h5></label> -->
+                                    <select name="gender" class="filter-form form-control reg-dropdown">
+                                        <option value="" disabled selected>Religion</option>
+                                        <option value="woman">Hindu</option>
+                                        <option value="men">Christian</option>
+                                        <option value="others"></option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <!-- <label for="gender"><h5>Mother Tongue</h5></label> -->
+                                    <select name="gender" class="filter-form form-control reg-dropdown">
+                                        <option value="" disabled selected>Mother Tongue</option>
+                                        <option value="woman">Kannada</option>
+                                        <option value="woman">Malayalam</option>
+                                        <option value="men">Tamil</option>
+                                        <option value="others">Hindi</option>
+                                    </select>
+                                </div>
+                                <div class="p-1"></div>
+                                <div class="row justify-content-center">
+                                    <div class="col-6">
+                                        <button type="submit" class="btn">APPLY</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="p-3"></div>
+                        <div class="search-items">
+                            <div class="row">
+                                {% if user_profile %}
+                                    {% for users in user_profile %}
+                                        <div class="col-xl-6 col-lg-12 col-md-12 p-2">
+                                            <div class="result-item">
+                                                <div class="row">
+                                                    <div class="col-xl-4 col-lg-3 col-md-3 col-12">
+                                                        <div class="profile-image text-center">
+                                                            {% if users.profile_pic %}
+                                                                <img src="media/{{ users.profile_pic }}"
+                                                                     style="width: 100%;max-width: 223px;max-height: 189px;">
+                                                            {% else %}
+                                                                {% if users.gender == "men" %}
+                                                                    <img src="{% static 'frontend/images/man.png' %}"
+                                                                         style="width: 100%;max-width: 223px;max-height: 189px;"/>
+                                                                {% elif users.gender == "woman" %}
+                                                                    <img src="{% static 'frontend/images/woman.png' %}"
+                                                                         style="width: 100%;max-width: 223px;max-height: 189px;"/>
+                                                                {% else %}
+                                                                    <img src="{% static 'frontend/images/third-gender.png' %}"
+                                                                         style="width: 100%;max-width: 223px;max-height: 189px;"/>
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-8 col-lg-9 col-md-9 col-12">
+                                                        <div class="profile-details p-1">
+                                                            <div class="pname pt-2">
+                                                                <h5>{{ users.user__first_name }}</h5>
+                                                            </div>
+                                                            <div class="pi-location">
+                                                                <div class="row">
+                                                                    <div class="col-1 text-center"><img
+                                                                            src="{% static 'frontend/images/search-results/Location-icon.png' %}">
+                                                                    </div>
+                                                                    <div class="col-10">
+                                                                        <span> {{ users.userinfo__city }}, {{ users.userinfo__dist }}, {{ users.userinfo__state }}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="pi-age pt-3">
+                                                                <div class="row">
+                                                                    <div class="col-md-5 col-6">
+                                                                        <span>Age, Height   </span> <span
+                                                                            class="float-right">:</span>
+                                                                    </div>
+                                                                    <div class="col-md-7 col-6">
                                                 <span class="value">
                                                     <script type="text/javascript">
                                                                     var dob ={{ users.userinfo__dob|date:'Y' }};
@@ -140,541 +161,567 @@
                                                                     var age = dt.getFullYear() - dob
                                                                     document.write(age)
                                                     </script>
-                                                    ,5.6ft
+                                                    ,
+                                                    <script type="text/javascript">
+                                                        var n = {{ users.userinfo__height }};
+                                                        var realFeet = ((n * 0.393700) / 12);
+                                                        var feet = Math.floor(realFeet);
+                                                        var inches = Math.round((realFeet - feet) * 12);
+                                                        document.write(feet + "ft " + inches + 'in ');
+                                                    </script>
+
                                                 </span>
-                                              </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="pi-education">
+                                                                <div class="row">
+                                                                    <div class="col-md-5 col-6">
+                                                                        <span class="value">Education</span><span
+                                                                            class="float-right">:</span>
+                                                                    </div>
+                                                                    <div class="col-md-7 col-6">
+                                                                        <span class="value">{{ users.userinfo__education__field }}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="pi-cast">
+                                                                <div class="row">
+                                                                    <div class="col-md-5 col-6">
+                                                                        <span>Cast</span><span
+                                                                            class="float-right">:</span>
+                                                                    </div>
+                                                                    <div class="col-md-7 col-6">
+                                                                        <span class="value">{{ users.userinfo__cast__name }}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="viewprofile text-center pt-2">
+                                                                <div class="row">
+                                                                    <div class="col-10 text-right">
+                                                                        <a class="text-right"
+                                                                           href="{% url 'partner-details-template' users.id %}">
+                                                                            VIEW PROFILE
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                          </div>
-                                          <div class="pi-education">
-                                            <div class="row">
-                                              <div class="col-md-5 col-6">
-                                                <span class="value">Education</span><span class="float-right">:</span>
-                                              </div>
-                                              <div class="col-md-7 col-6">
-                                                <span class="value">{{ users.userinfo__education__field }}</span>
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div class="pi-cast">
-                                            <div class="row">
-                                              <div class="col-md-5 col-6">
-                                                <span>Cast</span><span class="float-right">:</span>
-                                              </div>
-                                              <div class="col-md-7 col-6">
-                                                <span class="value">{{ users.userinfo__cast__name }}</span>
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div class="viewprofile text-center pt-2">
-                                            <div class="row">
-                                              <div class="col-10 text-right">
-                                                  <a class="text-right" href="{% url 'partner-details-template' users.id %}">
-                                                    VIEW PROFILE
-                                                  </a>
-                                             </div>
-                                            </div>
-                                          </div>
                                         </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                          {% endfor %}
-                      {% endif %}
-{#                    <div class="col-xl-6 col-lg-12 col-md-12 p-2">#}
-{#                      <div class="result-item">#}
-{#                        <div class="row">#}
-{#                          <div class="col-xl-4 col-lg-3 col-md-3 col-12">#}
-{#                            <div class="profile-image text-center">#}
-{#                              <img src="{% static '/frontend/images/search-results/Layer_3.png' %}">#}
-{#                            </div>#}
-{#                          </div>#}
-{#                          <div class="col-xl-8 col-lg-9 col-md-9 col-12">#}
-{#                            <div class="profile-details p-1">#}
-{#                              <div class="pname pt-2">#}
-{#                                <h5>Disha Varma</h5>#}
-{#                              </div>#}
-{#                              <div class="pi-location">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-2"><img src="{% static 'frontend/images/search-results/Location-icon.png' %}"></div>#}
-{#                                  <div class="col-10"><span> Bangalore, Karnataka, India</span></div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                              <div class="pi-age pt-3">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-md-5 col-6">#}
-{#                                    <span>Age, Height   </span> <span class="float-right">:</span>#}
-{#                                  </div>#}
-{#                                  <div class="col-md-7 col-6">#}
-{#                                    <span class="value">21, 5.6ft</span>#}
-{#                                  </div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                              <div class="pi-education">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-md-5 col-6">#}
-{#                                    <span class="value">Education</span><span class="float-right">:</span>#}
-{#                                  </div>#}
-{#                                  <div class="col-md-7 col-6">#}
-{#                                    <span class="value">B-Tech</span>#}
-{#                                  </div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                              <div class="pi-cast">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-md-5 col-6">#}
-{#                                    <span>Cast</span><span class="float-right">:</span>#}
-{#                                  </div>#}
-{#                                  <div class="col-md-7 col-6">#}
-{#                                    <span class="value">Varma</span>#}
-{#                                  </div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                              <div class="viewprofile text-center pt-2">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-10 text-right">#}
-{#                                   VIEW PROFILE#}
-{#                                 </div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                            </div>#}
-{#                          </div>#}
-{#                        </div>#}
-{#                      </div>#}
-{#                    </div>#}
-{#                    <div class="col-xl-6 col-lg-12 col-md-12 p-2">#}
-{#                      <div class="result-item">#}
-{#                        <div class="row">#}
-{#                          <div class="col-xl-4 col-lg-3 col-md-3 col-12">#}
-{#                            <div class="profile-image">#}
-{#                              <img class="profile-pic" src="{% static '/frontend/images/search-results/Layer_4 .png' %}">#}
-{#                            </div>#}
-{#                          </div>#}
-{#                          <div class="col-xl-8 col-lg-9 col-md-9 col-12">#}
-{#                            <div class="profile-details p-1">#}
-{#                              <div class="pname pt-2">#}
-{#                                <h5>Aadhya Varma</h5>#}
-{#                              </div>#}
-{#                              <div class="pi-location">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-2"><img src="{% static 'frontend/images/search-results/Location-icon.png' %}"></div>#}
-{#                                  <div class="col-10"><span> Bangalore, Karnataka, India</span></div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                              <div class="pi-age pt-3">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-md-5 col-6">#}
-{#                                    <span>Age, Height   </span> <span class="float-right">:</span>#}
-{#                                  </div>#}
-{#                                  <div class="col-md-7 col-6">#}
-{#                                    <span class="value">21, 5.6ft</span>#}
-{#                                  </div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                              <div class="pi-education">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-md-5 col-6">#}
-{#                                    <span class="value">Education</span><span class="float-right">:</span>#}
-{#                                  </div>#}
-{#                                  <div class="col-md-7 col-6">#}
-{#                                    <span class="value">B-Tech</span>#}
-{#                                  </div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                              <div class="pi-cast">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-md-5 col-6">#}
-{#                                    <span>Cast</span><span class="float-right">:</span>#}
-{#                                  </div>#}
-{#                                  <div class="col-md-7 col-6">#}
-{#                                    <span class="value">Varma</span>#}
-{#                                  </div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                              <div class="viewprofile text-center pt-2">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-10 text-right">#}
-{#                                   VIEW PROFILE#}
-{#                                 </div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                            </div>#}
-{#                          </div>#}
-{#                        </div>#}
-{#                      </div>#}
-{#                    </div>#}
-{#                    <div class="col-xl-6 col-lg-12 col-md-12 p-2">#}
-{#                      <div class="result-item">#}
-{#                        <div class="row">#}
-{#                          <div class="col-xl-4 col-lg-3 col-md-3 col-12">#}
-{#                            <div class="profile-image">#}
-{#                              <img class="profile-pic" src="{% static '/frontend/images/search-results/Layer_8.png' %}">#}
-{#                            </div>#}
-{#                          </div>#}
-{#                          <div class="col-xl-8 col-lg-9 col-md-9 col-12">#}
-{#                            <div class="profile-details p-1">#}
-{#                              <div class="pname pt-2">#}
-{#                                <h5>Aaloka Varma</h5>#}
-{#                              </div>#}
-{#                              <div class="pi-location">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-2"><img src="{% static 'frontend/images/search-results/Location-icon.png' %}"></div>#}
-{#                                  <div class="col-10"><span> Bangalore, Karnataka, India</span></div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                              <div class="pi-age pt-3">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-md-5 col-6">#}
-{#                                    <span>Age, Height   </span> <span class="float-right">:</span>#}
-{#                                  </div>#}
-{#                                  <div class="col-md-7 col-6">#}
-{#                                    <span class="value">21, 5.6ft</span>#}
-{#                                  </div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                              <div class="pi-education">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-md-5 col-6">#}
-{#                                    <span class="value">Education</span><span class="float-right">:</span>#}
-{#                                  </div>#}
-{#                                  <div class="col-md-7 col-6">#}
-{#                                    <span class="value">B-Tech</span>#}
-{#                                  </div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                              <div class="pi-cast">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-md-5 col-6">#}
-{#                                    <span>Cast</span><span class="float-right">:</span>#}
-{#                                  </div>#}
-{#                                  <div class="col-md-7 col-6">#}
-{#                                    <span class="value">Varma</span>#}
-{#                                  </div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                              <div class="viewprofile text-center pt-2">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-10 text-right">#}
-{#                                   VIEW PROFILE#}
-{#                                 </div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                            </div>#}
-{#                          </div>#}
-{#                        </div>#}
-{#                      </div>#}
-{#                    </div>#}
-{#                    <div class="col-xl-6 col-lg-12 col-md-12 p-2">#}
-{#                      <div class="result-item">#}
-{#                        <div class="row">#}
-{#                          <div class="col-xl-4 col-lg-3 col-md-3 col-12">#}
-{#                            <div class="profile-image text-center">#}
-{#                              <img src="{% static '/frontend/images/search-results/Layer_12.png' %}">#}
-{#                            </div>#}
-{#                          </div>#}
-{#                          <div class="col-xl-8 col-lg-9 col-md-9 col-12">#}
-{#                            <div class="profile-details p-1">#}
-{#                              <div class="pname pt-2">#}
-{#                                <h5>Dakshata Varma</h5>#}
-{#                              </div>#}
-{#                              <div class="pi-location">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-2"><img src="{% static 'frontend/images/search-results/Location-icon.png' %}"></div>#}
-{#                                  <div class="col-10"><span> Bangalore, Karnataka, India</span></div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                              <div class="pi-age pt-3">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-md-5 col-6">#}
-{#                                    <span>Age, Height   </span> <span class="float-right">:</span>#}
-{#                                  </div>#}
-{#                                  <div class="col-md-7 col-6">#}
-{#                                    <span class="value">21, 5.6ft</span>#}
-{#                                  </div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                              <div class="pi-education">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-md-5 col-6">#}
-{#                                    <span class="value">Education</span><span class="float-right">:</span>#}
-{#                                  </div>#}
-{#                                  <div class="col-md-7 col-6">#}
-{#                                    <span class="value">B-Tech</span>#}
-{#                                  </div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                              <div class="pi-cast">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-md-5 col-6">#}
-{#                                    <span>Cast</span><span class="float-right">:</span>#}
-{#                                  </div>#}
-{#                                  <div class="col-md-7 col-6">#}
-{#                                    <span class="value">Varma</span>#}
-{#                                  </div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                              <div class="viewprofile text-center pt-2">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-10 text-right">#}
-{#                                   VIEW PROFILE#}
-{#                                 </div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                            </div>#}
-{#                          </div>#}
-{#                        </div>#}
-{#                      </div>#}
-{#                    </div>#}
-{#                    <div class="col-xl-6 col-lg-12 col-md-12 p-2">#}
-{#                      <div class="result-item">#}
-{#                        <div class="row">#}
-{#                          <div class="col-xl-4 col-lg-3 col-md-3 col-12">#}
-{#                            <div class="profile-image text-center">#}
-{#                              <img src="{% static '/frontend/images/search-results/Layer_7.png' %}">#}
-{#                            </div>#}
-{#                          </div>#}
-{#                          <div class="col-xl-8 col-lg-9 col-md-9 col-12">#}
-{#                            <div class="profile-details p-1">#}
-{#                              <div class="pname pt-2">#}
-{#                                <h5>Gandaki Varma</h5>#}
-{#                              </div>#}
-{#                              <div class="pi-location">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-2"><img src="{% static 'frontend/images/search-results/Location-icon.png' %}"></div>#}
-{#                                  <div class="col-10"><span> Bangalore, Karnataka, India</span></div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                              <div class="pi-age pt-3">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-md-5 col-6">#}
-{#                                    <span>Age, Height   </span> <span class="float-right">:</span>#}
-{#                                  </div>#}
-{#                                  <div class="col-md-7 col-6">#}
-{#                                    <span class="value">21, 5.6ft</span>#}
-{#                                  </div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                              <div class="pi-education">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-md-5 col-6">#}
-{#                                    <span class="value">Education</span><span class="float-right">:</span>#}
-{#                                  </div>#}
-{#                                  <div class="col-md-7 col-6">#}
-{#                                    <span class="value">B-Tech</span>#}
-{#                                  </div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                              <div class="pi-cast">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-md-5 col-6">#}
-{#                                    <span>Cast</span><span class="float-right">:</span>#}
-{#                                  </div>#}
-{#                                  <div class="col-md-7 col-6">#}
-{#                                    <span class="value">Varma</span>#}
-{#                                  </div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                              <div class="viewprofile text-center pt-2">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-10 text-right">#}
-{#                                   VIEW PROFILE#}
-{#                                 </div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                            </div>#}
-{#                          </div>#}
-{#                        </div>#}
-{#                      </div>#}
-{#                    </div>#}
-{#                    <div class="col-xl-6 col-lg-12 col-md-12 p-2">#}
-{#                      <div class="result-item">#}
-{#                        <div class="row">#}
-{#                          <div class="col-xl-4 col-lg-3 col-md-3 col-12">#}
-{#                            <div class="profile-image text-center">#}
-{#                              <img src="{% static '/frontend/images/search-results/Layer_8.png' %}">#}
-{#                            </div>#}
-{#                          </div>#}
-{#                          <div class="col-xl-8 col-lg-9 col-md-9 col-12">#}
-{#                            <div class="profile-details p-1">#}
-{#                              <div class="pname pt-2">#}
-{#                                <h5>Maanika Varma</h5>#}
-{#                              </div>#}
-{#                              <div class="pi-location">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-2"><img src="{% static 'frontend/images/search-results/Location-icon.png' %}"></div>#}
-{#                                  <div class="col-10"><span> Bangalore, Karnataka, India</span></div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                              <div class="pi-age pt-3">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-md-5 col-6">#}
-{#                                    <span>Age, Height   </span> <span class="float-right">:</span>#}
-{#                                  </div>#}
-{#                                  <div class="col-md-7 col-6">#}
-{#                                    <span class="value">21, 5.6ft</span>#}
-{#                                  </div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                              <div class="pi-education">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-md-5 col-6">#}
-{#                                    <span class="value">Education</span><span class="float-right">:</span>#}
-{#                                  </div>#}
-{#                                  <div class="col-md-7 col-6">#}
-{#                                    <span class="value">B-Tech</span>#}
-{#                                  </div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                              <div class="pi-cast">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-md-5 col-6">#}
-{#                                    <span>Cast</span><span class="float-right">:</span>#}
-{#                                  </div>#}
-{#                                  <div class="col-md-7 col-6">#}
-{#                                    <span class="value">Varma</span>#}
-{#                                  </div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                              <div class="viewprofile text-center pt-2">#}
-{#                                <div class="row">#}
-{#                                  <div class="col-10 text-right">#}
-{#                                   VIEW PROFILE#}
-{#                                 </div>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                            </div>#}
-{#                          </div>#}
-{#                        </div>#}
-{#                      </div>#}
+
+                                    {% endfor %}
+                                {% endif %}
+                                {#                    <div class="col-xl-6 col-lg-12 col-md-12 p-2">#}
+                                {#                      <div class="result-item">#}
+                                {#                        <div class="row">#}
+                                {#                          <div class="col-xl-4 col-lg-3 col-md-3 col-12">#}
+                                {#                            <div class="profile-image text-center">#}
+                                {#                              <img src="{% static '/frontend/images/search-results/Layer_3.png' %}">#}
+                                {#                            </div>#}
+                                {#                          </div>#}
+                                {#                          <div class="col-xl-8 col-lg-9 col-md-9 col-12">#}
+                                {#                            <div class="profile-details p-1">#}
+                                {#                              <div class="pname pt-2">#}
+                                {#                                <h5>Disha Varma</h5>#}
+                                {#                              </div>#}
+                                {#                              <div class="pi-location">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-2"><img src="{% static 'frontend/images/search-results/Location-icon.png' %}"></div>#}
+                                {#                                  <div class="col-10"><span> Bangalore, Karnataka, India</span></div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                              <div class="pi-age pt-3">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-md-5 col-6">#}
+                                {#                                    <span>Age, Height   </span> <span class="float-right">:</span>#}
+                                {#                                  </div>#}
+                                {#                                  <div class="col-md-7 col-6">#}
+                                {#                                    <span class="value">21, 5.6ft</span>#}
+                                {#                                  </div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                              <div class="pi-education">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-md-5 col-6">#}
+                                {#                                    <span class="value">Education</span><span class="float-right">:</span>#}
+                                {#                                  </div>#}
+                                {#                                  <div class="col-md-7 col-6">#}
+                                {#                                    <span class="value">B-Tech</span>#}
+                                {#                                  </div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                              <div class="pi-cast">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-md-5 col-6">#}
+                                {#                                    <span>Cast</span><span class="float-right">:</span>#}
+                                {#                                  </div>#}
+                                {#                                  <div class="col-md-7 col-6">#}
+                                {#                                    <span class="value">Varma</span>#}
+                                {#                                  </div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                              <div class="viewprofile text-center pt-2">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-10 text-right">#}
+                                {#                                   VIEW PROFILE#}
+                                {#                                 </div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                            </div>#}
+                                {#                          </div>#}
+                                {#                        </div>#}
+                                {#                      </div>#}
+                                {#                    </div>#}
+                                {#                    <div class="col-xl-6 col-lg-12 col-md-12 p-2">#}
+                                {#                      <div class="result-item">#}
+                                {#                        <div class="row">#}
+                                {#                          <div class="col-xl-4 col-lg-3 col-md-3 col-12">#}
+                                {#                            <div class="profile-image">#}
+                                {#                              <img class="profile-pic" src="{% static '/frontend/images/search-results/Layer_4 .png' %}">#}
+                                {#                            </div>#}
+                                {#                          </div>#}
+                                {#                          <div class="col-xl-8 col-lg-9 col-md-9 col-12">#}
+                                {#                            <div class="profile-details p-1">#}
+                                {#                              <div class="pname pt-2">#}
+                                {#                                <h5>Aadhya Varma</h5>#}
+                                {#                              </div>#}
+                                {#                              <div class="pi-location">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-2"><img src="{% static 'frontend/images/search-results/Location-icon.png' %}"></div>#}
+                                {#                                  <div class="col-10"><span> Bangalore, Karnataka, India</span></div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                              <div class="pi-age pt-3">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-md-5 col-6">#}
+                                {#                                    <span>Age, Height   </span> <span class="float-right">:</span>#}
+                                {#                                  </div>#}
+                                {#                                  <div class="col-md-7 col-6">#}
+                                {#                                    <span class="value">21, 5.6ft</span>#}
+                                {#                                  </div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                              <div class="pi-education">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-md-5 col-6">#}
+                                {#                                    <span class="value">Education</span><span class="float-right">:</span>#}
+                                {#                                  </div>#}
+                                {#                                  <div class="col-md-7 col-6">#}
+                                {#                                    <span class="value">B-Tech</span>#}
+                                {#                                  </div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                              <div class="pi-cast">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-md-5 col-6">#}
+                                {#                                    <span>Cast</span><span class="float-right">:</span>#}
+                                {#                                  </div>#}
+                                {#                                  <div class="col-md-7 col-6">#}
+                                {#                                    <span class="value">Varma</span>#}
+                                {#                                  </div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                              <div class="viewprofile text-center pt-2">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-10 text-right">#}
+                                {#                                   VIEW PROFILE#}
+                                {#                                 </div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                            </div>#}
+                                {#                          </div>#}
+                                {#                        </div>#}
+                                {#                      </div>#}
+                                {#                    </div>#}
+                                {#                    <div class="col-xl-6 col-lg-12 col-md-12 p-2">#}
+                                {#                      <div class="result-item">#}
+                                {#                        <div class="row">#}
+                                {#                          <div class="col-xl-4 col-lg-3 col-md-3 col-12">#}
+                                {#                            <div class="profile-image">#}
+                                {#                              <img class="profile-pic" src="{% static '/frontend/images/search-results/Layer_8.png' %}">#}
+                                {#                            </div>#}
+                                {#                          </div>#}
+                                {#                          <div class="col-xl-8 col-lg-9 col-md-9 col-12">#}
+                                {#                            <div class="profile-details p-1">#}
+                                {#                              <div class="pname pt-2">#}
+                                {#                                <h5>Aaloka Varma</h5>#}
+                                {#                              </div>#}
+                                {#                              <div class="pi-location">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-2"><img src="{% static 'frontend/images/search-results/Location-icon.png' %}"></div>#}
+                                {#                                  <div class="col-10"><span> Bangalore, Karnataka, India</span></div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                              <div class="pi-age pt-3">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-md-5 col-6">#}
+                                {#                                    <span>Age, Height   </span> <span class="float-right">:</span>#}
+                                {#                                  </div>#}
+                                {#                                  <div class="col-md-7 col-6">#}
+                                {#                                    <span class="value">21, 5.6ft</span>#}
+                                {#                                  </div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                              <div class="pi-education">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-md-5 col-6">#}
+                                {#                                    <span class="value">Education</span><span class="float-right">:</span>#}
+                                {#                                  </div>#}
+                                {#                                  <div class="col-md-7 col-6">#}
+                                {#                                    <span class="value">B-Tech</span>#}
+                                {#                                  </div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                              <div class="pi-cast">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-md-5 col-6">#}
+                                {#                                    <span>Cast</span><span class="float-right">:</span>#}
+                                {#                                  </div>#}
+                                {#                                  <div class="col-md-7 col-6">#}
+                                {#                                    <span class="value">Varma</span>#}
+                                {#                                  </div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                              <div class="viewprofile text-center pt-2">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-10 text-right">#}
+                                {#                                   VIEW PROFILE#}
+                                {#                                 </div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                            </div>#}
+                                {#                          </div>#}
+                                {#                        </div>#}
+                                {#                      </div>#}
+                                {#                    </div>#}
+                                {#                    <div class="col-xl-6 col-lg-12 col-md-12 p-2">#}
+                                {#                      <div class="result-item">#}
+                                {#                        <div class="row">#}
+                                {#                          <div class="col-xl-4 col-lg-3 col-md-3 col-12">#}
+                                {#                            <div class="profile-image text-center">#}
+                                {#                              <img src="{% static '/frontend/images/search-results/Layer_12.png' %}">#}
+                                {#                            </div>#}
+                                {#                          </div>#}
+                                {#                          <div class="col-xl-8 col-lg-9 col-md-9 col-12">#}
+                                {#                            <div class="profile-details p-1">#}
+                                {#                              <div class="pname pt-2">#}
+                                {#                                <h5>Dakshata Varma</h5>#}
+                                {#                              </div>#}
+                                {#                              <div class="pi-location">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-2"><img src="{% static 'frontend/images/search-results/Location-icon.png' %}"></div>#}
+                                {#                                  <div class="col-10"><span> Bangalore, Karnataka, India</span></div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                              <div class="pi-age pt-3">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-md-5 col-6">#}
+                                {#                                    <span>Age, Height   </span> <span class="float-right">:</span>#}
+                                {#                                  </div>#}
+                                {#                                  <div class="col-md-7 col-6">#}
+                                {#                                    <span class="value">21, 5.6ft</span>#}
+                                {#                                  </div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                              <div class="pi-education">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-md-5 col-6">#}
+                                {#                                    <span class="value">Education</span><span class="float-right">:</span>#}
+                                {#                                  </div>#}
+                                {#                                  <div class="col-md-7 col-6">#}
+                                {#                                    <span class="value">B-Tech</span>#}
+                                {#                                  </div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                              <div class="pi-cast">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-md-5 col-6">#}
+                                {#                                    <span>Cast</span><span class="float-right">:</span>#}
+                                {#                                  </div>#}
+                                {#                                  <div class="col-md-7 col-6">#}
+                                {#                                    <span class="value">Varma</span>#}
+                                {#                                  </div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                              <div class="viewprofile text-center pt-2">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-10 text-right">#}
+                                {#                                   VIEW PROFILE#}
+                                {#                                 </div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                            </div>#}
+                                {#                          </div>#}
+                                {#                        </div>#}
+                                {#                      </div>#}
+                                {#                    </div>#}
+                                {#                    <div class="col-xl-6 col-lg-12 col-md-12 p-2">#}
+                                {#                      <div class="result-item">#}
+                                {#                        <div class="row">#}
+                                {#                          <div class="col-xl-4 col-lg-3 col-md-3 col-12">#}
+                                {#                            <div class="profile-image text-center">#}
+                                {#                              <img src="{% static '/frontend/images/search-results/Layer_7.png' %}">#}
+                                {#                            </div>#}
+                                {#                          </div>#}
+                                {#                          <div class="col-xl-8 col-lg-9 col-md-9 col-12">#}
+                                {#                            <div class="profile-details p-1">#}
+                                {#                              <div class="pname pt-2">#}
+                                {#                                <h5>Gandaki Varma</h5>#}
+                                {#                              </div>#}
+                                {#                              <div class="pi-location">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-2"><img src="{% static 'frontend/images/search-results/Location-icon.png' %}"></div>#}
+                                {#                                  <div class="col-10"><span> Bangalore, Karnataka, India</span></div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                              <div class="pi-age pt-3">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-md-5 col-6">#}
+                                {#                                    <span>Age, Height   </span> <span class="float-right">:</span>#}
+                                {#                                  </div>#}
+                                {#                                  <div class="col-md-7 col-6">#}
+                                {#                                    <span class="value">21, 5.6ft</span>#}
+                                {#                                  </div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                              <div class="pi-education">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-md-5 col-6">#}
+                                {#                                    <span class="value">Education</span><span class="float-right">:</span>#}
+                                {#                                  </div>#}
+                                {#                                  <div class="col-md-7 col-6">#}
+                                {#                                    <span class="value">B-Tech</span>#}
+                                {#                                  </div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                              <div class="pi-cast">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-md-5 col-6">#}
+                                {#                                    <span>Cast</span><span class="float-right">:</span>#}
+                                {#                                  </div>#}
+                                {#                                  <div class="col-md-7 col-6">#}
+                                {#                                    <span class="value">Varma</span>#}
+                                {#                                  </div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                              <div class="viewprofile text-center pt-2">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-10 text-right">#}
+                                {#                                   VIEW PROFILE#}
+                                {#                                 </div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                            </div>#}
+                                {#                          </div>#}
+                                {#                        </div>#}
+                                {#                      </div>#}
+                                {#                    </div>#}
+                                {#                    <div class="col-xl-6 col-lg-12 col-md-12 p-2">#}
+                                {#                      <div class="result-item">#}
+                                {#                        <div class="row">#}
+                                {#                          <div class="col-xl-4 col-lg-3 col-md-3 col-12">#}
+                                {#                            <div class="profile-image text-center">#}
+                                {#                              <img src="{% static '/frontend/images/search-results/Layer_8.png' %}">#}
+                                {#                            </div>#}
+                                {#                          </div>#}
+                                {#                          <div class="col-xl-8 col-lg-9 col-md-9 col-12">#}
+                                {#                            <div class="profile-details p-1">#}
+                                {#                              <div class="pname pt-2">#}
+                                {#                                <h5>Maanika Varma</h5>#}
+                                {#                              </div>#}
+                                {#                              <div class="pi-location">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-2"><img src="{% static 'frontend/images/search-results/Location-icon.png' %}"></div>#}
+                                {#                                  <div class="col-10"><span> Bangalore, Karnataka, India</span></div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                              <div class="pi-age pt-3">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-md-5 col-6">#}
+                                {#                                    <span>Age, Height   </span> <span class="float-right">:</span>#}
+                                {#                                  </div>#}
+                                {#                                  <div class="col-md-7 col-6">#}
+                                {#                                    <span class="value">21, 5.6ft</span>#}
+                                {#                                  </div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                              <div class="pi-education">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-md-5 col-6">#}
+                                {#                                    <span class="value">Education</span><span class="float-right">:</span>#}
+                                {#                                  </div>#}
+                                {#                                  <div class="col-md-7 col-6">#}
+                                {#                                    <span class="value">B-Tech</span>#}
+                                {#                                  </div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                              <div class="pi-cast">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-md-5 col-6">#}
+                                {#                                    <span>Cast</span><span class="float-right">:</span>#}
+                                {#                                  </div>#}
+                                {#                                  <div class="col-md-7 col-6">#}
+                                {#                                    <span class="value">Varma</span>#}
+                                {#                                  </div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                              <div class="viewprofile text-center pt-2">#}
+                                {#                                <div class="row">#}
+                                {#                                  <div class="col-10 text-right">#}
+                                {#                                   VIEW PROFILE#}
+                                {#                                 </div>#}
+                                {#                                </div>#}
+                                {#                              </div>#}
+                                {#                            </div>#}
+                                {#                          </div>#}
+                                {#                        </div>#}
+                                {#                      </div>#}
+                            </div>
+                        </div>
                     </div>
-                  </div>  
-                </div>
-              </div>
+            </div>
             </section>
-          </div>
         </div>
-      </div>
     </div>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.0.2/nouislider.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/wnumb@1.1.0/wNumb.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript" src="{% static 'frontend/js/style.js' %}"></script>
-    <script type="text/javascript">
+</div>
+</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.0.2/nouislider.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/wnumb@1.1.0/wNumb.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="{% static 'frontend/js/style.js' %}"></script>
+<script type="text/javascript">
 
-        function calculateAge(birthday) { // birthday is a date
-            var ageDifMs = Date.now() - birthday.getTime();
-            var ageDate = new Date(ageDifMs); // miliseconds from epoch
-            return Math.abs(ageDate.getUTCFullYear() - 1970);
-        }
+    function calculateAge(birthday) { // birthday is a date
+        var ageDifMs = Date.now() - birthday.getTime();
+        var ageDate = new Date(ageDifMs); // miliseconds from epoch
+        return Math.abs(ageDate.getUTCFullYear() - 1970);
+    }
 
 
-      $(document).ready(function() {
-          $('#showmenu').click(function() {
+    $(document).ready(function () {
+        $('#showmenu').click(function () {
             $('#menu').slideToggle();
-          });
-
-          $('#regDropdown').trigger('change');
-          $('#regDropdown').val({{ relid }});
-      });
-
-      var slider = document.getElementById('test-slider');
-      var slider1 = document.getElementById('test-slider1');
-      var slider2 = document.getElementById('test-slider2');
-      var slider3 = document.getElementById('test-slider3');
-      noUiSlider.create(slider, {
-       start: [{{ agefrom }}, {{ ageto }}],
-       connect: true,
-       step: 1,
-       orientation: 'horizontal', // 'horizontal' or 'vertical'
-       range: {
-         'min': 18,
-         'max': 58
-       },
-       format: wNumb({
-         decimals: 0
-       })
-      });
-      slider.noUiSlider.on('update', function(values, handle) {
-          $('#ageMin').text(values[0]);
-          $('#ageMax').text(values[1]);
         });
 
-      noUiSlider.create(slider1, {
-       start: [120, 180],
-       connect: true,
-       step: 1,
-       orientation: 'horizontal', // 'horizontal' or 'vertical'
-       range: {
-         'min': 50,
-         'max': 250
-       },
-       format: wNumb({
-         decimals: 0
-       })
-      });
+        $('#regDropdown').trigger('change');
+        $('#regDropdown').val({{ relid }});
+    });
 
-      slider1.noUiSlider.on('update', function(values, handle) {
-          $('#heightMin').text(values[0]);
-          $('#heightMax').text(values[1]);
-        });
+    var slider = document.getElementById('test-slider');
+    var slider1 = document.getElementById('test-slider1');
+    var slider2 = document.getElementById('test-slider2');
+    var slider3 = document.getElementById('test-slider3');
+
+    noUiSlider.create(slider, {
+        start: [{{ agefrom }}, {{ ageto }}],
+        connect: true,
+        step: 1,
+        orientation: 'horizontal', // 'horizontal' or 'vertical'
+        range: {
+            'min': 18,
+            'max': 58
+        },
+        format: wNumb({
+            decimals: 0
+        })
+    });
+    slider.noUiSlider.on('update', function (values, handle) {
+        $('#ageMin').text(values[0]);
+        $('#ageMax').text(values[1]);
+    });
+    slider.noUiSlider.on('slide', function () {
+
+        $('#ageMin').text(slider.noUiSlider.get()[0]);
+        $('#ageMax').text(slider.noUiSlider.get()[1]);
+        console.log();
+    });
+
+    noUiSlider.create(slider1, {
+        start: [120, 180],
+        connect: true,
+        step: 1,
+        orientation: 'horizontal', // 'horizontal' or 'vertical'
+        range: {
+            'min': 50,
+            'max': 250
+        },
+        format: wNumb({
+            decimals: 0
+        })
+    });
+
+    slider1.noUiSlider.on('update', function (values, handle) {
+        $('#heightMin').text(values[0] +"cm");
+        $('#heightMax').text(values[1] +"cm");
+    });
 
 
-      noUiSlider.create(slider2, {
-       start: [18, 30],
-       connect: true,
-       step: 1,
-       orientation: 'horizontal', // 'horizontal' or 'vertical'
-       range: {
-         'min': 18,
-         'max': 58
-       },
-       format: wNumb({
-         decimals: 0
-       })
-      });
+    noUiSlider.create(slider2, {
+        start: [18, 30],
+        connect: true,
+        step: 1,
+        orientation: 'horizontal', // 'horizontal' or 'vertical'
+        range: {
+            'min': 18,
+            'max': 58
+        },
+        format: wNumb({
+            decimals: 0
+        })
+    });
 
-      noUiSlider.create(slider3, {
-       start: [10, 30],
-       connect: true,
-       step: 1,
-       orientation: 'horizontal', // 'horizontal' or 'vertical'
-       range: {
-         'min': 0,
-         'max': 100
-       },
-       format: wNumb({
-         decimals: 0
-       })
-      });
+    noUiSlider.create(slider3, {
+        start: [10, 30],
+        connect: true,
+        step: 1,
+        orientation: 'horizontal', // 'horizontal' or 'vertical'
+        range: {
+            'min': 0,
+            'max': 100
+        },
+        format: wNumb({
+            decimals: 0
+        })
+    });
 
 
-      console.log(document.getElementById('slider-value-2'))
-      console.log($('.noUi-handle-lower').valueOf())
+    console.log(document.getElementById('slider-value-2'))
+    console.log($('.noUi-handle-lower').valueOf())
 
 
     function selectCast() {
         valueReligion = $('#regDropdown').val();
 
         var request = $.ajax({
-              url: "/select-cast",
-              type: 'POST',
-              data: {religion : valueReligion},
-              success: function(resultData) {
-                  $('#cast-dropdown').empty();
-                  $.each(resultData.data, function (entry, value) {
-                        $('#cast-dropdown').append($('<option></option>').attr('value', value.name).text(value.name));
-                  });
-                  $('#cast-dropdown').trigger('change');
-              }
+            url: "/select-cast",
+            type: 'POST',
+            data: {religion: valueReligion},
+            success: function (resultData) {
+                $('#cast-dropdown').empty();
+                $.each(resultData.data, function (entry, value) {
+                    $('#cast-dropdown').append($('<option></option>').attr('value', value.name).text(value.name));
+                });
+                $('#cast-dropdown').trigger('change');
+            }
         });
 
         {#console.log(valueReligion);#}
     }
-    </script>
-  </body>
+</script>
+</body>
 </html>

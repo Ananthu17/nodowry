@@ -40,9 +40,9 @@
                                     I'm looking a
                                 </p>
                                 <select name="gender" class="quicksearchDropdown form-control" required>
-                                    <option value="men">Man</option>
-                                    <option value="woman">Woman</option>
-                                    <option value="others">Others</option>
+                                    <option value="men">Groom</option>
+                                    <option value="woman">Bride</option>
+
                                 </select>
                             </div>
                         </div>
@@ -108,6 +108,7 @@
     </section>
 
     <!-- images grid section -->
+    {% if user.is_authenticated %}
     <section class="images-grid">
       <div class="container-fluid">
         <p class="text-center h1 p-5">Make your own wall of matches</p>
@@ -438,6 +439,7 @@
                               </div>
                           </span>
                       </div>
+                      {% endif %}
 {#                            <img src="{% static 'frontend/images/gallery/Layer_63.png' %}" class="gallery-front-images">#}
 {#                            <img src="{% static 'frontend/images/gallery/Layer_70.png' %}" class="gallery-front-images">#}
 {#                            <img src="{% static 'frontend/images/gallery/Layer_61.png' %}" class="gallery-front-images">#}

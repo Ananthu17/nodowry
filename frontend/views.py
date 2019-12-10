@@ -29,11 +29,12 @@ class QuickFilter(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        gender = self.request.GET.get('gender')
-        agefrom = int(self.request.GET.get('agefrom'))
-        ageto = int(self.request.GET.get('ageto'))
-        religion_id = self.request.GET.get('religion')
-        language = self.request.GET.get('language')
+        gender = self.request.GET.get('gender','')
+        agefrom = int(self.request.GET.get('agefrom',''))
+        ageto = int(self.request.GET.get('ageto',''))
+        religion_id = self.request.GET.get('religion','')
+        cast_id = self.request.GET.get('cast','')
+        language = self.request.GET.get('language','')
         currentdate = date.today()
         startdate = currentdate.replace(currentdate.year - agefrom)
         enddate = currentdate.replace(currentdate.year - ageto)
@@ -49,14 +50,16 @@ class QuickFilter(TemplateView):
                                                                                                    'userinfo__mother_tongue',
                                                                                                    'userinfo__cast__name',
                                                                                                    'userinfo__education__field',
-                                                                                                   'id')
+                                                                                                   'id','userinfo__height')
         context['user_profile'] = userprofile
         context['user_count'] = userprofile.count()
         context['agefrom'] = agefrom
         context['ageto'] = ageto
         context['religion_list'] = Religion.objects.all()
+        context['cast_list'] = Cast.objects.all()
         context['language_list'] = MotherTongue.objects.all()
         religion_name = Religion.objects.get(id = religion_id)
+
         context['relid'] = religion_name.name
         context['language'] = language
         context['gender'] = gender
@@ -284,10 +287,11 @@ class DisplayImages(View):
 
 class PartnerDetails(TemplateView):
     template_name = 'frontend/partner-details.html'
-
     def get_context_data(self, **kwargs):
+        # if self.request.user.is_authenticated:
         profile_id = kwargs['profile_id']
         context = super().get_context_data(**kwargs)
+
         user_obj = self.request.user
         user = UserProfile.objects.get(user=user_obj)
         context['user_profile'] = user
@@ -300,6 +304,8 @@ class PartnerDetails(TemplateView):
         context['parter_profile'] = partner_profile
         context['parter_info'] = partner_info
         context['partner_images'] = partner_images
+        # else:
+        #     pass
         return context
 
 
