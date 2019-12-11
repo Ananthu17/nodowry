@@ -62,6 +62,7 @@ class RegisterView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['mother_tongue'] = MotherTongue.objects.all()
         context['religions'] = Religion.objects.all()
+
         return context
 
     def post(self, request, *args, **kwargs):
@@ -174,6 +175,13 @@ class RegisterView(TemplateView):
 
 class LoginView(TemplateView):
     template_name = 'accounts/login.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        context = super().dispatch(request,*args,**kwargs)
+        if request.user.is_authenticated:
+            return redirect('/')
+        else:
+            return context
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
