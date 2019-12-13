@@ -1,0 +1,46 @@
+{% load static %}
+<div class="sidebar" data-color="white" data-active-color="danger">
+      <!--
+        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
+    -->
+      <div class="logo">
+        <a href="" class="simple-text logo-mini">
+          <div class="logo-image-small">
+            <img src="{% static 'dashboard/assets/img/logo-small.png' %}">
+          </div>
+        </a>
+        <a href="" class="simple-text logo-normal">
+          Admin
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <ul class="nav">
+          <li {% if request.path == '/dashboard/dashboard' %} class="active" {% endif %}>
+            <a href="{% url 'dashboard' %}">
+              <i class="nc-icon nc-bank"></i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+          <li {% if '/dashboard/users' in request.path %} class="active" {% elif '/dashboard/edit-user/' in request.path %} class="active" {% endif %}>
+            <a href="{% url 'dashboard-users' %}">
+              <i class="nc-icon nc-single-02"></i>
+              <p>User Profile</p>
+            </a>
+          </li>
+          <li {% if request.path == '/dashboard/dashboard-content' %} class="active" {% endif %}>
+            <a href="{% url 'dashboard-content' %}">
+              <i class="nc-icon nc-single-02"></i>
+              <p>Homescreen Content</p>
+            </a>
+          </li>
+
+          <li {% if request.path == '/dashboard/dashboard-filters' %} class="active" {% endif %}>
+            <a href="{% url 'dashboard-filters' %}">
+              <i class="nc-icon nc-single-02"></i>
+              <p>Filters</p>
+            </a>
+          </li>
+
+        </ul>
+      </div>
+    </div>

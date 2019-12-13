@@ -22,43 +22,11 @@
 
 <body class="">
   <div class="wrapper ">
-    <div class="sidebar" data-color="white" data-active-color="danger">
-      <!--
-        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
-    -->
-      <div class="logo">
-        <a href="" class="simple-text logo-mini">
-          <div class="logo-image-small">
-            <img src="{% static 'dashboard/assets/img/logo-small.png' %}">
-          </div>
-        </a>
-        <a href="" class="simple-text logo-normal">
-          Admin
-        </a>
-      </div>
-      <div class="sidebar-wrapper">
-        <ul class="nav">
-          <li>
-            <a href="{% url 'dashboard' %}">
-              <i class="nc-icon nc-bank"></i>
-              <p>Dashboard</p>
-            </a>
-          </li>
-          <li class="active">
-            <a href="{% url 'dashboard-users' %}">
-              <i class="nc-icon nc-single-02"></i>
-              <p>User Profile</p>
-            </a>
-          </li>
-          <li class="">
-            <a href="{% url 'dashboard-content' %}">
-              <i class="nc-icon nc-single-02"></i>
-              <p>Homescreen Content</p>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
+
+    <!-- Sidebar -->
+    {% include 'dashboard/sidebar.html' %}
+    <!-- Sidebar ends -->
+
     <div class="main-panel">
 
       <!-- Navbar -->

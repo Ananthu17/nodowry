@@ -9,6 +9,7 @@ urlpatterns = [
     path('logout', DashboardLogOut.as_view(), name='dashboard-logout'),
     path('edit-user/<int:user_profile_id>/', EditUsert.as_view(), name='edit-user'),
     path('dashboard-content', ContentManagement.as_view(), name='dashboard-content'),
+    path('dashboard-filters', FilterContants.as_view(), name='dashboard-filters'),
     path('add-religion', AddReligion.as_view(), name='add-religion'),
     path('add-cast', AddCast.as_view(), name='add-cast'),
     path('add-sub-cast', AddSubCast.as_view(), name='add-sub-cast'),

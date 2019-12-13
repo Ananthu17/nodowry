@@ -36,238 +36,221 @@
 
       <!--  navbar ends -->
 
-{#      <div class="content">#}
-{#        <div class="row">#}
-{#          <div class="col-lg-6 col-md-8 col-12">#}
-{#            <div class="card">#}
-{#              <div class="card-header">#}
-{#                  <div class="d-flex justify-content-between">#}
-{#                      <h4 class="card-title text-left">Religion</h4>#}
-{#                      <div class="pt-2" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="nc-icon nc-simple-add text-success" style="font-size: xx-large;"></i></div>#}
-{#                  </div>#}
-{#              </div>#}
-{#              <div class="card-body">#}
-{#                <table class="table tableBodyScroll">#}
-{#                    <thead class="text-primary">#}
-{#                      <th>#}
-{#                        Name#}
-{#                      </th>#}
-{#                      <th>#}
-{#                        Created By#}
-{#                      </th>#}
-{#                      <th class="text-center">#}
-{#                        <span>Edit</span>#}
-{#                      </th>#}
-{#                      <th class="text-center">#}
-{#                        <span>Delete</span>#}
-{#                      </th>#}
-{#                    </thead>#}
-{#                    <tbody class="dashboard-content-card">#}
-{#                    {% for religion in religion_list %}#}
-{#                        <tr>#}
-{#                            <td>#}
-{#                              {{ religion.name }}#}
-{#                            </td>#}
-{#                            <td>#}
-{#                              {{ religion.created_by }}#}
-{#                            </td>#}
-{#                            <td class="text-center">#}
-{#                                <a onclick="ediitReligion({{ religion.id }},'{{ religion.name }}')"  data-toggle="modal" data-target=".edit-religion">#}
-{#                                    <i class="nc-icon nc-button-play text-warning" style="font-size: xx-large;"></i>#}
-{#                                </a>#}
-{#                            </td>#}
-{#                            <td class="text-center">#}
-{#                                <a href="{% url 'delete-religion' religion.id %}">#}
-{#                                    <i class="nc-icon nc-simple-remove text-danger" style="font-size: xx-large;"></i>#}
-{#                                </a>#}
-{#                            </td>#}
-{#                          </tr>#}
-{#                    {% endfor %}#}
-{#                    </tbody>#}
-{#                </table>#}
-{##}
-{#              </div>#}
-{#            </div>#}
-{#          </div>#}
-{#          <div class="col-lg-6 col-md-8 col-12">#}
-{#            <div class="card">#}
-{#              <div class="card-header">#}
-{#                  <div class="d-flex justify-content-between">#}
-{#                      <h4 class="card-title text-left">Cast</h4>#}
-{#                      <div class="pt-2" data-toggle="modal" data-target=".add-cast"><i class="nc-icon nc-simple-add text-success" style="font-size: xx-large;"></i></div>#}
-{#                  </div>#}
-{#              </div>#}
-{#              <div class="card-body">#}
-{#                <table class="table tableBodyScroll">#}
-{#                    <thead class="text-primary">#}
-{#                      <th>#}
-{#                        Name#}
-{#                      </th>#}
-{#                      <th>#}
-{#                          Religion#}
-{#                      </th>#}
-{#                      <th>#}
-{#                          Created By#}
-{#                      </th>#}
-{#                      <th class="text-center">#}
-{#                        <span>Edit</span>#}
-{#                      </th>#}
-{#                      <th class="text-center">#}
-{#                        <span>Delete</span>#}
-{#                      </th>#}
-{#                    </thead>#}
-{#                    <tbody class="dashboard-content-card">#}
-{#                    {% for cast in cast_list %}#}
-{#                        <tr>#}
-{#                            <td>#}
-{#                              {{ cast.name }}#}
-{#                            </td>#}
-{#                            <td>#}
-{#                              {{ cast.religion.name }}#}
-{#                            </td>#}
-{#                            <td>#}
-{#                              {{ cast.created_by }}#}
-{#                            </td>#}
-{#                            <td class="text-center">#}
-{#                                <a onclick="editCast({{ cast.id }},'{{ cast.name }}','{{ cast.religion.id }}')"  data-toggle="modal" data-target=".edit-cast">#}
-{#                                    <i class="nc-icon nc-button-play text-warning" style="font-size: xx-large;"></i>#}
-{#                                </a>#}
-{#                            </td>#}
-{#                            <td class="text-center">#}
-{#                                <a href="{% url 'delete-cast' cast.id %}">#}
-{#                                    <i class="nc-icon nc-simple-remove text-danger" style="font-size: xx-large;"></i>#}
-{#                                </a>#}
-{#                            </td>#}
-{#                          </tr>#}
-{#                    {% endfor %}#}
-{#                    </tbody>#}
-{#                </table>#}
-{##}
-{#              </div>#}
-{#            </div>#}
-{#          </div>#}
-{#          <div class="col-lg-6 col-md-8 col-12">#}
-{#            <div class="card">#}
-{#              <div class="card-header">#}
-{#                  <div class="d-flex justify-content-between">#}
-{#                      <h4 class="card-title text-left">Sub Cast</h4>#}
-{#                      <div class="pt-2" data-toggle="modal" data-target=".add-sub-cast"><i class="nc-icon nc-simple-add text-success" style="font-size: xx-large;"></i></div>#}
-{#                  </div>#}
-{#              </div>#}
-{#              <div class="card-body">#}
-{#                <table class="table tableBodyScroll">#}
-{#                    <thead class="text-primary">#}
-{#                      <th>#}
-{#                        Name#}
-{#                      </th>#}
-{#                      <th>#}
-{#                        Created By#}
-{#                      </th>#}
-{#                      <th class="text-center">#}
-{#                        <span>Edit</span>#}
-{#                      </th>#}
-{#                      <th class="text-center">#}
-{#                        <span>Delete</span>#}
-{#                      </th>#}
-{#                    </thead>#}
-{#                    <tbody class="dashboard-content-card">#}
-{#                    {% for subcast in subcast_list %}#}
-{#                        <tr>#}
-{#                            <td>#}
-{#                              {{ subcast.name }}#}
-{#                            </td>#}
-{#                            <td>#}
-{#                              {{ subcast.created_by }}#}
-{#                            </td>#}
-{#                            <td class="text-center">#}
-{#                                <a onclick="editSubCast({{ subcast.id }},'{{ subcast.name }}','{{ subcast.cast.id }}')"  data-toggle="modal" data-target=".edit-sub-cast">#}
-{#                                    <i class="nc-icon nc-button-play text-warning" style="font-size: xx-large;"></i>#}
-{#                                </a>#}
-{#                            </td>#}
-{#                            <td class="text-center">#}
-{#                                <a href="{% url 'delete-sub-cast' subcast.id %}">#}
-{#                                    <i class="nc-icon nc-simple-remove text-danger" style="font-size: xx-large;"></i>#}
-{#                                </a>#}
-{#                            </td>#}
-{#                          </tr>#}
-{#                    {% endfor %}#}
-{#                    </tbody>#}
-{#                </table>#}
-{##}
-{#              </div>#}
-{#            </div>#}
-{#          </div>#}
-{#          <div class="col-lg-6 col-md-8 col-12">#}
-{#            <div class="card">#}
-{#              <div class="card-header">#}
-{#                  <div class="d-flex justify-content-between">#}
-{#                      <h4 class="card-title text-left">Mother Tongue</h4>#}
-{#                      <div class="pt-2" data-toggle="modal" data-target=".add-mother-tongue"><i class="nc-icon nc-simple-add text-success" style="font-size: xx-large;"></i></div>#}
-{#                  </div>#}
-{#              </div>#}
-{#              <div class="card-body">#}
-{#                <table class="table tableBodyScroll">#}
-{#                    <thead class="text-primary">#}
-{#                      <th>#}
-{#                        Name#}
-{#                      </th>#}
-{#                      <th>#}
-{#                        Created By#}
-{#                      </th>#}
-{#                      <th class="text-center">#}
-{#                        <span>Edit</span>#}
-{#                      </th>#}
-{#                      <th class="text-center">#}
-{#                        <span>Delete</span>#}
-{#                      </th>#}
-{#                    </thead>#}
-{#                    <tbody class="dashboard-content-card">#}
-{#                    {% for mother_tongue in mother_tongue_list %}#}
-{#                        <tr>#}
-{#                            <td>#}
-{#                              {{ mother_tongue.language }}#}
-{#                            </td>#}
-{#                            <td>#}
-{#                              {{ mother_tongue.created_by }}#}
-{#                            </td>#}
-{#                            <td class="text-center">#}
-{#                                <a onclick="ediitMotherTongue({{ mother_tongue.id }},'{{ mother_tongue.language }}')"  data-toggle="modal" data-target=".edit-mother-tongue">#}
-{#                                    <i class="nc-icon nc-button-play text-warning" style="font-size: xx-large;"></i>#}
-{#                                </a>#}
-{#                            </td>#}
-{#                            <td class="text-center">#}
-{#                                <a href="{% url 'delete-mother-tongue' mother_tongue.id %}">#}
-{#                                    <i class="nc-icon nc-simple-remove text-danger" style="font-size: xx-large;"></i>#}
-{#                                </a>#}
-{#                            </td>#}
-{#                          </tr>#}
-{#                    {% endfor %}#}
-{#                    </tbody>#}
-{#                </table>#}
-{##}
-{#              </div>#}
-{#            </div>#}
-{#          </div>#}
-{##}
-{#        </div>#}
-{#      </div>#}
-
       <div class="content">
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-lg-6 col-md-8 col-12">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title">Testimonials</h4>
+                  <div class="d-flex justify-content-between">
+                      <h4 class="card-title text-left">Religion</h4>
+                      <div class="pt-2" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="nc-icon nc-simple-add text-success" style="font-size: xx-large;"></i></div>
+                  </div>
               </div>
               <div class="card-body">
-                  Something has to be written
+                <table class="table tableBodyScroll">
+                    <thead class="text-primary">
+                      <th>
+                        Name
+                      </th>
+                      <th>
+                        Created By
+                      </th>
+                      <th class="text-center">
+                        <span>Edit</span>
+                      </th>
+                      <th class="text-center">
+                        <span>Delete</span>
+                      </th>
+                    </thead>
+                    <tbody class="dashboard-content-card">
+                    {% for religion in religion_list %}
+                        <tr>
+                            <td>
+                              {{ religion.name }}
+                            </td>
+                            <td>
+                              {{ religion.created_by }}
+                            </td>
+                            <td class="text-center">
+                                <a onclick="ediitReligion({{ religion.id }},'{{ religion.name }}')"  data-toggle="modal" data-target=".edit-religion">
+                                    <i class="nc-icon nc-button-play text-warning" style="font-size: xx-large;"></i>
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <a href="{% url 'delete-religion' religion.id %}">
+                                    <i class="nc-icon nc-simple-remove text-danger" style="font-size: xx-large;"></i>
+                                </a>
+                            </td>
+                          </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-8 col-12">
+            <div class="card">
+              <div class="card-header">
+                  <div class="d-flex justify-content-between">
+                      <h4 class="card-title text-left">Cast</h4>
+                      <div class="pt-2" data-toggle="modal" data-target=".add-cast"><i class="nc-icon nc-simple-add text-success" style="font-size: xx-large;"></i></div>
+                  </div>
+              </div>
+              <div class="card-body">
+                <table class="table tableBodyScroll">
+                    <thead class="text-primary">
+                      <th>
+                        Name
+                      </th>
+                      <th>
+                          Religion
+                      </th>
+                      <th>
+                          Created By
+                      </th>
+                      <th class="text-center">
+                        <span>Edit</span>
+                      </th>
+                      <th class="text-center">
+                        <span>Delete</span>
+                      </th>
+                    </thead>
+                    <tbody class="dashboard-content-card">
+                    {% for cast in cast_list %}
+                        <tr>
+                            <td>
+                              {{ cast.name }}
+                            </td>
+                            <td>
+                              {{ cast.religion.name }}
+                            </td>
+                            <td>
+                              {{ cast.created_by }}
+                            </td>
+                            <td class="text-center">
+                                <a onclick="editCast({{ cast.id }},'{{ cast.name }}','{{ cast.religion.id }}')"  data-toggle="modal" data-target=".edit-cast">
+                                    <i class="nc-icon nc-button-play text-warning" style="font-size: xx-large;"></i>
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <a href="{% url 'delete-cast' cast.id %}">
+                                    <i class="nc-icon nc-simple-remove text-danger" style="font-size: xx-large;"></i>
+                                </a>
+                            </td>
+                          </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-8 col-12">
+            <div class="card">
+              <div class="card-header">
+                  <div class="d-flex justify-content-between">
+                      <h4 class="card-title text-left">Sub Cast</h4>
+                      <div class="pt-2" data-toggle="modal" data-target=".add-sub-cast"><i class="nc-icon nc-simple-add text-success" style="font-size: xx-large;"></i></div>
+                  </div>
+              </div>
+              <div class="card-body">
+                <table class="table tableBodyScroll">
+                    <thead class="text-primary">
+                      <th>
+                        Name
+                      </th>
+                      <th>
+                        Created By
+                      </th>
+                      <th class="text-center">
+                        <span>Edit</span>
+                      </th>
+                      <th class="text-center">
+                        <span>Delete</span>
+                      </th>
+                    </thead>
+                    <tbody class="dashboard-content-card">
+                    {% for subcast in subcast_list %}
+                        <tr>
+                            <td>
+                              {{ subcast.name }}
+                            </td>
+                            <td>
+                              {{ subcast.created_by }}
+                            </td>
+                            <td class="text-center">
+                                <a onclick="editSubCast({{ subcast.id }},'{{ subcast.name }}','{{ subcast.cast.id }}')"  data-toggle="modal" data-target=".edit-sub-cast">
+                                    <i class="nc-icon nc-button-play text-warning" style="font-size: xx-large;"></i>
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <a href="{% url 'delete-sub-cast' subcast.id %}">
+                                    <i class="nc-icon nc-simple-remove text-danger" style="font-size: xx-large;"></i>
+                                </a>
+                            </td>
+                          </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-8 col-12">
+            <div class="card">
+              <div class="card-header">
+                  <div class="d-flex justify-content-between">
+                      <h4 class="card-title text-left">Mother Tongue</h4>
+                      <div class="pt-2" data-toggle="modal" data-target=".add-mother-tongue"><i class="nc-icon nc-simple-add text-success" style="font-size: xx-large;"></i></div>
+                  </div>
+              </div>
+              <div class="card-body">
+                <table class="table tableBodyScroll">
+                    <thead class="text-primary">
+                      <th>
+                        Name
+                      </th>
+                      <th>
+                        Created By
+                      </th>
+                      <th class="text-center">
+                        <span>Edit</span>
+                      </th>
+                      <th class="text-center">
+                        <span>Delete</span>
+                      </th>
+                    </thead>
+                    <tbody class="dashboard-content-card">
+                    {% for mother_tongue in mother_tongue_list %}
+                        <tr>
+                            <td>
+                              {{ mother_tongue.language }}
+                            </td>
+                            <td>
+                              {{ mother_tongue.created_by }}
+                            </td>
+                            <td class="text-center">
+                                <a onclick="ediitMotherTongue({{ mother_tongue.id }},'{{ mother_tongue.language }}')"  data-toggle="modal" data-target=".edit-mother-tongue">
+                                    <i class="nc-icon nc-button-play text-warning" style="font-size: xx-large;"></i>
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <a href="{% url 'delete-mother-tongue' mother_tongue.id %}">
+                                    <i class="nc-icon nc-simple-remove text-danger" style="font-size: xx-large;"></i>
+                                </a>
+                            </td>
+                          </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
               </div>
             </div>
           </div>
 
         </div>
       </div>
-
       {% include 'dashboard/footer.html' %}
     </div>
   </div>

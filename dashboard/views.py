@@ -145,6 +145,22 @@ class ContentManagement(LoginRequiredMixin, TemplateView):
         return context
 
 
+class FilterContants(LoginRequiredMixin, TemplateView):
+    template_name = 'dashboard/dashboard_filters.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        religion = Religion.objects.all()
+        cast = Cast.objects.all()
+        subcast = SubCast.objects.all()
+        mother_tongue = MotherTongue.objects.all()
+        context['religion_list'] = religion
+        context['cast_list'] = cast
+        context['subcast_list'] = subcast
+        context['mother_tongue_list'] = mother_tongue
+        return context
+
+
 class AddReligion(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwars):
@@ -159,7 +175,7 @@ class AddReligion(LoginRequiredMixin, View):
                 religion.save()
             else:
                 messages.error(request, "language is already exist")
-        return redirect(reverse('dashboard-content'))
+        return redirect(reverse('dashboard-filters'))
 
 
 class AddCast(LoginRequiredMixin, View):
@@ -178,7 +194,7 @@ class AddCast(LoginRequiredMixin, View):
                 cast.save()
             else:
                 messages.error(request, "cast already exist")
-        return redirect(reverse('dashboard-content'))
+        return redirect(reverse('dashboard-filters'))
 
 
 class DeleteReligion(LoginRequiredMixin, View):
@@ -190,7 +206,7 @@ class DeleteReligion(LoginRequiredMixin, View):
             messages.success(request, "Religion Deleted")
         except Religion.DoesNotExist:
             messages.error(request, "Something went wrong")
-        return redirect(reverse('dashboard-content'))
+        return redirect(reverse('dashboard-filters'))
 
 
 class DeleteCast(LoginRequiredMixin, View):
@@ -202,7 +218,7 @@ class DeleteCast(LoginRequiredMixin, View):
             messages.success(request, "Religion Deleted")
         except Religion.DoesNotExist:
             messages.error(request, "Something went wrong")
-        return redirect(reverse('dashboard-content'))
+        return redirect(reverse('dashboard-filters'))
 
 
 class EditReligion(LoginRequiredMixin, View):
@@ -220,7 +236,7 @@ class EditReligion(LoginRequiredMixin, View):
             messages.error(request, "Religion updated successfully")
         except Religion.DoesNotExist:
             messages.error(request, "Something went wrong")
-        return redirect(reverse('dashboard-content'))
+        return redirect(reverse('dashboard-filters'))
 
 
 class EditCast (LoginRequiredMixin, View):
@@ -240,7 +256,7 @@ class EditCast (LoginRequiredMixin, View):
             messages.error(request, "Religion updated successfully")
         except Religion.DoesNotExist:
             messages.error(request, "Something went wrong")
-        return redirect(reverse('dashboard-content'))
+        return redirect(reverse('dashboard-filters'))
 
 
 class AddSubCast(LoginRequiredMixin , View):
@@ -259,7 +275,7 @@ class AddSubCast(LoginRequiredMixin , View):
                 subcast.save()
             else:
                 messages.error(request, "Sub cast is already exist")
-        return redirect(reverse('dashboard-content'))
+        return redirect(reverse('dashboard-filters'))
 
 
 class EditSubCast (LoginRequiredMixin, View):
@@ -278,7 +294,7 @@ class EditSubCast (LoginRequiredMixin, View):
             messages.error(request, "Sub Cast updated successfully")
         except Religion.DoesNotExist:
             messages.error(request, "Something went wrong")
-        return redirect(reverse('dashboard-content'))
+        return redirect(reverse('dashboard-filters'))
 
 
 class DeleteSubCast(LoginRequiredMixin, View):
@@ -290,7 +306,7 @@ class DeleteSubCast(LoginRequiredMixin, View):
             messages.success(request, "Item Deleted")
         except Religion.DoesNotExist:
             messages.error(request, "Something went wrong")
-        return redirect(reverse('dashboard-content'))
+        return redirect(reverse('dashboard-filters'))
 
 
 class AddMotherTongue(LoginRequiredMixin, View):
@@ -306,7 +322,7 @@ class AddMotherTongue(LoginRequiredMixin, View):
                 lang.save()
             else:
                 messages.error(request, "language is already exist")
-        return redirect(reverse('dashboard-content'))
+        return redirect(reverse('dashboard-filters'))
 
 
 class EditMotherTongue(LoginRequiredMixin, View):
@@ -321,7 +337,7 @@ class EditMotherTongue(LoginRequiredMixin, View):
             messages.error(request, "Religion updated successfully")
         except MotherTongue.DoesNotExist:
             messages.error(request, "Something went wrong")
-        return redirect(reverse('dashboard-content'))
+        return redirect(reverse('dashboard-filters'))
 
 
 class DeleteMotherTongue(LoginRequiredMixin, View):
@@ -333,4 +349,4 @@ class DeleteMotherTongue(LoginRequiredMixin, View):
             messages.success(request, "Language Deleted")
         except Religion.DoesNotExist:
             messages.error(request, "Something went wrong")
-        return redirect(reverse('dashboard-content'))
+        return redirect(reverse('dashboard-filters'))
