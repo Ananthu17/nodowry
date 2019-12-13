@@ -25,7 +25,7 @@ SECRET_KEY = 'r%u3ormby28g9#pe6l5uk@+0ysm=#1ao1ogp^_%+d)51v$gp@o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['34.221.255.191']
 
 
 # Application definition
@@ -159,6 +159,7 @@ EMAIL_PORT = 2525  # Set port 2525, google compute engine doesn't support 587
 EMAIL_HOST = "smtp.sendgrid.net"
 EMAIL_HOST_USER = "krishnagoodbits"
 EMAIL_HOST_PASSWORD = "10mangotrees"
+LOGIN_URL = "/"
 
 LOGIN_REDIRECT_URL = 'social_login'
 # SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1088140071927-t0udmc8mkqr1smlv69v4q30f0hrc22lq.apps.googleusercontent.com'
