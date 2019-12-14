@@ -244,3 +244,22 @@ class Car(models.Model):
         (2, "Truck"),
         (4, "SUV"),
     ])
+
+
+class Testimonials(models.Model):
+    name = models.CharField(max_length=50, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    image = models.ImageField(upload_to='user_images/', null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Awards(models.Model):
+    name = models.CharField(max_length=50, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name

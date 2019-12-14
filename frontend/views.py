@@ -21,6 +21,8 @@ class HomePage(TemplateView):
             context['user_images'] = UserImages.objects.filter(user_info__user_profile=user)
         context['religion_list'] = Religion.objects.all()
         context['mother_tongue'] = MotherTongue.objects.all()
+        context['awards_list'] = Awards.objects.all()
+        context['testimonial_list'] = Testimonials.objects.all()
         return context
 
 
@@ -394,3 +396,15 @@ class UploadUserImage(View):
         user_image.file = image
         user_image.save()
         return redirect(reverse('user-profile'))
+
+
+class TestimonialInfo(View):
+
+    def get(self, request, *args, **kwargs):
+        test_id = request.GET['test_id']
+        try:
+            item = Testimonials.objects.get(id=test_id)
+            JsonResponse({'data': item})
+        except Awards.DoesNotExist:
+            messages.error(request, "Something went wrong")
+        return redirect(reverse('dashboard-content'))

@@ -479,6 +479,7 @@
           </div>
         </div>
       </div>
+      {% if testimonial_list %}
         <div class="row pb-5">
             <div class="col-12 col-sm-12 col-lg-6 col-xl-5">
                 <div class="card">
@@ -495,16 +496,17 @@
                                 <span class="profile-name">Jack daniels</span>
                             </div>
                             <div class="col-6 col-sm-2 arrow">
-                                <img style="float: right" src="{% static 'frontend/images/icons/prev.png' %}" />
+                                <img style="float: right; cursor: pointer" src="{% static 'frontend/images/icons/prev.png' %}" />
                             </div>
                             <div class="col-6 col-sm-2 arrow">
-                                <img src="{% static 'frontend/images/icons/next.png' %}" />
+                                <img style="cursor: pointer" src="{% static 'frontend/images/icons/next.png' %}" />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+      {% endif %}
       </div>
     </section>
     <div class="container-fluid p-0 m-0">
@@ -525,6 +527,7 @@
       </div>
 
     <!-- awards and honours -->
+    {% if awards_list %}
     <div class="awards">
       <div class="container-fluid">
         <div class="row p-5">
@@ -559,48 +562,23 @@
                             </div>
                         </div>
 
+                        {% for awards in awards_list %}
 
-                        <div class="carousel-item col-lg-4 col-md-6 col-sm-12 p-md-5 p-sm-0 p-0">
+                            <div class="carousel-item col-lg-4 col-md-6 col-sm-12 p-md-5 p-sm-0 p-0">
                             <div class="awards-card">
                                 <div class="card" style="width: 18rem;">
                                     <div class="card-body award-card-body">
-                                        <h5 class="card-title card-awards-title">Weds Award</h5>
+                                        <h5 class="card-title card-awards-title">{{ awards.name }}</h5>
                                         <div class="text-center">
                                             <img class="trophy-img" src="{% static 'frontend/images/winner.png' %}" alt="">
                                         </div>
-                                        <p class="award-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                        <p class="award-text">{{ awards.description }}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="carousel-item col-lg-4 col-md-6 col-sm-12 p-md-5 p-sm-0 p-0">
-                            <div class="awards-card">
-                                <div class="card" style="width: 18rem;">
-                                    <div class="card-body award-card-body">
-                                        <h5 class="card-title card-awards-title">CNN Award</h5>
-                                        <div class="text-center">
-                                            <img class="trophy-img" src="{% static 'frontend/images/winner.png' %}" alt="">
-                                        </div>
-                                        <p class="award-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="carousel-item col-lg-4 col-md-6 col-sm-12 p-md-5 p-sm-0 p-0">
-                            <div class="awards-card">
-                                <div class="card" style="width: 18rem;">
-                                    <div class="card-body award-card-body">
-                                        <h5 class="card-title card-awards-title">IBM Award</h5>
-                                        <div class="text-center">
-                                            <img class="trophy-img" src="{% static 'frontend/images/winner.png' %}" alt="">
-                                        </div>
-                                        <p class="award-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
 
 
 
@@ -626,7 +604,7 @@
 
       </div>
     </div>
-
+    {% endif %}
     <!-- section subscribe -->
     <section class="subscribe p-md-5 pt-5">
       <div class="container-fluid">
@@ -695,6 +673,8 @@
     <script type="text/javascript" src="{% static 'frontend/js/profile-details.js' %}"></script>
     <script>
 
+        var testArray = [];
+
          $(window).on('load',function(){
              {% if user_profile.first_time_login %}
                 $('.bd-example-modal-lg').modal('show');
@@ -729,6 +709,25 @@
                     {% endif %}
                 {% endfor %}
             {% endif %}
+
+              {% if testimonial_list %}
+                  {% for testimonials in testimonial_list %}
+                      testArray.push({{ testimonials.id }})
+                  {% endfor %}
+              {% endif %}
+
+            $.ajax({
+              url: "/testimonial-info",
+              type: 'GET',
+              data: {
+                  test_id : 1
+              },
+              success: function(resultData) {
+                  $.each(resultData.data, function (entry, value) {
+                        console.log(value);
+                  });
+              }
+            });
 
 
 

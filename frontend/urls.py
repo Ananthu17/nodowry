@@ -21,4 +21,5 @@ urlpatterns = [
     path('update-basic-info', csrf_exempt(UpdateBasicInfo.as_view()), name='update-basic-info'),
     path('update-partner-pref', csrf_exempt(UpdatePartnerPref.as_view()), name='update-partner-pref'),
     path('partner-details-template/<int:profile_id>/', csrf_exempt(PartnerDetails.as_view()), name='partner-details-template'),
+    path('testimonial-info', TestimonialInfo.as_view(), name='testimonial-info')
 ]

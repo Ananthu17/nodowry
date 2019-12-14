@@ -134,15 +134,72 @@ class ContentManagement(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        religion = Religion.objects.all()
-        cast = Cast.objects.all()
-        subcast = SubCast.objects.all()
-        mother_tongue = MotherTongue.objects.all()
-        context['religion_list'] = religion
-        context['cast_list'] = cast
-        context['subcast_list'] = subcast
-        context['mother_tongue_list'] = mother_tongue
+        testimonials = Testimonials.objects.all()
+        awards_list = Awards.objects.all()
+        context['testimonial_list'] = testimonials
+        context['awards_list'] = awards_list
         return context
+
+    def post(self, request, *args, **kwars):
+        name = request.POST.get('testimonialName', '')
+        description = request.POST.get('testimonialDescription', '')
+        image = request.FILES.get('testimonialImage', '')
+        testimonials = Testimonials()
+        testimonials.name = name
+        testimonials.description = description
+        testimonials.image = image
+        testimonials.save()
+        return redirect(reverse('dashboard-content'))
+
+
+class EditTestimonials(LoginRequiredMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        testimonial_id = kwargs['test_id']
+        try:
+            Testimonials.objects.get(id=testimonial_id).delete()
+            messages.success(request, "Item Deleted")
+        except Testimonials.DoesNotExist:
+            messages.error(request, "Something went wrong")
+        return redirect(reverse('dashboard-content'))
+
+
+    def post(self, request, *args, **kwars):
+        name = request.POST.get('editTestimonialName', '')
+        test_id = request.POST.get('editTestimonialId', '')
+        description = request.POST.get('editTestimonialDescription', '')
+        image = request.FILES.get('editTestimonialImage', '')
+        try:
+            testimonials = Testimonials.objects.get(id=test_id)
+            testimonials.name = name
+            testimonials.description = description
+            if image:
+                testimonials.image = image
+            testimonials.save()
+        except Testimonials.DoesNotExist:
+            messages.error("Something Went wrong")
+        return redirect(reverse('dashboard-content'))
+
+
+class AwardContant(LoginRequiredMixin, TemplateView):
+
+    def get(self, request, *args, **kwargs):
+        award_id = kwargs['award_id']
+        try:
+            Awards.objects.get(id=award_id).delete()
+            messages.success(request, "Item Deleted")
+        except Awards.DoesNotExist:
+            messages.error(request, "Something went wrong")
+        return redirect(reverse('dashboard-content'))
+
+    def post(self, request, *args, **kwars):
+        name = request.POST.get('awardName', '')
+        description = request.POST.get('awardDescription', '')
+        awards = Awards()
+        awards.name = name
+        awards.description = description
+        awards.save()
+        return redirect(reverse('dashboard-content'))
 
 
 class FilterContants(LoginRequiredMixin, TemplateView):
