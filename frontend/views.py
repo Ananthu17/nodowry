@@ -1,3 +1,4 @@
+from django.contrib.auth import logout
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
 from django.http import JsonResponse
@@ -10,13 +11,18 @@ from django.contrib import messages
 class HomePage(TemplateView):
     template_name = 'frontend/index.html'
 
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['religion_list'] = Religion.objects.all()
         context['language_list'] = MotherTongue.objects.all()
         if self.request.user.is_authenticated:
             user_obj = self.request.user
-            user = UserProfile.objects.get(user=user_obj)
+            try:
+                user = UserProfile.objects.get(user=user_obj)
+            except:
+                messages.error(self.request,"User profile does not exist")
+                logout(self.request)
             context['user_profile'] = user
             context['user_images'] = UserImages.objects.filter(user_info__user_profile=user)
         context['religion_list'] = Religion.objects.all()
@@ -32,8 +38,8 @@ class QuickFilter(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         gender = self.request.GET.get('gender','')
-        agefrom = int(self.request.GET.get('agefrom',''))
-        ageto = int(self.request.GET.get('ageto',''))
+        agefrom = int(self.request.GET.get('agefrom',18))
+        ageto = int(self.request.GET.get('ageto',35))
         religion_id = self.request.GET.get('religion','')
         cast_id = self.request.GET.get('cast','')
         language = self.request.GET.get('language','')
@@ -82,6 +88,14 @@ class ConfirmYourEmail(TemplateView):
 class Profile(TemplateView):
     template_name = 'frontend/profile.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        context = super().dispatch(request,*args,**kwargs)
+        try:
+            user_obj = self.request.user
+            user = UserProfile.objects.get(user=user_obj)
+        except:
+            referer = request.META.get('HTTP_REFERER')
+            return redirect(referer)
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user_obj = self.request.user
@@ -97,23 +111,54 @@ class SubscribeMail(View):
 
     def post(self, request, *args, **kwargs):
         email = request.POST.get('email', "")
-        message = "Subscription successful"
+        if email == "":
+            message = "Email field empty"
+        else:
+            message = "Subscription successful"
         messages.success(request, message)
         return redirect(reverse('home'))
 
 
 class UploadImage(View):
+    def dispatch(self, request, *args, **kwargs):
+        context = super().dispatch(request,*args,**kwargs)
+        referer = request.META.get('HTTP_REFERER')
+        try:
+            user_info_id = request.POST.get('id', "")
+            try:
+                image = request.FILES.get('photos')
+
+            except:
+                messages.error(request,"Images required")
+                return redirect(referer)
+        except:
+            messages.error(request, "Invalid User info")
+            return redirect(referer)
+        return context
 
     def post(self, request, *args, **kwargs):
+        referer = request.META.get('HTTP_REFERER')
         user_info_id = request.POST.get('id', "")
-        image = request.FILES.get('photos')
-        print(user_info_id)
-        print(image)
-        user_info = UserInfo.objects.get(id=user_info_id)
-        user_image = UserImages()
-        user_image.user_info = user_info
-        user_image.file = image
-        user_image.save()
+        if user_info_id != "":
+            try:
+                image = request.FILES.get('photos')
+            except:
+                messages.error(request, "Images required")
+                return redirect(referer)
+            try:
+                user_info = UserInfo.objects.get(id=user_info_id)
+                user_image = UserImages()
+                user_image.user_info = user_info
+                user_image.file = image
+                user_image.save()
+            except:
+                messages.error(request, "User does not exist")
+                return redirect(referer)
+        else:
+            messages.error(request, "User id cannot be empty")
+            return redirect(referer)
+
+
         return redirect(reverse('home'))
 
 
@@ -166,6 +211,7 @@ class SelectEducation(View):
 
 
 class SaveProfileDetails(View):
+
 
     def post(self, request, *args, **kwargs):
 
@@ -264,7 +310,19 @@ class SavePartnerDetails(View):
 
 class UserProfileDetails(TemplateView):
     template_name = 'frontend/user-profile.html'
+    def dispatch(self, request, *args, **kwargs):
+        context = super().dispatch(request,*args,**kwargs)
+        referer = request.META.get('HTTP_REFERER')
+        user_obj = self.request.user
+        try:
+            user = UserProfile.objects.get(user=user_obj)
+            user_info_obj = UserInfo.objects.get(user_profile=user)
+            context['partner_pref'] = PartnerPreference.objects.get(user_info=user_info_obj)
+        except:
+            messages.error(request,"User could not be found")
+            return redirect(referer)
 
+        return context
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user_obj = self.request.user
@@ -289,6 +347,22 @@ class DisplayImages(View):
 
 class PartnerDetails(TemplateView):
     template_name = 'frontend/partner-details.html'
+    def dispatch(self, request, *args, **kwargs):
+        context = super().dispatch(request,*args,**kwargs)
+        referer = request.META.get('HTTP_REFERER')
+        try:
+            profile_id = kwargs['profile_id']
+            user_obj = self.request.user
+            user = UserProfile.objects.get(user=user_obj)
+            user_info_obj = UserInfo.objects.get(user_profile=user)
+            context['partner_pref'] = PartnerPreference.objects.get(user_info=user_info_obj)
+            partner_profile = UserProfile.objects.get(id=profile_id)
+            partner_info = UserInfo.objects.get(user_profile=partner_profile)
+        except:
+            messages.error(request,"User could not be found")
+            return redirect(referer)
+
+        return context
     def get_context_data(self, **kwargs):
         # if self.request.user.is_authenticated:
         profile_id = kwargs['profile_id']
@@ -325,6 +399,7 @@ class ChangeUserImage(View):
 class UpdateBasicInfo(View):
     def post(self, request, *args, **kwargs):
         profile_id = int(request.POST.get('profile_id', ""))
+        referer = request.META.get('HTTP_REFERER')
         name = request.POST.get('name', "")
         gender = request.POST.get('gender', "")
         mother_tongue = request.POST.get('mother_tongue', "")
@@ -335,22 +410,25 @@ class UpdateBasicInfo(View):
         eating = request.POST.get('eating', "")
         drinking = request.POST.get('drinking', "")
         smoking = request.POST.get('smoking', "")
-        userprofile = UserProfile.objects.get(id=profile_id)
-        userprofile.gender = gender
-        userprofile.save()
-        user = User.objects.get(id = userprofile.user.id)
-        user.first_name = name
-        user.save()
-        user_info = UserInfo.objects.get(user_profile=userprofile)
-        user_info.mother_tongue = MotherTongue.objects.get(language= mother_tongue)
-        user_info.physical_status = physical_status
-        user_info.marital_status = marital_status
-        user_info.height= height
-        user_info.weight = weight
-        user_info.eating = eating
-        user_info.drinking = drinking
-        user_info.smoking = smoking
-        user_info.save()
+        try:
+            userprofile = UserProfile.objects.get(id=profile_id)
+            userprofile.gender = gender
+            userprofile.save()
+            user = User.objects.get(id = userprofile.user.id)
+            user.first_name = name
+            user.save()
+            user_info = UserInfo.objects.get(user_profile=userprofile)
+            user_info.mother_tongue = MotherTongue.objects.get(language= mother_tongue)
+            user_info.physical_status = physical_status
+            user_info.marital_status = marital_status
+            user_info.height= height
+            user_info.weight = weight
+            user_info.eating = eating
+            user_info.drinking = drinking
+            user_info.smoking = smoking
+            user_info.save()
+        except:
+            messages.error(request,"User profile not found")
         return redirect(reverse('user-profile'))
 
 
@@ -367,19 +445,22 @@ class UpdatePartnerPref(View):
         star_patner = request.POST.get('star-patner', "")
         dosh_partner = request.POST.get('dosh-partner', "")
         physical_partner = request.POST.get('physical-partner', "")
-        userprofile = UserProfile.objects.get(id=profile_id)
-        user_info = UserInfo.objects.get(user_profile=userprofile)
-        partner_pref = PartnerPreference.objects.get(user_info=user_info)
-        partner_pref.age_from = agefrom
-        partner_pref.age_to = ageto
-        partner_pref.religion = Religion.objects.get(name=religion_partner)
-        partner_pref.cast = Cast.objects.get(name=cast_partner)
-        partner_pref.subcast = SubCast.objects.get(name=subcast_partner)
-        partner_pref.gotra = gotra_partner
-        partner_pref.star = star_patner
-        partner_pref.dosh = dosh_partner
-        partner_pref.physical_status = physical_partner
-        partner_pref.save()
+        try:
+            userprofile = UserProfile.objects.get(id=profile_id)
+            user_info = UserInfo.objects.get(user_profile=userprofile)
+            partner_pref = PartnerPreference.objects.get(user_info=user_info)
+            partner_pref.age_from = agefrom
+            partner_pref.age_to = ageto
+            partner_pref.religion = Religion.objects.get(name=religion_partner)
+            partner_pref.cast = Cast.objects.get(name=cast_partner)
+            partner_pref.subcast = SubCast.objects.get(name=subcast_partner)
+            partner_pref.gotra = gotra_partner
+            partner_pref.star = star_patner
+            partner_pref.dosh = dosh_partner
+            partner_pref.physical_status = physical_partner
+            partner_pref.save()
+        except:
+            messages.error(request, "User profile not found")
         return redirect(reverse('user-profile'))
 
 
@@ -390,11 +471,14 @@ class UploadUserImage(View):
         image = request.FILES.get('photos')
         print(user_info_id)
         print(image)
-        user_info = UserInfo.objects.get(id=user_info_id)
-        user_image = UserImages()
-        user_image.user_info = user_info
-        user_image.file = image
-        user_image.save()
+        try:
+            user_info = UserInfo.objects.get(id=user_info_id)
+            user_image = UserImages()
+            user_image.user_info = user_info
+            user_image.file = image
+            user_image.save()
+        except:
+            messages.error(request, "User profile not found")
         return redirect(reverse('user-profile'))
 
 

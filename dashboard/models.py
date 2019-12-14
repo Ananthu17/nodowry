@@ -235,17 +235,6 @@ class PartnerPreference(models.Model):
         return self.user_info.user_profile.user.email
 
 
-class Car(models.Model):
-    name = models.CharField(max_length=50, blank=True, null=True)
-    color = models.CharField(max_length=50, blank=True, null=True)
-    description = models.TextField(max_length=50, blank=True, null=True)
-    type = models.IntegerField(choices=[
-        (1, "Sedan"),
-        (2, "Truck"),
-        (4, "SUV"),
-    ])
-
-
 class Testimonials(models.Model):
     name = models.CharField(max_length=50, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
