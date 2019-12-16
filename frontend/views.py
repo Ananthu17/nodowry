@@ -6,6 +6,7 @@ from dashboard.models import *
 from django.urls import reverse
 from datetime import date
 from django.contrib import messages
+from dashboard.elasticsearch import *
 
 
 class HomePage(TemplateView):
@@ -333,6 +334,7 @@ class UserProfileDetails(TemplateView):
         context['user_images'] = UserImages.objects.filter(user_info__user_profile=user)
         context['mother_tongue'] = MotherTongue.objects.all()
         context['religion_list'] = Religion.objects.all()
+        context['matches'] = Matches.objects.filter(matched_partner=user)
         return context
 
 
@@ -355,11 +357,23 @@ class PartnerDetails(TemplateView):
             user_obj = self.request.user
             user = UserProfile.objects.get(user=user_obj)
             user_info_obj = UserInfo.objects.get(user_profile=user)
+
+
             context['partner_pref'] = PartnerPreference.objects.get(user_info=user_info_obj)
             partner_profile = UserProfile.objects.get(id=profile_id)
             partner_info = UserInfo.objects.get(user_profile=partner_profile)
+
+            gender = str(partner_profile.gender)
+            mother_tongue = str(partner_info.mother_tongue.language)
+            religion = str(partner_info.religion.name)
+            cast = str(partner_info.cast.name)
+            subcast = str(partner_info.subcast.name)
+            dob = partner_info.dob
+            similar_results = els_lan.query_data(gender, mother_tongue, religion, cast, subcast)
+            context['similar_results'] = similar_results
+
         except:
-            messages.error(request,"User could not be found")
+            messages.error(request, "User could not be found")
             return redirect(referer)
 
         return context
@@ -380,6 +394,14 @@ class PartnerDetails(TemplateView):
         context['parter_profile'] = partner_profile
         context['parter_info'] = partner_info
         context['partner_images'] = partner_images
+        gender = str(partner_profile.gender)
+        mother_tongue = str(partner_info.mother_tongue.language)
+        religion = str(partner_info.religion.name)
+        cast = str(partner_info.cast.name)
+        subcast = str(partner_info.subcast.name)
+        dob = partner_info.dob
+        similar_results = els_lan.query_data(gender, mother_tongue, religion, cast, subcast)
+        context['similar_results'] = similar_results
         # else:
         #     pass
         return context
@@ -492,3 +514,16 @@ class TestimonialInfo(View):
         except Awards.DoesNotExist:
             messages.error(request, "Something went wrong")
         return redirect(reverse('dashboard-content'))
+
+
+class ShowInterest(View):
+
+    def get(self, request, *args, **kwargs):
+        profile_id = kwargs['profile_id']
+        partner_id = kwargs['partner_id']
+        match = Matches()
+        match.matched_user = UserProfile.objects.get(id=profile_id)
+        match.matched_partner = UserProfile.objects.get(id=partner_id)
+        match.save()
+        return redirect('partner-details-template', partner_id)
+

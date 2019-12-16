@@ -483,6 +483,7 @@
         <div class="row pb-5">
             <div class="col-12 col-sm-12 col-lg-6 col-xl-5">
                 <div class="card">
+
                     <div class="card-body ">
                         <h5 class="card-title card-quote"><img class="m-1" src="{% static 'frontend/images/icons/quots.png' %}" /></h5>
                         <p class="card-text">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock,</p>
@@ -546,25 +547,29 @@
                 <div id="myCarousel" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner row w-100 mx-auto">
 
-                        <div class="carousel-item col-lg-4 col-md-6 col-sm-12 active p-md-5 p-sm-0 p-0">
-                            <div class="card" style="width: 18rem;">
-                                <div class="awards-card">
-                                    <div class="card" style="width: 18rem;">
-                                        <div class="card-body award-card-body">
-                                            <h5 class="card-title card-awards-title">Times Award</h5>
-                                            <div class="text-center">
-                                                <img class="trophy-img" src="{% static 'frontend/images/winner.png' %}" alt="">
-                                            </div>
-                                            <p class="award-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+{#                        <div class="carousel-item col-lg-4 col-md-6 col-sm-12 active p-md-5 p-sm-0 p-0">#}
+{#                            <div class="card" style="width: 18rem;">#}
+{#                                <div class="awards-card">#}
+{#                                    <div class="card" style="width: 18rem;">#}
+{#                                        <div class="card-body award-card-body">#}
+{#                                            <h5 class="card-title card-awards-title">Times Award</h5>#}
+{#                                            <div class="text-center">#}
+{#                                                <img class="trophy-img" src="{% static 'frontend/images/winner.png' %}" alt="">#}
+{#                                            </div>#}
+{#                                            <p class="award-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
 
                         {% for awards in awards_list %}
+                            {% if forloop.first %}
+                                <div class="carousel-item col-lg-4 col-md-6 col-sm-12 active p-md-5 p-sm-0 p-0">
+                            {% else %}
+                                <div class="carousel-item col-lg-4 col-md-6 col-sm-12 p-md-5 p-sm-0 p-0">
+                            {% endif %}
 
-                            <div class="carousel-item col-lg-4 col-md-6 col-sm-12 p-md-5 p-sm-0 p-0">
                             <div class="awards-card">
                                 <div class="card" style="width: 18rem;">
                                     <div class="card-body award-card-body">

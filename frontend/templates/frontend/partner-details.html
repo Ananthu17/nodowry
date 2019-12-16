@@ -31,7 +31,7 @@
                                         {% endif %}
 {#                                    {% endfor %}#}
                                     <div class="row justify-content-end">
-                                        <div class="col-10 pl-5">
+                                        <div class="col-8 pl-5">
                                             <h5 class="font-lato">{{ parter_profile.user.first_name }}</h5>
                                             <ul class="user-details font-lato pl-2">
                                                 <li class="small-font">
@@ -49,6 +49,12 @@
                                                         style="font-size: 12px">{{ parter_info.education }}</span>
                                                 </li>
                                             </ul>
+                                        </div>
+                                        <div class="col-2">
+                                            <h1 class="text-center pt-2">
+                                                <a href="{% url 'show-interest' user_profile.id  parter_profile.id %}">
+                                                    <i class="fa fa-heart" aria-hidden="true"></i></h1>
+                                                </a>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -622,101 +628,34 @@
                                 </div>
                                 <div class="card-body">
                                     <!-- similar profiles card -->
-                                    <div class="card similar-profiles my-2">
+                                    {% for profile in  similar_results %}
+
+
+                                        <div class="card similar-profiles my-2">
                                         <div class="row">
                                             <div class="col-4">
-                                                <img class="img-fluid"
-                                                     src="/static/frontend/images/gallery/vijay-govid.jpg" alt="">
+                                                {% if profile.profile_pic %}
+                                                    <img class="img-fluid" src="/media/{{ profile.profile_pic }}" alt="">
+                                                {% else %}
+                                                    <img class="img-fluid" src="/static/frontend/images/man-user.png" alt="">
+                                                {% endif %}
+
                                             </div>
                                             <div class="col-8">
                                                 <ul class="p-0">
-                                                    <li><h6 class="pt-1">Vijay Govind</h6></li>
-                                                    <li><span>NDM103</span></li>
-                                                    <li><span>25 yrs, 170cm</span></li>
-                                                    <li><span>Hindu, Nair, Menon</span></li>
-                                                    <li><span>Software Professional</span></li>
-                                                    <li><span><a class="text-warning" href="">View Profile</a></span>
+                                                    <li><h6 class="pt-1">{{ profile.user__first_name }}</h6></li>
+                                                    <li><span>NDM{{ profile.id }}</span></li>
+                                                    <li><span>25 yrs, {{profile.userinfo__height }}cm</span></li>
+                                                    <li><span>{{ profile.userinfo__religion__name }}, {{ profile.userinfo__cast__name }}, {{ profile.userinfo__subcast__name }}</span></li>
+                                                    <li><span>{{ profile.userinfo__occupation }}</span></li>
+                                                    <li><span><a class="text-warning" href="{% url 'partner-details-template' profile.id %}">View Profile</a></span>
                                                     </li>
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card similar-profiles my-2">
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <img class="img-fluid"
-                                                     src="/static/frontend/images/gallery/vijay-govid.jpg" alt="">
-                                            </div>
-                                            <div class="col-8">
-                                                <ul class="p-0">
-                                                    <li><h6 class="pt-1">Vijay Govind</h6></li>
-                                                    <li><span>NDM103</span></li>
-                                                    <li><span>25 yrs, 170cm</span></li>
-                                                    <li><span>Hindu, Nair, Menon</span></li>
-                                                    <li><span>Software Professional</span></li>
-                                                    <li><span><a class="text-warning" href="">View Profile</a></span>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card similar-profiles my-2">
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <img class="img-fluid"
-                                                     src="/static/frontend/images/gallery/vijay-govid.jpg" alt="">
-                                            </div>
-                                            <div class="col-8">
-                                                <ul class="p-0">
-                                                    <li><h6 class="pt-1">Vijay Govind</h6></li>
-                                                    <li><span>NDM103</span></li>
-                                                    <li><span>25 yrs, 170cm</span></li>
-                                                    <li><span>Hindu, Nair, Menon</span></li>
-                                                    <li><span>Software Professional</span></li>
-                                                    <li><span><a class="text-warning" href="">View Profile</a></span>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card similar-profiles my-2">
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <img class="img-fluid"
-                                                     src="/static/frontend/images/gallery/vijay-govid.jpg" alt="">
-                                            </div>
-                                            <div class="col-8">
-                                                <ul class="p-0">
-                                                    <li><h6 class="pt-1">Vijay Govind</h6></li>
-                                                    <li><span>NDM103</span></li>
-                                                    <li><span>25 yrs, 170cm</span></li>
-                                                    <li><span>Hindu, Nair, Menon</span></li>
-                                                    <li><span>Software Professional</span></li>
-                                                    <li><span><a class="text-warning" href="">View Profile</a></span>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card similar-profiles my-2">
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <img class="img-fluid"
-                                                     src="/static/frontend/images/gallery/vijay-govid.jpg" alt="">
-                                            </div>
-                                            <div class="col-8">
-                                                <ul class="p-0">
-                                                    <li><h6 class="pt-1">Vijay Govind</h6></li>
-                                                    <li><span>NDM103</span></li>
-                                                    <li><span>25 yrs, 170cm</span></li>
-                                                    <li><span>Hindu, Nair, Menon</span></li>
-                                                    <li><span>Software Professional</span></li>
-                                                    <li><span><a class="text-warning" href="">View Profile</a></span>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
+
+                                    {% endfor %}
                                     <!-- similar profiles card ends -->
                                 </div>
                             </div>

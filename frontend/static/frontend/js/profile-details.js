@@ -1,12 +1,10 @@
 
 function uploadPhoto() {
-    console.log("images uploaded");
     $("#profileImage").submit();
 
 }
 
 function DeleteImage(imgId) {
-   console.log(imgId);
    $.post( '/delete-image', {imgId: imgId} );
    var request = $.ajax({
       url: "/delete-image",
@@ -24,7 +22,6 @@ function hideSection1() {
 }
 
 function showSection1() {
-    console.log("hello");
     $('#section1').fadeIn( "slow" );
     $('#section2').hide();
 }
@@ -87,7 +84,6 @@ function hideSection2() {
 
 
 function saveForm() {
-    console.log("save method is called");
     $.ajax({
         type: 'POST',
         url: '/partner-details',
@@ -114,7 +110,6 @@ function saveForm() {
 
 
 $( document ).ready(function() {
-    console.log("ready function");
     $("#religion-dropdown").trigger('change');
     $("#religion-dropdown-partner").trigger('change');
 
@@ -135,7 +130,6 @@ $( document ).ready(function() {
           success: function(resultData) {
               $('#education').empty();
               $.each(resultData.data, function (entry, value) {
-                    console.log(value.field);
                     $('#education').append($('<option></option>').attr('value', value.field).text(value.field));
               });
           }
