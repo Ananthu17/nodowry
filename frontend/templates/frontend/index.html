@@ -32,14 +32,14 @@
                 <h3>India's most trusted matrimony</h3>
             </div>
             <div class="quick-search-box p-4 m-3">
-                <form action="{% url 'filter' %}" method="get">
+                <form {% if user.is_authenticated %} action="{% url 'filter' %}" method="get" {% else %} onsubmit="showFilterPopup(event)" {% endif %} id="myForm">
                     <div class="row">
                         <div class=" col-lg-2 col-md-4 col-sm-4 col-12">
                             <div class="dropdown show form-group">
                                 <p class="searchItem">
                                     I'm looking a
                                 </p>
-                                <select name="gender" class="quicksearchDropdown form-control" required>
+                                <select name="gender" class="quicksearchDropdown form-control" required id="gender">
                                     <option value="men">Groom</option>
                                     <option value="woman">Bride</option>
 
@@ -51,7 +51,7 @@
                                 <p  class="searchItem">
                                     aged
                                 </p>
-                                <select name="agefrom" class="quicksearchDropdown form-control agefrom" onchange='changeAge(this.value);' required>
+                                <select name="agefrom" class="quicksearchDropdown form-control agefrom" onchange='changeAge(this.value);' required id="startAge">
                                 </select>
                             </div>
                         </div>
@@ -67,7 +67,7 @@
                                 <p  class="searchItem">
                                     &nbsp;
                                 </p>
-                                <select name="ageto" class="quicksearchDropdown form-control ageto" id="ageto" required>
+                                <select name="ageto" class="quicksearchDropdown form-control ageto" id="finalAge" required>
                                 </select>
                             </div>
                         </div>
@@ -76,7 +76,7 @@
                                 <p  class="searchItem">
                                     of religion
                                 </p>
-                                <select name="religion" class="quicksearchDropdown form-control" required>
+                                <select name="religion" class="quicksearchDropdown form-control" id="religion" required>
                                     <option value="">Select</option>
                                     {% for religion in religion_list %}
                                         <option value="{{ religion.id }}">{{ religion.name }}</option>
@@ -89,7 +89,7 @@
                                 <p  class="searchItem">
                                     and mother tongue
                                 </p>
-                                <select name="language" class="quicksearchDropdown form-control" required>
+                                <select name="language" class="quicksearchDropdown form-control" id="language" required>
                                     <option value="">Select</option>
                                     {% for language in language_list %}
                                         <option value="{{ language.id }}">{{ language.language }}</option>
@@ -692,6 +692,63 @@
             for (i=val;i<=50;i++){
                 $selectageto.append($('<option></option>').val(i).html(i))
             }
+        }
+
+        function showFilterPopup(e){
+            gender = $('#gender').val()
+            startAge = $('#startAge').val()
+            finalAge = $('#finalAge').val()
+            religion = $('#religion').val()
+            motherTongue = $('#language').val()
+
+
+
+            $.ajax({
+              url: "/quick-results-limited",
+              type: 'GET',
+              data: {
+                  gender : gender,
+                  start_age : startAge,
+                  final_age : finalAge,
+                  religion : religion,
+                  mother_tongue : motherTongue,
+              },
+              success: function(resultData) {
+                  $('.result-display').children().remove();
+                  var html = '<div class="row">';
+
+                  $.each(resultData.data, function (entry, value) {
+                      html += '<div class="col-md-6 p-2">';
+                      html += '<div class="result-card">';
+                      html += '<div class="row">';
+                      html += '<div class="col-md-5">';
+                      if(gender == 'men'){
+                          html += '<img class="img-fluid left-curved-image" src="{% static 'frontend/images/men.jpg' %}" >';
+                      }else{
+                          html += '<img class="img-fluid left-curved-image" src="{% static 'frontend/images/women.jpg' %}" >';
+                      }
+                      html += '</div>';
+                      html += '<div class="col-md-7">';
+                      html += '<h5 class="pt-2">'+value.user__first_name+'</h5>';
+                      html += '<p>'+ value.userinfo__religion__name +' '+ value.userinfo__cast__name +' ' + value.userinfo__subcast__name +'</p>';
+                      html += '<p>'+ value.userinfo__profession +'</p>';
+                      html += '</div>';
+                      html += '</div>';
+                      html += '</div>';
+                      html += '</div>';
+                  });
+
+                  html += '</div>';
+                  $('.result-display').append(html);
+              }
+
+            });
+
+
+
+
+            e.preventDefault();
+            $('.profile-result-modal').modal('show');
         }
 
 

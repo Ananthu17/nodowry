@@ -31,8 +31,8 @@
                                         {% endif %}
 {#                                    {% endfor %}#}
                                     <div class="row justify-content-end">
-                                        <div class="col-8 pl-5">
-                                            <h5 class="font-lato">{{ parter_profile.user.first_name }}</h5>
+                                        <div class="col-8 pl-5 pt-3">
+                                            <h4 class="font-lato">{{ parter_profile.user.first_name|upper }}</h4>
                                             <ul class="user-details font-lato pl-2">
                                                 <li class="small-font">
                                                     <i class="fa fa-calendar pr-3" aria-hidden="true"></i>
@@ -50,10 +50,29 @@
                                                 </li>
                                             </ul>
                                         </div>
+                                        {% if parter_profile.id in matches_list %}
+                                            {{ matches_list }}
+                                        {% endif %}
                                         <div class="col-2">
-                                            <h1 class="text-center pt-2">
-                                                <a href="{% url 'show-interest' user_profile.id  parter_profile.id %}">
-                                                    <i class="fa fa-heart" aria-hidden="true"></i></h1>
+
+
+                                                {% for matches in matches_list %}
+                                                    {%if  matches.matched_partner == parter_profile.id %}
+                                                        <h5 class="text-center pt-2">Interested</h5>
+                                                        <h1 class="text-center">
+                                                        <a class="red-active" href="{% url 'show-interest' user_profile.id  parter_profile.id %}">
+                                                        <i class="fa fa-heart" aria-hidden="true"></i></h1>
+                                                    {% endif %}
+
+                                                    {% empty %}
+                                                        <h4 class="text-center pt-2">Sent Interest</h4>
+                                                        <h1 class="text-center">
+                                                        <a class="red-deactive" href="{% url 'show-interest' user_profile.id  parter_profile.id %}">
+                                                        <i class="fa fa-heart" aria-hidden="true"></i></h1>
+                                                {% endfor %}
+
+
+
                                                 </a>
                                         </div>
                                     </div>
@@ -699,8 +718,6 @@
 
         {#$('#recipeCarousel').carousel({#}
         {#    interval: 10000#}
-        {#})
-        #}
         {##}
         {#$('.carousel .carousel-item').each(function () {#}
         {#    var minPerSlide = 3;#}
@@ -718,9 +735,7 @@
         {##}
         {#        next.children(':first-child').clone().appendTo($(this));#}
         {#    }#}
-        {#})
-        ;
-        #}
+
 
     </script>
 {% endblock %}

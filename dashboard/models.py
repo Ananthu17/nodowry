@@ -257,3 +257,6 @@ class Awards(models.Model):
 class Matches(models.Model):
     matched_user = models.ForeignKey(UserProfile, on_delete=models.CASCADE,  related_name='matched_by')
     matched_partner = models.ForeignKey(UserProfile, on_delete=models.CASCADE,  related_name='matched_with')
+
+    def __str__(self):
+        return self.matched_user.user.first_name

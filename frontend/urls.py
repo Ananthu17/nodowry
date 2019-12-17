@@ -23,4 +23,5 @@ urlpatterns = [
     path('update-partner-pref', csrf_exempt(UpdatePartnerPref.as_view()), name='update-partner-pref'),
     path('partner-details-template/<int:profile_id>/', login_required(csrf_exempt(PartnerDetails.as_view())), name='partner-details-template'),
     path('show-interest/<int:profile_id>/<int:partner_id>', login_required(csrf_exempt(ShowInterest.as_view())), name='show-interest'),
+    path('quick-results-limited', csrf_exempt(quick_search_limited), name='quick-results-limited'),
 ]

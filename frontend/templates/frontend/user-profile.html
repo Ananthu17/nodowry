@@ -421,15 +421,28 @@
                                  </div>
                             </div>
                             <div class="card-body">
-                                <div class="p-5">
-                                    {% for match in matches %}
-                                        <div class="intrested-profile">
-                                           <h5>{{ match.matched_user.user.first_name }}</h5>
-                                            <a class="text-warning" href="{% url 'partner-details-template' match.matched_user.id %}">View Profile</a>
-                                        </div>
-                                    {% empty %}
-                                        Sorry, no Matches
-                                    {% endfor %}
+                                <div class="p-1">
+                                    <div class="row">
+                                        {% for match in matches %}
+                                            <div class="col-md-5">
+                                                <div class="intrested-profile">
+                                                    <div class="row">
+                                                        <div class="col-5">
+                                                            <img class="img-fluid left-curved" src="media/{{ match.matched_user.profile_pic }}" alt="">
+                                                        </div>
+                                                        <div class="col-7">
+                                                            <h5 class="">{{ match.matched_user.user.first_name }}</h5>
+                                                            <h5 class="m-0 profile-card-font">{{ match.matched_user.userinfo.age }}</h5>
+                                                            <p class="m-0 profile-card-font">{{ match.matched_user.userinfo.religion }},{{ match.matched_user.userinfo.cast }}, {{ match.matched_user.userinfo.subcast }}</p>
+                                                            <a class="text-warning text-right align-text-bottom" href="{% url 'partner-details-template' match.matched_user.id %}">View Profile</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% empty %}
+                                            Sorry, no Matches
+                                        {% endfor %}
+                                    </div>
                                 </div>
                             </div>
                         </div>

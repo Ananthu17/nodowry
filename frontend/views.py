@@ -7,6 +7,22 @@ from django.urls import reverse
 from datetime import date
 from django.contrib import messages
 from dashboard.elasticsearch import *
+from django.core.mail import send_mail
+from django.template import loader
+
+
+def send_matching_email(context):
+    email = context['email']
+    template = loader.get_template("accounts/interest_notification.html")
+    email_content = template.render(context)
+    send_mail(
+        'NoDowry Person Matching',
+        email_content,
+        'help@nodowry.com',
+        [email],
+        html_message=email_content,
+        fail_silently=False
+    )
 
 
 class HomePage(TemplateView):
@@ -402,6 +418,7 @@ class PartnerDetails(TemplateView):
         dob = partner_info.dob
         similar_results = els_lan.query_data(gender, mother_tongue, religion, cast, subcast)
         context['similar_results'] = similar_results
+        context['matches_list'] = Matches.objects.filter(matched_user=user, matched_partner=partner_profile).values('matched_partner')
         # else:
         #     pass
         return context
@@ -521,9 +538,62 @@ class ShowInterest(View):
     def get(self, request, *args, **kwargs):
         profile_id = kwargs['profile_id']
         partner_id = kwargs['partner_id']
-        match = Matches()
-        match.matched_user = UserProfile.objects.get(id=profile_id)
-        match.matched_partner = UserProfile.objects.get(id=partner_id)
-        match.save()
+        try:
+            user_profile = UserProfile.objects.get(id=profile_id)
+            partner_profile = UserProfile.objects.get(id=partner_id)
+            try:
+                Matches.objects.get(matched_partner=partner_profile, matched_user=user_profile).delete()
+            except Matches.DoesNotExist:
+                Matches.objects.create(matched_user=user_profile, matched_partner=partner_profile)
+                ''' creating the mail confirmation url  '''
+                context = {}
+                context['partner_name'] = partner_profile.user.first_name
+                context['email'] = partner_profile.user.email
+                context['matching_profile_url'] = request.scheme + "://" + request.META["HTTP_HOST"] + reverse(
+                    'partner-details-template', kwargs={'profile_id': profile_id})
+
+                '''
+                sending verification mail to the user
+                '''
+                send_matching_email(context)
+
+        except UserProfile.DoesNotExist:
+            messages.error(request, "Something went wrong")
         return redirect('partner-details-template', partner_id)
 
+
+def quick_search_limited(request):
+    gender = request.GET.get('gender', '')
+    start_age = int(request.GET.get('start_age', 18))
+    final_age = int(request.GET.get('final_age', 35))
+    religion = request.GET.get('religion', '')
+    mother_tongue = request.GET.get('mother_tongue', '')
+    print(gender)
+    print(start_age)
+    print(final_age)
+    print(religion)
+    print(mother_tongue)
+
+    current_date = date.today()
+
+    startdate = current_date.replace(current_date.year - start_age)
+    enddate = current_date.replace(current_date.year - final_age)
+    userprofiles = UserProfile.objects.filter(is_active=True, gender=gender, userinfo__religion=religion,
+                                             userinfo__mother_tongue=mother_tongue,
+                                             userinfo__dob__range=(enddate, startdate)).values('user__first_name',
+                                                                                               'gender',
+                                                                                               'userinfo__religion__name',
+                                                                                               'userinfo__subcast__name',
+                                                                                               'userinfo__cast__name',
+                                                                                               'userinfo__city',
+                                                                                               'userinfo__state',
+                                                                                               'userinfo__dist',
+                                                                                               'userinfo__mother_tongue',
+                                                                                               'userinfo__cast__name',
+                                                                                               'userinfo__education__field',
+                                                                                               'userinfo__profession', 'userinfo__height')[:5]
+    dict = []
+    for users in userprofiles:
+        dict.append(users)
+
+    return JsonResponse({'data': dict})
