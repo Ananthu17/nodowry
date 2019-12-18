@@ -256,7 +256,7 @@ class LogOut(LoginRequiredMixin, View):
 
 
 class EmailConfirmation(TemplateView):
-    template_name = 'accounts/email_confirmation.html'
+    template_name = 'accounts/interest_notification.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

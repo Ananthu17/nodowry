@@ -15,5 +15,6 @@ admin.site.register(PartnerPreference)
 admin.site.register(PlanSubscriptionList)
 admin.site.register(Awards)
 admin.site.register(Testimonials)
+admin.site.register(Matches)
 
 

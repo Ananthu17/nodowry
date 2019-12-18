@@ -25,7 +25,7 @@ SECRET_KEY = 'r%u3ormby28g9#pe6l5uk@+0ysm=#1ao1ogp^_%+d)51v$gp@o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['34.221.255.191']
+# ALLOWED_HOSTS = ['35.160.16.245']
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'frontend',
     'dashboard',
     'social_django',
+    'django_elasticsearch_dsl'
 ]
 
 AUTHENTICATION_BACKENDS = (
@@ -176,3 +177,9 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'fields': 'id,name,email',
 }
 SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
+
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'localhost:9200'
+    },
+}

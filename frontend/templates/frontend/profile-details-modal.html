@@ -1,6 +1,6 @@
+{% load static %}
 <div class="modal fade bd-example-modal-lg" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
      aria-hidden="true" data-color="blue">
-    {% load static %}
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="container">
@@ -446,7 +446,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <input type="number" id="weight" name="weight" class="form-control"
-                                                           placeholder="Weight in Centimeters">
+                                                           placeholder="Weight">
                                                     <div class="error-helper py-1" id="weight-error"></div>
                                                 </div>
                                             </div>
@@ -661,4 +661,27 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="modal fade profile-result-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content modal-radius">
+        <div class="p-5">
+            <h3 class="text-center text-blue results-header" id="results-header">Here is your search results</h3>
+            <div class="result-display">
+            </div>
+            <h4 class="text-center pt-5">
+                Want to see more profiles..
+            </h4>
+            <div class="row justify-content-center">
+                <div class="col-md-2 pt-2">
+                    <a href="{% url 'login' %}">
+                    <button class="btn-orange m-0 py-3 px-4" style="border: none;"><h4>Login</h4></button>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+  </div>
 </div>

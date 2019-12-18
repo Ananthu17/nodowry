@@ -59,3 +59,20 @@ button a{
 .dropdown-menu-right{
     background-color: #e4e7e8;
 }
+.modal-radius{
+    border-radius: 1.3rem !important;
+}
+.text-blue{
+    color: #33335fd1;
+}
+.text-blue span{
+    color:  #e91e63;
+}
+.result-card{
+    border: 1px solid black;
+    border-radius: 12px;
+}
+.left-curved-image{
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+}

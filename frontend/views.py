@@ -10,6 +10,25 @@ from django.contrib import messages
 import razorpay
 
 razorpay_client = razorpay.Client(auth=("rzp_test_pLn7iGkMQ3dorZ", "UrETBkY9UtXnpyXVvFZZTBQO"))
+from dashboard.elasticsearch import *
+from django.core.mail import send_mail
+from django.template import loader
+import razorpay
+
+razorpay_client = razorpay.Client(auth=("rzp_test_pLn7iGkMQ3dorZ", "UrETBkY9UtXnpyXVvFZZTBQO"))
+
+def send_matching_email(context):
+    email = context['email']
+    template = loader.get_template("accounts/interest_notification.html")
+    email_content = template.render(context)
+    send_mail(
+        'NoDowry Person Matching',
+        email_content,
+        'help@nodowry.com',
+        [email],
+        html_message=email_content,
+        fail_silently=False
+    )
 
 
 class HomePage(TemplateView):
