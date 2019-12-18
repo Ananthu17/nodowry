@@ -24,4 +24,7 @@ urlpatterns = [
     path('partner-details-template/<int:profile_id>/', login_required(csrf_exempt(PartnerDetails.as_view())), name='partner-details-template'),
     path('show-interest/<int:profile_id>/<int:partner_id>', login_required(csrf_exempt(ShowInterest.as_view())), name='show-interest'),
     path('quick-results-limited', csrf_exempt(quick_search_limited), name='quick-results-limited'),
+    path('subscribe-plan/<int:plan_id>/', login_required(csrf_exempt(SubscribePlan.as_view())), name='subscribe-plan'),
+    path('subscribe/', csrf_exempt(SubscribePlan.as_view()), name='subscribe-webhook'),
+    path('cancel-subscription/', csrf_exempt(CancelSubscription.as_view()), name='cancel-subscription'),
 ]

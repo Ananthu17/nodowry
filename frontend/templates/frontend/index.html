@@ -67,7 +67,7 @@
                                 <p  class="searchItem">
                                     &nbsp;
                                 </p>
-                                <select name="ageto" class="quicksearchDropdown form-control ageto" id="finalAge" required>
+                                <select name="ageto" class="quicksearchDropdown form-control ageto" id="ageto" required>
                                 </select>
                             </div>
                         </div>
@@ -695,11 +695,11 @@
         }
 
         function showFilterPopup(e){
-            gender = $('#gender').val()
-            startAge = $('#startAge').val()
-            finalAge = $('#finalAge').val()
-            religion = $('#religion').val()
-            motherTongue = $('#language').val()
+            gender = $('#gender').val();
+            startAge = $('#startAge').val();
+            finalAge = $('#ageto').val();
+            religion = $('#religion').val();
+            motherTongue = $('#language').val();
 
 
 
@@ -715,6 +715,12 @@
               },
               success: function(resultData) {
                   $('.result-display').children().remove();
+                  if(resultData.data.length > 0){
+                        $('#results-header').html("Here is your search results");
+                  }else {
+                        $('#results-header').html("Oops No Matching profiles fount");
+                  }
+
                   var html = '<div class="row">';
 
                   $.each(resultData.data, function (entry, value) {

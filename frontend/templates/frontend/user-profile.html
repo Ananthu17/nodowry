@@ -7,23 +7,26 @@
     <link href="{% static 'frontend/css/profile-details.css' %}" rel="stylesheet"/>
 {% endblock %}
 {% block content %}
-<!-- navbar -->
+    <!-- navbar -->
     {% include "frontend/filter-nav.html" %}
-<!-- navber ends-->
+    <!-- navber ends-->
     <div class="container-fluid profile-background">
         <div class="row">
             <div class="col-md-3 py-3">
                 <div class="card">
                     <div class="image-section">
                         <div class="display-image p-2 position-relative">
-                                {% if user_profile.profile_pic %}
-                                    <img class="img-fluid position-relative" src="/media/{{ user_profile.profile_pic }}" alt="">
-                                    <form action="{% url 'change-user-image' %}" method="POST" id="change-image" enctype="multipart/form-data">
-                                        {% csrf_token %}
-                                        <input type="file" id="imgupload" name="imgupload" style="display:none"/>
-                                        <i class="fa fa-pencil-square-o position-absolute edit-image" id="OpenImgUpload" aria-hidden="true"></i>
-                                    </form>
-                                {% endif %}
+                            {% if user_profile.profile_pic %}
+                                <img class="img-fluid position-relative" src="/media/{{ user_profile.profile_pic }}"
+                                     alt="">
+                                <form action="{% url 'change-user-image' %}" method="POST" id="change-image"
+                                      enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <input type="file" id="imgupload" name="imgupload" style="display:none"/>
+                                    <i class="fa fa-pencil-square-o position-absolute edit-image" id="OpenImgUpload"
+                                       aria-hidden="true"></i>
+                                </form>
+                            {% endif %}
                         </div>
                         <div class="basic-info text-center">
                             <h3 class="pl-3">{{ user_profile.user.first_name }}</h3>
@@ -53,11 +56,11 @@
 
                     </ul>
                 </div>
-{#                <div class="images" style="height: 100vh; background-color: #0c5460">#}
-{#                    #}
-{#                </div>#}
+                {#                <div class="images" style="height: 100vh; background-color: #0c5460">#}
+                {#                    #}
+                {#                </div>#}
             </div>
-             <div class="col-md-6 py-3">
+            <div class="col-md-6 py-3">
                 <civ class="card card-shadow">
                     <div class="">
                         <div class="row">
@@ -72,7 +75,7 @@
                                         <li>
                                             <i class="fa fa-calendar pr-3" aria-hidden="true"></i>
                                             {{ user_profile.userinfo.dob }}
-{#                                            {{ user_profile.userinfo.height}}cm#}
+                                            {#                                            {{ user_profile.userinfo.height}}cm#}
                                         </li>
                                         <li>
                                             <i class="fa fa-location-arrow pr-3" aria-hidden="true"></i>
@@ -120,78 +123,78 @@
                     <div class="col-md-12">
                         <div class="card card-shadow main-content" id="profile-details">
                             <div class="card-header">
-                                 <div class="row justify-content-between  pr-md-3">
-                                     <h5 class="pl-2">Profile Details</h5>
+                                <div class="row justify-content-between  pr-md-3">
+                                    <h5 class="pl-2">Profile Details</h5>
                                     <div class="edit-profile" data-toggle="modal" data-target="#updateProfileDetails">
                                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                     </div>
-                                 </div>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive-sm">
                                     <table class="table table-sm">
                                         <tbody>
-                                            <tr class="py-2">
-                                                <td class="w-50">Name</td>
-                                                <td>:</td>
-                                                <td class="w-50">
-                                                    {{ user_profile.user.first_name }}
-                                                </td>
-                                            </tr>
-                                            <tr class="py-2">
-                                                <td class="w-50">Gender</td>
-                                                <td>:</td>
-                                                    {% if user_profile.gender == 'men' %}
-                                                        <td class="w-50">Male</td>
-                                                    {% elif user_profile.gender == 'woman' %}
-                                                        <td class="w-50">Female</td>
-                                                    {% endif %}
-                                            </tr>
-                                            <tr class="py-2">
-                                                  <td class="w-50">Mother Tongue</td>
-                                                  <td>:</td>
-                                                  <td class="w-50">{{ user_profile.userinfo.mother_tongue }}</td>
-                                            </tr>
-                                            <tr class="py-2">
-                                                  <td class="w-50">Body Type</td>
-                                                  <td>:</td>
-                                                  <td class="w-50">{{ user_profile.userinfo.bodytype }}</td>
-                                            </tr>
-                                            <tr class="py-2">
-                                                <td class="w-50">Physical Status</td>
-                                                <td>:</td>
-                                                <td class="w-50">{{ user_profile.userinfo.physical_status }}</td>
-                                            </tr>
-                                            <tr class="py-2">
-                                                  <td class="w-50">Height</td>
-                                                  <td>:</td>
-                                                  <td class="w-50">{{ user_profile.userinfo.height }} in CM</td>
-                                            </tr>
-                                            <tr class="py-2">
-                                                  <td class="w-50">Weight</td>
-                                                  <td>:</td>
-                                                  <td class="w-50">{{ user_profile.userinfo.weight }} KG</td>
-                                            </tr>
-                                            <tr class="py-2">
-                                                  <td class="w-50">Marital Status</td>
-                                                  <td>:</td>
-                                                  <td class="w-50">{{ user_profile.userinfo.marital_status }}</td>
-                                            </tr>
-                                            <tr class="py-2">
-                                                  <td class="w-50">Eating Habbits</td>
-                                                  <td>:</td>
-                                                  <td class="w-50">{{ user_profile.userinfo.eating }}</td>
-                                            </tr>
-                                            <tr class="py-2">
-                                                  <td class="w-50">Drinking Habbits</td>
-                                                  <td>:</td>
-                                                  <td class="w-50">{{ user_profile.userinfo.drinking }}</td>
-                                            </tr>
-                                            <tr class="py-2">
-                                                  <td class="w-50">Smoking Habbits</td>
-                                                  <td>:</td>
-                                                  <td class="w-50">{{ user_profile.userinfo.smoking }}</td>
-                                            </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Name</td>
+                                            <td>:</td>
+                                            <td class="w-50">
+                                                {{ user_profile.user.first_name }}
+                                            </td>
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Gender</td>
+                                            <td>:</td>
+                                            {% if user_profile.gender == 'men' %}
+                                                <td class="w-50">Male</td>
+                                            {% elif user_profile.gender == 'woman' %}
+                                                <td class="w-50">Female</td>
+                                            {% endif %}
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Mother Tongue</td>
+                                            <td>:</td>
+                                            <td class="w-50">{{ user_profile.userinfo.mother_tongue }}</td>
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Body Type</td>
+                                            <td>:</td>
+                                            <td class="w-50">{{ user_profile.userinfo.bodytype }}</td>
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Physical Status</td>
+                                            <td>:</td>
+                                            <td class="w-50">{{ user_profile.userinfo.physical_status }}</td>
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Height</td>
+                                            <td>:</td>
+                                            <td class="w-50">{{ user_profile.userinfo.height }} in CM</td>
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Weight</td>
+                                            <td>:</td>
+                                            <td class="w-50">{{ user_profile.userinfo.weight }} KG</td>
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Marital Status</td>
+                                            <td>:</td>
+                                            <td class="w-50">{{ user_profile.userinfo.marital_status }}</td>
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Eating Habbits</td>
+                                            <td>:</td>
+                                            <td class="w-50">{{ user_profile.userinfo.eating }}</td>
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Drinking Habbits</td>
+                                            <td>:</td>
+                                            <td class="w-50">{{ user_profile.userinfo.drinking }}</td>
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Smoking Habbits</td>
+                                            <td>:</td>
+                                            <td class="w-50">{{ user_profile.userinfo.smoking }}</td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -200,78 +203,78 @@
 
                         <div class="card card-shadow main-content" id="profile-details" style="display: none">
                             <div class="card-header">
-                                 <div class="row justify-content-between  pr-md-3">
-                                     <h5 class="pl-2">Profile Details</h5>
+                                <div class="row justify-content-between  pr-md-3">
+                                    <h5 class="pl-2">Profile Details</h5>
                                     <div class="edit-profile">
                                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                     </div>
-                                 </div>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive-sm">
                                     <table class="table table-sm">
                                         <tbody>
-                                            <tr class="py-2">
-                                                <td class="w-20">Name</td>
-                                                <td>:</td>
-                                                <td class="w-80">
-                                                    {{ user_profile.user.first_name }}
-                                                </td>
-                                            </tr>
-                                            <tr class="py-2">
-                                                <td class="w-20">Gender</td>
-                                                <td>:</td>
-                                                    {% if user_profile.gender == 'men' %}
-                                                        <td class="w-50">Male</td>
-                                                    {% elif user_profile.gender == 'women' %}
-                                                        <td class="w-50">Female</td>
-                                                    {% endif %}
-                                            </tr>
-                                            <tr class="py-2">
-                                                  <td class="w-50">Mother Tongue</td>
-                                                  <td>:</td>
-                                                  <td class="w-50">{{ user_profile.userinfo.mother_tongue }}</td>
-                                            </tr>
-                                            <tr class="py-2">
-                                                  <td class="w-50">Body Type</td>
-                                                  <td>:</td>
-                                                  <td class="w-50">{{ user_profile.userinfo.bodytype }}</td>
-                                            </tr>
-                                            <tr class="py-2">
-                                                <td class="w-50">Physical Status</td>
-                                                <td>:</td>
-                                                <td class="w-50">{{ user_profile.userinfo.physical_status }}</td>
-                                            </tr>
-                                            <tr class="py-2">
-                                                  <td class="w-50">Height</td>
-                                                  <td>:</td>
-                                                  <td class="w-50">{{ user_profile.userinfo.height }} in CM</td>
-                                            </tr>
-                                            <tr class="py-2">
-                                                  <td class="w-50">Weight</td>
-                                                  <td>:</td>
-                                                  <td class="w-50">{{ user_profile.userinfo.weight }} in CM</td>
-                                            </tr>
-                                            <tr class="py-2">
-                                                  <td class="w-50">Marital Status</td>
-                                                  <td>:</td>
-                                                  <td class="w-50">{{ user_profile.userinfo.marital_status }}</td>
-                                            </tr>
-                                            <tr class="py-2">
-                                                  <td class="w-50">Eating Habbits</td>
-                                                  <td>:</td>
-                                                  <td class="w-50">{{ user_profile.userinfo.eating }}</td>
-                                            </tr>
-                                            <tr class="py-2">
-                                                  <td class="w-50">Drinking Habbits</td>
-                                                  <td>:</td>
-                                                  <td class="w-50">{{ user_profile.userinfo.drinking }}</td>
-                                            </tr>
-                                            <tr class="py-2">
-                                                  <td class="w-50">Smoking Habits</td>
-                                                  <td>:</td>
-                                                  <td class="w-50">{{ user_profile.userinfo.smoking }}</td>
-                                            </tr>
+                                        <tr class="py-2">
+                                            <td class="w-20">Name</td>
+                                            <td>:</td>
+                                            <td class="w-80">
+                                                {{ user_profile.user.first_name }}
+                                            </td>
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-20">Gender</td>
+                                            <td>:</td>
+                                            {% if user_profile.gender == 'men' %}
+                                                <td class="w-50">Male</td>
+                                            {% elif user_profile.gender == 'women' %}
+                                                <td class="w-50">Female</td>
+                                            {% endif %}
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Mother Tongue</td>
+                                            <td>:</td>
+                                            <td class="w-50">{{ user_profile.userinfo.mother_tongue }}</td>
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Body Type</td>
+                                            <td>:</td>
+                                            <td class="w-50">{{ user_profile.userinfo.bodytype }}</td>
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Physical Status</td>
+                                            <td>:</td>
+                                            <td class="w-50">{{ user_profile.userinfo.physical_status }}</td>
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Height</td>
+                                            <td>:</td>
+                                            <td class="w-50">{{ user_profile.userinfo.height }} in CM</td>
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Weight</td>
+                                            <td>:</td>
+                                            <td class="w-50">{{ user_profile.userinfo.weight }} in CM</td>
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Marital Status</td>
+                                            <td>:</td>
+                                            <td class="w-50">{{ user_profile.userinfo.marital_status }}</td>
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Eating Habbits</td>
+                                            <td>:</td>
+                                            <td class="w-50">{{ user_profile.userinfo.eating }}</td>
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Drinking Habbits</td>
+                                            <td>:</td>
+                                            <td class="w-50">{{ user_profile.userinfo.drinking }}</td>
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Smoking Habits</td>
+                                            <td>:</td>
+                                            <td class="w-50">{{ user_profile.userinfo.smoking }}</td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -281,77 +284,78 @@
 
                         <div class="card card-shadow main-content" id="partner-preference" style="display: none">
                             <div class="card-header">
-                                 <div class="row justify-content-between  pr-md-3">
-                                     <h5 class="pl-2">Partner preference</h5>
-                                    <div class="edit-profile"  data-toggle="modal" data-target="#updatePartnerPreference">
+                                <div class="row justify-content-between  pr-md-3">
+                                    <h5 class="pl-2">Partner preference</h5>
+                                    <div class="edit-profile" data-toggle="modal"
+                                         data-target="#updatePartnerPreference">
                                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                     </div>
-                                 </div>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive-sm">
                                     <table class="table table-sm">
                                         <tbody>
-                                            <tr class="py-2">
-                                                <td class="w-50">Body Type</td>
-                                                <td>:</td>
-                                                <td class="w-50">
-                                                    {{ partner_pref.bodytype }}
-                                                </td>
-                                            </tr>
-                                            <tr class="py-2">
-                                                <td class="w-50">Age Range</td>
-                                                <td>:</td>
-                                                 <td>{{ partner_pref.age_from }}
-                                                        To
-                                                    {{ partner_pref.age_to }}
-                                                 </td>
-                                            </tr>
-                                            <tr class="py-2">
-                                                  <td class="w-50">Mother Tongue</td>
-                                                  <td>:</td>
-                                                  <td class="w-50">{{ partner_pref.mother_toungue }}</td>
-                                            </tr>
-                                            <tr class="py-2">
-                                                <td class="w-50">Physical Status</td>
-                                                <td>:</td>
-                                                <td class="w-50">{{ partner_pref.physical_status }}</td>
-                                            </tr>
-                                            <tr class="py-2">
-                                                  <td class="w-50">Marital Status</td>
-                                                  <td>:</td>
-                                                  <td class="w-50">{{ partner_pref.marital_status }}</td>
-                                            </tr>
-                                            <tr class="py-2">
-                                                  <td class="w-50">Religion</td>
-                                                  <td>:</td>
-                                                  <td class="w-50">{{ partner_pref.religion }}</td>
-                                            </tr>
-                                            <tr class="py-2">
-                                                  <td class="w-50">Cast</td>
-                                                  <td>:</td>
-                                                  <td class="w-50">{{ partner_pref.cast }}</td>
-                                            </tr>
-                                            <tr class="py-2">
-                                                  <td class="w-50">Subcast</td>
-                                                  <td>:</td>
-                                                  <td class="w-50">{{ partner_pref.subcast }}</td>
-                                            </tr>
-                                            <tr class="py-2">
-                                                  <td class="w-50">Gothra</td>
-                                                  <td>:</td>
-                                                  <td class="w-50">{{ partner_pref.gotra }}</td>
-                                            </tr>
-                                            <tr class="py-2">
-                                                  <td class="w-50">Star</td>
-                                                  <td>:</td>
-                                                  <td class="w-50">{{ partner_pref.star }}</td>
-                                            </tr>
-                                            <tr class="py-2">
-                                                  <td class="w-50">Dosh</td>
-                                                  <td>:</td>
-                                                  <td class="w-50">{{ partner_pref.dosh }}</td>
-                                            </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Body Type</td>
+                                            <td>:</td>
+                                            <td class="w-50">
+                                                {{ partner_pref.bodytype }}
+                                            </td>
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Age Range</td>
+                                            <td>:</td>
+                                            <td>{{ partner_pref.age_from }}
+                                                To
+                                                {{ partner_pref.age_to }}
+                                            </td>
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Mother Tongue</td>
+                                            <td>:</td>
+                                            <td class="w-50">{{ partner_pref.mother_toungue }}</td>
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Physical Status</td>
+                                            <td>:</td>
+                                            <td class="w-50">{{ partner_pref.physical_status }}</td>
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Marital Status</td>
+                                            <td>:</td>
+                                            <td class="w-50">{{ partner_pref.marital_status }}</td>
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Religion</td>
+                                            <td>:</td>
+                                            <td class="w-50">{{ partner_pref.religion }}</td>
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Cast</td>
+                                            <td>:</td>
+                                            <td class="w-50">{{ partner_pref.cast }}</td>
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Subcast</td>
+                                            <td>:</td>
+                                            <td class="w-50">{{ partner_pref.subcast }}</td>
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Gothra</td>
+                                            <td>:</td>
+                                            <td class="w-50">{{ partner_pref.gotra }}</td>
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Star</td>
+                                            <td>:</td>
+                                            <td class="w-50">{{ partner_pref.star }}</td>
+                                        </tr>
+                                        <tr class="py-2">
+                                            <td class="w-50">Dosh</td>
+                                            <td>:</td>
+                                            <td class="w-50">{{ partner_pref.dosh }}</td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -360,21 +364,24 @@
 
                         <div class="card card-shadow main-content" id="image-gallery" style="display: none">
                             <div class="card-header">
-                                 <div class="row justify-content-between  pr-md-3">
-                                     <h5 class="pl-2">Image Gallery</h5>
-                                     <div class="buttons">
-                                        <form id="profileImage" method="post" action="{% url 'upload-user-image' %}"  enctype="multipart/form-data">
+                                <div class="row justify-content-between  pr-md-3">
+                                    <h5 class="pl-2">Image Gallery</h5>
+                                    <div class="buttons">
+                                        <form id="profileImage" method="post" action="{% url 'upload-user-image' %}"
+                                              enctype="multipart/form-data">
                                             {% csrf_token %}
-                                            <input name="id" id="userId" type="text" value="{{ user_profile.userinfo.id }}" hidden>
+                                            <input name="id" id="userId" type="text"
+                                                   value="{{ user_profile.userinfo.id }}" hidden>
                                             <label for='photos' style="display: block;">
-                                             <div class="edit-profile">
-                                                <i class="fa fa-plus" aria-hidden="true"></i>
-                                            </div>
+                                                <div class="edit-profile">
+                                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                                </div>
                                             </label>
-                                            <input type="file" id="photos" name="photos" onchange="uploadPhoto()" multiple hidden />
+                                            <input type="file" id="photos" name="photos" onchange="uploadPhoto()"
+                                                   multiple hidden/>
                                         </form>
-                                     </div>
-                                 </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="card">
                                 <div class="p-4">
@@ -383,8 +390,10 @@
                                             <div class="grid effect-2" id="grid">
                                                 {% for images in user_images %}
                                                     <div class="item">
-                                                            <img src="/media/{{ images.file }}" id="img{{ images.id }}" alt=""/>
-                                                            <i class="fa fa-trash delete-button" id="icon{{ images.id }}" aria-hidden="true" onclick="deleImage({{ images.id }})"></i>
+                                                        <img src="/media/{{ images.file }}" id="img{{ images.id }}"
+                                                             alt=""/>
+                                                        <i class="fa fa-trash delete-button" id="icon{{ images.id }}"
+                                                           aria-hidden="true" onclick="deleImage({{ images.id }})"></i>
                                                     </div>
                                                 {% endfor %}
                                             </div>
@@ -394,31 +403,29 @@
                             </div>
                         </div>
 
-{#                        <div class="card card-shadow main-content" id="interest" style="display: none">#}
-{#                            <div class="card-header">#}
-{#                                 <div class="row justify-content-between  pr-md-3">#}
-{#                                     <h5 class="pl-2">Interest</h5>#}
-{#                                 </div>#}
-{#                            </div>#}
-{#                            <div class="card">#}
-{#                                <div class="p-4">#}
-{#                                    <div class="row">#}
-{#                                        <div class="col-12">#}
-{##}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        </div>#}
-
-
+                        {#                        <div class="card card-shadow main-content" id="interest" style="display: none">#}
+                        {#                            <div class="card-header">#}
+                        {#                                 <div class="row justify-content-between  pr-md-3">#}
+                        {#                                     <h5 class="pl-2">Interest</h5>#}
+                        {#                                 </div>#}
+                        {#                            </div>#}
+                        {#                            <div class="card">#}
+                        {#                                <div class="p-4">#}
+                        {#                                    <div class="row">#}
+                        {#                                        <div class="col-12">#}
+                        {##}
+                        {#                                        </div>#}
+                        {#                                    </div>#}
+                        {#                                </div>#}
+                        {#                            </div>#}
+                        {#                        </div>#}
 
 
                         <div class="card card-shadow main-content" id="show-interest" style="display: none">
                             <div class="card-header">
-                                 <div class="row justify-content-between  pr-md-3">
-                                     <h5 class="pl-2">Show Interest</h5>
-                                 </div>
+                                <div class="row justify-content-between  pr-md-3">
+                                    <h5 class="pl-2">Show Interest</h5>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="p-1">
@@ -428,13 +435,17 @@
                                                 <div class="intrested-profile">
                                                     <div class="row">
                                                         <div class="col-5">
-                                                            <img class="img-fluid left-curved" src="media/{{ match.matched_user.profile_pic }}" alt="">
+                                                            <img class="img-fluid left-curved"
+                                                                 src="media/{{ match.matched_user.profile_pic }}"
+                                                                 alt="">
                                                         </div>
                                                         <div class="col-7">
                                                             <h5 class="">{{ match.matched_user.user.first_name }}</h5>
                                                             <h5 class="m-0 profile-card-font">{{ match.matched_user.userinfo.age }}</h5>
                                                             <p class="m-0 profile-card-font">{{ match.matched_user.userinfo.religion }},{{ match.matched_user.userinfo.cast }}, {{ match.matched_user.userinfo.subcast }}</p>
-                                                            <a class="text-warning text-right align-text-bottom" href="{% url 'partner-details-template' match.matched_user.id %}">View Profile</a>
+                                                            <a class="text-warning text-right align-text-bottom"
+                                                               href="{% url 'partner-details-template' match.matched_user.id %}">View
+                                                                Profile</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -481,7 +492,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/masonry/3.2.2/masonry.pkgd.min.js'></script>
     <script>
-       $('#item3').click(function () {
+        $('#item3').click(function () {
             var $container = $('.grid');
             // initialize
             $container.masonry({
@@ -493,10 +504,13 @@
 
     <script type="text/javascript">
 
-        $('#OpenImgUpload').click(function(){ $('#imgupload').trigger('click'); });
-        $('#imgupload').change(function(){
+        $('#OpenImgUpload').click(function () {
+            $('#imgupload').trigger('click');
+        });
+        $('#imgupload').change(function () {
             $('#change-image').submit();
         });
+
         function showPartnerPreference() {
             $('.main-content').hide();
             $('#partner-preference').fadeIn('slow');
@@ -517,6 +531,7 @@
             $('#profile-menu>ul>li').removeClass('menu-active');
             $('#item3').addClass('menu-active');
         }
+
         function showIntrest() {
             $('.main-content').hide();
             $('#show-interest').fadeIn('slow');
@@ -528,12 +543,11 @@
             var request = $.ajax({
                 url: "/delete-image",
                 type: 'POST',
-                data: {imgId : img_id},
-                success: function(data)
-                   {
-                       $( '#img'+img_id ).hide();
-                       $( '#icon'+img_id ).hide();
-                   }
+                data: {imgId: img_id},
+                success: function (data) {
+                    $('#img' + img_id).hide();
+                    $('#icon' + img_id).hide();
+                }
             });
         }
 
@@ -541,8 +555,6 @@
             console.log("images uploaded");
             document.getElementById("profileImage").submit();
         }
-
-
 
 
     </script>

@@ -41,6 +41,7 @@ class UserProfile(models.Model):
     phone_number_verified = models.BooleanField(default=False, null=True)
     first_time_login = models.BooleanField(default=True, null=True)
     profile_pic = models.ImageField(upload_to='user_images/', null=True)
+    customer_id = models.CharField(max_length=200,default="")
 
 
     def __str__(self):
@@ -138,13 +139,18 @@ class Plans(models.Model):
         admin can select plans as foreign key
     """
     name = models.CharField(max_length=30)
-    expiry = models.DateTimeField(blank=True)
-    coast = models.FloatField(null=True, blank=True, default=None)
+    expiry = models.DateTimeField(blank=True,null=True)
+    amount = models.FloatField(null=True, blank=True, default=None)
+    plan_id = models.CharField(null=True, blank=True,max_length=40)
+    period = models.CharField(default="monthly",null=True,max_length=40)
+    interval = models.IntegerField(default=1)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User, blank=True, on_delete=models.CASCADE, related_name='plans_created_user')
     updated_by = models.ForeignKey(User, blank=True, on_delete=models.CASCADE, related_name='plans_updated_user')
+    archived = models.BooleanField(default=False)
+    description = models.TextField(null=True,blank=True)
 
     def __str__(self):
         return self.name
@@ -188,6 +194,7 @@ class UserInfo(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
     profile_created_for = models.CharField(max_length=50, null=True, blank=True)
+    subscribed_plan = models.ForeignKey(Plans,on_delete=models.CASCADE,null=True)
 
 
     def __str__(self):
@@ -213,6 +220,8 @@ class UserImages(models.Model):
         return self.user_info.user_profile.user.email
 
 
+
+
 class PartnerPreference(models.Model):
     """
    Model for saving all the images uploaded by the user.
@@ -233,6 +242,20 @@ class PartnerPreference(models.Model):
 
     def __str__(self):
         return self.user_info.user_profile.user.email
+
+
+class PlanSubscriptionList(models.Model):
+    user = models.ForeignKey(UserProfile,on_delete=models.CASCADE)
+    payment_id = models.CharField(max_length=30,null=True,blank=True)
+    payment_date = models.DateField(auto_now_add=True)
+    subscribed_plan = models.ForeignKey(Plans,on_delete=models.CASCADE)
+    amount_charged = models.CharField(max_length=20,null=True)
+    subscription_id = models.CharField(max_length=20,null=True,blank=True)
+    status = models.CharField(max_length=20,default="created")
+    payment_url = models.CharField(max_length=30,default="")
+
+    def __str__(self):
+        return self.user.user.email
 
 
 class Testimonials(models.Model):
