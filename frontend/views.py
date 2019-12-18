@@ -1,3 +1,4 @@
+import requests
 from django.contrib.auth import logout
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
@@ -6,20 +7,13 @@ from dashboard.models import *
 from django.urls import reverse
 from datetime import date
 from django.contrib import messages
+import razorpay
+
+razorpay_client = razorpay.Client(auth=("rzp_test_pLn7iGkMQ3dorZ", "UrETBkY9UtXnpyXVvFZZTBQO"))
 
 
 class HomePage(TemplateView):
     template_name = 'frontend/index.html'
-
-    def dispatch(self, request, *args, **kwargs):
-        context = super().dispatch(request,*args,**kwargs)
-        try:
-            user = UserProfile.objects.get(user=request.user)
-            return context
-        except:
-            messages.error(self.request,"User profile does not exist")
-            logout(request)
-            return redirect('/')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -27,15 +21,24 @@ class HomePage(TemplateView):
         context['language_list'] = MotherTongue.objects.all()
         if self.request.user.is_authenticated:
             user_obj = self.request.user
+            user = UserProfile.objects.get(user=user_obj)
             try:
-                user = UserProfile.objects.get(user=user_obj)
+
+                try:
+                    user_info = UserInfo.objects.get(user_profile__user=self.request.user)
+                except:
+                    user.first_time_login = True
+                    user.save()
             except:
-                messages.error(self.request,"User profile does not exist")
+
+                messages.error(self.request, "User profile does not exist")
                 logout(self.request)
             context['user_profile'] = user
             context['user_images'] = UserImages.objects.filter(user_info__user_profile=user)
         context['religion_list'] = Religion.objects.all()
         context['mother_tongue'] = MotherTongue.objects.all()
+        context['awards_list'] = Awards.objects.all()
+        context['testimonial_list'] = Testimonials.objects.all()
         return context
 
 
@@ -44,12 +47,12 @@ class QuickFilter(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        gender = self.request.GET.get('gender','')
-        agefrom = int(self.request.GET.get('agefrom',18))
-        ageto = int(self.request.GET.get('ageto',35))
-        religion_id = self.request.GET.get('religion','')
-        cast_id = self.request.GET.get('cast','')
-        language = self.request.GET.get('language','')
+        gender = self.request.GET.get('gender', '')
+        agefrom = int(self.request.GET.get('agefrom', 18))
+        ageto = int(self.request.GET.get('ageto', 35))
+        religion_id = self.request.GET.get('religion', '')
+        cast_id = self.request.GET.get('cast', '')
+        language = self.request.GET.get('language', '')
         currentdate = date.today()
         startdate = currentdate.replace(currentdate.year - agefrom)
         enddate = currentdate.replace(currentdate.year - ageto)
@@ -65,7 +68,8 @@ class QuickFilter(TemplateView):
                                                                                                    'userinfo__mother_tongue',
                                                                                                    'userinfo__cast__name',
                                                                                                    'userinfo__education__field',
-                                                                                                   'id','userinfo__height')
+                                                                                                   'id',
+                                                                                                   'userinfo__height')
         context['user_profile'] = userprofile
         context['user_count'] = userprofile.count()
         context['agefrom'] = agefrom
@@ -73,7 +77,7 @@ class QuickFilter(TemplateView):
         context['religion_list'] = Religion.objects.all()
         context['cast_list'] = Cast.objects.all()
         context['language_list'] = MotherTongue.objects.all()
-        religion_name = Religion.objects.get(id = religion_id)
+        religion_name = Religion.objects.get(id=religion_id)
 
         context['relid'] = religion_name.name
         context['language'] = language
@@ -96,13 +100,14 @@ class Profile(TemplateView):
     template_name = 'frontend/profile.html'
 
     def dispatch(self, request, *args, **kwargs):
-        context = super().dispatch(request,*args,**kwargs)
+        context = super().dispatch(request, *args, **kwargs)
         try:
             user_obj = self.request.user
             user = UserProfile.objects.get(user=user_obj)
         except:
             referer = request.META.get('HTTP_REFERER')
             return redirect(referer)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user_obj = self.request.user
@@ -128,7 +133,7 @@ class SubscribeMail(View):
 
 class UploadImage(View):
     def dispatch(self, request, *args, **kwargs):
-        context = super().dispatch(request,*args,**kwargs)
+        context = super().dispatch(request, *args, **kwargs)
         referer = request.META.get('HTTP_REFERER')
         try:
             user_info_id = request.POST.get('id', "")
@@ -136,7 +141,7 @@ class UploadImage(View):
                 image = request.FILES.get('photos')
 
             except:
-                messages.error(request,"Images required")
+                messages.error(request, "Images required")
                 return redirect(referer)
         except:
             messages.error(request, "Invalid User info")
@@ -164,7 +169,6 @@ class UploadImage(View):
         else:
             messages.error(request, "User id cannot be empty")
             return redirect(referer)
-
 
         return redirect(reverse('home'))
 
@@ -219,10 +223,9 @@ class SelectEducation(View):
 
 class SaveProfileDetails(View):
 
-
     def post(self, request, *args, **kwargs):
-
-        user_id = int(request.POST.get('id', ""))
+        user_obj = request.user
+        user_id = user_obj.id
         address = request.POST.get('address', "")
         state = request.POST.get('state', "")
         dist = request.POST.get('dist', "")
@@ -317,26 +320,35 @@ class SavePartnerDetails(View):
 
 class UserProfileDetails(TemplateView):
     template_name = 'frontend/user-profile.html'
+
     def dispatch(self, request, *args, **kwargs):
-        context = super().dispatch(request,*args,**kwargs)
+
+        context = super().dispatch(request, *args, **kwargs)
         referer = request.META.get('HTTP_REFERER')
         user_obj = self.request.user
         try:
+
             user = UserProfile.objects.get(user=user_obj)
             user_info_obj = UserInfo.objects.get(user_profile=user)
             context['partner_pref'] = PartnerPreference.objects.get(user_info=user_info_obj)
         except:
-            messages.error(request,"User could not be found")
+            messages.error(request, "User could not be found")
             return redirect(referer)
 
         return context
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user_obj = self.request.user
         user = UserProfile.objects.get(user=user_obj)
+
         context['user_profile'] = user
-        user_info_obj = UserInfo.objects.get(user_profile=user)
+        # try:
+        user_info_obj = UserInfo.objects.get(user_profile__user=user_obj)
         context['partner_pref'] = PartnerPreference.objects.get(user_info=user_info_obj)
+        # except :
+        #     pass
+        context['plans'] = Plans.objects.all()
         context['user_images'] = UserImages.objects.filter(user_info__user_profile=user)
         context['mother_tongue'] = MotherTongue.objects.all()
         context['religion_list'] = Religion.objects.all()
@@ -354,8 +366,9 @@ class DisplayImages(View):
 
 class PartnerDetails(TemplateView):
     template_name = 'frontend/partner-details.html'
+
     def dispatch(self, request, *args, **kwargs):
-        context = super().dispatch(request,*args,**kwargs)
+        context = super().dispatch(request, *args, **kwargs)
         referer = request.META.get('HTTP_REFERER')
         try:
             profile_id = kwargs['profile_id']
@@ -366,10 +379,11 @@ class PartnerDetails(TemplateView):
             partner_profile = UserProfile.objects.get(id=profile_id)
             partner_info = UserInfo.objects.get(user_profile=partner_profile)
         except:
-            messages.error(request,"User could not be found")
+            messages.error(request, "User could not be found")
             return redirect(referer)
 
         return context
+
     def get_context_data(self, **kwargs):
         # if self.request.user.is_authenticated:
         profile_id = kwargs['profile_id']
@@ -421,21 +435,21 @@ class UpdateBasicInfo(View):
             userprofile = UserProfile.objects.get(id=profile_id)
             userprofile.gender = gender
             userprofile.save()
-            user = User.objects.get(id = userprofile.user.id)
+            user = User.objects.get(id=userprofile.user.id)
             user.first_name = name
             user.save()
             user_info = UserInfo.objects.get(user_profile=userprofile)
-            user_info.mother_tongue = MotherTongue.objects.get(language= mother_tongue)
+            user_info.mother_tongue = MotherTongue.objects.get(language=mother_tongue)
             user_info.physical_status = physical_status
             user_info.marital_status = marital_status
-            user_info.height= height
+            user_info.height = height
             user_info.weight = weight
             user_info.eating = eating
             user_info.drinking = drinking
             user_info.smoking = smoking
             user_info.save()
         except:
-            messages.error(request,"User profile not found")
+            messages.error(request, "User profile not found")
         return redirect(reverse('user-profile'))
 
 
@@ -487,3 +501,111 @@ class UploadUserImage(View):
         except:
             messages.error(request, "User profile not found")
         return redirect(reverse('user-profile'))
+
+
+class TestimonialInfo(View):
+
+    def get(self, request, *args, **kwargs):
+        test_id = request.GET['test_id']
+        try:
+            item = Testimonials.objects.get(id=test_id)
+            JsonResponse({'data': item})
+        except Awards.DoesNotExist:
+            messages.error(request, "Something went wrong")
+        return redirect(reverse('dashboard-content'))
+
+
+class SubscribePlan(View):
+    def get(self, request, *args, **kwargs):
+        plan_id = kwargs['plan_id']
+        user_obj = request.user
+        if plan_id != '':
+            try:
+                plan_obj = Plans.objects.get(id=plan_id)
+                user_profile = UserProfile.objects.get(user=user_obj)
+                user_info = UserInfo.objects.get(user_profile=user_profile)
+                try:
+                    plns = PlanSubscriptionList.objects.get(user=user_profile)
+                    plns.delete()
+                except:
+                    pass
+                if user_profile.customer_id != '':
+                    payload_data = {
+                        "plan_id": plan_obj.plan_id,
+                        "customer_id": user_profile.customer_id,
+                        "total_count": 1
+                    }
+                else:
+                    create_customer_payload = {
+                        "name": user_profile.user.first_name,
+                        "email": user_profile.user.email,
+                        "contact": user_profile.phone_number,
+                        "notes": {},
+                        "fail_existing": 0
+                    }
+                    create_customer = razorpay_client.customer.create(data=create_customer_payload)
+                    customer_id = create_customer['id']
+                    user_profile.customer_id = customer_id
+                    user_profile.save()
+                    payload_data = {
+                        "plan_id": plan_obj.plan_id,
+                        "customer_id": customer_id,
+                        "total_count": 1
+                    }
+                subscribe_data = razorpay_client.subscription.create(data=payload_data)
+                subscription_id = subscribe_data['id']
+                short_url = subscribe_data['short_url']
+                plan_sub_obj = PlanSubscriptionList.objects.create(user=user_profile, subscription_id=subscription_id,
+                                                                   subscribed_plan=plan_obj, payment_url=short_url)
+                user_info.subscribed_plan = plan_obj
+                user_info.save()
+                messages.success(request,
+                                 "Subscribed successfully. Link to initiate your first payment has been send to your registered mail id. Please pay the amount to start your subscription")
+            except Plans.DoesNotExist:
+                messages.error(request, "Plans could not be found")
+            except UserProfile.DoesNotExist:
+                messages.error(request, "Userprofile does not exist")
+            except UserInfo.DoesNotExist:
+                messages.error(request, "Userinfo does not exist")
+            except Exception as e:
+                messages.error(request, str(e))
+        else:
+            messages.error(request, "Please choose a valid plan")
+        return redirect(reverse("user-profile"))
+
+
+#
+# def SubscribeWebhook(self):
+#     webhook_body = self.request.body
+#     razorpay_client.utility.verify_webhook_signature(webhook_body, webhook_signature, webhook_secret)
+
+
+class CancelSubscription(View):
+    def get(self, request):
+        user_obj = request.user
+        try:
+            user_profile_obj = UserProfile.objects.get(user=user_obj)
+            plans_obj = PlanSubscriptionList.objects.get(user=user_profile_obj)
+            subscription_id = plans_obj.subscription_id
+            url = "https://api.razorpay.com/v1/subscriptions/" + subscription_id + "/cancel"
+            data = {
+                "cancel_at_cycle_end": 1
+            }
+            r = requests.get(url=url, params=data)
+            serv_response = r.json()
+            try:
+                if serv_response['status'] == "cancelled":
+                    plans_obj.delete()
+                else:
+                    messages.error(request,"Failed to cancel the subscription. Contact admin to rectify")
+            except:
+                messages.success(request,"Failed to cancel Subscription")
+                return redirect(reverse("user-profile"))
+            messages.success(request, "Subscription Cancelled")
+
+        except UserProfile.DoesNotExist:
+            messages.error(request, "User profile not found")
+        except PlanSubscriptionList.DoesNotExist:
+            messages.error(request, "Plan not found")
+
+        return redirect(reverse("user-profile"))

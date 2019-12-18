@@ -22,4 +22,7 @@ urlpatterns = [
     path('update-basic-info', csrf_exempt(UpdateBasicInfo.as_view()), name='update-basic-info'),
     path('update-partner-pref', csrf_exempt(UpdatePartnerPref.as_view()), name='update-partner-pref'),
     path('partner-details-template/<int:profile_id>/', login_required(csrf_exempt(PartnerDetails.as_view())), name='partner-details-template'),
+    path('subscribe-plan/<int:plan_id>/', login_required(csrf_exempt(SubscribePlan.as_view())), name='subscribe-plan'),
+    path('subscribe/', csrf_exempt(SubscribePlan.as_view()), name='subscribe-webhook'),
+    path('cancel-subscription/', csrf_exempt(CancelSubscription.as_view()), name='cancel-subscription'),
 ]

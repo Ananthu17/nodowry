@@ -12,5 +12,8 @@ admin.site.register(Plans)
 admin.site.register(UserInfo)
 admin.site.register(UserImages)
 admin.site.register(PartnerPreference)
+admin.site.register(PlanSubscriptionList)
+admin.site.register(Awards)
+admin.site.register(Testimonials)
 
 

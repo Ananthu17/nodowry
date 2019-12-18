@@ -8,6 +8,9 @@ from datetime import datetime
 from .models import *
 import copy
 from django.contrib.auth.decorators import user_passes_test
+import razorpay
+
+razorpay_client = razorpay.Client(auth=("rzp_test_pLn7iGkMQ3dorZ", "UrETBkY9UtXnpyXVvFZZTBQO"))
 
 
 class CheckIsSuperUser:
@@ -63,6 +66,7 @@ class DashboardLogOut(LoginRequiredMixin, View):
     """
     View for logging out user and redirect to login page
     """
+
     def get(self, request):
         user = copy.deepcopy(request.user)
         if request.user.is_authenticated:
@@ -124,13 +128,85 @@ class EditUsert(LoginRequiredMixin, TemplateView):
         user.first_name = name
         user.email = email
         user.save()
-        user_profile.phone_number= phone_number
+        user_profile.phone_number = phone_number
         user_profile.save()
         return redirect(reverse('dashboard-users'))
 
 
 class ContentManagement(LoginRequiredMixin, TemplateView):
     template_name = 'dashboard/dashboard_content.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        testimonials = Testimonials.objects.all()
+        awards_list = Awards.objects.all()
+        context['testimonial_list'] = testimonials
+        context['awards_list'] = awards_list
+        return context
+
+    def post(self, request, *args, **kwars):
+        name = request.POST.get('testimonialName', '')
+        description = request.POST.get('testimonialDescription', '')
+        image = request.FILES.get('testimonialImage', '')
+        testimonials = Testimonials()
+        testimonials.name = name
+        testimonials.description = description
+        testimonials.image = image
+        testimonials.save()
+        return redirect(reverse('dashboard-content'))
+
+
+class EditTestimonials(LoginRequiredMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        testimonial_id = kwargs['test_id']
+        try:
+            Testimonials.objects.get(id=testimonial_id).delete()
+            messages.success(request, "Item Deleted")
+        except Testimonials.DoesNotExist:
+            messages.error(request, "Something went wrong")
+        return redirect(reverse('dashboard-content'))
+
+    def post(self, request, *args, **kwars):
+        name = request.POST.get('editTestimonialName', '')
+        test_id = request.POST.get('editTestimonialId', '')
+        description = request.POST.get('editTestimonialDescription', '')
+        image = request.FILES.get('editTestimonialImage', '')
+        try:
+            testimonials = Testimonials.objects.get(id=test_id)
+            testimonials.name = name
+            testimonials.description = description
+            if image:
+                testimonials.image = image
+            testimonials.save()
+        except Testimonials.DoesNotExist:
+            messages.error("Something Went wrong")
+        return redirect(reverse('dashboard-content'))
+
+
+class AwardContant(LoginRequiredMixin, TemplateView):
+
+    def get(self, request, *args, **kwargs):
+        award_id = kwargs['award_id']
+        try:
+            Awards.objects.get(id=award_id).delete()
+            messages.success(request, "Item Deleted")
+        except Awards.DoesNotExist:
+            messages.error(request, "Something went wrong")
+        return redirect(reverse('dashboard-content'))
+
+    def post(self, request, *args, **kwars):
+        name = request.POST.get('awardName', '')
+        description = request.POST.get('awardDescription', '')
+        awards = Awards()
+        awards.name = name
+        awards.description = description
+        awards.save()
+        return redirect(reverse('dashboard-content'))
+
+
+class FilterContants(LoginRequiredMixin, TemplateView):
+    template_name = 'dashboard/dashboard_filters.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -159,7 +235,7 @@ class AddReligion(LoginRequiredMixin, View):
                 religion.save()
             else:
                 messages.error(request, "language is already exist")
-        return redirect(reverse('dashboard-content'))
+        return redirect(reverse('dashboard-filters'))
 
 
 class AddCast(LoginRequiredMixin, View):
@@ -178,7 +254,7 @@ class AddCast(LoginRequiredMixin, View):
                 cast.save()
             else:
                 messages.error(request, "cast already exist")
-        return redirect(reverse('dashboard-content'))
+        return redirect(reverse('dashboard-filters'))
 
 
 class DeleteReligion(LoginRequiredMixin, View):
@@ -190,7 +266,7 @@ class DeleteReligion(LoginRequiredMixin, View):
             messages.success(request, "Religion Deleted")
         except Religion.DoesNotExist:
             messages.error(request, "Something went wrong")
-        return redirect(reverse('dashboard-content'))
+        return redirect(reverse('dashboard-filters'))
 
 
 class DeleteCast(LoginRequiredMixin, View):
@@ -202,7 +278,7 @@ class DeleteCast(LoginRequiredMixin, View):
             messages.success(request, "Religion Deleted")
         except Religion.DoesNotExist:
             messages.error(request, "Something went wrong")
-        return redirect(reverse('dashboard-content'))
+        return redirect(reverse('dashboard-filters'))
 
 
 class EditReligion(LoginRequiredMixin, View):
@@ -220,10 +296,10 @@ class EditReligion(LoginRequiredMixin, View):
             messages.error(request, "Religion updated successfully")
         except Religion.DoesNotExist:
             messages.error(request, "Something went wrong")
-        return redirect(reverse('dashboard-content'))
+        return redirect(reverse('dashboard-filters'))
 
 
-class EditCast (LoginRequiredMixin, View):
+class EditCast(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
         relid = request.POST.get('religion', '')
@@ -240,10 +316,12 @@ class EditCast (LoginRequiredMixin, View):
             messages.error(request, "Religion updated successfully")
         except Religion.DoesNotExist:
             messages.error(request, "Something went wrong")
-        return redirect(reverse('dashboard-content'))
+        except  Cast.DoesNotExist:
+            messages.error(request, "Something went wrong")
+        return redirect(reverse('dashboard-filters'))
 
 
-class AddSubCast(LoginRequiredMixin , View):
+class AddSubCast(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwars):
         cast_id = int(request.POST.get('cast', ''))
@@ -259,10 +337,10 @@ class AddSubCast(LoginRequiredMixin , View):
                 subcast.save()
             else:
                 messages.error(request, "Sub cast is already exist")
-        return redirect(reverse('dashboard-content'))
+        return redirect(reverse('dashboard-filters'))
 
 
-class EditSubCast (LoginRequiredMixin, View):
+class EditSubCast(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
         castid = request.POST.get('cast', '')
@@ -276,9 +354,9 @@ class EditSubCast (LoginRequiredMixin, View):
             subcast.updated_by = username
             subcast.save()
             messages.error(request, "Sub Cast updated successfully")
-        except Religion.DoesNotExist:
+        except SubCast.DoesNotExist:
             messages.error(request, "Something went wrong")
-        return redirect(reverse('dashboard-content'))
+        return redirect(reverse('dashboard-filters'))
 
 
 class DeleteSubCast(LoginRequiredMixin, View):
@@ -288,9 +366,9 @@ class DeleteSubCast(LoginRequiredMixin, View):
         try:
             SubCast.objects.get(id=sub_cast_id).delete()
             messages.success(request, "Item Deleted")
-        except Religion.DoesNotExist:
+        except SubCast.DoesNotExist:
             messages.error(request, "Something went wrong")
-        return redirect(reverse('dashboard-content'))
+        return redirect(reverse('dashboard-filters'))
 
 
 class AddMotherTongue(LoginRequiredMixin, View):
@@ -306,7 +384,7 @@ class AddMotherTongue(LoginRequiredMixin, View):
                 lang.save()
             else:
                 messages.error(request, "language is already exist")
-        return redirect(reverse('dashboard-content'))
+        return redirect(reverse('dashboard-filters'))
 
 
 class EditMotherTongue(LoginRequiredMixin, View):
@@ -321,7 +399,7 @@ class EditMotherTongue(LoginRequiredMixin, View):
             messages.error(request, "Religion updated successfully")
         except MotherTongue.DoesNotExist:
             messages.error(request, "Something went wrong")
-        return redirect(reverse('dashboard-content'))
+        return redirect(reverse('dashboard-filters'))
 
 
 class DeleteMotherTongue(LoginRequiredMixin, View):
@@ -331,6 +409,88 @@ class DeleteMotherTongue(LoginRequiredMixin, View):
         try:
             MotherTongue.objects.get(id=langid).delete()
             messages.success(request, "Language Deleted")
-        except Religion.DoesNotExist:
+        except MotherTongue.DoesNotExist:
             messages.error(request, "Something went wrong")
-        return redirect(reverse('dashboard-content'))
+        return redirect(reverse('dashboard-filters'))
+
+
+class PlansManagement(LoginRequiredMixin, TemplateView):
+    template_name = "dashboard/plans-list.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        context = super().dispatch(request, *args, **kwargs)
+        try:
+            k = razorpay_client.plan.all()
+        except:
+            messages.error(request, "Expected data not recieved. Check with Razorpay dashbaord for details")
+            return redirect('/dashboard')
+        return context
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        try:
+            context['plans'] = Plans.objects.filter(archived=False)
+        except:
+            messages.error(self.request, "No plans found")
+        return context
+
+    def post(self, request):
+        plan_name = request.POST.get('planname', '')
+        description = request.POST.get('desc', '')
+        plan_amount = request.POST.get('amount', '')
+        period = request.POST.get('period', 'monthly')
+        if plan_name != '' and description != '' and plan_amount != '':
+            payload_data = {
+                "period": period,
+                "interval": 1,
+                "item": {
+                    "name": plan_name,
+                    "description": description,
+                    "amount": plan_amount,
+                    "currency": "INR"
+                }
+            }
+            response = razorpay_client.plan.create(data=payload_data)
+            if response:
+                plan_interval = response['interval']
+                plan_id = response['id']
+                plan_name = response['item']['name']
+                plan_amount = response['item']['amount']
+                plan_description = response['item']['description']
+                plan_period = response['period']
+                plan_obj = Plans(name=plan_name, amount=plan_amount, period=plan_period, interval=plan_interval,
+                                 plan_id=plan_id, created_by=request.user, updated_by=request.user,description=plan_description)
+                plan_obj.save()
+                messages.success(request, "Plan Created Succesfully")
+                return redirect(reverse('dashboard-plans'))
+
+            else:
+                messages.success(request, "Plan Creation Failed. Please try again")
+                return redirect(reverse('dashboard-plans'))
+        else:
+            messages.success(request, "Fill in all required fields")
+            return redirect(reverse('dashboard-plans'))
+
+
+class ManagePlans(LoginRequiredMixin,View):
+    def get(self, request, *args, **kwargs):
+        plan_id = kwargs['plan_id']
+        try:
+            plans_obj = Plans.objects.get(id=plan_id)
+            plans_obj.archived = True
+            plans_obj.save()
+            messages.success(request, "Plan Archived")
+        except Plans.DoesNotExist:
+            messages.error(request, "Mentioned plan does not exist")
+        return redirect(reverse('dashboard-plans'))
+
+
+
+class PaymentsList(LoginRequiredMixin,TemplateView):
+    template_name = "dashboard/payment-history.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(PaymentsList, self).get_context_data(**kwargs)
+        subscription_list = razorpay_client.subscription.all()
+        context['subscription_list'] = subscription_list
+        return context
