@@ -17,6 +17,19 @@ import razorpay
 
 razorpay_client = razorpay.Client(auth=("rzp_test_pLn7iGkMQ3dorZ", "UrETBkY9UtXnpyXVvFZZTBQO"))
 
+def send_payment_email(context):
+    email = context['email']
+    template = loader.get_template("frontend/subscription-start.html")
+    email_content = template.render(context)
+    send_mail(
+        'No Dowry Marriage - Subscription',
+        email_content,
+        'help@nodowry.com',
+        [email],
+        html_message=email_content,
+        fail_silently=False
+    )
+
 def send_matching_email(context):
     email = context['email']
     template = loader.get_template("accounts/interest_notification.html")
@@ -332,6 +345,24 @@ class SavePartnerDetails(View):
             user_profile = UserProfile.objects.get(user=user)
             user_profile.first_time_login = False
             user_profile.save()
+
+            raw_data = list(UserProfile.objects.filter(id=user_profile.id).values('user__first_name',
+                                                             'gender',
+                                                             'userinfo__religion__name',
+                                                             'profile_pic',
+                                                             'userinfo__city',
+                                                             'userinfo__state',
+                                                             'userinfo__dist',
+                                                             'userinfo__mother_tongue__language',
+                                                             'userinfo__cast__name',
+                                                             'userinfo__subcast__name',
+                                                             'id', 'userinfo__height',
+                                                             'is_active',
+                                                             'userinfo__religion__name',
+                                                             'userinfo__dob',
+                                                             'userinfo__occupation',
+                                                             ))
+            els_lan.updatedata(raw_data)
         except UserInfo.DoesNotExist:
             message = "Item is not added"
         return JsonResponse({'data': message})
@@ -349,7 +380,7 @@ class UserProfileDetails(TemplateView):
 
             user = UserProfile.objects.get(user=user_obj)
             user_info_obj = UserInfo.objects.get(user_profile=user)
-            context['partner_pref'] = PartnerPreference.objects.get(user_info=user_info_obj)
+            context['partner_pref'] = PartnerPreference.objects.filter(user_info=user_info_obj)[0]
         except:
             messages.error(request, "User could not be found")
             return redirect(referer)
@@ -364,7 +395,7 @@ class UserProfileDetails(TemplateView):
         context['user_profile'] = user
         # try:
         user_info_obj = UserInfo.objects.get(user_profile__user=user_obj)
-        context['partner_pref'] = PartnerPreference.objects.get(user_info=user_info_obj)
+        context['partner_pref'] = PartnerPreference.objects.filter(user_info=user_info_obj)[0]
         # except :
         #     pass
         context['plans'] = Plans.objects.all()
@@ -385,24 +416,40 @@ class DisplayImages(View):
 
 class PartnerDetails(TemplateView):
     template_name = 'frontend/partner-details.html'
-
     def dispatch(self, request, *args, **kwargs):
-        context = super().dispatch(request, *args, **kwargs)
+        context = super().dispatch(request,*args,**kwargs)
         referer = request.META.get('HTTP_REFERER')
         try:
             profile_id = kwargs['profile_id']
             user_obj = self.request.user
             user = UserProfile.objects.get(user=user_obj)
             user_info_obj = UserInfo.objects.get(user_profile=user)
-            context['partner_pref'] = PartnerPreference.objects.get(user_info=user_info_obj)
+
+
+            context['partner_pref'] = PartnerPreference.objects.filter(user_info=user_info_obj)[0]
             partner_profile = UserProfile.objects.get(id=profile_id)
             partner_info = UserInfo.objects.get(user_profile=partner_profile)
+
+            gender = str(partner_profile.gender)
+            mother_tongue = str(partner_info.mother_tongue.language)
+            religion = ""
+            cast = ""
+            subcast = ""
+            try:
+                religion = str(partner_info.religion.name)
+                cast = str(partner_info.cast.name)
+                subcast = str(partner_info.subcast.name)
+            except:
+                pass
+            dob = partner_info.dob
+            similar_results = els_lan.query_data(gender, mother_tongue, religion, cast, subcast)
+            context['similar_results'] = similar_results
+
         except:
             messages.error(request, "User could not be found")
             return redirect(referer)
 
         return context
-
     def get_context_data(self, **kwargs):
         # if self.request.user.is_authenticated:
         profile_id = kwargs['profile_id']
@@ -412,7 +459,7 @@ class PartnerDetails(TemplateView):
         user = UserProfile.objects.get(user=user_obj)
         context['user_profile'] = user
         user_info_obj = UserInfo.objects.get(user_profile=user)
-        context['partner_pref'] = PartnerPreference.objects.get(user_info=user_info_obj)
+        context['partner_pref'] = PartnerPreference.objects.filter(user_info=user_info_obj)[0]
         context['user_images'] = UserImages.objects.filter(user_info__user_profile=user)
         partner_profile = UserProfile.objects.get(id=profile_id)
         partner_info = UserInfo.objects.get(user_profile=partner_profile)
@@ -420,6 +467,20 @@ class PartnerDetails(TemplateView):
         context['parter_profile'] = partner_profile
         context['parter_info'] = partner_info
         context['partner_images'] = partner_images
+        gender = str(partner_profile.gender)
+        mother_tongue = str(partner_info.mother_tongue.language)
+        religion = ""
+        cast = ""
+        subcast = ""
+        try:
+            religion = str(partner_info.religion.name)
+            cast = str(partner_info.cast.name)
+            subcast = str(partner_info.subcast.name)
+        except:
+            pass
+        dob = partner_info.dob
+        similar_results = els_lan.query_data(gender, mother_tongue, religion, cast, subcast)
+        context['similar_results'] = similar_results
         # else:
         #     pass
         return context
@@ -488,7 +549,7 @@ class UpdatePartnerPref(View):
         try:
             userprofile = UserProfile.objects.get(id=profile_id)
             user_info = UserInfo.objects.get(user_profile=userprofile)
-            partner_pref = PartnerPreference.objects.get(user_info=user_info)
+            partner_pref = PartnerPreference.objects.filter(user_info=user_info)[0]
             partner_pref.age_from = agefrom
             partner_pref.age_to = ageto
             partner_pref.religion = Religion.objects.get(name=religion_partner)
@@ -532,6 +593,72 @@ class TestimonialInfo(View):
         except Awards.DoesNotExist:
             messages.error(request, "Something went wrong")
         return redirect(reverse('dashboard-content'))
+
+
+class ShowInterest(View):
+
+    def get(self, request, *args, **kwargs):
+        profile_id = kwargs['profile_id']
+        partner_id = kwargs['partner_id']
+        try:
+            user_profile = UserProfile.objects.get(id=profile_id)
+            partner_profile = UserProfile.objects.get(id=partner_id)
+            try:
+                Matches.objects.get(matched_partner=partner_profile, matched_user=user_profile).delete()
+            except Matches.DoesNotExist:
+                Matches.objects.create(matched_user=user_profile, matched_partner=partner_profile)
+                ''' creating the mail confirmation url  '''
+                context = {}
+                context['partner_name'] = partner_profile.user.first_name
+                context['email'] = partner_profile.user.email
+                context['matching_profile_url'] = request.scheme + "://" + request.META["HTTP_HOST"] + reverse(
+                    'partner-details-template', kwargs={'profile_id': profile_id})
+
+                '''
+                sending verification mail to the user
+                '''
+                send_matching_email(context)
+
+        except UserProfile.DoesNotExist:
+            messages.error(request, "Something went wrong")
+        return redirect('partner-details-template', partner_id)
+
+
+def quick_search_limited(request):
+    gender = request.GET.get('gender', '')
+    start_age = int(request.GET.get('start_age', 18))
+    final_age = int(request.GET.get('final_age', 35))
+    religion = request.GET.get('religion', '')
+    mother_tongue = request.GET.get('mother_tongue', '')
+    print(gender)
+    print(start_age)
+    print(final_age)
+    print(religion)
+    print(mother_tongue)
+
+    current_date = date.today()
+
+    startdate = current_date.replace(current_date.year - start_age)
+    enddate = current_date.replace(current_date.year - final_age)
+    userprofiles = UserProfile.objects.filter(is_active=True, gender=gender, userinfo__religion=religion,
+                                             userinfo__mother_tongue=mother_tongue,
+                                             userinfo__dob__range=(enddate, startdate)).values('user__first_name',
+                                                                                               'gender',
+                                                                                               'userinfo__religion__name',
+                                                                                               'userinfo__subcast__name',
+                                                                                               'userinfo__cast__name',
+                                                                                               'userinfo__city',
+                                                                                               'userinfo__state',
+                                                                                               'userinfo__dist',
+                                                                                               'userinfo__mother_tongue',
+                                                                                               'userinfo__cast__name',
+                                                                                               'userinfo__education__field',
+                                                                                               'userinfo__profession', 'userinfo__height')[:5]
+    dict = []
+    for users in userprofiles:
+        dict.append(users)
+
+    return JsonResponse({'data': dict})
 
 
 class SubscribePlan(View):
@@ -578,8 +705,17 @@ class SubscribePlan(View):
                                                                    subscribed_plan=plan_obj, payment_url=short_url)
                 user_info.subscribed_plan = plan_obj
                 user_info.save()
+                context = {}
+                context['payment_link'] = short_url
+                context['plan_name'] = plan_obj.name
+                context['amount'] = plan_obj.amount
+                '''
+                sending verification mail to the user
+                '''
+                send_payment_email(context)
+
                 messages.success(request,
-                                 "Subscribed successfully. Link to initiate your first payment has been send to your registered mail id. Please pay the amount to start your subscription")
+                                     "Subscribed successfully. Link to initiate your first payment has been send to your registered mail id. Please pay the amount to start your subscription")
             except Plans.DoesNotExist:
                 messages.error(request, "Plans could not be found")
             except UserProfile.DoesNotExist:
