@@ -26,12 +26,13 @@
                                             <img class="profile-details-pic pb-2" src="/media/{{ user_profile.profile_pic }}"
                                                  alt="">
                                         {% endif %}
-                                        <div class="p-5">
+                                        <div class="p-5 text-center">
                                             <label for='photos' style="display: block;">
-                                                <img class="add-more"
-                                                     src="{% static 'frontend/images/plus-1270001_1280.png' %}" alt="">
+                                                <img class="add-more cursor-pointer" src="{% static 'frontend/images/add.png' %}" alt="">
+{#                                                <i class="fa fa-camera" aria-hidden="true"></i>#}
+{#                                                <i class="fa fa-picture-o fa-2x cursor-pointer" aria-hidden="true" role="button"></i>#}
                                             </label>
-                                            <input type="file" id="photos" name="photos" onchange="uploadPhoto()" multiple
+                                            <input type="file" id="photos" name="photos" onchange="uploadPhoto()" multiple accept="image/*"
                                                    hidden/>
                                         </div>
                                     </div>
@@ -121,17 +122,31 @@
                                 <!-- row ends here -->
 
                                 <!-- row starts here -->
-                                <div class="row">
-                                    {% for images in user_images %}
-                                        {% if not images.is_profile_pic %}
-                                            <div class="col-md-2">
-                                                <img class="user-images pb-2" src="/media/{{ images.file }}" alt="">
-                                                <img class="remove-image" src="{% static 'frontend/images/minus.png' %}"
-                                                     onclick="DeleteImage({{ images.id }})" alt="">
+{#                                <div class="row">#}
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="grid effect-2" id="grid">
+                                                {% for images in user_images %}
+                                                    <div class="item">
+                                                        <img src="/media/{{ images.file }}" id="img{{ images.id }}"
+                                                             alt=""/>
+                                                        <i class="fa fa-trash delete-button cursor-pointer" id="icon{{ images.id }}"
+                                                           aria-hidden="true" onclick="DeleteImage({{ images.id }})"></i>
+                                                    </div>
+                                                {% endfor %}
                                             </div>
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
+                                        </div>
+                                    </div>
+{#                                    {% for images in user_images %}#}
+{#                                        {% if not images.is_profile_pic %}#}
+{#                                            <div class="col-md-2">#}
+{#                                                <img class="user-images pb-2" src="/media/{{ images.file }}" alt="">#}
+{#                                                <img class="remove-image cursor-pointer" src="{% static 'frontend/images/minus.png' %}"#}
+{#                                                     onclick="DeleteImage({{ images.id }})" alt="">#}
+{#                                            </div>#}
+{#                                        {% endif %}#}
+{#                                    {% endfor %}#}
+{#                                </div>#}
                                 <!-- row ends here -->
 
                             </form>
@@ -144,6 +159,13 @@
                                 </div>
                             </div>
                             <!-- row ends here -->
+                            <div class="row pt-3">
+                                <div class="col-md-12 text-center">
+                                    <div class="alert alert-danger d-none" id="maximumImages" role="alert">
+                                      You can only upload a maximum of 10 Images
+                                    </div>
+                                </div>
+                            </div>
 
                          </section>
                         <!-- personal info ends here-->
@@ -163,44 +185,48 @@
                                     <div class="p-1">
                                         <div class="row">
                                             <div class="col-md-2 pt-2">
-                                                Address:
+                                                Address: *
                                             </div>
                                             <div class="col-md-10">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="address">
-                                                    <div class="error-helper py-1" id="address-error"></div>
+                                                    <input type="text" class="form-control" id="address" placeholder="Address">
+                                                    <div class="error-helper py-1 text-danger" id="address-error"></div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-2 pt-2">
-                                                State:
+                                                State: *
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <select name="state" id="state-dropdown" class="form-control"
                                                             onchange="selectDist()">
                                                     </select>
-                                                    <div class="error-helper py-1" id="state-error"></div>
+                                                    <div class="error-helper py-1 text-danger" id="state-error"></div>
                                                 </div>
                                             </div>
                                             <div class="col-md-2 pt-2">
-                                                Dist:
+                                                District: *
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <select name="dist" id="dist-dropdown" class="form-control"
                                                             onchange="selectCity()">
+                                                        <option selected="selected" disabled>Select State:</option>
                                                     </select>
+                                                    <div class="error-helper py-1 text-danger" id="dist-error"></div>
                                                 </div>
                                             </div>
                                             <div class="col-md-2 pt-2">
-                                                City:
+                                                City: *
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <select name="city" id="city-dropdown" class="form-control">
+                                                        <option selected="selected" disabled>Select District:</option>
                                                     </select>
+                                                    <div class="error-helper py-1 text-danger" id="city-error"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -216,37 +242,40 @@
 
                                         <div class="row">
                                             <div class="col-md-2 pt-2">
-                                                Religion:
+                                                Religion: *
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <select name="religion" id="religion-dropdown" class="form-control"
                                                             onchange="selectCast()">
+                                                        <option selected="selected" disabled>Select Religion </option>
                                                         {% for religion in religion_list %}
                                                             <option value="{{ religion }}">{{ religion }}</option>
                                                         {% endfor %}
                                                     </select>
+                                                    <div class="error-helper py-1 text-danger" id="religion-error"></div>
                                                 </div>
                                             </div>
                                             <div class="col-md-2 pt-2">
-                                                Cast:
+                                                Cast: *
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <select name="cast" id="cast-dropdown" class="form-control"
-                                                            onchange="selectSubcast()">
+                                                    <select name="cast" id="cast-dropdown" class="form-control">
+                                                    <option selected="selected" disabled>Select Religion </option>
                                                     </select>
                                                 </div>
+                                                <div class="error-helper py-1 text-danger" id="cast-error"></div>
                                             </div>
-                                            <div class="col-md-2 pt-2">
-                                                Sub Cast:
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <select name="sub-cast" id="subcast-dropdown" class="form-control">
-                                                    </select>
-                                                </div>
-                                            </div>
+{#                                            <div class="col-md-2 pt-2">#}
+{#                                                Sub Cast:#}
+{#                                            </div>#}
+{#                                            <div class="col-md-4">#}
+{#                                                <div class="form-group">#}
+{#                                                    <select name="sub-cast" id="subcast-dropdown" class="form-control">#}
+{#                                                    </select>#}
+{#                                                </div>#}
+{#                                            </div>#}
                                         </div>
                                     </div>
 
@@ -292,6 +321,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <select name="star" class="form-control" id="star-dropdown">
+                                                        <option selected="selected" disabled>Select Star </option>
                                                         <option value="Ashvini">Ashvini</option>
                                                         <option value="Bharani">Bharani</option>
                                                         <option value="Karhika">Karhika</option>
@@ -316,6 +346,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <select name="gotra" class="form-control" id="dosh-dropdown">
+                                                        <option selected="selected" disabled>Select Dosh </option>
                                                         <option value="No-Dosh">No-Dosh</option>
                                                         <option value="Manglik">Manglik</option>
                                                         <option value="Nadi">Nadi</option>
@@ -332,6 +363,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <select name="gotra" class="form-control" id="gotra-dropdown">
+                                                        <option selected="selected" disabled>Select Gothra</option>
                                                         <option value="Nandhi">Nandhi</option>
                                                         <option value="Bhargava">Bhargava</option>
                                                         <option value="Dubey">Dubey</option>
@@ -363,6 +395,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <select name="body-type" class="form-control" id="body-type">
+                                                        <option selected="selected" disabled>Select Body Type</option>
                                                         <option value="Fat">Fat</option>
                                                         <option value="Slim">Slim</option>
                                                         <option value="Normal">Normal</option>
@@ -376,9 +409,9 @@
                                                 <div class="form-group">
                                                     <div class="form-group">
                                                         <select name="drinking" class="form-control" id="drinking">
+                                                            <option selected="selected" disabled>Select Drinking Habits</option>
                                                             <option value="Never-Drink">Never-Drink</option>
-                                                            <option value="Drink-Occasionally">Drink-Occasionally
-                                                            </option>
+                                                            <option value="Drink-Occasionally">Drink-Occasionally</option>
                                                             <option value="Frequently">Frequently</option>
                                                         </select>
                                                     </div>
@@ -390,6 +423,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <select name="smoking" class="form-control" id="smoaking">
+                                                        <option selected="selected" disabled>Select Smoking</option>
                                                         <option value="Never-Smoked">Never-Smoked</option>
                                                         <option value="Smoking">Smoking</option>
                                                     </select>
@@ -401,6 +435,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <select name="eating" class="form-control" id="eating">
+                                                        <option selected="selected" disabled>Select Eating</option>
                                                         <option value="Vegetarian">Vegetarian</option>
                                                         <option value="Non-Vegetarian">Non-Vegetarian</option>
                                                     </select>
@@ -413,8 +448,8 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <select name="marital" class="form-control" id="marital-status">
+                                                        <option selected="selected" disabled>Select Marital Status</option>
                                                         <option value="Single">Single</option>
-                                                        <option value="Married">Married</option>
                                                         <option value="Divorced">Divorced</option>
                                                     </select>
                                                 </div>
@@ -425,38 +460,39 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <select name="physical" class="form-control" id="physical-status">
+                                                        <option selected="selected" disabled>Physical Status</option>
                                                         <option value="Healthy">Healthy</option>
                                                         <option value="Athletic">Athletic</option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-2 pt-2">
-                                                Height:
+                                                Height: *
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <input type="number" id="height" name="height" class="form-control"
                                                            placeholder="Height in Centimeters">
-                                                    <div class="error-helper py-1" id="height-error"></div>
+                                                    <div class="error-helper py-1 text-danger" id="height-error"></div>
                                                 </div>
                                             </div>
                                             <div class="col-md-2 pt-2">
-                                                Weight:
+                                                Weight: *
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <input type="number" id="weight" name="weight" class="form-control"
-                                                           placeholder="Weight">
-                                                    <div class="error-helper py-1" id="weight-error"></div>
+                                                           placeholder="Weight in Kg">
+                                                    <div class="error-helper py-1 text-danger" id="weight-error"></div>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
-                                                About :
+                                                About : *
                                             </div>
                                             <div class="col-md-10">
                                                 <div class="form-group">
                                                     <textarea name="about" id="about" class="form-control" rows="3" minlength="150" maxlength="500" placeholder="Minimum 150 characters"></textarea>
-                                                    <div class="about-helper py-1" id="about-error"></div>
+                                                    <div class="error-helper py-1 text-danger" id="about-error"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -490,6 +526,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <select name="body-type-partner" class="form-control" id="bodyTypePartner">
+                                                <option selected="selected" disabled>Select</option>
                                                 <option value="Fat">Fat</option>
                                                 <option value="Slim">Slim</option>
                                                 <option value="Normal">Normal</option>
@@ -523,6 +560,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <select name="physical-partner" class="form-control" id="physicalParter">
+                                                <option selected="selected" disabled>Select</option>
                                                 <option value="Doesn't Matter">Doesn't Matter</option>
                                                 <option value="Healthy">Healthy</option>
                                                 <option value="Athletic">Athletic</option>
@@ -535,8 +573,8 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <select name="maritial-partner" class="form-control" id="maritialParter">
+                                                <option selected="selected" disabled>Select</option>
                                                 <option value="Single">Single</option>
-                                                <option value="Married">Married</option>
                                                 <option value="Divorced">Divorced</option>
                                             </select>
                                         </div>
@@ -548,6 +586,7 @@
                                         <div class="form-group">
                                             <select name="religion-partner" id="religion-dropdown-partner"
                                                     class="form-control" onchange="selectCastPartner()">
+                                                <option selected="selected" disabled>Select</option>
                                                 {% for religion in religion_list %}
                                                     <option value="{{ religion }}">{{ religion }}</option>
                                                 {% endfor %}
@@ -559,18 +598,10 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <select name="cast" id="cast-dropdown-partner" class="form-control"
-                                                    onchange="selectSubcastPartner()">
+                                            <select name="cast" id="cast-dropdown-partner" class="form-control">
+                                                <option selected="selected" disabled>Select</option>
                                             </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2 pt-2">
-                                        Sub-Cast:
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <select name="subcast" id="subcast-dropdown-partner" class="form-control">
-                                            </select>
+
                                         </div>
                                     </div>
                                     <div class="col-md-2 pt-2">
@@ -580,6 +611,7 @@
                                         <div class="form-group">
                                             <select name="mother-tongue" id="mother-tongue-partner"
                                                     class="form-control">
+                                                <option selected="selected" disabled>Select</option>
                                                 {% for language in mother_tongue %}
                                                     <option value="{{ language.id }}">{{ language }}</option>
                                                 {% endfor %}
@@ -592,18 +624,19 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <select name="gotra-partner" class="form-control" id="gotra-partner">
+                                                <option selected="selected" disabled>Select Gotra</option>
                                                 <option value="Nandhi">Nandhi</option>
-                                                <option value="Nandhi">Bhargava</option>
-                                                <option value="Nandhi">Dubey</option>
-                                                <option value="Nandhi">Gaur</option>
-                                                <option value="Nandhi">Upamanyu</option>
-                                                <option value="Nandhi">Uttam</option>
-                                                <option value="Nandhi">Vishnu</option>
-                                                <option value="Nandhi">Vishvamitra</option>
-                                                <option value="Nandhi">Vishrava</option>
-                                                <option value="Nandhi">Shringi</option>
-                                                <option value="Nandhi">Khilaivar</option>
-                                                <option value="Nandhi">Pachori</option>
+                                                <option value="Bhargava">Bhargava</option>
+                                                <option value="Dubey">Dubey</option>
+                                                <option value="Gaur">Gaur</option>
+                                                <option value="Upamanyu">Upamanyu</option>
+                                                <option value="Uttam">Uttam</option>
+                                                <option value="Vishnu">Vishnu</option>
+                                                <option value="Vishvamitra">Vishvamitra</option>
+                                                <option value="Vishrava">Vishrava</option>
+                                                <option value="Shringi">Shringi</option>
+                                                <option value="Khilaivar">Khilaivar</option>
+                                                <option value="Pachori">Pachori</option>
                                                 <option value="Nandhi">Nandhi</option>
                                             </select>
                                         </div>
@@ -614,6 +647,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <select name="star-patner" class="form-control" id="star-patner">
+                                                <option selected="selected" disabled>Select Star</option>
                                                 <option value="Ashvini">Ashvini</option>
                                                 <option value="Bharani">Bharani</option>
                                                 <option value="Karhika">Karhika</option>
@@ -636,12 +670,21 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <select name="dosh-partner" class="form-control" id="dosh-partner">
+                                                <option selected="selected" disabled>Select Dosh</option>
                                                 <option value="Doesn't Matter">Doesn't Matter</option>
                                                 <option value="Manglik">Manglik</option>
                                                 <option value="Nadi">Nadi</option>
                                                 <option value="Pitra">Pitra</option>
                                                 <option value="Kartik">Kartik</option>
                                             </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 pt-2">
+                                        Location:
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="Location">
                                         </div>
                                     </div>
                                 </div>
@@ -671,12 +714,12 @@
             <div class="result-display">
             </div>
             <h4 class="text-center pt-5">
-                Want to see more profiles..
+                Want to see more profiles?
             </h4>
             <div class="row justify-content-center">
                 <div class="col-md-2 pt-2">
                     <a href="{% url 'login' %}">
-                    <button class="btn-orange m-0 py-3 px-4" style="border: none;"><h4>Login</h4></button>
+                    <button class="btn-orange m-0 py-3 px-4" style="border: none;">Login</button>
                     </a>
                 </div>
             </div>

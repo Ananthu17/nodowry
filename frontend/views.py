@@ -8,6 +8,7 @@ from django.urls import reverse
 from datetime import date
 from django.contrib import messages
 import razorpay
+import logging
 
 razorpay_client = razorpay.Client(auth=("rzp_test_pLn7iGkMQ3dorZ", "UrETBkY9UtXnpyXVvFZZTBQO"))
 from dashboard.elasticsearch import *
@@ -15,7 +16,9 @@ from django.core.mail import send_mail
 from django.template import loader
 import razorpay
 
+logger = logging.getLogger(__name__)
 razorpay_client = razorpay.Client(auth=("rzp_test_pLn7iGkMQ3dorZ", "UrETBkY9UtXnpyXVvFZZTBQO"))
+
 
 def send_payment_email(context):
     email = context['email']
@@ -29,6 +32,7 @@ def send_payment_email(context):
         html_message=email_content,
         fail_silently=False
     )
+
 
 def send_matching_email(context):
     email = context['email']
@@ -47,31 +51,43 @@ def send_matching_email(context):
 class HomePage(TemplateView):
     template_name = 'frontend/index.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        context = super().dispatch(request, *args, **kwargs)
+        if request.user.is_superuser or request.user.is_staff:
+            return redirect(reverse('dashboard'))
+        else:
+            return context
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
         context['religion_list'] = Religion.objects.all()
         context['language_list'] = MotherTongue.objects.all()
-        if self.request.user.is_authenticated:
-            user_obj = self.request.user
-            user = UserProfile.objects.get(user=user_obj)
-            try:
-
-                try:
-                    user_info = UserInfo.objects.get(user_profile__user=self.request.user)
-                except:
-                    user.first_time_login = True
-                    user.save()
-            except:
-
-                messages.error(self.request, "User profile does not exist")
-                logout(self.request)
-            context['user_profile'] = user
-            context['user_images'] = UserImages.objects.filter(user_info__user_profile=user)
         context['religion_list'] = Religion.objects.all()
         context['mother_tongue'] = MotherTongue.objects.all()
         context['awards_list'] = Awards.objects.all()
+
         context['testimonial_list'] = Testimonials.objects.all()
-        return context
+        if self.request.user.is_superuser:
+            return redirect(reverse('dashboard'))
+        else:
+            if self.request.user.is_authenticated:
+                user_obj = self.request.user
+                user = UserProfile.objects.get(user=user_obj)
+                try:
+
+                    try:
+                        user_info = UserInfo.objects.get(user_profile__user=self.request.user)
+                    except:
+                        user.first_time_login = True
+                        user.save()
+                except:
+
+                    messages.error(self.request, "User profile does not exist")
+                    logout(self.request)
+                context['user_profile'] = user
+                context['user_images'] = UserImages.objects.filter(user_info__user_profile=user)
+            return context
 
 
 class QuickFilter(TemplateView):
@@ -136,6 +152,7 @@ class Profile(TemplateView):
         try:
             user_obj = self.request.user
             user = UserProfile.objects.get(user=user_obj)
+            return context
         except:
             referer = request.META.get('HTTP_REFERER')
             return redirect(referer)
@@ -183,21 +200,42 @@ class UploadImage(View):
     def post(self, request, *args, **kwargs):
         referer = request.META.get('HTTP_REFERER')
         user_info_id = request.POST.get('id', "")
+        user_obj = self.request.user
+        user_profile_obj = UserProfile.objects.get(user=user_obj)
+        # if not user_profile_obj.profile_pic:
+        #     empty_profile_pic = True
+
         if user_info_id != "":
             try:
-                image = request.FILES.get('photos')
-            except:
-                messages.error(request, "Images required")
-                return redirect(referer)
-            try:
                 user_info = UserInfo.objects.get(id=user_info_id)
-                user_image = UserImages()
-                user_image.user_info = user_info
-                user_image.file = image
-                user_image.save()
             except:
                 messages.error(request, "User does not exist")
                 return redirect(referer)
+
+            try:
+                for idx, file in enumerate(request.FILES.getlist('photos')):
+
+                    if idx == 0 and not user_profile_obj.profile_pic:
+                        print("############################################################")
+                        print(file)
+                        user_profile_obj.profile_pic = file
+                        user_profile_obj.save()
+                    else:
+                        user_image = UserImages()
+                        user_image.user_info = user_info
+                        user_image.file = file
+                        user_image.save()
+
+                # if not user_profile_obj.profile_pic:
+                #     print("############################################################")
+                #     print(profile_pic)
+                #     UserProfile.objects.filter(user=user_obj).update(profile_pic=profile_pic)
+                #     print("############################################################")
+                #     print("Updated")
+            except:
+                messages.error(request, "Images required")
+                return redirect(referer)
+
         else:
             messages.error(request, "User id cannot be empty")
             return redirect(referer)
@@ -257,7 +295,8 @@ class SaveProfileDetails(View):
 
     def post(self, request, *args, **kwargs):
         user_obj = request.user
-        user_id = user_obj.id
+
+        user_id = request.POST.get('id', "")
         address = request.POST.get('address', "")
         state = request.POST.get('state', "")
         dist = request.POST.get('dist', "")
@@ -286,7 +325,7 @@ class SaveProfileDetails(View):
             user_info.city = city
             user_info.religion = Religion.objects.get(name=religion)
             user_info.cast = Cast.objects.get(name=cast)
-            user_info.subcast = SubCast.objects.get(name=subcast)
+            # user_info.subcast = SubCast.objects.get(name=subcast)
             user_info.education = Education.objects.get(field=education)
             user_info.drinking = drinking
             user_info.smoking = smoking
@@ -321,47 +360,71 @@ class SavePartnerDetails(View):
         maritalstatus = request.POST.get('maritalstatus', "")
         religion = request.POST.get('religion', "")
         cast = request.POST.get('cast', "")
-        subcast = request.POST.get('subcast', "")
         gotram = request.POST.get('gotram', "")
         star = request.POST.get('star', "")
         dosh = request.POST.get('dosh', "")
+        if religion:
+            religion_obj = Religion.objects.get(name=religion)
+        else:
+            religion_obj = None
+
+        if cast:
+            cast_obj = Cast.objects.get(name=cast)
+        else:
+            cast_obj = None
+
         try:
             user_info = UserInfo.objects.get(id=user_id)
-            partner_pref = PartnerPreference()
-            partner_pref.user_info = user_info
-            partner_pref.bodytype = bodyType
-            partner_pref.age_from = ageFrom
-            partner_pref.age_to = ageTo
-            partner_pref.physical_status = physicalstatus
-            partner_pref.marital_status = maritalstatus
-            partner_pref.religion = Religion.objects.get(name=religion)
-            partner_pref.cast = Cast.objects.get(name=cast)
-            partner_pref.subcast = SubCast.objects.get(name=subcast)
-            partner_pref.gotra = gotram
-            partner_pref.star = star
-            partner_pref.dosh = dosh
-            partner_pref.save()
+            partner_pref_obj, created = PartnerPreference.objects.update_or_create(user_info=user_info,
+                                                                                   defaults={'user_info': user_info})
+
+            partner_pref_obj.bodyType = bodyType
+            partner_pref_obj.age_from = ageFrom
+            partner_pref_obj.age_to = ageTo
+            partner_pref_obj.physical_status = physicalstatus
+            partner_pref_obj.marital_status = maritalstatus
+            partner_pref_obj.gotra = gotram
+            partner_pref_obj.star = star
+            partner_pref_obj.dosh = dosh
+            partner_pref_obj.religion = religion_obj
+            partner_pref_obj.cast = cast_obj
+            partner_pref_obj.save()
+
+            # partner_pref = PartnerPreference()
+            # partner_pref.user_info = user_info
+            # partner_pref.bodytype = bodyType
+            # partner_pref.age_from = ageFrom
+            # partner_pref.age_to = ageTo
+            # partner_pref.physical_status = physicalstatus
+            # partner_pref.marital_status = maritalstatus
+            # partner_pref.religion = Religion.objects.get(name=religion)
+            # partner_pref.cast = Cast.objects.get(name=cast)
+            # partner_pref.subcast = SubCast.objects.get(name=subcast)
+            # partner_pref.gotra = gotram
+            # partner_pref.star = star
+            # partner_pref.dosh = dosh
+            # partner_pref.save()
+
             message = "Item Successfully Added"
             user_profile = UserProfile.objects.get(user=user)
             user_profile.first_time_login = False
             user_profile.save()
 
             raw_data = list(UserProfile.objects.filter(id=user_profile.id).values('user__first_name',
-                                                             'gender',
-                                                             'userinfo__religion__name',
-                                                             'profile_pic',
-                                                             'userinfo__city',
-                                                             'userinfo__state',
-                                                             'userinfo__dist',
-                                                             'userinfo__mother_tongue__language',
-                                                             'userinfo__cast__name',
-                                                             'userinfo__subcast__name',
-                                                             'id', 'userinfo__height',
-                                                             'is_active',
-                                                             'userinfo__religion__name',
-                                                             'userinfo__dob',
-                                                             'userinfo__occupation',
-                                                             ))
+                                                                                  'gender',
+                                                                                  'userinfo__religion__name',
+                                                                                  'profile_pic',
+                                                                                  'userinfo__city',
+                                                                                  'userinfo__state',
+                                                                                  'userinfo__dist',
+                                                                                  'userinfo__mother_tongue__language',
+                                                                                  'userinfo__cast__name',
+                                                                                  'id', 'userinfo__height',
+                                                                                  'is_active',
+                                                                                  'userinfo__religion__name',
+                                                                                  'userinfo__dob',
+                                                                                  'userinfo__occupation',
+                                                                                  ))
             els_lan.updatedata(raw_data)
         except UserInfo.DoesNotExist:
             message = "Item is not added"
@@ -380,7 +443,7 @@ class UserProfileDetails(TemplateView):
 
             user = UserProfile.objects.get(user=user_obj)
             user_info_obj = UserInfo.objects.get(user_profile=user)
-            context['partner_pref'] = PartnerPreference.objects.filter(user_info=user_info_obj)[0]
+            context['partner_pref'] = PartnerPreference.objects.filter(user_info=user_info_obj)
         except:
             messages.error(request, "User could not be found")
             return redirect(referer)
@@ -398,7 +461,7 @@ class UserProfileDetails(TemplateView):
         context['partner_pref'] = PartnerPreference.objects.filter(user_info=user_info_obj)[0]
         # except :
         #     pass
-        context['plans'] = Plans.objects.all()
+        context['plans'] = Plans.objects.filter(archived=False)
         context['user_images'] = UserImages.objects.filter(user_info__user_profile=user)
         context['mother_tongue'] = MotherTongue.objects.all()
         context['religion_list'] = Religion.objects.all()
@@ -416,74 +479,111 @@ class DisplayImages(View):
 
 class PartnerDetails(TemplateView):
     template_name = 'frontend/partner-details.html'
+
     def dispatch(self, request, *args, **kwargs):
-        context = super().dispatch(request,*args,**kwargs)
+
+        context = super().dispatch(request, *args, **kwargs)
         referer = request.META.get('HTTP_REFERER')
         try:
             profile_id = kwargs['profile_id']
             user_obj = self.request.user
             user = UserProfile.objects.get(user=user_obj)
-            user_info_obj = UserInfo.objects.get(user_profile=user)
-
-
-            context['partner_pref'] = PartnerPreference.objects.filter(user_info=user_info_obj)[0]
-            partner_profile = UserProfile.objects.get(id=profile_id)
-            partner_info = UserInfo.objects.get(user_profile=partner_profile)
-
-            gender = str(partner_profile.gender)
-            mother_tongue = str(partner_info.mother_tongue.language)
-            religion = ""
-            cast = ""
-            subcast = ""
             try:
-                religion = str(partner_info.religion.name)
-                cast = str(partner_info.cast.name)
-                subcast = str(partner_info.subcast.name)
-            except:
-                pass
-            dob = partner_info.dob
-            similar_results = els_lan.query_data(gender, mother_tongue, religion, cast, subcast)
-            context['similar_results'] = similar_results
+                user_info_obj = UserInfo.objects.get(user_profile=user)
+                context['partner_pref'] = PartnerPreference.objects.get(user_info=user_info_obj)
+                partner_profile = UserProfile.objects.get(id=profile_id)
+                partner_info = UserInfo.objects.get(user_profile=partner_profile)
+                gender = str(partner_profile.gender)
+
+                if partner_info.mother_tongue:
+                    mother_tongue = str(partner_info.mother_tongue.language)
+                else:
+                    mother_tongue = ""
+
+                religion = ""
+                cast = ""
+                subcast = ""
+                try:
+                    religion = str(partner_info.religion.name)
+                    cast = str(partner_info.cast.name)
+                    subcast = str(partner_info.subcast.name)
+
+                except:
+                    pass
+                dob = partner_info.dob
+                similar_results = els_lan.query_data(gender, mother_tongue, religion, cast, subcast)
+                context['similar_results'] = similar_results
+            except Exception as e:
+
+                messages.error(request, str(e))
+                return redirect('/')
+
+
+
+        except UserInfo.DoesNotExist:
+            messages.error(request, "User could not be found")
+            return redirect('/')
 
         except:
             messages.error(request, "User could not be found")
             return redirect(referer)
 
         return context
-    def get_context_data(self, **kwargs):
-        # if self.request.user.is_authenticated:
-        profile_id = kwargs['profile_id']
-        context = super().get_context_data(**kwargs)
 
-        user_obj = self.request.user
-        user = UserProfile.objects.get(user=user_obj)
-        context['user_profile'] = user
-        user_info_obj = UserInfo.objects.get(user_profile=user)
-        context['partner_pref'] = PartnerPreference.objects.filter(user_info=user_info_obj)[0]
-        context['user_images'] = UserImages.objects.filter(user_info__user_profile=user)
-        partner_profile = UserProfile.objects.get(id=profile_id)
-        partner_info = UserInfo.objects.get(user_profile=partner_profile)
-        partner_images = UserImages.objects.filter(user_info=partner_info)
-        context['parter_profile'] = partner_profile
-        context['parter_info'] = partner_info
-        context['partner_images'] = partner_images
-        gender = str(partner_profile.gender)
-        mother_tongue = str(partner_info.mother_tongue.language)
-        religion = ""
-        cast = ""
-        subcast = ""
+    def get_context_data(self, **kwargs):
+
+        print('Something went wrong!')
         try:
-            religion = str(partner_info.religion.name)
-            cast = str(partner_info.cast.name)
-            subcast = str(partner_info.subcast.name)
+            # if self.request.user.is_authenticated:
+            profile_id = kwargs['profile_id']
+            context = super().get_context_data(**kwargs)
+
+            user_obj = self.request.user
+            user = UserProfile.objects.get(user=user_obj)
+            context['user_profile'] = user
+            user_info_obj = UserInfo.objects.get(user_profile=user)
+            context['partner_pref'] = PartnerPreference.objects.filter(user_info=user_info_obj)[0]
+            context['user_images'] = UserImages.objects.filter(user_info__user_profile=user)
+            partner_profile = UserProfile.objects.get(id=profile_id)
+            partner_info = UserInfo.objects.get(user_profile=partner_profile)
+            partner_images = UserImages.objects.filter(user_info=partner_info)
+            matches_list = Matches.objects.filter(matched_partner=partner_profile, matched_user=user)
+            print("################################################### 528")
+            print(matches_list)
+            context['parter_profile'] = partner_profile
+            context['parter_info'] = partner_info
+            context['partner_images'] = partner_images
+            context['matches_list'] = matches_list
+            mother_tongue = str(partner_info.mother_tongue.language)
+            gender = str(partner_profile.gender)
+
+            religion = ""
+            cast = ""
+            subcast = ""
+            dob = ""
+            try:
+                religion = str(partner_info.religion.name)
+                cast = str(partner_info.cast.name)
+                subcast = str(partner_info.subcast.name)
+                dob = partner_info.dob
+            except:
+                pass
+
+            similar_results = els_lan.query_data(gender, mother_tongue, religion, cast, subcast)
+            context['similar_results'] = similar_results
+            # else:
+            #     pass
         except:
             pass
-        dob = partner_info.dob
-        similar_results = els_lan.query_data(gender, mother_tongue, religion, cast, subcast)
-        context['similar_results'] = similar_results
-        # else:
-        #     pass
         return context
+
+    def post(self, request, *args, **kwargs):
+        ndm_full_id = request.POST.get('ndmid', "")
+        print(ndm_full_id)
+        print("#############################################################")
+        ndm_id = ndm_full_id[4:]
+        print(ndm_id)
+        return redirect('partner-details-template', profile_id=ndm_id)
 
 
 class ChangeUserImage(View):
@@ -605,15 +705,21 @@ class ShowInterest(View):
             partner_profile = UserProfile.objects.get(id=partner_id)
             try:
                 Matches.objects.get(matched_partner=partner_profile, matched_user=user_profile).delete()
+                print(str(profile_id) + " ----> " + str(partner_id))
+                print("#########################################################################")
+                print("It has been deleted")
             except Matches.DoesNotExist:
+                print(str(profile_id) + " ----> " + str(partner_id))
+                print("#########################################################################")
+                print("Creating an interest")
                 Matches.objects.create(matched_user=user_profile, matched_partner=partner_profile)
                 ''' creating the mail confirmation url  '''
                 context = {}
                 context['partner_name'] = partner_profile.user.first_name
+                context['user_name'] = user_profile.user.first_name
                 context['email'] = partner_profile.user.email
                 context['matching_profile_url'] = request.scheme + "://" + request.META["HTTP_HOST"] + reverse(
                     'partner-details-template', kwargs={'profile_id': profile_id})
-
                 '''
                 sending verification mail to the user
                 '''
@@ -641,19 +747,21 @@ def quick_search_limited(request):
     startdate = current_date.replace(current_date.year - start_age)
     enddate = current_date.replace(current_date.year - final_age)
     userprofiles = UserProfile.objects.filter(is_active=True, gender=gender, userinfo__religion=religion,
-                                             userinfo__mother_tongue=mother_tongue,
-                                             userinfo__dob__range=(enddate, startdate)).values('user__first_name',
-                                                                                               'gender',
-                                                                                               'userinfo__religion__name',
-                                                                                               'userinfo__subcast__name',
-                                                                                               'userinfo__cast__name',
-                                                                                               'userinfo__city',
-                                                                                               'userinfo__state',
-                                                                                               'userinfo__dist',
-                                                                                               'userinfo__mother_tongue',
-                                                                                               'userinfo__cast__name',
-                                                                                               'userinfo__education__field',
-                                                                                               'userinfo__profession', 'userinfo__height')[:5]
+                                              userinfo__mother_tongue=mother_tongue,
+                                              userinfo__dob__range=(enddate, startdate)).values('user__first_name',
+                                                                                                'gender',
+                                                                                                'profile_pic',
+                                                                                                'userinfo__religion__name',
+                                                                                                'userinfo__subcast__name',
+                                                                                                'userinfo__cast__name',
+                                                                                                'userinfo__city',
+                                                                                                'userinfo__state',
+                                                                                                'userinfo__dist',
+                                                                                                'userinfo__mother_tongue',
+                                                                                                'userinfo__cast__name',
+                                                                                                'userinfo__education__field',
+                                                                                                'userinfo__profession',
+                                                                                                'userinfo__height')[:6]
     dict = []
     for users in userprofiles:
         dict.append(users)
@@ -665,6 +773,11 @@ class SubscribePlan(View):
     def get(self, request, *args, **kwargs):
         plan_id = kwargs['plan_id']
         user_obj = request.user
+        subscribe_url = "https://api.razorpay.com/v1/subscriptions"
+        headers = {
+            'Content-Type': 'application/json',
+        }
+
         if plan_id != '':
             try:
                 plan_obj = Plans.objects.get(id=plan_id)
@@ -679,7 +792,13 @@ class SubscribePlan(View):
                     payload_data = {
                         "plan_id": plan_obj.plan_id,
                         "customer_id": user_profile.customer_id,
-                        "total_count": 1
+                        "total_count": 1,
+                        "quantity": 1,
+                        "customer_notify": 1,
+                        "notify_info": {
+                            "notify_phone": user_profile.phone_number,
+                            "notify_email": user_obj.username
+                        }
                     }
                 else:
                     create_customer_payload = {
@@ -694,11 +813,20 @@ class SubscribePlan(View):
                     user_profile.customer_id = customer_id
                     user_profile.save()
                     payload_data = {
-                        "plan_id": plan_obj.plan_id,
+                        "plan_id":  "plan_E96UJ5xTBCFKH5",
                         "customer_id": customer_id,
-                        "total_count": 1
+                        "total_count": 1,
+                        "quantity": 1,
+                        "customer_notify": 1,
+                        "notify_info": {
+                            "notify_phone": user_profile.phone_number,
+                            "notify_email": user_obj.username
+                        }
                     }
                 subscribe_data = razorpay_client.subscription.create(data=payload_data)
+                # r = requests.post('https://api.razorpay.com/v1/subscriptions', headers=headers, data=payload_data,
+                #                   auth=('rzp_test_pLn7iGkMQ3dorZ', 'UrETBkY9UtXnpyXVvFZZTBQO'))
+                # subscribe_data = r.json()
                 subscription_id = subscribe_data['id']
                 short_url = subscribe_data['short_url']
                 plan_sub_obj = PlanSubscriptionList.objects.create(user=user_profile, subscription_id=subscription_id,
@@ -709,13 +837,14 @@ class SubscribePlan(View):
                 context['payment_link'] = short_url
                 context['plan_name'] = plan_obj.name
                 context['amount'] = plan_obj.amount
+                context['email'] = user_obj.username
                 '''
                 sending verification mail to the user
                 '''
                 send_payment_email(context)
 
                 messages.success(request,
-                                     "Subscribed successfully. Link to initiate your first payment has been send to your registered mail id. Please pay the amount to start your subscription")
+                                 "Subscribed successfully. Link to initiate your first payment has been send to your registered mail id. Please pay the amount to start your subscription")
             except Plans.DoesNotExist:
                 messages.error(request, "Plans could not be found")
             except UserProfile.DoesNotExist:
@@ -723,16 +852,20 @@ class SubscribePlan(View):
             except UserInfo.DoesNotExist:
                 messages.error(request, "Userinfo does not exist")
             except Exception as e:
-                messages.error(request, str(e))
+                messages.error(request, str(subscribe_data))
         else:
             messages.error(request, "Please choose a valid plan")
-        return redirect(reverse("user-profile"))
+        return redirect('/')
 
 
-#
-# def SubscribeWebhook(self):
-#     webhook_body = self.request.body
-#     razorpay_client.utility.verify_webhook_signature(webhook_body, webhook_signature, webhook_secret)
+def SubscribeWebhook(self):
+    return 1
+    if self.request.method =="POST":
+        webhook_body = self
+        print (webhook_body)
+        return 0
+    else:
+        return 1
 
 
 class CancelSubscription(View):
@@ -741,20 +874,29 @@ class CancelSubscription(View):
         try:
             user_profile_obj = UserProfile.objects.get(user=user_obj)
             plans_obj = PlanSubscriptionList.objects.get(user=user_profile_obj)
+            user_info_obj = UserInfo.objects.get(user_profile=user_profile_obj)
             subscription_id = plans_obj.subscription_id
-            url = "https://api.razorpay.com/v1/subscriptions/" + subscription_id + "/cancel"
-            data = {
-                "cancel_at_cycle_end": 1
+            headers = {
+                'Content-Type': 'application/json',
             }
-            r = requests.get(url=url, params=data)
+            data = {
+                "cancel_at_cycle_end": 0
+            }
+            url = "https://api.razorpay.com/v1/subscriptions/" + subscription_id + "/cancel"
+            r = requests.post(url, headers=headers, data=data,
+                              auth=('rzp_test_pLn7iGkMQ3dorZ', 'UrETBkY9UtXnpyXVvFZZTBQO'))
             serv_response = r.json()
             try:
                 if serv_response['status'] == "cancelled":
                     plans_obj.delete()
+                    user_info_obj.subscribed_plan = ""
+                    user_info_obj.save()
+
                 else:
-                    messages.error(request,"Failed to cancel the subscription. Contact admin to rectify")
-            except:
-                messages.success(request,"Failed to cancel Subscription")
+                    messages.error(request, "Failed to cancel the subscription. Contact admin to rectify")
+            except Exception as e:
+
+                messages.success(request, str(serv_response))
                 return redirect(reverse("user-profile"))
             messages.success(request, "Subscription Cancelled")
 

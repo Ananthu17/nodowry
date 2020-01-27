@@ -194,14 +194,17 @@ class UserInfo(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
     profile_created_for = models.CharField(max_length=50, null=True, blank=True)
-    subscribed_plan = models.ForeignKey(Plans,on_delete=models.CASCADE,null=True)
+    subscribed_plan = models.OneToOneField(Plans,on_delete=models.CASCADE,null=True,blank=True)
 
 
     def __str__(self):
         return self.user_profile.user.email
 
     def age(self):
-        return int((datetime.now().date() - self.dob).days / 365.25)
+        if self.dob:
+            return int((datetime.now().date() - self.dob).days / 365.25)
+        else:
+            return 20
 
 
 class UserImages(models.Model):

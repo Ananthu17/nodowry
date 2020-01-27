@@ -22,14 +22,22 @@
                             {% if user_profile.profile_pic %}
                                 <img class="img-fluid position-relative" src="/media/{{ user_profile.profile_pic }}"
                                      alt="">
-                                <form action="{% url 'change-user-image' %}" method="POST" id="change-image"
-                                      enctype="multipart/form-data">
-                                    {% csrf_token %}
-                                    <input type="file" id="imgupload" name="imgupload" style="display:none"/>
-                                    <i class="fa fa-pencil-square-o position-absolute edit-image" id="OpenImgUpload"
-                                       aria-hidden="true"></i>
-                                </form>
+                            {% else %}
+                                {% if user_profile.gender == "men" %}
+                                    <img class="img-fluid position-relative" src="{% static 'frontend/images/man.png' %}" />
+                                {% elif user_profile.gender == "woman" %}
+                                    <img class="img-fluid position-relative" src="{% static 'frontend/images/woman.png' %}" />
+                                {% else %}
+                                    <img class="img-fluid position-relative" src="{% static 'frontend/images/third-gender.png' %}" />
+                                {% endif %}
                             {% endif %}
+                            <form action="{% url 'change-user-image' %}" method="POST" id="change-image"
+                                      enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <input type="file" id="imgupload" name="imgupload" accept="image/*" style="display:none"/>
+                                <i class="fa fa-camera position-absolute edit-image cursor-pointer" id="OpenImgUpload"
+                                   aria-hidden="true" data-toggle="tooltip"  data-placement="bottom" title="Change profile picture"></i>
+                            </form>
                         </div>
                         <div class="basic-info text-center">
                             <h3 class="pl-3">{{ user_profile.user.first_name }}</h3>
@@ -55,6 +63,10 @@
                         <li class="py-2 px-2 menu-item" id="item4" onclick="showIntrest()">
                             <i class="fa fa-heart pr-1" aria-hidden="true"></i>
                             Interest
+                        </li>
+                        <li class="py-2 px-2 menu-item" id="item5" onclick="showPlans()">
+                            <i class="fa fa-cog pr-1" aria-hidden="true"></i>
+                            Plans
                         </li>
                     </ul>
                 </div>
@@ -124,7 +136,7 @@
                             <div class="card-header">
                                 <div class="row justify-content-between  pr-md-3">
                                     <h5 class="pl-2">Profile Details</h5>
-                                    <div class="edit-profile" data-toggle="modal" data-target="#updateProfileDetails">
+                                    <div class="edit-profile" data-toggle="modal">
                                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                     </div>
                                 </div>
@@ -137,7 +149,7 @@
                                             <td class="w-50">Name</td>
                                             <td>:</td>
                                             <td class="w-50">
-                                                {{ user_profile.user.first_name }}
+                                                {{ user_profile.user.first_name|default:"-" }}
                                             </td>
                                         </tr>
                                         <tr class="py-2">
@@ -147,52 +159,54 @@
                                                 <td class="w-50">Male</td>
                                             {% elif user_profile.gender == 'woman' %}
                                                 <td class="w-50">Female</td>
+                                            {% else %}
+                                                <td class="w-50">-</td>
                                             {% endif %}
                                         </tr>
                                         <tr class="py-2">
                                             <td class="w-50">Mother Tongue</td>
                                             <td>:</td>
-                                            <td class="w-50">{{ user_profile.userinfo.mother_tongue }}</td>
+                                            <td class="w-50">{{ user_profile.userinfo.mother_tongue|default:"-" }}</td>
                                         </tr>
                                         <tr class="py-2">
                                             <td class="w-50">Body Type</td>
                                             <td>:</td>
-                                            <td class="w-50">{{ user_profile.userinfo.bodytype }}</td>
+                                            <td class="w-50">{{ user_profile.userinfo.bodytype|default:"-" }}</td>
                                         </tr>
                                         <tr class="py-2">
                                             <td class="w-50">Physical Status</td>
                                             <td>:</td>
-                                            <td class="w-50">{{ user_profile.userinfo.physical_status }}</td>
+                                            <td class="w-50">{{ user_profile.userinfo.physical_status|default:"-" }}</td>
                                         </tr>
                                         <tr class="py-2">
                                             <td class="w-50">Height</td>
                                             <td>:</td>
-                                            <td class="w-50">{{ user_profile.userinfo.height }} in CM</td>
+                                            <td class="w-50">{{ user_profile.userinfo.height|default:"-" }} Feets</td>
                                         </tr>
                                         <tr class="py-2">
                                             <td class="w-50">Weight</td>
                                             <td>:</td>
-                                            <td class="w-50">{{ user_profile.userinfo.weight }} KG</td>
+                                            <td class="w-50">{{ user_profile.userinfo.weight|default:"-" }} KG</td>
                                         </tr>
                                         <tr class="py-2">
                                             <td class="w-50">Marital Status</td>
                                             <td>:</td>
-                                            <td class="w-50">{{ user_profile.userinfo.marital_status }}</td>
+                                            <td class="w-50">{{ user_profile.userinfo.marital_status|default:"-" }}</td>
                                         </tr>
                                         <tr class="py-2">
                                             <td class="w-50">Eating Habbits</td>
                                             <td>:</td>
-                                            <td class="w-50">{{ user_profile.userinfo.eating }}</td>
+                                            <td class="w-50">{{ user_profile.userinfo.eating|default:"-" }}</td>
                                         </tr>
                                         <tr class="py-2">
                                             <td class="w-50">Drinking Habbits</td>
                                             <td>:</td>
-                                            <td class="w-50">{{ user_profile.userinfo.drinking }}</td>
+                                            <td class="w-50">{{ user_profile.userinfo.drinking|default:"-" }}</td>
                                         </tr>
                                         <tr class="py-2">
                                             <td class="w-50">Smoking Habbits</td>
                                             <td>:</td>
-                                            <td class="w-50">{{ user_profile.userinfo.smoking }}</td>
+                                            <td class="w-50">{{ user_profile.userinfo.smoking|default:"-" }}</td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -217,7 +231,7 @@
                                             <td class="w-20">Name</td>
                                             <td>:</td>
                                             <td class="w-80">
-                                                {{ user_profile.user.first_name }}
+                                                {{ user_profile.user.first_name|default:"-" }}
                                             </td>
                                         </tr>
                                         <tr class="py-2">
@@ -232,47 +246,47 @@
                                         <tr class="py-2">
                                             <td class="w-50">Mother Tongue</td>
                                             <td>:</td>
-                                            <td class="w-50">{{ user_profile.userinfo.mother_tongue }}</td>
+                                            <td class="w-50">{{ user_profile.userinfo.mother_tongue|default:"-" }}</td>
                                         </tr>
                                         <tr class="py-2">
                                             <td class="w-50">Body Type</td>
                                             <td>:</td>
-                                            <td class="w-50">{{ user_profile.userinfo.bodytype }}</td>
+                                            <td class="w-50">{{ user_profile.userinfo.bodytype|default:"-" }}</td>
                                         </tr>
                                         <tr class="py-2">
                                             <td class="w-50">Physical Status</td>
                                             <td>:</td>
-                                            <td class="w-50">{{ user_profile.userinfo.physical_status }}</td>
+                                            <td class="w-50">{{ user_profile.userinfo.physical_status|default:"-" }}</td>
                                         </tr>
                                         <tr class="py-2">
                                             <td class="w-50">Height</td>
                                             <td>:</td>
-                                            <td class="w-50">{{ user_profile.userinfo.height }} in CM</td>
+                                            <td class="w-50">{{ user_profile.userinfo.height|default:"-" }} Feet</td>
                                         </tr>
                                         <tr class="py-2">
                                             <td class="w-50">Weight</td>
                                             <td>:</td>
-                                            <td class="w-50">{{ user_profile.userinfo.weight }} in CM</td>
+                                            <td class="w-50">{{ user_profile.userinfo.weight|default:"-" }} Kg</td>
                                         </tr>
                                         <tr class="py-2">
                                             <td class="w-50">Marital Status</td>
                                             <td>:</td>
-                                            <td class="w-50">{{ user_profile.userinfo.marital_status }}</td>
+                                            <td class="w-50">{{ user_profile.userinfo.marital_status|default:"-" }}</td>
                                         </tr>
                                         <tr class="py-2">
                                             <td class="w-50">Eating Habbits</td>
                                             <td>:</td>
-                                            <td class="w-50">{{ user_profile.userinfo.eating }}</td>
+                                            <td class="w-50">{{ user_profile.userinfo.eating|default:"-" }}</td>
                                         </tr>
                                         <tr class="py-2">
                                             <td class="w-50">Drinking Habbits</td>
                                             <td>:</td>
-                                            <td class="w-50">{{ user_profile.userinfo.drinking }}</td>
+                                            <td class="w-50">{{ user_profile.userinfo.drinking|default:"-" }}</td>
                                         </tr>
                                         <tr class="py-2">
                                             <td class="w-50">Smoking Habits</td>
                                             <td>:</td>
-                                            <td class="w-50">{{ user_profile.userinfo.smoking }}</td>
+                                            <td class="w-50">{{ user_profile.userinfo.smoking|default:"-" }}</td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -285,8 +299,8 @@
                             <div class="card-header">
                                 <div class="row justify-content-between  pr-md-3">
                                     <h5 class="pl-2">Partner preference</h5>
-                                    <div class="edit-profile" data-toggle="modal"
-                                         data-target="#updatePartnerPreference">
+                                    <div class="edit-pref" data-toggle="modal"
+                                    >
                                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                     </div>
                                 </div>
@@ -372,7 +386,7 @@
                                             <input name="id" id="userId" type="text"
                                                    value="{{ user_profile.userinfo.id }}" hidden>
                                             <label for='photos' style="display: block;">
-                                                <div class="edit-profile">
+                                                <div class="">
                                                     <i class="fa fa-plus" aria-hidden="true"></i>
                                                 </div>
                                             </label>
@@ -450,24 +464,27 @@
                                 <div class="p-2">
                                     <div class="row">
                                         {% for plns in plans %}
-                                            <div class="col-4">
-                                                <div class="card card-shadow">
-                                                    <div class="card-body">
-                                                        <div class="text-center font-weight-bold font-lato"
-                                                             style="font-size: larger;color: #e91e63">{{ plns.name }}</div>
-                                                        <br>
-                                                        <div class="text-center disabled"
-                                                             style="color: grey">{{ plns.description|default:"No Description available" }}</div>
-                                                        <br>
-                                                        <div class="text-center">
-                                                            ₹ {{ plns.amount }} {{ plns.period|title }}</div>
-                                                        <div class="text-center pt-1">
-                                                            <button class="btn btn-success">Subscribe</button>
+                                            {% if partner_pref.user_info.subscribed_plan.id != plns.id %}
+                                                <div class="col-4">
+                                                    <div class="card card-shadow">
+                                                        <div class="card-body">
+                                                            <div class="text-center font-weight-bold font-lato"
+                                                                 style="font-size: larger;color: #e91e63;min-height: 65px">{{ plns.name }}</div>
+                                                            <br>
+                                                            <div class="text-center disabled"
+                                                                 style="color: grey">{{ plns.description|default:"No Description available" }}</div>
+                                                            <br>
+                                                            <div class="text-center">
+                                                                ₹ {{ plns.amount }} {{ plns.period|title }}</div>
+                                                            <div class="text-center pt-1">
+                                                                <a href="/subscribe-plan/{{ plns.id }}">
+                                                                    <button class="btn btn-success">Subscribe</button>
+                                                                </a>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-
+                                            {% endif %}
                                         {% endfor %}
                                     </div>
 
@@ -488,7 +505,7 @@
                                 {% if not partner_pref.user_info.subscribed_plan %}
                                     <div class="row">
                                         {% for plns in plans %}
-                                            <div class="col-12">
+                                            <div class="col-12 m-2">
                                                 <div class="card card-shadow">
                                                     <div class="card-body">
                                                         <div class="text-center font-weight-bold font-lato"
@@ -513,26 +530,27 @@
                                     </div>
                                 {% else %}
                                     <div class="row">
-                                            <div class="col-12">
-                                                <div class="card card-shadow">
-                                                    <div class="card-body">
-                                                        <div class="text-center font-weight-bold font-lato"
-                                                             style="font-size: larger;color: #e91e63">{{ partner_pref.user_info.subscribed_plan.name }}</div>
-                                                        <br>
-                                                        <div class="text-center disabled"
-                                                             style="color: grey">{{ partner_pref.user_info.subscribed_plan.description|default:"No Description available" }}</div>
-                                                        <br>
-                                                        <div class="text-center">
-                                                            ₹ {{ partner_pref.user_info.subscribed_plan.amount }} {{ partner_pref.user_info.subscribed_plan.period|title }}</div>
-                                                        <div class="text-center pt-1">
-                                                            <button class="btn btn-success"><a
-                                                                    href="{% url "cancel-subscription" %}"
-                                                                    style="text-decoration: none;color: white">Cancel Subscription</a>
-                                                            </button>
-                                                        </div>
+                                        <div class="col-12">
+                                            <div class="card card-shadow">
+                                                <div class="card-body">
+                                                    <div class="text-center font-weight-bold font-lato"
+                                                         style="font-size: larger;color: #e91e63">{{ partner_pref.user_info.subscribed_plan.name }}</div>
+                                                    <br>
+                                                    <div class="text-center disabled"
+                                                         style="color: grey">{{ partner_pref.user_info.subscribed_plan.description|default:"No Description available" }}</div>
+                                                    <br>
+                                                    <div class="text-center">
+                                                        ₹ {{ partner_pref.user_info.subscribed_plan.amount }} {{ partner_pref.user_info.subscribed_plan.period|title }}</div>
+                                                    <div class="text-center pt-1">
+                                                        <button class="btn btn-success"><a
+                                                                href="{% url "cancel-subscription" %}"
+                                                                style="text-decoration: none;color: white">Cancel
+                                                            Subscription</a>
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
 
 
                                     </div>
@@ -640,6 +658,12 @@
 
 
         $(function () {
+            $('.edit-profile').click(function () {
+                $('#updateProfileDetails').modal('show');
+            });
+            $('.edit-pref').click(function () {
+                $("#updatePartnerPreference").modal('show');
+            })
             toastr.options = {
                 'closeButton': true,
                 'positionClass': 'toast-top-right',

@@ -16,15 +16,16 @@
                         {% csrf_token %}
                       <div class="form-group p-1">
                         <!-- <label for="formGroupExampleInput">Example label</label> -->
-                        <input type="email" class="form-control login-form" id="formGroupExampleInput" placeholder="Email Id" name="username" required>
+                        <input type="text" class="form-control login-form" id="formGroupExampleInput" placeholder="Email Id / NDM Id / Phone Number" name="username" required>
                       </div>
-                       <div class="form-group p-1">
-                        <!-- <label for="formGroupExampleInput">Example label</label> -->
-                        <input type="tel" class="form-control login-form" id="formGroupExampleInput1" placeholder="Mob No" name="mobno"  pattern="[0-9]{10}" title="Not a valid phone number" required>
-                      </div>
+{#                       <div class="form-group p-1">#}
+{#                        <!-- <label for="formGroupExampleInput">Example label</label> -->#}
+{#                        <input type="tel" class="form-control login-form" id="formGroupExampleInput1" placeholder="Mob No" name="mobno"  pattern="[0-9]{10}" title="Not a valid phone number" required>#}
+{#                      </div>#}
                       <div class="form-group p-1">
                         <!-- <label for="formGroupExampleInput2">Another label</label> -->
-                        <input type="password" class="form-control login-form" id="formGroupExampleInput2" placeholder="Password" name="password" required>
+                        <input type="password" class="form-control login-form" id="myPassword" placeholder="Password" name="password" pattern="^(?=.*\d)(?=.*[a-zA-Z]).{8,16}$" title="Alphanumeric text with 8 to 16 characters" required>
+                        <span class="fa fa-eye fa-lg field-icon" aria-hidden="true" onmouseover="mouseoverPass();" onmouseout="mouseoutPass();"></span>
                       </div>
                       <div class="form-group text-right">
                           <label for="forgotPassword" class="forgotPassword"><span>Forgot </span><a href="{% url 'forgot-password' %}" class="forgotPassword">Password?</a></label>
@@ -41,9 +42,10 @@
                     </form>
                   </div>
                   <div class="fb-login text-center pt-2">
-                      <p>Or login with</p>
+{#                      <p class="small-font"></p>#}
+                      <small class="mb-2" style="font-size: medium;">Or login with</small>
     {#                  <a href="{% url 'social:begin' 'facebook' %}"><p style="color: #3b5998; font-size: medium;"">FACEBOOK</p></a>#}
-                      <a href="#"><p style="color: #3b5998; font-size: medium;"">FACEBOOK</p></a>
+                      <a href="#"><p style="padding-top: 20px; color: #3b5998; font-size: medium;"">FACEBOOK</p></a>
                       <a href="/oauth/login/google-oauth2/"><p style="color: #3b5998; font-size: medium;"">GOOGLE</p></a>
                   </div>
                 </div>
@@ -55,7 +57,7 @@
             <section class="right">
                 <div class="row justify-content-md-center">
                   <div class="col-lg-10 bottom-text text-center">
-                    <p class="p-4">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+                    <p class="p-4">Making matches building lives</p>
                     <p class="all-rights-received">2019 © All rights reserved.</p>
                   </div>
                 </div>
@@ -63,4 +65,14 @@
           </div>   
         </div>
     </div>
+    <script type="text/javascript">
+        function mouseoverPass(obj) {
+          var obj = document.getElementById('myPassword');
+          obj.type = "text";
+        }
+        function mouseoutPass(obj) {
+          var obj = document.getElementById('myPassword');
+          obj.type = "password";
+        }
+    </script>
 {% endblock %}

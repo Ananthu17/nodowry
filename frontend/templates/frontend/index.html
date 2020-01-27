@@ -1,45 +1,49 @@
 {% load static %}
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <!-- Required meta tags -->
+    <link rel="icon" href="{% static 'frontend/images/favicon/favicon.ico?' %}" >
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://use.fontawesome.com/daac62b875.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet"/>
     <!-- style.css -->
     <link href="{% static 'frontend/css/style.css' %}" rel="stylesheet"/>
     <link href="{% static 'frontend/css/profile.css' %}" rel="stylesheet"/>
-
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <title>No Dowry</title>
-  </head>
-  <body>
+</head>
+<body>
 
-    <!-- Intro section -->
-    <section class="intro">
-      <div class="container-fluid">
+<!-- Intro section -->
+<section class="intro">
+    <div class="container-fluid">
 
         <!-- Navbar starts here -->
-          {% include 'frontend/main-nav.html' %}
+        {% include 'frontend/main-nav.html' %}
 
         <!-- header section -->
         <div class="inro-container p-5">
-          <div class="intro-header text-center">
-                <h1>Find your soulmate</h1>
-                <h3>India's most trusted matrimony</h3>
+            <div class="intro-header text-center pb-4">
+                <h1>Making matches, building lives</h1>
+                {#                <h3>India's most trusted matrimony</h3>#}
             </div>
             <div class="quick-search-box p-4 m-3">
-                <form {% if user.is_authenticated %} action="{% url 'filter' %}" method="get" {% else %} onsubmit="showFilterPopup(event)" {% endif %} id="myForm">
+                <form {% if user.is_authenticated %} action="{% url 'filter' %}" method="get" {% else %}
+                                                     onsubmit="showFilterPopup(event)" {% endif %} id="myForm">
                     <div class="row">
                         <div class=" col-lg-2 col-md-4 col-sm-4 col-12">
                             <div class="dropdown show form-group">
                                 <p class="searchItem">
-                                    I'm looking a
+                                    I'm looking for a
                                 </p>
                                 <select name="gender" class="quicksearchDropdown form-control" required id="gender">
+                                    <option value="">Select</option>
                                     <option value="men">Groom</option>
                                     <option value="woman">Bride</option>
 
@@ -48,23 +52,24 @@
                         </div>
                         <div class="col-lg-1 col-md-2 col-sm-4 col-5">
                             <div class="dropdown show form-group">
-                                <p  class="searchItem">
+                                <p class="searchItem">
                                     aged
                                 </p>
-                                <select name="agefrom" class="quicksearchDropdown form-control agefrom" onchange='changeAge(this.value);' required id="startAge">
+                                <select name="agefrom" class="quicksearchDropdown form-control agefrom"
+                                        onchange='changeAge(this.value);' required id="startAge">
                                 </select>
                             </div>
                         </div>
                         <div class="col-lg-1 col-md-2 col-sm-2 col-2 to-text">
                             <div class="dropdown show form-group">
-                                <p  class="searchItem to-text">
+                                <p class="searchItem to-text">
                                     To
                                 </p>
                             </div>
                         </div>
                         <div class="col-lg-1 col-md-2 col-sm-2 col-5">
                             <div class="dropdown show form-group">
-                                <p  class="searchItem">
+                                <p class="searchItem">
                                     &nbsp;
                                 </p>
                                 <select name="ageto" class="quicksearchDropdown form-control ageto" id="ageto" required>
@@ -73,7 +78,7 @@
                         </div>
                         <div class="col-lg-2 col-md-6 col-sm-6 col-12">
                             <div class="dropdown show form-group">
-                                <p  class="searchItem">
+                                <p class="searchItem">
                                     of religion
                                 </p>
                                 <select name="religion" class="quicksearchDropdown form-control" id="religion" required>
@@ -86,7 +91,7 @@
                         </div>
                         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                             <div class="dropdown show form-group">
-                                <p  class="searchItem">
+                                <p class="searchItem">
                                     and mother tongue
                                 </p>
                                 <select name="language" class="quicksearchDropdown form-control" id="language" required>
@@ -98,33 +103,35 @@
                             </div>
                         </div>
                         <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12 text-center my-auto">
-                            <button class="quickSearchButton px-5 py-4"">LET'S BEGIN</button>
+                            <button class="quickSearchButton px-5 py-4"
+                            ">LET'S BEGIN</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-      </div>
-    </section>
+    </div>
+</section>
 
-    <!-- images grid section -->
-    {% if user.is_authenticated %}
-    <section class="images-grid">
-      <div class="container-fluid">
-        <p class="text-center h1 p-5">Make your own wall of matches</p>
-          <div class="row">
-              <div class="col-12">
-                  <div class="row_first">
-                      <div class="glry-img-grid text-center">
-                           <img src="{% static 'frontend/images/gallery/Layer_63.png' %}">
-                          <span class="gallery-progress-bar">
+<!-- images grid section -->
+{% if user.is_authenticated %}
+    <section class="images-grid" hidden>
+    <div class="container-fluid">
+    <p class="text-center h1 p-5">Make your own wall of matches</p>
+    <div class="row">
+    <div class="col-12">
+    <div class="row_first">
+    <div class="glry-img-grid text-center">
+        <img src="{% static 'frontend/images/gallery/Layer_63.png' %}">
+        <span class="gallery-progress-bar">
                               <div class="row">
                                   <div class="col-2 col-md-2 text-right">
                                       <i class="fa fa-heart" aria-hidden="true"></i>
                                   </div>
                                   <div class="col-6 col-md-6 gallery-progress">
                                       <div class="progress">
-                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75"
+                                                 aria-valuemin="0" aria-valuemax="100"></div>
                                       </div>
                                   </div>
                                   <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
@@ -132,17 +139,18 @@
                                   </div>
                               </div>
                           </span>
-                      </div>
-                      <div class="glry-img-grid">
-                           <img src="{% static 'frontend/images/gallery/Layer_70.png' %}">
-                            <span class="gallery-progress-bar">
+    </div>
+    <div class="glry-img-grid">
+        <img src="{% static 'frontend/images/gallery/Layer_70.png' %}">
+        <span class="gallery-progress-bar">
                               <div class="row">
                                   <div class="col-2 col-md-2  text-right">
                                       <i class="fa fa-heart" aria-hidden="true"></i>
                                   </div>
                                   <div class="col-6 col-md-6 gallery-progress">
                                       <div class="progress">
-                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75"
+                                                 aria-valuemin="0" aria-valuemax="100"></div>
                                       </div>
                                   </div>
                                   <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
@@ -150,17 +158,18 @@
                                   </div>
                               </div>
                           </span>
-                      </div>
-                      <div class="glry-img-grid">
-                           <img src="{% static 'frontend/images/gallery/Layer_61.png' %}">
-                          <span class="gallery-progress-bar">
+    </div>
+    <div class="glry-img-grid">
+        <img src="{% static 'frontend/images/gallery/Layer_61.png' %}">
+        <span class="gallery-progress-bar">
                               <div class="row">
                                   <div class="col-2 col-md-2  text-right">
                                       <i class="fa fa-heart" aria-hidden="true"></i>
                                   </div>
                                   <div class="col-6 col-md-6 gallery-progress">
                                       <div class="progress">
-                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75"
+                                                 aria-valuemin="0" aria-valuemax="100"></div>
                                       </div>
                                   </div>
                                   <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
@@ -168,17 +177,18 @@
                                   </div>
                               </div>
                           </span>
-                      </div>
-                      <div class="glry-img-grid">
-                           <img src="{% static 'frontend/images/gallery/Layer_62.png' %}">
-                            <span class="gallery-progress-bar">
+    </div>
+    <div class="glry-img-grid">
+        <img src="{% static 'frontend/images/gallery/Layer_62.png' %}">
+        <span class="gallery-progress-bar">
                               <div class="row">
                                   <div class="col-2 col-md-2  text-right">
                                       <i class="fa fa-heart" aria-hidden="true"></i>
                                   </div>
                                   <div class="col-6 col-md-6 gallery-progress">
                                       <div class="progress">
-                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75"
+                                                 aria-valuemin="0" aria-valuemax="100"></div>
                                       </div>
                                   </div>
                                   <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
@@ -186,17 +196,18 @@
                                   </div>
                               </div>
                           </span>
-                      </div>
-                      <div class="glry-img-grid">
-                           <img src="{% static 'frontend/images/gallery/Layer_57.png' %}">
-                            <span class="gallery-progress-bar">
+    </div>
+    <div class="glry-img-grid">
+        <img src="{% static 'frontend/images/gallery/Layer_57.png' %}">
+        <span class="gallery-progress-bar">
                               <div class="row">
                                   <div class="col-2 col-md-2  text-right">
                                       <i class="fa fa-heart" aria-hidden="true"></i>
                                   </div>
                                   <div class="col-6 col-md-6 gallery-progress">
                                       <div class="progress">
-                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75"
+                                                 aria-valuemin="0" aria-valuemax="100"></div>
                                       </div>
                                   </div>
                                   <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
@@ -204,17 +215,18 @@
                                   </div>
                               </div>
                           </span>
-                      </div>
-                      <div class="glry-img-grid">
-                           <img src="{% static 'frontend/images/gallery/Layer_63.png' %}">
-                          <span class="gallery-progress-bar">
+    </div>
+    <div class="glry-img-grid">
+        <img src="{% static 'frontend/images/gallery/Layer_63.png' %}">
+        <span class="gallery-progress-bar">
                               <div class="row">
                                   <div class="col-2 col-md-2  text-right">
                                       <i class="fa fa-heart" aria-hidden="true"></i>
                                   </div>
                                   <div class="col-6 col-md-6 gallery-progress">
                                       <div class="progress">
-                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75"
+                                                 aria-valuemin="0" aria-valuemax="100"></div>
                                       </div>
                                   </div>
                                   <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
@@ -222,17 +234,18 @@
                                   </div>
                               </div>
                           </span>
-                      </div>
-                      <div class="glry-img-grid">
-                           <img src="{% static 'frontend/images/gallery/Layer_67.png' %}">
-                          <span class="gallery-progress-bar">
+    </div>
+    <div class="glry-img-grid">
+        <img src="{% static 'frontend/images/gallery/Layer_67.png' %}">
+        <span class="gallery-progress-bar">
                               <div class="row">
                                   <div class="col-2 col-md-2  text-right">
                                       <i class="fa fa-heart" aria-hidden="true"></i>
                                   </div>
                                   <div class="col-6 col-md-6 gallery-progress">
                                       <div class="progress">
-                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75"
+                                                 aria-valuemin="0" aria-valuemax="100"></div>
                                       </div>
                                   </div>
                                   <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
@@ -240,17 +253,18 @@
                                   </div>
                               </div>
                           </span>
-                      </div>
-                      <div class="glry-img-grid">
-                           <img src="{% static 'frontend/images/gallery/Layer_72.png' %}">
-                          <span class="gallery-progress-bar">
+    </div>
+    <div class="glry-img-grid">
+        <img src="{% static 'frontend/images/gallery/Layer_72.png' %}">
+        <span class="gallery-progress-bar">
                               <div class="row">
                                   <div class="col-2 col-md-2  text-right">
                                       <i class="fa fa-heart" aria-hidden="true"></i>
                                   </div>
                                   <div class="col-6 col-md-6 gallery-progress">
                                       <div class="progress">
-                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75"
+                                                 aria-valuemin="0" aria-valuemax="100"></div>
                                       </div>
                                   </div>
                                   <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
@@ -258,17 +272,18 @@
                                   </div>
                               </div>
                           </span>
-                      </div>
-                      <div class="glry-img-grid">
-                           <img src="{% static 'frontend/images/gallery/Layer_55.png' %}">
-                          <span class="gallery-progress-bar">
+    </div>
+    <div class="glry-img-grid">
+        <img src="{% static 'frontend/images/gallery/Layer_55.png' %}">
+        <span class="gallery-progress-bar">
                               <div class="row">
                                   <div class="col-2 col-md-2  text-right">
                                       <i class="fa fa-heart" aria-hidden="true"></i>
                                   </div>
                                   <div class="col-6 col-md-6 gallery-progress">
                                       <div class="progress">
-                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75"
+                                                 aria-valuemin="0" aria-valuemax="100"></div>
                                       </div>
                                   </div>
                                   <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
@@ -276,17 +291,18 @@
                                   </div>
                               </div>
                           </span>
-                      </div>
-                      <div class="glry-img-grid">
-                           <img src="{% static 'frontend/images/gallery/Layer_56.png' %}">
-                          <span class="gallery-progress-bar">
+    </div>
+    <div class="glry-img-grid">
+        <img src="{% static 'frontend/images/gallery/Layer_56.png' %}">
+        <span class="gallery-progress-bar">
                               <div class="row">
                                   <div class="col-2 col-md-2  text-right">
                                       <i class="fa fa-heart" aria-hidden="true"></i>
                                   </div>
                                   <div class="col-6 col-md-6 gallery-progress">
                                       <div class="progress">
-                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75"
+                                                 aria-valuemin="0" aria-valuemax="100"></div>
                                       </div>
                                   </div>
                                   <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
@@ -294,17 +310,18 @@
                                   </div>
                               </div>
                           </span>
-                      </div>
-                      <div class="glry-img-grid">
-                           <img src="{% static 'frontend/images/gallery/Layer_64.png' %}">
-                          <span class="gallery-progress-bar">
+    </div>
+    <div class="glry-img-grid">
+        <img src="{% static 'frontend/images/gallery/Layer_64.png' %}">
+        <span class="gallery-progress-bar">
                               <div class="row">
                                   <div class="col-2 col-md-2  text-right">
                                       <i class="fa fa-heart" aria-hidden="true"></i>
                                   </div>
                                   <div class="col-6 col-md-6 gallery-progress">
                                       <div class="progress">
-                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75"
+                                                 aria-valuemin="0" aria-valuemax="100"></div>
                                       </div>
                                   </div>
                                   <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
@@ -312,17 +329,18 @@
                                   </div>
                               </div>
                           </span>
-                      </div>
-                      <div class="glry-img-grid">
-                           <img src="{% static 'frontend/images/gallery/Layer_68.png' %}">
-                          <span class="gallery-progress-bar">
+    </div>
+    <div class="glry-img-grid">
+        <img src="{% static 'frontend/images/gallery/Layer_68.png' %}">
+        <span class="gallery-progress-bar">
                               <div class="row">
                                   <div class="col-2 col-md-2  text-right">
                                       <i class="fa fa-heart" aria-hidden="true"></i>
                                   </div>
                                   <div class="col-6 col-md-6 gallery-progress">
                                       <div class="progress">
-                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75"
+                                                 aria-valuemin="0" aria-valuemax="100"></div>
                                       </div>
                                   </div>
                                   <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
@@ -330,17 +348,18 @@
                                   </div>
                               </div>
                           </span>
-                      </div>
-                      <div class="glry-img-grid">
-                           <img src="{% static 'frontend/images/gallery/Layer_71.png' %}">
-                          <span class="gallery-progress-bar">
+    </div>
+    <div class="glry-img-grid">
+        <img src="{% static 'frontend/images/gallery/Layer_71.png' %}">
+        <span class="gallery-progress-bar">
                               <div class="row">
                                   <div class="col-2 col-md-2  text-right">
                                       <i class="fa fa-heart" aria-hidden="true"></i>
                                   </div>
                                   <div class="col-6 col-md-6 gallery-progress">
                                       <div class="progress">
-                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75"
+                                                 aria-valuemin="0" aria-valuemax="100"></div>
                                       </div>
                                   </div>
                                   <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
@@ -348,17 +367,18 @@
                                   </div>
                               </div>
                           </span>
-                      </div>
-                      <div class="glry-img-grid">
-                           <img src="{% static 'frontend/images/gallery/Layer_60.png' %}">
-                          <span class="gallery-progress-bar">
+    </div>
+    <div class="glry-img-grid">
+        <img src="{% static 'frontend/images/gallery/Layer_60.png' %}">
+        <span class="gallery-progress-bar">
                               <div class="row">
                                   <div class="col-2 col-md-2  text-right">
                                       <i class="fa fa-heart" aria-hidden="true"></i>
                                   </div>
                                   <div class="col-6 col-md-6 gallery-progress">
                                       <div class="progress">
-                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75"
+                                                 aria-valuemin="0" aria-valuemax="100"></div>
                                       </div>
                                   </div>
                                   <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
@@ -366,17 +386,18 @@
                                   </div>
                               </div>
                           </span>
-                      </div>
-                      <div class="glry-img-grid">
-                           <img src="{% static 'frontend/images/gallery/Layer_59.png' %}">
-                          <span class="gallery-progress-bar">
+    </div>
+    <div class="glry-img-grid">
+        <img src="{% static 'frontend/images/gallery/Layer_59.png' %}">
+        <span class="gallery-progress-bar">
                               <div class="row">
                                   <div class="col-2 col-md-2  text-right">
                                       <i class="fa fa-heart" aria-hidden="true"></i>
                                   </div>
                                   <div class="col-6 col-md-6 gallery-progress">
                                       <div class="progress">
-                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75"
+                                                 aria-valuemin="0" aria-valuemax="100"></div>
                                       </div>
                                   </div>
                                   <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
@@ -384,17 +405,18 @@
                                   </div>
                               </div>
                           </span>
-                      </div>
-                      <div class="glry-img-grid">
-                           <img src="{% static 'frontend/images/gallery/Layer_66.png' %}">
-                          <span class="gallery-progress-bar">
+    </div>
+    <div class="glry-img-grid">
+        <img src="{% static 'frontend/images/gallery/Layer_66.png' %}">
+        <span class="gallery-progress-bar">
                               <div class="row">
                                   <div class="col-2 col-md-2  text-right">
                                       <i class="fa fa-heart" aria-hidden="true"></i>
                                   </div>
                                   <div class="col-6 col-md-6 gallery-progress">
                                       <div class="progress">
-                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75"
+                                                 aria-valuemin="0" aria-valuemax="100"></div>
                                       </div>
                                   </div>
                                   <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
@@ -402,17 +424,18 @@
                                   </div>
                               </div>
                           </span>
-                      </div>
-                      <div class="glry-img-grid">
-                           <img src="{% static 'frontend/images/gallery/Layer_69.png' %}">
-                          <span class="gallery-progress-bar">
+    </div>
+    <div class="glry-img-grid">
+        <img src="{% static 'frontend/images/gallery/Layer_69.png' %}">
+        <span class="gallery-progress-bar">
                               <div class="row">
                                   <div class="col-2 col-md-2  text-right">
                                       <i class="fa fa-heart" aria-hidden="true"></i>
                                   </div>
                                   <div class="col-6 col-md-6 gallery-progress">
                                       <div class="progress">
-                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75"
+                                                 aria-valuemin="0" aria-valuemax="100"></div>
                                       </div>
                                   </div>
                                   <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
@@ -420,17 +443,18 @@
                                   </div>
                               </div>
                           </span>
-                      </div>
-                      <div class="glry-img-grid">
-                           <img src="{% static 'frontend/images/gallery/Layer_65.png' %}">
-                          <span class="gallery-progress-bar">
+    </div>
+    <div class="glry-img-grid">
+        <img src="{% static 'frontend/images/gallery/Layer_65.png' %}">
+        <span class="gallery-progress-bar">
                               <div class="row">
                                   <div class="col-2 col-md-2  text-right">
                                       <i class="fa fa-heart" aria-hidden="true"></i>
                                   </div>
                                   <div class="col-6 col-md-6 gallery-progress">
                                       <div class="progress">
-                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75"
+                                                 aria-valuemin="0" aria-valuemax="100"></div>
                                       </div>
                                   </div>
                                   <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
@@ -438,103 +462,145 @@
                                   </div>
                               </div>
                           </span>
-                      </div>
-                      {% endif %}
-{#                            <img src="{% static 'frontend/images/gallery/Layer_63.png' %}" class="gallery-front-images">#}
-{#                            <img src="{% static 'frontend/images/gallery/Layer_70.png' %}" class="gallery-front-images">#}
-{#                            <img src="{% static 'frontend/images/gallery/Layer_61.png' %}" class="gallery-front-images">#}
-{#                            <img src="{% static 'frontend/images/gallery/Layer_62.png' %}" class="gallery-front-images">#}
-{#                            <img src="{% static 'frontend/images/gallery/Layer_57.png' %}" class="gallery-front-images">#}
-{#                            <img src="{% static 'frontend/images/gallery/Layer_67.png' %}" class="gallery-front-images">#}
-{#                            <img src="{% static 'frontend/images/gallery/Layer_72.png' %}" class="gallery-front-images">#}
-{#                            <img src="{% static 'frontend/images/gallery/Layer_55.png' %}" class="gallery-front-images">#}
-{#                            <img src="{% static 'frontend/images/gallery/Layer_56.png' %}" class="gallery-front-images">#}
-{#                            <img src="{% static 'frontend/images/gallery/Layer_68.png' %}" class="gallery-front-images">#}
-{#                            <img src="{% static 'frontend/images/gallery/Layer_55.png' %}" class="gallery-front-images">#}
-                      </div>
-{#                      <img src="{% static 'frontend/images/gallery/Layer_70.png' %}" class="gallery-front-images">#}
-{#                      <img src="{% static 'frontend/images/gallery/Layer_61.png' %}" class="gallery-front-images">#}
-{#                      <img src="{% static 'frontend/images/gallery/Layer_62.png' %}" class="gallery-front-images">#}
-{#                      <img src="{% static 'frontend/images/gallery/Layer_57.png' %}" class="gallery-front-images">#}
-{#                      <img src="{% static 'frontend/images/gallery/Layer_63.png' %}" class="gallery-front-images">#}
-{#                      <img src="{% static 'frontend/images/gallery/Layer_67.png' %}" class="gallery-front-images">#}
-{#                      <img src="{% static 'frontend/images/gallery/Layer_72.png' %}" class="gallery-front-images">#}
-{#                      <img src="{% static 'frontend/images/gallery/Layer_55.png' %}" class="gallery-front-images">#}
-                  </div>
-              </div>
-          </div>
-      </div>
-    </section>
+    </div>
+{% endif %}
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
 
-    <!-- section-3 testimonials -->
-    <section class="testimonials pb-5">
-      <div class="container-fluid p-md-5">
-      <div class="couple-text py-5">
-          <div class="row">
-          <div class="col-sm-12 col-12 col-lg-10">
-            <h2 class="card-title text-couples">Our 'happily ever after' couples</h2>
-          </div>
-          <div class="col-sm-12 col-12 col-lg-5">
-            <h5>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature</h5>
-          </div>
+<section class="images-grid" hidden>
+    <div class="container-fluid">
+        <p class="text-center h1 p-5">Make your own wall of matches</p>
+        <div class="row">
+            <div class="col-12">
+                <div class="row_first">
+                    <div class="glry-img-grid text-center">
+                        <img src="{% static 'frontend/images/gallery/Layer_63.png' %}">
+                        <span class="gallery-progress-bar">
+                              <div class="row">
+                                  <div class="col-2 col-md-2 text-right">
+                                      <i class="fa fa-heart" aria-hidden="true"></i>
+                                  </div>
+                                  <div class="col-6 col-md-6 gallery-progress">
+                                      <div class="progress">
+                                            <div class="progress-bar w-75" role="progressbar" aria-valuenow="75"
+                                                 aria-valuemin="0" aria-valuemax="100"></div>
+                                      </div>
+                                  </div>
+                                  <div class="col-1 col-lg-2 d-sm-none d-md-block d-lg-block p-0">
+                                      32%
+                                  </div>
+                              </div>
+                          </span>
+                    </div>
+
+                </div>
+            </div>
         </div>
-      </div>
-      {% if testimonial_list %}
-        <div class="row pb-5">
-            <div class="col-12 col-sm-12 col-lg-6 col-xl-5">
-                <div class="card">
+    </div>
+    </div>
+</section>
 
-                    <div class="card-body ">
-                        <h5 class="card-title card-quote"><img class="m-1" src="{% static 'frontend/images/icons/quots.png' %}" /></h5>
-                        <p class="card-text">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock,</p>
-                        <div class="row">
-                            <div class="col-4 col-sm-3 col-md-2 col-lg-3 col-xl-3">
-                                <div class="profile-pic">
-                                  <img src="{% static 'frontend/images/Layer_17.png' %}" style="width: -webkit-fill-available;">
+<!-- section-3 testimonials -->
+<section class="testimonials pb-5">
+    <div class="container-fluid p-md-5">
+        <div class="couple-text py-5">
+            <div class="row">
+                <div class="col-sm-12 col-12 col-lg-10">
+                    <h2 class="card-title text-couples">Our 'happily ever after' couples</h2>
+                </div>
+                <div class="col-sm-12 col-12 col-lg-5">
+                </div>
+            </div>
+        </div>
+        {% if testimonial_list %}
+
+            <div class="row pb-5">
+                <div class="col-12 col-sm-12 col-lg-6 col-xl-5">
+                    <div class="card">
+
+                        <div class="card-body ">
+                            <h5 class="card-title card-quote"><img class="m-1"
+                                                                   src="{% static 'frontend/images/icons/quots.png' %}"/>
+                            </h5>
+
+                            <div id="carouselExampleControls" class="carousel">
+
+                                {% for test in testimonial_list %}
+
+                                    <div class="carousel-item {% if forloop.first %} active{% endif %}">
+                                        <p class="card-text">{{ test.description }}</p>
+                                        <div class="row">
+                                            <div class="col-4 col-sm-3 col-md-2 col-lg-3 col-xl-3">
+                                                <div class="profile-pic">
+                                                    <img src="media/{{ test.image }}"
+                                                         style="width:96px;height: 96px;border-radius: 50%">
+                                                </div>
+                                            </div>
+                                            <div class="col-8 col-sm-5 profile-name-div">
+                                                <span class="profile-name">{{ test.name }}</span>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                {% endfor %}
+
+                            </div>
+                            <div class="row">
+                                <div class="col-4 col-sm-3 col-md-2 col-lg-3 col-xl-3"></div>
+                                <div class="col-8 col-sm-5 profile-name-div"></div>
+                                <div class="col-6 col-sm-2 arrow" id="next">
+
+                                    <img style="float: right; cursor: pointer"
+                                         src="{% static 'frontend/images/icons/prev.png' %}"/>
+
                                 </div>
-                            </div>
-                            <div class="col-8 col-sm-5 profile-name-div">
-                                <span class="profile-name">Jack daniels</span>
-                            </div>
-                            <div class="col-6 col-sm-2 arrow">
-                                <img style="float: right; cursor: pointer" src="{% static 'frontend/images/icons/prev.png' %}" />
-                            </div>
-                            <div class="col-6 col-sm-2 arrow">
-                                <img style="cursor: pointer" src="{% static 'frontend/images/icons/next.png' %}" />
+
+
+                                <div class="col-6 col-sm-2 arrow" id="prev">
+                                    <img style="cursor: pointer"
+                                         src="{% static 'frontend/images/icons/next.png' %}"/>
+
+                                </div>
+
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-      {% endif %}
-      </div>
-    </section>
-    <div class="container-fluid p-0 m-0">
-        <div class="soulmate pb-3">
-          <div class="row m-0">
+        {% endif %}
+    </div>
+</section>
+<div class="container-fluid p-0 m-0">
+    <div class="soulmate pb-3">
+        <div class="row m-0">
             <div class="col-lg-4 col-md-12 text-center">
-              <img src="{% static 'frontend/images/Layer_18.png' %}">
+                <img src="{% static 'frontend/images/Layer_18.png' %}">
             </div>
             <div class="col-lg-5 col-md-12 text-center text-soulmate">
-                <h1>Find your soulmate </h1>
+                <h1>Making matches, building lives</h1>
                 <h5>And create a wonderful story together</h5>
             </div>
-            <div class="col-lg-3 col-md-12 text-center get-started-button">
+            <div class="col-lg-3 col-md-12 text-center get-started-button" style="display: none">
                 <button class="p-4"><h5 class="text-soulmate">GET STARTED</h5></button>
             </div>
-          </div>
         </div>
-      </div>
+    </div>
+</div>
 
-    <!-- awards and honours -->
-    {% if awards_list %}
+<!-- awards and honours -->
+{% if awards_list %}
     <div class="awards">
-      <div class="container-fluid">
+    <div class="container-fluid">
         <div class="row p-5">
-          <div class="col-md-12 text-center">
-            <h1 class="awards-heder">Awards and Honors</h1>
-          </div>
+            <div class="col-md-12 text-center">
+                <h1 class="awards-heder">Awards and Honors</h1>
+            </div>
         </div>
 
         <div class="row">
@@ -544,25 +610,8 @@
                 </a>
             </div>
             <div class="col-md-10 col-12 align-self-center">
-                <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <div id="myCarousel" class="carousel" data-ride="carousel">
                     <div class="carousel-inner row w-100 mx-auto">
-
-{#                        <div class="carousel-item col-lg-4 col-md-6 col-sm-12 active p-md-5 p-sm-0 p-0">#}
-{#                            <div class="card" style="width: 18rem;">#}
-{#                                <div class="awards-card">#}
-{#                                    <div class="card" style="width: 18rem;">#}
-{#                                        <div class="card-body award-card-body">#}
-{#                                            <h5 class="card-title card-awards-title">Times Award</h5>#}
-{#                                            <div class="text-center">#}
-{#                                                <img class="trophy-img" src="{% static 'frontend/images/winner.png' %}" alt="">#}
-{#                                            </div>#}
-{#                                            <p class="award-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        </div>#}
-
                         {% for awards in awards_list %}
                             {% if forloop.first %}
                                 <div class="carousel-item col-lg-4 col-md-6 col-sm-12 active p-md-5 p-sm-0 p-0">
@@ -570,17 +619,17 @@
                                 <div class="carousel-item col-lg-4 col-md-6 col-sm-12 p-md-5 p-sm-0 p-0">
                             {% endif %}
 
-                            <div class="awards-card">
-                                <div class="card" style="width: 18rem;">
-                                    <div class="card-body award-card-body">
-                                        <h5 class="card-title card-awards-title">{{ awards.name }}</h5>
-                                        <div class="text-center">
-                                            <img class="trophy-img" src="{% static 'frontend/images/winner.png' %}" alt="">
-                                        </div>
-                                        <p class="award-text">{{ awards.description }}</p>
+                        <div class="awards-card">
+                            <div class="card" style="width: 18rem;">
+                                <div class="card-body award-card-body">
+                                    <h5 class="card-title card-awards-title">{{ awards.name }}</h5>
+                                    <div class="text-center">
+                                        <img class="trophy-img" src="{% static 'frontend/images/winner.png' %}" alt="">
                                     </div>
+                                    <p class="award-text">{{ awards.description }}</p>
                                 </div>
                             </div>
+                        </div>
                         </div>
 
                         {% endfor %}
@@ -588,228 +637,263 @@
 
 
 
-                    </div>
+                        </div>
 
-{#                    <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">#}
-{#                        <span class="carousel-control-prev-icon"></span>#}
-{#                        <span class="sr-only">Previous</span>#}
-{#                    </a>#}
-{#                    <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">#}
-{#                        <span class="carousel-control-next-icon"></span>#}
-{#                        <span class="sr-only">Next</span>#}
-{#                    </a>#}
+                        {#                    <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">#}
+                        {#                        <span class="carousel-control-prev-icon"></span>#}
+                        {#                        <span class="sr-only">Previous</span>#}
+                        {#                    </a>#}
+                        {#                    <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">#}
+                        {#                        <span class="carousel-control-next-icon"></span>#}
+                        {#                        <span class="sr-only">Next</span>#}
+                        {#                    </a>#}
+                    </div>
+                </div>
+                <div class="d-none d-sm-none d-md-block col-md-1 col-lg-1">
+                    <a class="carousel-control-next" href="#myCarousel" data-slide="next">
+                        <img src="{% static 'frontend/images/icons/arards-next.png' %}">
+                    </a>
                 </div>
             </div>
-            <div class="d-none d-sm-none d-md-block col-md-1 col-lg-1">
-                <a class="carousel-control-next" href="#myCarousel" data-slide="next">
-                    <img src="{% static 'frontend/images/icons/arards-next.png' %}">
-                </a>
-            </div>
-        </div>
 
-      </div>
+        </div>
     </div>
-    {% endif %}
-    <!-- section subscribe -->
-    <section class="subscribe p-md-5 pt-5">
-      <div class="container-fluid">
+{% endif %}
+<!-- section subscribe -->
+<section class="subscribe p-md-5 pt-5">
+    <div class="container-fluid">
         <div class="row justify-content-center">
-           <div class="col-xl-1 col-lg-2 col-md-2 col-12 d-inline text-center">
-               <img class="d-inline" src="{% static 'frontend/images/icons/subscribe.png' %}" alt="">
-           </div>
+            <div class="col-xl-1 col-lg-2 col-md-2 col-12 d-inline text-center">
+                <img class="d-inline" src="{% static 'frontend/images/icons/subscribe.png' %}" alt="">
+            </div>
             <div class="col-xl-2 col-lg-2 col-md-4 col-12 subscribe-head text-center">
                 <h3>Subscribe</h3>
             </div>
         </div>
-        <h4 class="text-center p-md-5 pt-5">Enter your email address and get latest offers and updates</h4>
+        <h4 class="text-center pt-5">Subscribe to our newletters and offers</h4>
+
+        <h4 class="text-center pb-5">Help us make your best match! </h4>
 
         <form class="pb-5" action="{% url 'subscribe-mail' %}" method="post">
             {% csrf_token %}
             <div class="row justify-content-center">
                 <div class="col-xl-4 col-lg-4 col-md-4 col-12">
-                    <input type="email" name="email" class="form-control" placeholder="Email Address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,7}$" required>
+                    <input type="email" name="email" class="form-control" placeholder="Email Address"
+                           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,7}$" required>
                 </div>
                 <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-6 pt-3 pt-md-0">
                     <button type="submit" class="btn subscribe-btn py-4"><h6>SUBSCRIBE</h6></button>
                 </div>
             </div>
-        </form>
-
-      </div>
-    </section>
-
-    <!-- NDM Folklore -->
-    <section class="ndm p-5" hidden>
-      <div class="container">
-        <h1 class="ndm-header text-center">NDM Folklore</h1>
-      </div>
-    </section>
-
-    <!-- download application -->
-    <div class="download-app p-5" hidden>
-            <h2 class="text-center p-5">Download our app</h2>
-            <div class="row justify-content-center">
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center">
-                    <img src="{% static 'frontend/images/Layer_30.png' %} ">
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center">
-                    <img src="{% static 'frontend/images/Layer_29.png' %}">
+            <div class="row justify-content-end pt-1">
+                <div class="col-md-9">
+                    <small>By providing your email address, you agree to our <a href="#">Privacy Policy</a> and <a
+                            href="#">Terms of Service</a></small>
                 </div>
             </div>
+        </form>
+
+    </div>
+</section>
+
+<!-- NDM Folklore -->
+<section class="ndm p-5" hidden>
+    <div class="container">
+        <h1 class="ndm-header text-center">NDM Folklore</h1>
+    </div>
+</section>
+
+<!-- download application -->
+<div class="download-app p-5" hidden>
+    <h2 class="text-center p-5">Download our app</h2>
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center">
+            <img src="{% static 'frontend/images/Layer_30.png' %} ">
         </div>
-    <!-- section footer -->
-    {% include 'frontend/main-footer.html' %}
-    <!-- footer ends here -->
-    <!-- Large modal -->
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center">
+            <img src="{% static 'frontend/images/Layer_29.png' %}">
+        </div>
+    </div>
+</div>
+<!-- section footer -->
+{% include 'frontend/main-footer.html' %}
+<!-- footer ends here -->
+<!-- Large modal -->
 {#    <button type="button" class="btn btn-primary" data-toggle="modal" data-backdrop="static" data-target=".bd-example-modal-lg" data-keyboard="false">Large modal</button>#}
-    {% include 'frontend/profile-details-modal.html' %}
+{% include 'frontend/profile-details-modal.html' %}
 
 
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 {#    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>#}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    <script type="text/javascript" src="{% static 'frontend/js/style.js' %}"></script>
-    <script type="text/javascript" src="{% static 'frontend/js/profile-details.js' %}"></script>
-    <script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/masonry/3.2.2/masonry.pkgd.min.js'></script>
 
-        var testArray = [];
+<script type="text/javascript" src="{% static 'frontend/js/style.js' %}"></script>
+<script type="text/javascript" src="{% static 'frontend/js/profile-details.js' %}"></script>
+<script>
+    var testArray = [];
 
-         $(window).on('load',function(){
-             {% if user_profile.first_time_login %}
-                $('.bd-example-modal-lg').modal('show');
-             {% endif %}
+    $(window).on('load', function () {
+        displayMasonary();
+    });
+
+    function displayMasonary() {
+        var $container = $('.grid');
+        $container.masonry({
+            //columnWidth: 200,
+            itemSelector: '.item'
+        });
+    }
+
+    function changeAge(val) {
+        var $selectageto = $(".ageto");
+        $selectageto.empty();
+        for (i = val; i <= 50; i++) {
+            $selectageto.append($('<option></option>').val(i).html(i))
+        }
+    }
+
+    function showFilterPopup(e) {
+        gender = $('#gender').val();
+        startAge = $('#startAge').val();
+        finalAge = $('#ageto').val();
+        religion = $('#religion').val();
+        motherTongue = $('#language').val();
+
+
+        $.ajax({
+            url: "/quick-results-limited",
+            type: 'GET',
+            data: {
+                gender: gender,
+                start_age: startAge,
+                final_age: finalAge,
+                religion: religion,
+                mother_tongue: motherTongue,
+            },
+            success: function (resultData) {
+                $('.result-display').children().remove();
+                if (resultData.data.length > 0) {
+                    $('#results-header').html("Here is your search results");
+                } else {
+                    $('#results-header').html("Oops No Matching profiles found");
+                }
+
+                var html = '<div class="row">';
+
+                $.each(resultData.data, function (entry, value) {
+                        html += '<div class="col-md-4 p-4">';
+                            html += '<div class="result-item">';
+
+                    if (value.profile_pic){
+
+                                html += '<img class="img-fluid curved-image" src="media/'+ value.profile_pic +'"  style="width: 200px; height: 150px;">';
+                    }
+                    else {
+                        if (value.gender == 'men') {
+                                html += '<img class="img-fluid curved-image" src="{% static 'frontend/images/man.png' %}" style="width: 200px; height: 150px;">';
+                        } else {
+                                html += '<img class="img-fluid curved-image" src="{% static 'frontend/images/woman.png' %}" style="width: 200px; height: 150px;">';
+                        }
+
+                    }
+                    rndNumber = Math.floor(Math.random() * 31) + 50
+
+                            html += '<h5 class="pt-0 text-center">' + value.user__first_name + '</h5>';
+                    {#html += '<div class="pr-4">';#}
+                    {#        html += '<div class="row">';#}
+                    {#            html += '<div class="col-3">';#}
+                    {#                html += ' <i class="fa fa-heart" aria-hidden="true"></i>';#}
+                    {#            html += '</div">';#}
+                    {#            html += '<div class="col-8">';#}
+                    {#            html += '</div>';#}
+                    {#        html += '</div>';#}
+                        html += '<div class="row p-4" style="margin-top: -90px;">';
+                        html += '<div class="col-2">';
+                        {#html += ' <i class="fa fa-heart" aria-hidden="true"></i>';#}
+                        html += '</div>';
+                        html += '<div class="col-8 pl-0">';
+                        html += '<div class="progress result-progress"><div class="progress-bar" style=" width: ' + rndNumber + '%!important; background-color: #ff00a3 !important;" role="progressbar" aria-valuenow="' + rndNumber + '" aria-valuemin="0" aria-valuemax="100"></div></div>';
+                        html += '</div>';
+
+                        html += '</div>';
+                        html += '</div>';
+                        html += '</div>';
+                });
+
+                    html += '</div>';
+                $('.result-display').append(html);
+            }
+
         });
 
-        function changeAge(val){
-            var $selectageto = $(".ageto");
-            $selectageto.empty();
-            for (i=val;i<=50;i++){
-                $selectageto.append($('<option></option>').val(i).html(i))
-            }
+
+        e.preventDefault();
+        $('.profile-result-modal').modal('show');
+    }
+
+
+    $(document).ready(function () {
+
+        {% if user_profile.first_time_login %}
+            $('.bd-example-modal-lg').modal('show');
+        {% endif %}
+
+        $('#next').click(function () {
+            $('#carouselExampleControls').carousel('next')
+        })
+        $('#prev').click(function () {
+            $('#carouselExampleControls').carousel('prev')
+        })
+
+        toastr.options = {
+            'closeButton': true,
+            'positionClass': 'toast-top-right',
+            'showDuration': '5000',
+            'hideDuration': '5000',
+            'timeOut': '5000',
+            'extendedTimeOut': '5000',
         }
 
-        function showFilterPopup(e){
-            gender = $('#gender').val();
-            startAge = $('#startAge').val();
-            finalAge = $('#ageto').val();
-            religion = $('#religion').val();
-            motherTongue = $('#language').val();
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'info' %}
+                    toastr.info('{{ message }}')
+                {% elif message.tags == 'success' %}
+                    toastr.success('{{ message }}')
+                {% else  %}
+                    toastr.error('{{ message }}')
 
+                {% endif %}
 
+            {% endfor %}
+        {% endif %}
 
-            $.ajax({
-              url: "/quick-results-limited",
-              type: 'GET',
-              data: {
-                  gender : gender,
-                  start_age : startAge,
-                  final_age : finalAge,
-                  religion : religion,
-                  mother_tongue : motherTongue,
-              },
-              success: function(resultData) {
-                  $('.result-display').children().remove();
-                  if(resultData.data.length > 0){
-                        $('#results-header').html("Here is your search results");
-                  }else {
-                        $('#results-header').html("Oops No Matching profiles fount");
-                  }
-
-                  var html = '<div class="row">';
-
-                  $.each(resultData.data, function (entry, value) {
-                      html += '<div class="col-md-6 p-2">';
-                      html += '<div class="result-card">';
-                      html += '<div class="row">';
-                      html += '<div class="col-md-5">';
-                      if(gender == 'men'){
-                          html += '<img class="img-fluid left-curved-image" src="{% static 'frontend/images/men.jpg' %}" >';
-                      }else{
-                          html += '<img class="img-fluid left-curved-image" src="{% static 'frontend/images/women.jpg' %}" >';
-                      }
-                      html += '</div>';
-                      html += '<div class="col-md-7">';
-                      html += '<h5 class="pt-2">'+value.user__first_name+'</h5>';
-                      html += '<p>'+ value.userinfo__religion__name +' '+ value.userinfo__cast__name +' ' + value.userinfo__subcast__name +'</p>';
-                      html += '<p>'+ value.userinfo__profession +'</p>';
-                      html += '</div>';
-                      html += '</div>';
-                      html += '</div>';
-                      html += '</div>';
-                  });
-
-                  html += '</div>';
-                  $('.result-display').append(html);
-              }
-
-            });
+        {% if testimonial_list %}
+            {% for testimonials in testimonial_list %}
+                testArray.push({{ testimonials.id }})
+            {% endfor %}
+        {% endif %}
 
 
 
 
-            e.preventDefault();
-            $('.profile-result-modal').modal('show');
-        }
-
-
-      $(document).ready(function() {
-            toastr.options = {
-				'closeButton': true,
-				'positionClass': 'toast-top-right',
-				'showDuration': '5000',
-				'hideDuration': '5000',
-				'timeOut': '5000',
-				'extendedTimeOut': '5000',
-			}
-
-			{% if messages %}
-                {% for message in messages %}
-                    {% if message.tags == 'info' %}
-                          toastr.info('{{ message }}')
-                    {% elif message.tags == 'success' %}
-                          toastr.success('{{ message }}')
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
-
-              {% if testimonial_list %}
-                  {% for testimonials in testimonial_list %}
-                      testArray.push({{ testimonials.id }})
-                  {% endfor %}
-              {% endif %}
-
-            $.ajax({
-              url: "/testimonial-info",
-              type: 'GET',
-              data: {
-                  test_id : 1
-              },
-              success: function(resultData) {
-                  $.each(resultData.data, function (entry, value) {
-                        console.log(value);
-                  });
-              }
-            });
-
-
-
-
-
-
-        $(function(){
+        $(function () {
             var $selectagefrom = $(".agefrom");
-            for (i=18;i<=50;i++){
+            for (i = 18; i <= 50; i++) {
                 $selectagefrom.append($('<option></option>').val(i).html(i))
             }
 
             var $ageto = $(".ageto");
-            for (i=18;i<=50;i++){
+            for (i = 18; i <= 70; i++) {
                 $ageto.append($('<option></option>').val(i).html(i))
             }
             $('#ageto').val(25);
@@ -817,8 +901,7 @@
         console.log($("#aioConceptName").val());
 
 
-
-        $("#myCarousel").on("slide.bs.carousel", function(e) {
+        $("#myCarousel").on("slide.bs.carousel", function (e) {
             var $e = $(e.relatedTarget);
             var idx = $e.index();
             var itemsPerSlide = 3;
@@ -840,8 +923,9 @@
                 }
             }
         });
-    });
-    </script>
+    })
+    ;
+</script>
 
-  </body>
+</body>
 </html>

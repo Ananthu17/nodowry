@@ -1,9 +1,13 @@
 {% load static %}
 
-
-<section class="footer p-5" id="footer">
+<style>
+    h4{
+        font-size: 16px !important;
+    }
+</style>
+<section class="footer p-2" id="footer">
   <div class="container-fluid">
-    <div class="row p-5" id="footer-logo">
+    <div class="row p-2" id="footer-logo">
         <div class="col-12 col-sm-6">
             <a href="#">
               <img class="img-fluid mt-3" src="{% static 'frontend/images/footer-logo.png' %}" alt="">
@@ -11,25 +15,26 @@
         </div>
         <div class="col-12 col-sm-6 text-right footer-social d-none d-sm-block">
             <span class="footer-social-icons">
-                <img src="{% static 'frontend/images/icons/fb-black.png' %}">
+                <a target="_blank" href="https://www.facebook.com/"><img class="m-1" src="{% static 'frontend/images/icons/Forma_1.png' %}" /></a>
+
+
             </span>
             <span class="footer-social-icons">
-                <img src="{% static 'frontend/images/icons/twitter-black.png' %}">
+            <a target="_blank" href="https://www.twitter.com/"><img class="m-1" src="{% static 'frontend/images/icons/Forma_2.png' %}" /></a>
+
             </span>
             <span class="footer-social-icons">
-                <img src="{% static 'frontend/images/icons/linkin-black.png' %}">
+                <a target="_blank" href="https://www.instagram.com/"><img class="m-1" src="{% static 'frontend/images/icons/Forma_3.png' %}" /></a>
             </span>
             <span class="footer-social-icons">
-                <img src="{% static 'frontend/images/icons/insta-black.png' %}">
+            <a target="_blank" href="https://www.youtube.com/"><img class="m-1" src="{% static 'frontend/images/icons/Forma_5.png' %}" /></a>
             </span>
-            <span class="footer-social-icons">
-                <img src="{% static 'frontend/images/icons/youtube-black.png' %}">
-            </span>
+
         </div>
     </div>
     <hr />
 
-    <div class="row p-5" id="footer-items">
+    <div class="row p-2" id="footer-items">
         <div class="col-lg-3 col-md-6 col-sm-6 footer-items">
             <h2 class="footer-heading">Need help</h2>
             <a href="{% url 'login' %}" style="text-decoration: none;"><h4>Member Login</h4> </a>

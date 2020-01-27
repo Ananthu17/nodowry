@@ -26,6 +26,12 @@ class CheckIsSuperUser:
 class DashboardLogIn(TemplateView):
     template_name = 'dashboard/login.html'
 
+    def dispatch(self, request, **kwargs):
+        context = super().dispatch(request,**kwargs)
+        if request.user.is_authenticated:
+            return redirect(reverse('dashboard'))
+        else:
+            return context
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
@@ -438,6 +444,7 @@ class PlansManagement(LoginRequiredMixin, TemplateView):
         plan_name = request.POST.get('planname', '')
         description = request.POST.get('desc', '')
         plan_amount = request.POST.get('amount', '')
+        razorpay_amount = float(plan_amount)*100
         period = request.POST.get('period', 'monthly')
         if plan_name != '' and description != '' and plan_amount != '':
             payload_data = {
@@ -446,7 +453,7 @@ class PlansManagement(LoginRequiredMixin, TemplateView):
                 "item": {
                     "name": plan_name,
                     "description": description,
-                    "amount": plan_amount,
+                    "amount": razorpay_amount,
                     "currency": "INR"
                 }
             }

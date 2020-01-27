@@ -27,4 +27,5 @@ urlpatterns = [
     path('subscribe-plan/<int:plan_id>/', login_required(csrf_exempt(SubscribePlan.as_view())), name='subscribe-plan'),
     path('subscribe/', csrf_exempt(SubscribePlan.as_view()), name='subscribe-webhook'),
     path('cancel-subscription/', csrf_exempt(CancelSubscription.as_view()), name='cancel-subscription'),
+    path('subscriptions/', csrf_exempt(SubscribeWebhook), name='subs'),
 ]

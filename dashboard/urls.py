@@ -1,5 +1,6 @@
 from django.urls import path
 
+from frontend.views import SubscribeWebhook
 from .views import *
 
 urlpatterns = [
@@ -29,4 +30,5 @@ urlpatterns = [
     path('plans-list/', PlansManagement.as_view(), name='dashboard-plans'),
     path('delete-plan/<int:plan_id>/', ManagePlans.as_view(), name='plans-archive'),
     path('subscription-list/', PaymentsList.as_view(), name='subs-list'),
+
 ]

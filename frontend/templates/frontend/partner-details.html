@@ -21,17 +21,27 @@
                         <div class="row">
                             <div class="col-md-12 py-5">
                                 <div class="card bg-white white-card pt-3 px-3">
-                                    <img class="top-curved"
-                                         src="{% static 'frontend/images/background/cover-photo.jpg' %}"
-                                         alt="">
-{#                                    {% for images in partner_images %}#}
-                                        {% if parter_profile.profile_pic %}
-                                            <img class="profile-dp img-thumbnail" src="/media/{{ parter_profile.profile_pic }}">
 
-                                        {% endif %}
-{#                                    {% endfor %}#}
+                                    {#                                    {% endfor %}#}
                                     <div class="row justify-content-end">
-                                        <div class="col-8 pl-5 pt-3">
+                                        <div class="col-3 pt-3">
+                                            {% if parter_profile.profile_pic %}
+                                                <img class="profile-dp img-thumbnail"
+                                                     src="/media/{{ parter_profile.profile_pic }}">
+                                            {% else %}
+                                                {% if parter_profile.userprofile.gender == "men" %}
+                                                    <img src="{% static 'frontend/images/man.png' %}"
+                                                         style="width: 100%;max-width: 223px;max-height: 189px;"/>
+                                                {% elif users.gender == "woman" %}
+                                                    <img src="{% static 'frontend/images/woman.png' %}"
+                                                         style="width: 100%;max-width: 223px;max-height: 189px;"/>
+                                                {% else %}
+                                                    <img src="{% static 'frontend/images/third-gender.png' %}"
+                                                         style="width: 100%;max-width: 223px;max-height: 189px;"/>
+                                                {% endif %}
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-7 pt-3">
                                             <h4 class="font-lato">{{ parter_profile.user.first_name|upper }}</h4>
                                             <ul class="user-details font-lato pl-2">
                                                 <li class="small-font">
@@ -56,24 +66,26 @@
                                         <div class="col-2">
 
 
-                                                {% for matches in matches_list %}
-                                                    {%if  matches.matched_partner == parter_profile.id %}
-                                                        <h5 class="text-center pt-2">Interested</h5>
-                                                        <h1 class="text-center">
-                                                        <a class="red-active" href="{% url 'show-interest' user_profile.id  parter_profile.id %}">
+                                            {% for matches in matches_list %}
+                                                {% if  matches.matched_partner == parter_profile.id %}
+                                                    <h5 class="text-center pt-2">Interested</h5>
+                                                    <h1 class="text-center">
+                                                        <a class="red-active"
+                                                           href="{% url 'show-interest' user_profile.id  parter_profile.id %}">
+                                                            <i class="fa fa-heart" aria-hidden="true"></i></h1>
+                                                {% endif %}
+
+                                            {% empty %}
+                                                <h4 class="text-center pt-2">Sent Interest</h4>
+                                                <h1 class="text-center">
+                                                    <a class="red-deactive"
+                                                       href="{% url 'show-interest' user_profile.id  parter_profile.id %}">
                                                         <i class="fa fa-heart" aria-hidden="true"></i></h1>
-                                                    {% endif %}
-
-                                                    {% empty %}
-                                                        <h4 class="text-center pt-2">Sent Interest</h4>
-                                                        <h1 class="text-center">
-                                                        <a class="red-deactive" href="{% url 'show-interest' user_profile.id  parter_profile.id %}">
-                                                        <i class="fa fa-heart" aria-hidden="true"></i></h1>
-                                                {% endfor %}
+                                            {% endfor %}
 
 
 
-                                                </a>
+                                            </a>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -197,7 +209,7 @@
 
                                                 <div class="card-item py-2">
                                                     <p class="small-font font-lato mb-0">Gender</p>
-                                                    <h5 class="font-lato">{% if parter_profile.gender == women %}
+                                                    <h5 class="font-lato">{% if parter_profile.gender == "women" %}
                                                         Female
                                                     {% else %}
                                                         Male
@@ -258,7 +270,8 @@
                                                 <div class="grid effect-2" id="grid">
                                                     {% for images in partner_images %}
                                                         <div class="item">
-                                                            <a href="/media/{{ images.file }}" data-toggle="lightbox" data-gallery="example-gallery">
+                                                            <a href="/media/{{ images.file }}" data-toggle="lightbox"
+                                                               data-gallery="example-gallery">
                                                                 <img src="/media/{{ images.file }}" alt=""/>
                                                             </a>
                                                         </div>
@@ -651,28 +664,33 @@
 
 
                                         <div class="card similar-profiles my-2">
-                                        <div class="row">
-                                            <div class="col-4">
-                                                {% if profile.profile_pic %}
-                                                    <img class="img-fluid" src="/media/{{ profile.profile_pic }}" alt="">
-                                                {% else %}
-                                                    <img class="img-fluid" src="/static/frontend/images/man-user.png" alt="">
-                                                {% endif %}
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    {% if profile.profile_pic %}
+                                                        <img class="img-fluid" src="/media/{{ profile.profile_pic }}"
+                                                             alt="">
+                                                    {% else %}
+                                                        <img class="img-fluid"
+                                                             src="/static/frontend/images/man-user.png" alt="">
+                                                    {% endif %}
 
-                                            </div>
-                                            <div class="col-8">
-                                                <ul class="p-0">
-                                                    <li><h6 class="pt-1">{{ profile.user__first_name }}</h6></li>
-                                                    <li><span>NDM{{ profile.id }}</span></li>
-                                                    <li><span>25 yrs, {{profile.userinfo__height }}cm</span></li>
-                                                    <li><span>{{ profile.userinfo__religion__name }}, {{ profile.userinfo__cast__name }}, {{ profile.userinfo__subcast__name }}</span></li>
-                                                    <li><span>{{ profile.userinfo__occupation }}</span></li>
-                                                    <li><span><a class="text-warning" href="{% url 'partner-details-template' profile.id %}">View Profile</a></span>
-                                                    </li>
-                                                </ul>
+                                                </div>
+                                                <div class="col-8">
+                                                    <ul class="p-0">
+                                                        <li><h6 class="pt-1">{{ profile.user__first_name }}</h6></li>
+                                                        <li><span>NDM{{ profile.id }}</span></li>
+                                                        <li><span>25 yrs, {{ profile.userinfo__height }}cm</span></li>
+                                                        <li>
+                                                            <span>{{ profile.userinfo__religion__name }}, {{ profile.userinfo__cast__name }}, {{ profile.userinfo__subcast__name }}</span>
+                                                        </li>
+                                                        <li><span>{{ profile.userinfo__occupation }}</span></li>
+                                                        <li><span><a class="text-warning"
+                                                                     href="{% url 'partner-details-template' profile.id %}">View Profile</a></span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
                                     {% endfor %}
                                     <!-- similar profiles card ends -->
