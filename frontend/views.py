@@ -1,3 +1,5 @@
+import json
+
 import requests
 from django.contrib.auth import logout
 from django.shortcuts import render, redirect
@@ -101,12 +103,14 @@ class QuickFilter(TemplateView):
         religion_id = self.request.GET.get('religion', '')
         cast_id = self.request.GET.get('cast', '')
         language = self.request.GET.get('language', '')
+        height_min = self.request.GET.get('height_min', 50)
+        height_max = self.request.GET.get('height_max', 220)
         currentdate = date.today()
         startdate = currentdate.replace(currentdate.year - agefrom)
         enddate = currentdate.replace(currentdate.year - ageto)
         userprofile = UserProfile.objects.filter(is_active=True, gender=gender, userinfo__religion=religion_id,
                                                  userinfo__mother_tongue=language,
-                                                 userinfo__dob__range=(enddate, startdate)).values('user__first_name',
+                                                 userinfo__dob__range=(enddate, startdate), userinfo__height__lte=height_max, userinfo__height__gte=height_min).values('user__first_name',
                                                                                                    'userinfo__dob',
                                                                                                    'gender',
                                                                                                    'profile_pic',
@@ -125,11 +129,16 @@ class QuickFilter(TemplateView):
         context['religion_list'] = Religion.objects.all()
         context['cast_list'] = Cast.objects.all()
         context['language_list'] = MotherTongue.objects.all()
+
         religion_name = Religion.objects.get(id=religion_id)
+        language_name = MotherTongue.objects.get(id=language)
 
         context['relid'] = religion_name.name
-        context['language'] = language
+        context['language_name'] = language_name
         context['gender'] = gender
+
+        context['height_min'] = height_min
+        context['height_max'] = height_max
 
         if self.request.user.is_authenticated:
             context['user_images'] = UserImages.objects.filter(user_info__user_profile__user=self.request.user)
@@ -226,6 +235,9 @@ class UploadImage(View):
                         user_image.file = file
                         user_image.save()
 
+                profile_pic = UserProfile.objects.filter(id = user_profile_obj.id).values('profile_pic')
+                profile_images = UserImages.objects.filter(user_info=user_info).values('file', 'id')
+
                 # if not user_profile_obj.profile_pic:
                 #     print("############################################################")
                 #     print(profile_pic)
@@ -240,7 +252,7 @@ class UploadImage(View):
             messages.error(request, "User id cannot be empty")
             return redirect(referer)
 
-        return redirect(reverse('home'))
+        return JsonResponse({'profile_pic': list(profile_pic), 'profile_images': list(profile_images)})
 
 
 class DeleteImage(View):
@@ -249,10 +261,10 @@ class DeleteImage(View):
         imgid = request.POST.get('imgId', "")
         try:
             UserImages.objects.filter(id=imgid).delete()
-            messages.success(request, "image is deleted")
+            profile_images = UserImages.objects.filter(user_info__user_profile__user=request.user).values('file', 'id')
         except UserImages.DoesNotExist:
-            messages.error(request, "images not deleted")
-        return redirect(reverse('home'))
+            pass
+        return JsonResponse({'profile_images': list(profile_images)})
 
 
 class SelectCast(View):
@@ -424,6 +436,7 @@ class SavePartnerDetails(View):
                                                                                   'userinfo__religion__name',
                                                                                   'userinfo__dob',
                                                                                   'userinfo__occupation',
+
                                                                                   ))
             els_lan.updatedata(raw_data)
         except UserInfo.DoesNotExist:
@@ -458,6 +471,7 @@ class UserProfileDetails(TemplateView):
         context['user_profile'] = user
         # try:
         user_info_obj = UserInfo.objects.get(user_profile__user=user_obj)
+
         context['partner_pref'] = PartnerPreference.objects.filter(user_info=user_info_obj)[0]
         # except :
         #     pass
@@ -465,6 +479,25 @@ class UserProfileDetails(TemplateView):
         context['user_images'] = UserImages.objects.filter(user_info__user_profile=user)
         context['mother_tongue'] = MotherTongue.objects.all()
         context['religion_list'] = Religion.objects.all()
+        context['subs'] = ""
+        try:
+            subscribed_plans = PlanSubscriptionList.objects.get(user=user_info_obj.user_profile)
+            subscription_id =subscribed_plans.subscription_id
+            headers = {
+                'Content-Type': 'application/json',
+            }
+            data = {
+                "cancel_at_cycle_end": 1
+            }
+            url = "https://api.razorpay.com/v1/subscriptions/" + subscription_id + ""
+            r = requests.get(url, headers=headers, data=json.dumps(data),
+                              auth=('rzp_test_pLn7iGkMQ3dorZ', 'UrETBkY9UtXnpyXVvFZZTBQO'))
+            serv_response = r.json()
+            context['subs'] = serv_response
+
+        except:
+            pass
+
         return context
 
 
@@ -578,12 +611,21 @@ class PartnerDetails(TemplateView):
         return context
 
     def post(self, request, *args, **kwargs):
+        referer = request.META.get('HTTP_REFERER')
         ndm_full_id = request.POST.get('ndmid', "")
+
+
         print(ndm_full_id)
         print("#############################################################")
         ndm_id = ndm_full_id[4:]
-        print(ndm_id)
-        return redirect('partner-details-template', profile_id=ndm_id)
+        try:
+            partner_profile = UserProfile.objects.get(id=ndm_id)
+            partner_info = UserInfo.objects.get(user_profile=partner_profile)
+            print(ndm_id)
+            return redirect('partner-details-template', profile_id=ndm_id)
+        except:
+            messages.error(request,'NDM id mismatch')
+            return redirect(referer)
 
 
 class ChangeUserImage(View):
@@ -791,16 +833,20 @@ class SubscribePlan(View):
                 if user_profile.customer_id != '':
                     payload_data = {
                         "plan_id": plan_obj.plan_id,
-                        "customer_id": user_profile.customer_id,
                         "total_count": 1,
                         "quantity": 1,
                         "customer_notify": 1,
+                        "addons": [],
+                        "notes": {
+                            "notes_key": "Started Subscription"
+                        },
                         "notify_info": {
                             "notify_phone": user_profile.phone_number,
                             "notify_email": user_obj.username
                         }
                     }
                 else:
+
                     create_customer_payload = {
                         "name": user_profile.user.first_name,
                         "email": user_profile.user.email,
@@ -813,25 +859,30 @@ class SubscribePlan(View):
                     user_profile.customer_id = customer_id
                     user_profile.save()
                     payload_data = {
-                        "plan_id":  "plan_E96UJ5xTBCFKH5",
-                        "customer_id": customer_id,
+                        "plan_id": plan_obj.plan_id,
                         "total_count": 1,
                         "quantity": 1,
                         "customer_notify": 1,
+                        "addons": [],
+                        "notes": {
+                            "notes_key": "Started Subscription"
+                        },
                         "notify_info": {
                             "notify_phone": user_profile.phone_number,
                             "notify_email": user_obj.username
                         }
                     }
-                subscribe_data = razorpay_client.subscription.create(data=payload_data)
-                # r = requests.post('https://api.razorpay.com/v1/subscriptions', headers=headers, data=payload_data,
-                #                   auth=('rzp_test_pLn7iGkMQ3dorZ', 'UrETBkY9UtXnpyXVvFZZTBQO'))
-                # subscribe_data = r.json()
+                # subscribe_data = razorpay_client.subscription.create(data=payload_data)
+                payload_data = json.dumps(payload_data)
+                r = requests.post('https://api.razorpay.com/v1/subscriptions', headers=headers, data=payload_data,
+                                  auth=('rzp_test_pLn7iGkMQ3dorZ', 'UrETBkY9UtXnpyXVvFZZTBQO'))
+                subscribe_data = r.json()
                 subscription_id = subscribe_data['id']
                 short_url = subscribe_data['short_url']
                 plan_sub_obj = PlanSubscriptionList.objects.create(user=user_profile, subscription_id=subscription_id,
                                                                    subscribed_plan=plan_obj, payment_url=short_url)
                 user_info.subscribed_plan = plan_obj
+
                 user_info.save()
                 context = {}
                 context['payment_link'] = short_url
@@ -852,17 +903,16 @@ class SubscribePlan(View):
             except UserInfo.DoesNotExist:
                 messages.error(request, "Userinfo does not exist")
             except Exception as e:
-                messages.error(request, str(subscribe_data))
+                messages.error(request, str(e))
         else:
             messages.error(request, "Please choose a valid plan")
         return redirect('/')
 
 
-def SubscribeWebhook(self):
-    return 1
-    if self.request.method =="POST":
-        webhook_body = self
-        print (webhook_body)
+def SubscribeWebhook(request):
+    if request.method == "POST":
+        webhook_body = request
+        print(webhook_body)
         return 0
     else:
         return 1
@@ -880,23 +930,23 @@ class CancelSubscription(View):
                 'Content-Type': 'application/json',
             }
             data = {
-                "cancel_at_cycle_end": 0
+                "cancel_at_cycle_end": 1
             }
             url = "https://api.razorpay.com/v1/subscriptions/" + subscription_id + "/cancel"
-            r = requests.post(url, headers=headers, data=data,
+            r = requests.post(url, headers=headers, data=json.dumps(data),
                               auth=('rzp_test_pLn7iGkMQ3dorZ', 'UrETBkY9UtXnpyXVvFZZTBQO'))
             serv_response = r.json()
             try:
                 if serv_response['status'] == "cancelled":
                     plans_obj.delete()
-                    user_info_obj.subscribed_plan = ""
+                    user_info_obj.subscribed_plan = None
                     user_info_obj.save()
 
                 else:
                     messages.error(request, "Failed to cancel the subscription. Contact admin to rectify")
             except Exception as e:
 
-                messages.success(request, str(serv_response))
+                messages.success(request, "Subscription could not be cancelled")
                 return redirect(reverse("user-profile"))
             messages.success(request, "Subscription Cancelled")
 

@@ -1,10 +1,71 @@
+function  bindImage(images) {
+    $('#grid').empty();
+    images.map(item => {
+        image =    `<div class="item">
+                            <img src="/media/${item.file}" id="img${item.id}" alt=""/>
+                            <i class="fa fa-trash delete-button cursor-pointer" id="icon${item.id}"aria-hidden="true" onclick="DeleteImage(${item.id})"></i>
+                     </div>`;
+        $('#grid').append(image);
+    })
+}
+
+
+
 function uploadPhoto() {
-    console.log("images uploaded");
-    $("#profileImage").submit();
+    $('#loader-round').show();
+    $('#maximumImages').addClass('d-none');
+    var $fileUpload = $("input[type='file']");
+    if (parseInt($fileUpload.get(0).files.length)>10){
+         $('#maximumImages').addClass('d-block');
+    }else {
+
+       var formData = new FormData($('#profileImage')[0])
+
+        var request = $.ajax({
+            url: "/upload-image",
+            type: "POST",
+            data:  formData ,
+            cache : false,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                $('#loader-round').hide();
+                var profile_pic = response.profile_pic[0].profile_pic ;
+                if($('.profile-details-pic').length == 0){
+                    $('#prodile-picture').append(`<img class="profile-details-pic pb-2" src="/media/${profile_pic}" id="profile-details-pic">`);
+                }
+                bindImage(response.profile_images);
+            }
+         });
+
+    }
+
+
+}
+
+
+
+
+function saveUserImage() {
+
+    var queryString = $('#profileImage').serialize();
+    console.log("THis is form data");
+    console.log(queryString);
+     // var $fileUpload = $("input[type='file']");
+     // console.log(data)
+     // var request = $.ajax({
+     //    url: "/upload-image",
+     //    type: "POST",
+     //    data:  $("#profileImage").val() ,
+     //    success: function (response) {
+     //        console.log('Data submited')
+     //    }
+     // });
 
 }
 
 function DeleteImage(imgId) {
+    $('#loader-round').show();
     console.log(imgId);
     $.post('/delete-image', {imgId: imgId});
     var request = $.ajax({
@@ -12,7 +73,8 @@ function DeleteImage(imgId) {
         type: "POST",
         data: {imgId: imgId},
         success: function (response) {
-            location.reload();
+            $('#loader-round').hide();
+            bindImage(response.profile_images);
         }
     });
 }
@@ -39,6 +101,14 @@ function hideSection2() {
         $('#address-error').text('Please fill in this field');
     } else if ($('#state-dropdown').val() == null) {
         $('#state-error').text('Please select a value from the list');
+    } else if ($('#dist-dropdown').val() == null) {
+        $('#dist-error').text('Please select a value from the list');
+    } else if ($('#city-dropdown').val() == null) {
+        $('#city-error').text('Please select a value from the list');
+    } else if ($('#religion-dropdown').val() == null) {
+        $('#religion-error').text('Please select a value from the list');
+    } else if ($('#cast-dropdown').val() == null) {
+        $('#cast-error').text('Please select a value from the list');
     } else if ($("#height").val() == '')
         $('#height-error').text('Please fill in this field');
     else if ($("#weight").val() == '')
@@ -125,16 +195,23 @@ $(document).ready(function () {
         console.log(y);
     }
     getData();
-
-    function get_json() {
-        $.getJSON(url, function (data) {
-            $.each(data, function (entry) {
-                dropdown.append($('<option></option>').attr('value', entry).text(entry));
-            })
-            return 1;
-        });
+    function get_json(){
+    $.getJSON(url, function (data) {
+        $.each(data, function (entry) {
+            dropdown.append($('<option></option>').attr('value', entry).text(entry));
+        })
+        return 1;
+    });
     }
 
+
+    // $.getJSON(url, function (data) {
+    //     console.log("data");
+    //     $.each(data, function (entry) {
+    //         console.log(entry);
+    //         dropdown.append($('<option></option>').attr('value', entry).text(entry));
+    //     })
+    // });
 
     var request = $.ajax({
         url: "/select-education",
@@ -149,11 +226,16 @@ $(document).ready(function () {
     });
 
     var $selectagefrom = $(".agefrom");
+    $selectagefrom.html("");
+    $selectagefrom.append($('<option value="">Select Age</option>'));
     for (i = 18; i <= 50; i++) {
+        console.log(i)
         $selectagefrom.append($('<option></option>').val(i).html(i))
     }
 
     var $ageto = $(".ageto");
+    $ageto.html("");
+    $ageto.append($('<option value="25">25</option>'));
     for (i = 18; i <= 50; i++) {
         $ageto.append($('<option></option>').val(i).html(i))
     }
@@ -173,6 +255,10 @@ $(document).ready(function () {
 
     $('#weight').keyup(function () {
         $('#weight-error').empty();
+    });
+
+    $('#about').keyup(function () {
+        $('#about-error').empty();
     });
 
     $("form[name='profileImage']").submit(function (e) {
@@ -237,6 +323,7 @@ function selectCity() {
 }
 
 function selectCast() {
+    $('#religion-error').empty();
     valueReligion = $('#religion-dropdown').val();
 
     var request = $.ajax({

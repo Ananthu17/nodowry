@@ -24,24 +24,30 @@
                                      alt="">
                             {% else %}
                                 {% if user_profile.gender == "men" %}
-                                    <img class="img-fluid position-relative" src="{% static 'frontend/images/man.png' %}" />
+                                    <img class="img-fluid position-relative"
+                                         src="{% static 'frontend/images/man.png' %}"/>
                                 {% elif user_profile.gender == "woman" %}
-                                    <img class="img-fluid position-relative" src="{% static 'frontend/images/woman.png' %}" />
+                                    <img class="img-fluid position-relative"
+                                         src="{% static 'frontend/images/woman.png' %}"/>
                                 {% else %}
-                                    <img class="img-fluid position-relative" src="{% static 'frontend/images/third-gender.png' %}" />
+                                    <img class="img-fluid position-relative"
+                                         src="{% static 'frontend/images/third-gender.png' %}"/>
                                 {% endif %}
                             {% endif %}
                             <form action="{% url 'change-user-image' %}" method="POST" id="change-image"
-                                      enctype="multipart/form-data">
+                                  enctype="multipart/form-data">
                                 {% csrf_token %}
-                                <input type="file" id="imgupload" name="imgupload" accept="image/*" style="display:none"/>
+                                <input type="file" id="imgupload" name="imgupload" accept="image/*"
+                                       style="display:none"/>
                                 <i class="fa fa-camera position-absolute edit-image cursor-pointer" id="OpenImgUpload"
-                                   aria-hidden="true" data-toggle="tooltip"  data-placement="bottom" title="Change profile picture"></i>
+                                   aria-hidden="true" data-toggle="tooltip" data-placement="bottom"
+                                   title="Change profile picture"></i>
                             </form>
                         </div>
                         <div class="basic-info text-center">
                             <h3 class="pl-3">{{ user_profile.user.first_name }}</h3>
                             <h3>NDM10{{ user_profile.id }}</h3>
+                            {{ response_time }}
                         </div>
                     </div>
                 </div>
@@ -58,7 +64,7 @@
                         </li>
                         <li class="py-2 px-2 menu-item" id="item3" onclick="showGallery()">
                             <i class="fa fa-picture-o pr-1" aria-hidden="true"></i>
-                            gallery
+                            Gallery
                         </li>
                         <li class="py-2 px-2 menu-item" id="item4" onclick="showIntrest()">
                             <i class="fa fa-heart pr-1" aria-hidden="true"></i>
@@ -181,7 +187,7 @@
                                         <tr class="py-2">
                                             <td class="w-50">Height</td>
                                             <td>:</td>
-                                            <td class="w-50">{{ user_profile.userinfo.height|default:"-" }} Feets</td>
+                                            <td class="w-50">{{ user_profile.userinfo.height|default:"-" }} CM</td>
                                         </tr>
                                         <tr class="py-2">
                                             <td class="w-50">Weight</td>
@@ -194,17 +200,17 @@
                                             <td class="w-50">{{ user_profile.userinfo.marital_status|default:"-" }}</td>
                                         </tr>
                                         <tr class="py-2">
-                                            <td class="w-50">Eating Habbits</td>
+                                            <td class="w-50">Eating Habits</td>
                                             <td>:</td>
                                             <td class="w-50">{{ user_profile.userinfo.eating|default:"-" }}</td>
                                         </tr>
                                         <tr class="py-2">
-                                            <td class="w-50">Drinking Habbits</td>
+                                            <td class="w-50">Drinking Habits</td>
                                             <td>:</td>
                                             <td class="w-50">{{ user_profile.userinfo.drinking|default:"-" }}</td>
                                         </tr>
                                         <tr class="py-2">
-                                            <td class="w-50">Smoking Habbits</td>
+                                            <td class="w-50">Smoking Habits</td>
                                             <td>:</td>
                                             <td class="w-50">{{ user_profile.userinfo.smoking|default:"-" }}</td>
                                         </tr>
@@ -274,12 +280,12 @@
                                             <td class="w-50">{{ user_profile.userinfo.marital_status|default:"-" }}</td>
                                         </tr>
                                         <tr class="py-2">
-                                            <td class="w-50">Eating Habbits</td>
+                                            <td class="w-50">Eating Habits</td>
                                             <td>:</td>
                                             <td class="w-50">{{ user_profile.userinfo.eating|default:"-" }}</td>
                                         </tr>
                                         <tr class="py-2">
-                                            <td class="w-50">Drinking Habbits</td>
+                                            <td class="w-50">Drinking Habits</td>
                                             <td>:</td>
                                             <td class="w-50">{{ user_profile.userinfo.drinking|default:"-" }}</td>
                                         </tr>
@@ -391,6 +397,7 @@
                                                 </div>
                                             </label>
                                             <input type="file" id="photos" name="photos" onchange="uploadPhoto()"
+                                                   accept="image/*"
                                                    multiple hidden/>
                                         </form>
                                     </div>
@@ -463,6 +470,7 @@
                             <div class="card-body">
                                 <div class="p-2">
                                     <div class="row">
+
                                         {% for plns in plans %}
                                             {% if partner_pref.user_info.subscribed_plan.id != plns.id %}
                                                 <div class="col-4">
@@ -476,11 +484,20 @@
                                                             <br>
                                                             <div class="text-center">
                                                                 ₹ {{ plns.amount }} {{ plns.period|title }}</div>
-                                                            <div class="text-center pt-1">
-                                                                <a href="/subscribe-plan/{{ plns.id }}">
-                                                                    <button class="btn btn-success">Subscribe</button>
-                                                                </a>
-                                                            </div>
+                                                            {% if subs.status != 'completed' %}
+                                                                <div class="text-center pt-1">
+                                                                    <a href="/subscribe-plan/{{ plns.id }}">
+                                                                        <button class="btn btn-success">Subscribe
+                                                                        </button>
+                                                                    </a>
+                                                                </div>
+                                                            {% else %}
+                                                                <div class="text-center pt-1">
+                                                                    <p style="color: grey">
+
+                                                                    </p>
+                                                                </div>
+                                                            {% endif %}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -541,13 +558,75 @@
                                                     <br>
                                                     <div class="text-center">
                                                         ₹ {{ partner_pref.user_info.subscribed_plan.amount }} {{ partner_pref.user_info.subscribed_plan.period|title }}</div>
-                                                    <div class="text-center pt-1">
-                                                        <button class="btn btn-success"><a
-                                                                href="{% url "cancel-subscription" %}"
-                                                                style="text-decoration: none;color: white">Cancel
-                                                            Subscription</a>
-                                                        </button>
+                                                    <div class="" style="display: none">Start Date <span
+                                                            id="started-at"></span>
+                                                        <script>
+                                                            let unix_timestamp =
+                                                            {{subs.current_start}}
+                                                            // Unixtimestamp
+                                                            var unixtimestamp = unix_timestamp;
+
+                                                            // Months array
+                                                            var months_arr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+                                                            // Convert timestamp to milliseconds
+                                                            var date = new Date(unixtimestamp * 1000);
+
+                                                            // Year
+                                                            var year = date.getFullYear();
+
+                                                            // Month
+                                                            var month = months_arr[date.getMonth()];
+
+                                                            // Day
+                                                            var day = date.getDate();
+
+
+                                                            // Display date time in MM-dd-yyyy h:m:s format
+                                                            var convdataTime = month + '-' + day + '-' + year;
+                                                            console.log(convdataTime);
+                                                            document.getElementById('started-at').innerHTML = convdataTime;
+                                                        </script>
                                                     </div>
+                                                    <div class="text-center mt-2 disabled" style="color: grey">Valid
+                                                        Till : <span id="end-at"></span>
+                                                        <script>
+                                                            let unixtimestamp_end =
+                                                            {{subs.current_end}}
+                                                            // Unixtimestamp
+
+
+                                                            // Months array
+                                                            var months_arr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+                                                            // Convert timestamp to milliseconds
+                                                            var date = new Date(unixtimestamp_end * 1000);
+
+                                                            // Year
+                                                            var year = date.getFullYear();
+
+                                                            // Month
+                                                            var month = months_arr[date.getMonth()];
+
+                                                            // Day
+                                                            var day = date.getDate();
+
+                                                            // Display date time in MM-dd-yyyy h:m:s format
+                                                            var convdataTime = month + '-' + day + '-' + year;
+                                                            console.log(convdataTime);
+                                                            document.getElementById('end-at').innerHTML = convdataTime;
+                                                        </script>
+                                                    </div>
+                                                    {% if subs.status != 'completed' %}
+                                                        <div class="text-center pt-1">
+                                                            <button class="btn btn-success"><a
+                                                                    href="{% url "cancel-subscription" %}"
+                                                                    style="text-decoration: none;color: white">Cancel
+                                                                Subscription</a>
+                                                            </button>
+                                                        </div>
+                                                    {% endif %}
+
                                                 </div>
                                             </div>
                                         </div>
@@ -563,7 +642,7 @@
         </div>
     </div>
 
-    {% include 'frontend/user-profile-modal.html' %}
+    {#    {% include 'frontend/user-profile-modal.html' %}#}
 
 {% endblock %}
 {% block extrascript %}
@@ -583,6 +662,752 @@
             crossorigin="anonymous"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript" src="{% static 'frontend/js/profile-details.js' %}"></script>
+    <div class="modal fade bd-example-modal-lg" id="usermodal" data-backdrop="static" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel"
+         aria-hidden="true" data-color="blue">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+
+                            <!-- basic info starts here-->
+                            <section id="section1" class="basic-info p-md-5">
+                                <div class="modal-header">
+                                    <h3 class="text-center">Profile Details</h3>
+                                </div>
+
+                                <!-- form starts here -->
+                                <form id="profileImage" name="profileImage" method="post"
+                                      action="{% url 'upload-image' %}"
+                                      enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <!-- col starts here -->
+                                        <div class="col-md-4">
+                                            <input name="id" id="userId" type="text"
+                                                   value="{{ user_profile.userinfo.id }}"
+                                                   hidden>
+                                            {% if user_profile.profile_pic %}
+                                                <img style="height: 200px;width: 200px" class="profile-details-pic pb-2"
+                                                     src="/media/{{ user_profile.profile_pic }}"
+                                                     alt="">
+                                            {% endif %}
+                                            <div class="p-5 text-center">
+                                                <label for='photos' style="display: block;">
+                                                    <img class="add-more cursor-pointer"
+                                                         src="{% static 'frontend/images/add.png' %}" alt="">
+                                                    {#                                                <i class="fa fa-camera" aria-hidden="true"></i>#}
+                                                    {#                                                <i class="fa fa-picture-o fa-2x cursor-pointer" aria-hidden="true" role="button"></i>#}
+                                                </label>
+                                                <input type="file" id="photos" name="photos" onchange="uploadPhoto()"
+                                                       multiple accept="image/*"
+                                                       hidden/>
+                                            </div>
+                                        </div>
+                                        <!-- col ends here -->
+
+                                        <!-- col starts here -->
+                                        <div class="col-md-8">
+
+                                            <!-- name input stats here -->
+                                            <div class="row">
+                                                <div class="col-md-2 p-2">
+                                                    Name:
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control login-form"
+                                                               value="{{ user_profile.user.first_name }}" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- name input ends here -->
+
+                                            <!-- read only input date stars here -->
+                                            <div class="row">
+                                                <div class="col-md-2 p-2">
+                                                    DOB:
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control login-form"
+                                                               value="{{ user_profile.userinfo.dob }}" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- input date ends here -->
+
+                                            <!-- read only Gender stars here -->
+                                            <div class="row">
+                                                <div class="col-md-2 p-2">
+                                                    Gender:
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div class="form-group">
+                                                        {% if user_profile.gender == 'men' %}
+                                                            <input type="text" class="form-control login-form"
+                                                                   value="Male"
+                                                                   readonly>
+                                                        {% else %}
+                                                            <input type="text" class="form-control login-form"
+                                                                   value="Female" readonly>
+                                                        {% endif %}
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Gender ends here -->
+
+                                            <!-- read only email stars here -->
+                                            <div class="row">
+                                                <div class="col-md-2 p-2">
+                                                    Email:
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control login-form"
+                                                               value="{{ user_profile.user.email }}" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- email ends here -->
+
+
+                                            <div class="row">
+                                                <div class="col-md-2 p-2">
+                                                    Phone No:
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control login-form"
+                                                               value="{{ user_profile.phone_number }}" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- col ends here -->
+
+                                    </div>
+                                    <!-- row ends here -->
+
+                                    <!-- row starts here -->
+                                    {#                                <div class="row">#}
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="grid effect-2" id="grid">
+                                                {% for images in user_images %}
+                                                    <div class="item">
+                                                        <img src="/media/{{ images.file }}" id="img{{ images.id }}"
+                                                             alt=""/>
+                                                        <i class="fa fa-trash delete-button cursor-pointer"
+                                                           id="icon{{ images.id }}"
+                                                           aria-hidden="true"
+                                                           onclick="DeleteImage({{ images.id }})"></i>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {#                                    {% for images in user_images %}#}
+                                    {#                                        {% if not images.is_profile_pic %}#}
+                                    {#                                            <div class="col-md-2">#}
+                                    {#                                                <img class="user-images pb-2" src="/media/{{ images.file }}" alt="">#}
+                                    {#                                                <img class="remove-image cursor-pointer" src="{% static 'frontend/images/minus.png' %}"#}
+                                    {#                                                     onclick="DeleteImage({{ images.id }})" alt="">#}
+                                    {#                                            </div>#}
+                                    {#                                        {% endif %}#}
+                                    {#                                    {% endfor %}#}
+                                    {#                                </div>#}
+                                    <!-- row ends here -->
+
+                                </form>
+                                <!-- form images section ends here -->
+
+                                <!-- row starts here -->
+                                <div class="row justify-content-end">
+                                    <div class="col-md-2">
+                                        <button class="btn btn-orange" onclick="hideSection1()">Continue</button>
+                                    </div>
+                                </div>
+                                <!-- row ends here -->
+                                <div class="row pt-3">
+                                    <div class="col-md-12 text-center">
+                                        <div class="alert alert-danger d-none" id="maximumImages" role="alert">
+                                            You can only upload a maximum of 10 Images
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </section>
+                            <!-- personal info ends here-->
+
+                            <!-- personal details starts here -->
+                            <section id="section2" class="personal-info p-md-5" style="display: none">
+
+                                <!-- modal header starts here -->
+                                <div class="modal-header">
+                                    <h3 class="modal-title w-100 text-center">Personal Details</h3>
+                                </div>
+                                <!-- modal header starts here -->
+
+                                <div class="personal-details py-3">
+                                    <div class="user-location">
+                                        <h5>Location :- </h5>
+                                        <div class="p-1">
+                                            <div class="row">
+                                                <div class="col-md-2 pt-2">
+                                                    Address: *
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" id="address"
+                                                               placeholder="Address">
+                                                        <div class="error-helper py-1 text-danger"
+                                                             id="address-error"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-2 pt-2">
+                                                    State: *
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <select name="state" id="state-dropdown" class="form-control"
+                                                                onchange="selectDist()">
+                                                        </select>
+                                                        <div class="error-helper py-1 text-danger"
+                                                             id="state-error"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 pt-2">
+                                                    District: *
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <select name="dist" id="dist-dropdown" class="form-control"
+                                                                onchange="selectCity()">
+                                                            <option selected="selected" disabled>Select State:</option>
+                                                        </select>
+                                                        <div class="error-helper py-1 text-danger"
+                                                             id="dist-error"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 pt-2">
+                                                    City: *
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <select name="city" id="city-dropdown" class="form-control">
+                                                            <option selected="selected" disabled>Select District:
+                                                            </option>
+                                                        </select>
+                                                        <div class="error-helper py-1 text-danger"
+                                                             id="city-error"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="community">
+                                        <h5>Community</h5>
+
+                                        <div class="p-1">
+
+                                            <div class="row">
+                                                <div class="col-md-2 pt-2">
+                                                    Religion: *
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <select name="religion" id="religion-dropdown"
+                                                                class="form-control"
+                                                                onchange="selectCast()">
+                                                            <option selected="selected" disabled>Select Religion
+                                                            </option>
+                                                            {% for religion in religion_list %}
+                                                                <option value="{{ religion }}">{{ religion }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                        <div class="error-helper py-1 text-danger"
+                                                             id="religion-error"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 pt-2">
+                                                    Cast: *
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <select name="cast" id="cast-dropdown" class="form-control">
+                                                            <option selected="selected" disabled>Select Religion
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="error-helper py-1 text-danger" id="cast-error"></div>
+                                                </div>
+                                                {#                                            <div class="col-md-2 pt-2">#}
+                                                {#                                                Sub Cast:#}
+                                                {#                                            </div>#}
+                                                {#                                            <div class="col-md-4">#}
+                                                {#                                                <div class="form-group">#}
+                                                {#                                                    <select name="sub-cast" id="subcast-dropdown" class="form-control">#}
+                                                {#                                                    </select>#}
+                                                {#                                                </div>#}
+                                                {#                                            </div>#}
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="profession">
+                                        <h5>Professional</h5>
+                                        <div class="p-1">
+
+
+                                            <div class="row">
+                                                <div class="col-md-2 pt-2">
+                                                    Education:
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <select name="education" id="education" class="form-control">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 pt-2">
+                                                    Professional Details:
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control"
+                                                               id="professional-details">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="astro">
+                                        <h5>Astrology</h5>
+                                        <div class="p-2">
+                                            <div class="row">
+
+                                                <div class="col-md-2 pt-2">
+                                                    Star:
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <select name="star" class="form-control" id="star-dropdown">
+                                                            <option selected="selected" disabled>Select Star</option>
+                                                            <option value="Ashvini">Ashvini</option>
+                                                            <option value="Bharani">Bharani</option>
+                                                            <option value="Karhika">Karhika</option>
+                                                            <option value="Rohini">Rohini</option>
+                                                            <option value="Mrigashīrsha">Mrigashīrsha</option>
+                                                            <option value="Ardra">Ardra</option>
+                                                            <option value="Pushya">Pushya</option>
+                                                            <option value="Āshleshā">Āshleshā</option>
+                                                            <option value="Maghā">Maghā</option>
+                                                            <option value="Hasta">Hasta</option>
+                                                            <option value="Nandhi">Khilaivar</option>
+                                                            <option value="Nandhi">Pachori</option>
+                                                            <option value="Nandhi">Nandhi</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-md-2 pt-2">
+                                                    Dosh:
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <select name="gotra" class="form-control" id="dosh-dropdown">
+                                                            <option selected="selected" disabled>Select Dosh</option>
+                                                            <option value="No-Dosh">No-Dosh</option>
+                                                            <option value="Manglik">Manglik</option>
+                                                            <option value="Nadi">Nadi</option>
+                                                            <option value="Pitra">Pitra</option>
+                                                            <option value="Kartik">Kartik</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-md-2 pt-2">
+                                                    Gothra:
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <select name="gotra" class="form-control" id="gotra-dropdown">
+                                                            <option selected="selected" disabled>Select Gothra</option>
+                                                            <option value="Nandhi">Nandhi</option>
+                                                            <option value="Bhargava">Bhargava</option>
+                                                            <option value="Dubey">Dubey</option>
+                                                            <option value="Gaur">Gaur</option>
+                                                            <option value="Upamanyu">Upamanyu</option>
+                                                            <option value="Uttam">Uttam</option>
+                                                            <option value="Vishnu">Vishnu</option>
+                                                            <option value="Vishvamitra">Vishvamitra</option>
+                                                            <option value="Vishrava">Vishrava</option>
+                                                            <option value="Shringi">Shringi</option>
+                                                            <option value="Nandhi">Khilaivar</option>
+                                                            <option value="Nandhi">Pachori</option>
+                                                            <option value="Nandhi">Nandhi</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="general">
+                                        <h5>General Info</h5>
+                                        <div class="p-2">
+                                            <div class="row">
+                                                <div class="col-md-2 pt-2">
+                                                    Body Type:
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <select name="body-type" class="form-control" id="body-type">
+                                                            <option selected="selected" disabled>Select Body Type
+                                                            </option>
+                                                            <option value="Fat">Fat</option>
+                                                            <option value="Slim">Slim</option>
+                                                            <option value="Normal">Normal</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 pt-2">
+                                                    Drinking:
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <div class="form-group">
+                                                            <select name="drinking" class="form-control" id="drinking">
+                                                                <option selected="selected" disabled>Select Drinking
+                                                                    Habits
+                                                                </option>
+                                                                <option value="Never-Drink">Never-Drink</option>
+                                                                <option value="Drink-Occasionally">Drink-Occasionally
+                                                                </option>
+                                                                <option value="Frequently">Frequently</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 pt-2">
+                                                    Smoking:
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <select name="smoking" class="form-control" id="smoaking">
+                                                            <option selected="selected" disabled>Select Smoking</option>
+                                                            <option value="Never-Smoked">Never-Smoked</option>
+                                                            <option value="Smoking">Smoking</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 pt-2">
+                                                    Eating:
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <select name="eating" class="form-control" id="eating">
+                                                            <option selected="selected" disabled>Select Eating</option>
+                                                            <option value="Vegetarian">Vegetarian</option>
+                                                            <option value="Non-Vegetarian">Non-Vegetarian</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-2 pt-2">
+                                                    Marital Status:
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <select name="marital" class="form-control" id="marital-status">
+                                                            <option selected="selected" disabled>Select Marital Status
+                                                            </option>
+                                                            <option value="Single">Single</option>
+                                                            <option value="Divorced">Divorced</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 pt-2">
+                                                    Physical Status:
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <select name="physical" class="form-control"
+                                                                id="physical-status">
+                                                            <option selected="selected" disabled>Physical Status
+                                                            </option>
+                                                            <option value="Healthy">Healthy</option>
+                                                            <option value="Athletic">Athletic</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 pt-2">
+                                                    Height: *
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <input type="number" id="height" name="height"
+                                                               class="form-control"
+                                                               placeholder="Height in Centimeters">
+                                                        <div class="error-helper py-1 text-danger"
+                                                             id="height-error"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 pt-2">
+                                                    Weight: *
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <input type="number" id="weight" name="weight"
+                                                               class="form-control"
+                                                               placeholder="Weight in Kg">
+                                                        <div class="error-helper py-1 text-danger"
+                                                             id="weight-error"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    About : *
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div class="form-group">
+                                                        <textarea name="about" id="about" class="form-control" rows="3"
+                                                                  minlength="150" maxlength="500"
+                                                                  placeholder="Minimum 150 characters"></textarea>
+                                                        <div class="error-helper py-1 text-danger"
+                                                             id="about-error"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row justify-content-end">
+                                        <div class="px-2">
+                                            {#                                        <button class="btn btn-orange" onclick="showSection1()">Back</button>#}
+                                            <button class="btn btn-orange" onclick="saveProfile()">Continue</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <!-- personal details ends here -->
+
+                            <!-- Partner Preference -->
+                            <section class="personal-info p-md-5" id="section3" style="display: none">
+
+
+                                <div class="card-header">
+                                    <h4 class="text-center">Partner preferences</h4>
+                                </div>
+                                <div class="personal-details py-4">
+
+                                    <div class="row">
+                                        <div class="col-md-2 pt-2">
+                                            Body Type:
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <select name="body-type-partner" class="form-control"
+                                                        id="bodyTypePartner">
+                                                    <option selected="selected" disabled>Select</option>
+                                                    <option value="Fat">Fat</option>
+                                                    <option value="Slim">Slim</option>
+                                                    <option value="Normal">Normal</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1 pt-2">
+                                            Age:
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <select class="form-control agefrom" onchange='changeAge(this.value);'
+                                                        id="ageFrom">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1 pt-2 text-center">
+                                            To
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <select name="body-type-partner" class="form-control ageto" id="ageTo">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 pt-2">
+                                            Physical Status:
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select name="physical-partner" class="form-control"
+                                                        id="physicalParter">
+                                                    <option selected="selected" disabled>Select</option>
+                                                    <option value="Doesn't Matter">Doesn't Matter</option>
+                                                    <option value="Healthy">Healthy</option>
+                                                    <option value="Athletic">Athletic</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 pt-2">
+                                            Marital Status:
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select name="maritial-partner" class="form-control"
+                                                        id="maritialParter">
+                                                    <option selected="selected" disabled>Select</option>
+                                                    <option value="Single">Single</option>
+                                                    <option value="Divorced">Divorced</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 pt-2">
+                                            Religion:
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select name="religion-partner" id="religion-dropdown-partner"
+                                                        class="form-control" onchange="selectCastPartner()">
+                                                    <option selected="selected" disabled>Select</option>
+                                                    {% for religion in religion_list %}
+                                                        <option value="{{ religion }}">{{ religion }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 pt-2">
+                                            Cast:
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select name="cast" id="cast-dropdown-partner" class="form-control">
+                                                    <option selected="selected" disabled>Select</option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 pt-2">
+                                            Mother Tongue:
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select name="mother-tongue" id="mother-tongue-partner"
+                                                        class="form-control">
+                                                    <option selected="selected" disabled>Select</option>
+                                                    {% for language in mother_tongue %}
+                                                        <option value="{{ language.id }}">{{ language }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 pt-2">
+                                            Gothram:
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select name="gotra-partner" class="form-control" id="gotra-partner">
+                                                    <option selected="selected" disabled>Select Gotra</option>
+                                                    <option value="Nandhi">Nandhi</option>
+                                                    <option value="Bhargava">Bhargava</option>
+                                                    <option value="Dubey">Dubey</option>
+                                                    <option value="Gaur">Gaur</option>
+                                                    <option value="Upamanyu">Upamanyu</option>
+                                                    <option value="Uttam">Uttam</option>
+                                                    <option value="Vishnu">Vishnu</option>
+                                                    <option value="Vishvamitra">Vishvamitra</option>
+                                                    <option value="Vishrava">Vishrava</option>
+                                                    <option value="Shringi">Shringi</option>
+                                                    <option value="Khilaivar">Khilaivar</option>
+                                                    <option value="Pachori">Pachori</option>
+                                                    <option value="Nandhi">Nandhi</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 pt-2">
+                                            Star:
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select name="star-patner" class="form-control" id="star-patner">
+                                                    <option selected="selected" disabled>Select Star</option>
+                                                    <option value="Ashvini">Ashvini</option>
+                                                    <option value="Bharani">Bharani</option>
+                                                    <option value="Karhika">Karhika</option>
+                                                    <option value="Rohini">Rohini</option>
+                                                    <option value="Mrigashīrsha">Mrigashīrsha</option>
+                                                    <option value="Ardra">Ardra</option>
+                                                    <option value="Pushya">Pushya</option>
+                                                    <option value="Āshleshā">Āshleshā</option>
+                                                    <option value="Maghā">Maghā</option>
+                                                    <option value="Hasta">Hasta</option>
+                                                    <option value="Nandhi">Khilaivar</option>
+                                                    <option value="Nandhi">Pachori</option>
+                                                    <option value="Nandhi">Nandhi</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 pt-2">
+                                            Dosh:
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select name="dosh-partner" class="form-control" id="dosh-partner">
+                                                    <option selected="selected" disabled>Select Dosh</option>
+                                                    <option value="Doesn't Matter">Doesn't Matter</option>
+                                                    <option value="Manglik">Manglik</option>
+                                                    <option value="Nadi">Nadi</option>
+                                                    <option value="Pitra">Pitra</option>
+                                                    <option value="Kartik">Kartik</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 pt-2">
+                                            Location:
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder="Location">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-end">
+                                        <div class="col-md-3">
+                                            {#                                        <button class="btn btn-orange" onclick="showSection2()">Back</button>#}
+                                            <button class="btn btn-orange" onclick="savePref()">Update</button>
+                                            <button type="button" class="btn btn-secondary" id="modal-close-btn" hidden
+                                                    data-dismiss="modal">Close
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <!-- Partner preference ends here -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
         $('#item3').click(function () {
             var $container = $('.grid');
@@ -658,11 +1483,21 @@
 
 
         $(function () {
+
             $('.edit-profile').click(function () {
-                $('#updateProfileDetails').modal('show');
+                $('#section1').css('display', 'none');
+                $('#section3').css('display', 'none');
+                $('#section2').css('display', 'block');
+                $('#usermodal').modal('show');
             });
             $('.edit-pref').click(function () {
-                $("#updatePartnerPreference").modal('show');
+                hideSection1();
+                hideSection2();
+                $('#section1').css('display', 'none');
+                $('#section2').css('display', 'none');
+                $('#section3').css('display', 'block');
+                $('#usermodal').modal('show');
+                {#$("#updatePartnerPreference").modal('show');#}
             })
             toastr.options = {
                 'closeButton': true,
@@ -685,5 +1520,84 @@
                 {% endfor %}
             {% endif %}
         })
+
+        function saveProfile() {
+
+            if ($('#address').val() == '') {
+                $('#address-error').text('Please fill in this field');
+            } else if ($('#state-dropdown').val() == null) {
+                $('#state-error').text('Please select a value from the list');
+            } else if ($("#height").val() == '')
+                $('#height-error').text('Please fill in this field');
+            else if ($("#weight").val() == '')
+                $('#weight-error').text('Please fill in this field');
+            else if ($("#about").val() == '')
+                $('#about-error').text('Please fill in this field');
+            else
+                $.ajax({
+                    type: 'POST',
+                    url: '/profile-details',
+                    data: {
+                        'id': $('#userId').val(),
+                        'address': $('#address').val(),
+                        'state': $('#state-dropdown').val(),
+                        'dist': $('#dist-dropdown').val(),
+                        'city': $('#city-dropdown').val(),
+                        'religion': $('#religion-dropdown').val(),
+                        'cast': $('#cast-dropdown').val(),
+                        'subcast': $('#subcast-dropdown').val(),
+                        'gotra': $('#gotra-dropdown').val(),
+                        'star': $('#star-dropdown').val(),
+                        'dosh': $('#dosh-dropdown').val(),
+                        'body-type': $('#body-type').val(),
+                        'drinking': $('#drinking').val(),
+                        'smoking': $('#smoaking').val(),
+                        'eating': $('#eating').val(),
+                        'education': $('#education').val(),
+                        'profession': $('#professional-details').val(),
+                        'marital': $('#marital-status').val(),
+                        'physical': $('#physical-status').val(),
+                        'height': $('#height').val(),
+                        'weight': $('#weight').val(),
+                        'about': $('#about').val(),
+
+                    },
+                    success: function () {
+                        $('#usermodal').modal('show');
+                        toastr.info('Profile Updated Successfully')
+                    }
+                });
+
+        }
+
+
+        function savePref() {
+            console.log("save method is called");
+            $.ajax({
+                type: 'POST',
+                url: '/partner-details',
+                data: {
+                    'id': $('#userId').val(),
+                    'bodyType': $('#bodyTypePartner').val(),
+                    'ageFrom': $('#ageFrom').val(),
+                    'ageTo': $('#ageTo').val(),
+                    'physicalstatus': $('#physicalParter').val(),
+                    'maritalstatus': $('#maritialParter').val(),
+                    'religion': $('#religion-dropdown-partner').val(),
+                    'cast': $('#cast-dropdown-partner').val(),
+                    'subcast': $('#subcast-dropdown-partner').val(),
+                    'gotram': $('#gotra-partner').val(),
+                    'star': $('#star-dropdown').val(),
+                    'dosh': $('#dosh-partner').val(),
+                    'mother_tongue': $('#mother-tongue-partner').val(),
+                },
+                success: function () {
+                    $('#usermodal').modal('hide');
+                    toastr.info('Preference Updated Successfully')
+
+                }
+            });
+        }
+
     </script>
 {% endblock %}

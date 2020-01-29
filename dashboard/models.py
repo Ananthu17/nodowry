@@ -156,6 +156,19 @@ class Plans(models.Model):
         return self.name
 
 
+class PlanSubscriptionList(models.Model):
+    user = models.ForeignKey(UserProfile,on_delete=models.CASCADE)
+    payment_id = models.CharField(max_length=30,null=True,blank=True)
+    payment_date = models.DateField(auto_now_add=True)
+    subscribed_plan = models.ForeignKey(Plans,on_delete=models.CASCADE)
+    amount_charged = models.CharField(max_length=20,null=True)
+    subscription_id = models.CharField(max_length=20,null=True,blank=True)
+    status = models.CharField(max_length=20,default="created")
+    payment_url = models.CharField(max_length=30,default="")
+
+    def __str__(self):
+        return self.user.user.email
+
 class UserInfo(models.Model):
     """
     Model for saving all the details of a user.
@@ -194,7 +207,9 @@ class UserInfo(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
     profile_created_for = models.CharField(max_length=50, null=True, blank=True)
-    subscribed_plan = models.OneToOneField(Plans,on_delete=models.CASCADE,null=True,blank=True)
+    subscribed_plan = models.ForeignKey(Plans,on_delete=models.CASCADE,null=True,blank=True)
+    user_plan = models.ForeignKey(PlanSubscriptionList,on_delete=models.CASCADE,null=True,blank=True)
+
 
 
     def __str__(self):
@@ -246,19 +261,6 @@ class PartnerPreference(models.Model):
     def __str__(self):
         return self.user_info.user_profile.user.email
 
-
-class PlanSubscriptionList(models.Model):
-    user = models.ForeignKey(UserProfile,on_delete=models.CASCADE)
-    payment_id = models.CharField(max_length=30,null=True,blank=True)
-    payment_date = models.DateField(auto_now_add=True)
-    subscribed_plan = models.ForeignKey(Plans,on_delete=models.CASCADE)
-    amount_charged = models.CharField(max_length=20,null=True)
-    subscription_id = models.CharField(max_length=20,null=True,blank=True)
-    status = models.CharField(max_length=20,default="created")
-    payment_url = models.CharField(max_length=30,default="")
-
-    def __str__(self):
-        return self.user.user.email
 
 
 class Testimonials(models.Model):

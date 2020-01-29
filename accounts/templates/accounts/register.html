@@ -13,7 +13,7 @@
                 </a>
               <div class="login">
                 <h2>Register</h2>
-                <form method="post" action="" enctype="multipart/form-data">
+                <form method="post" action="" enctype="multipart/form-data" autocomplete="false">
                     {% csrf_token %}
                   <div class="form-group row">
                     <label for="formGroupExampleInput text-center" class="col-xl-2 col-lg-2 col-md-3 col-sm-2 col-3 profile-image-circular">
@@ -31,7 +31,7 @@
                       <div class="form-group">
 {#                        <input type="date" class="form-control login-form" id="formGroupExampleInput2" name="dob" required>#}
                         <div id="datepicker" class="input-group date" data-date-format="dd/mm/yyyy">
-                            <input class="form-control login-form" name="dob" type="text" required placeholder="DOB in DD/MM/YYYY *" /><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                            <input class="form-control login-form" autocomplete="jaba" name="dob" type="text" required placeholder="DOB in DD/MM/YYYY *" /><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                         </div>
                       </div>
                     </div>
@@ -93,7 +93,8 @@
                   <div class="row">
                     <div class="col-sm-12">
                       <div class="form-group">
-                        <input type="password" class="form-control login-form"  placeholder="Password *" name="password" pattern="^(?=.*\d)(?=.*[a-zA-Z]).{8,16}$" title="Alphanumeric text with more than 8 characters" required>
+                        <input type="password" id="myPassword" class="form-control login-form"  placeholder="Password *" name="password" pattern="^(?=.*\d)(?=.*[a-zA-Z]).{8,16}$" title="Alphanumeric text with 8-16 characters" required>
+                          <span class="fa fa-eye fa-lg field-icon" aria-hidden="true" onmouseover="mouseoverPass();" onmouseout="mouseoutPass();"></span>
                       </div>
                     </div>
                   </div>
@@ -206,5 +207,15 @@
                 endDate : newDateDay,
           })
         });
+    </script>
+    <script type="text/javascript">
+        function mouseoverPass(obj) {
+          var obj = document.getElementById('myPassword');
+          obj.type = "text";
+        }
+        function mouseoutPass(obj) {
+          var obj = document.getElementById('myPassword');
+          obj.type = "password";
+        }
     </script>
 {% endblock %}

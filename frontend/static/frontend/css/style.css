@@ -69,6 +69,7 @@ body{
     font-size: medium;
     /* font-weight: 600; */
     border: none;;
+
 }
 section.images-grid{
 	background-image: -webkit-gradient(linear,left top,right top,from(#ff186b),to(#9211da));
@@ -572,4 +573,11 @@ img.gallery-front-images{
 .carousel-item-next,
 .carousel-item-prev {
   display: block;
+}
+
+.fa{
+    cursor: pointer !important;
+}
+button{
+    cursor: pointer !important;
 }

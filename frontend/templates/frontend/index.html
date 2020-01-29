@@ -4,6 +4,7 @@
 <head>
     <!-- Required meta tags -->
     <link rel="icon" href="{% static 'frontend/images/favicon/favicon.ico?' %}" >
+    <link rel="icon" href="{% static 'frontend/images/favicon/favicon.ico' %}" >
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -15,6 +16,7 @@
     <!-- style.css -->
     <link href="{% static 'frontend/css/style.css' %}" rel="stylesheet"/>
     <link href="{% static 'frontend/css/profile.css' %}" rel="stylesheet"/>
+    <link href="{% static 'frontend/css/loader.css' %}" rel="stylesheet"/>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <title>No Dowry</title>
 </head>
@@ -37,7 +39,7 @@
                 <form {% if user.is_authenticated %} action="{% url 'filter' %}" method="get" {% else %}
                                                      onsubmit="showFilterPopup(event)" {% endif %} id="myForm">
                     <div class="row">
-                        <div class=" col-lg-2 col-md-4 col-sm-4 col-12">
+                        <div class=" col-lg-2 col-md-4 col-sm-12 col-12">
                             <div class="dropdown show form-group">
                                 <p class="searchItem">
                                     I'm looking for a
@@ -50,7 +52,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-1 col-md-2 col-sm-4 col-5">
+                        <div class="col-lg-1 col-md-2 col-sm-4 col-6">
                             <div class="dropdown show form-group">
                                 <p class="searchItem">
                                     aged
@@ -60,14 +62,14 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-1 col-md-2 col-sm-2 col-2 to-text">
+                        <div class="col-lg-1 col-md-2 col-sm-4 col-4 to-text">
                             <div class="dropdown show form-group">
                                 <p class="searchItem to-text">
                                     To
                                 </p>
                             </div>
                         </div>
-                        <div class="col-lg-1 col-md-2 col-sm-2 col-5">
+                        <div class="col-lg-1 col-md-4 col-sm-4 col-5">
                             <div class="dropdown show form-group">
                                 <p class="searchItem">
                                     &nbsp;
@@ -720,7 +722,7 @@
 <!-- footer ends here -->
 <!-- Large modal -->
 {#    <button type="button" class="btn btn-primary" data-toggle="modal" data-backdrop="static" data-target=".bd-example-modal-lg" data-keyboard="false">Large modal</button>#}
-{% include 'frontend/profile-details-modal.html' %}
+
 
 
 <!-- Optional JavaScript -->
@@ -784,7 +786,7 @@
                 if (resultData.data.length > 0) {
                     $('#results-header').html("Here is your search results");
                 } else {
-                    $('#results-header').html("Oops No Matching profiles found");
+                    $('#results-header').html("Oops No Matching profiles found !");
                 }
 
                 var html = '<div class="row">';
@@ -886,18 +888,18 @@
 
 
 
-        $(function () {
-            var $selectagefrom = $(".agefrom");
-            for (i = 18; i <= 50; i++) {
-                $selectagefrom.append($('<option></option>').val(i).html(i))
-            }
-
-            var $ageto = $(".ageto");
-            for (i = 18; i <= 70; i++) {
-                $ageto.append($('<option></option>').val(i).html(i))
-            }
-            $('#ageto').val(25);
-        });
+        {#$(function () {#}
+        {#    var $selectagefrom = $(".agefrom");#}
+        {#    for (i = 18; i <= 50; i++) {#}
+        {#        $selectagefrom.append($('<option></option>').val(i).html(i))#}
+        {#    }#}
+        {##}
+        {#    var $ageto = $(".ageto");#}
+        {#    for (i = 18; i <= 70; i++) {#}
+        {#        $ageto.append($('<option></option>').val(i).html(i))#}
+        {#    }#}
+        {#    $('#ageto').val(25);#}
+        {#});#}
         console.log($("#aioConceptName").val());
 
 

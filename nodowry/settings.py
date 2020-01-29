@@ -63,6 +63,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'social_django.middleware.SocialAuthExceptionMiddleware',
+    'nodowry.middleware.BenchmarkMiddleware'
 ]
 
 SOCIAL_AUTH_PIPELINE = (
